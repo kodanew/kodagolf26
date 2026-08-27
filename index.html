@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <!-- 모바일 앱(PWA) 설치를 위한 매니페스트 및 iOS 설정 -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0C52AA">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="KODA 골프대회">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png" type="image/png">
 <title>2026 협회장배 KODA x ARP 골프대회</title>
 
 <!-- ===== 카카오톡 등 SNS 공유 미리보기(Open Graph) 태그 ===== -->
@@ -214,7 +219,7 @@ body{
 
   <!-- ================= COVER (첫 화면) ================= -->
   <section id="screen-cover" class="screen active">
-    <img src="koda-logo.png" class="cover-logo" alt="KODA">
+    <img src="koda-logo-re.png" class="cover-logo" alt="KODA">
     <div class="cover-title">2026 협회장배<br>KODA x ARP 골프대회</div>
     <div class="cover-sub">2026.10.26(월) · 리베라CC</div>
     <button class="enter-btn" id="enterBtn">입장하기</button>
@@ -735,6 +740,13 @@ window.manualRefresh = function(){ fetchPlayersFromSheet(true); };
 
 fetchPlayersFromSheet(false);
 setInterval(()=> fetchPlayersFromSheet(false), AUTO_REFRESH_MS);
+
+// ===== 서비스워커 등록 (PWA 설치 조건 충족을 위해 필요) =====
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(err => console.log('SW 등록 실패:', err));
+  });
+}
 
 // ===== 앱 설치 (PWA) 기능 =====
 let deferredPrompt;
