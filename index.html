@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<!-- 모바일 앱(PWA) 설치를 위한 매니페스트 및 iOS 설정 -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>2026 협회장배 KODA x ARP 골프대회</title>
+
+<!-- ===== 카카오톡 등 SNS 공유 미리보기(Open Graph) 태그 ===== -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="2026 협회장배 KODA x ARP 골프대회">
+<meta property="og:description" content="2026.10.26(월) · 리베라C.C | 참가인원 160인(40개팀) · 총 18홀">
+<meta property="og:image" content="https://koda-golf.netlify.app/og-image.png">
+<meta property="og:url" content="https://koda-golf.netlify.app/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --paper:#FFFFFF;
+  --paper-deep:#F4F7FC;
+  --ink:#1A2333;
+  --ink-soft:#5C6677;
+  --ink-faint:#9BA3B3;
+  --blue:#0C52AA;
+  --blue-deep:#083875;
+  --blue-tint:#EBF2FB;
+  --green:#0E8F63;
+  --line:#E6EAF2;
+  --shadow-sm: 0 4px 12px rgba(12, 82, 170, 0.05);
+  --shadow-md: 0 8px 24px rgba(12, 82, 170, 0.08);
+  --shadow-lg: 0 16px 40px rgba(12, 82, 170, 0.12);
+}
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family:'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+  background:#EEF3F9; 
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+#app{
+  max-width:480px; margin:0 auto; height:100vh; height:100dvh; position:relative;
+  display:flex; flex-direction:column; background:var(--paper-deep);
+  box-shadow:0 0 60px rgba(0,0,0,0.08); overflow:hidden;
+}
+::-webkit-scrollbar{ width:0; height:0; }
+
+/* ---------- 화면 전환 효과 ---------- */
+.screen{
+  display:none; flex-direction:column; flex:1; height:100%;
+  animation:slideIn .25s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.screen.active{ display:flex; }
+@keyframes slideIn{ from{opacity:0; transform:translateX(30px);} to{opacity:1; transform:translateX(0);} }
+@keyframes fadeIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+/* ---------- COVER ---------- */
+#screen-cover{
+  justify-content:center; align-items:center; padding:40px 17px;
+  background:linear-gradient(145deg,#FFFFFF 0%,#EDF3FA 100%);
+  text-align:center; animation:fadeIn .3s ease forwards;
+  min-height:100%;
+}
+.cover-logo{ width:172px; height:auto; margin-bottom:22px; object-fit:contain; display:block; }
+.cover-title{
+  font-size:20px; font-weight:900; color:#111827; line-height:1.45;
+  margin-bottom:8px; letter-spacing:-0.6px;
+}
+.cover-sub{ font-size:13px; color:#667085; margin-bottom:44px; font-weight:500; }
+.enter-btn{
+  width:100%; padding:15px 0; border:none; border-radius:999px;
+  background:#1456A8; color:#fff; font-size:16px; font-weight:800;
+  cursor:pointer; box-shadow:0 12px 28px rgba(20,86,168,.14);
+  transition:transform .15s ease; font-family:inherit;
+}
+.enter-btn:active{ transform:scale(0.97); }
+.cover-foot{ margin-top:26px; font-size:11px; color:#AAB3C2; font-weight:600;}
+
+/* ---------- HOME 상단 개요 ---------- */
+.home-header-clean{
+  flex-shrink:0; padding:22px 16px 20px;
+  border-bottom-left-radius:0; border-bottom-right-radius:0;
+  box-shadow:none; z-index:10; position:relative; overflow:hidden;
+  background-image:
+    linear-gradient(100deg,
+      rgba(255,255,255,0.97) 0%,
+      rgba(255,255,255,0.94) 32%,
+      rgba(255,255,255,0.72) 52%,
+      rgba(255,255,255,0.40) 68%,
+      rgba(255,255,255,0.20) 100%),
+    linear-gradient(0deg, rgba(235,242,251,0.35), rgba(235,242,251,0.35)),
+    url('https://images.unsplash.com/photo-1742498626135-67a7d3501eff?fm=jpg&q=80&w=1200&auto=format&fit=crop');
+  background-size:cover, cover, cover;
+  background-position:center, center, 78% 42%;
+  background-repeat:no-repeat;
+}
+.header-content-wrap{ position:relative; z-index:2; width:100%; }
+
+.title-year{font-size:18px;font-weight:800;color:var(--blue);margin-bottom:4px;}
+.title-main{
+  font-size:36px;font-weight:900;color:var(--blue-deep);
+  line-height:1.2;letter-spacing:-1px;margin-bottom:24px;
+}
+
+.title-year { font-size:18px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+.title-main { 
+    font-size:34px; font-weight:900; color:var(--blue-deep); 
+    line-height:1.18; letter-spacing:-1px; margin-bottom:18px;
+}
+
+.info-box {
+    display:flex; flex-direction:column; gap:7px;
+    padding-left:16px; border-left:3px solid var(--blue-tint);
+}
+.info-row { display:flex; align-items:flex-start; gap:8px; font-size:13.5px; line-height:1.4; color:var(--ink-soft); }
+.info-icon { font-size:15px; color:var(--blue); flex-shrink:0;}
+.info-text { white-space:nowrap; letter-spacing:-0.5px; }
+.info-text strong { color:var(--ink); font-weight:800; }
+.info-subtext { color:var(--ink-soft); display:inline; margin-left:2px; }
+
+/* ---------- HOME 본문 (버튼 리스트) ---------- */
+.home-content{ flex:1; overflow-y:auto; padding:18px 20px 20px; display:flex; flex-direction:column; gap:10px; }
+
+.btn-premium {
+    display:flex; align-items:center; gap:14px;
+    width:100%; padding:14px 16px; border-radius:18px; border:1px solid rgba(255,255,255,0.9);
+    background:linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(240,245,255,0.6) 100%);
+    color:var(--ink); font-size:17px; font-weight:800; text-align:left;
+    box-shadow: 8px 8px 20px rgba(12, 82, 170, 0.06), -4px -4px 12px rgba(255, 255, 255, 1);
+    cursor:pointer; transition:all 0.15s ease; font-family:inherit;
+}
+.btn-premium:active {
+    transform:translateY(2px) scale(0.98);
+    box-shadow: 2px 2px 8px rgba(12, 82, 170, 0.05), -2px -2px 8px rgba(255, 255, 255, 0.9);
+}
+.btn-icon-wrap {
+    width:42px; height:42px; border-radius:12px; background:var(--blue-tint);
+    display:flex; align-items:center; justify-content:center; font-size:20px;
+    color:var(--blue); flex-shrink:0;
+}
+.btn-text-wrap { flex:1; }
+.btn-title { font-size:16px; font-weight:800; color:var(--blue-deep); margin-bottom:2px; }
+.btn-desc { font-size:12px; font-weight:500; color:var(--ink-soft); }
+.btn-arrow { font-size:14px; color:var(--ink-faint); }
+
+.install-app-btn {
+  text-align:center; margin-top:12px; padding:12px 0 8px;
+  font-size:14px; font-weight:800; color:var(--blue-deep);
+  letter-spacing:-0.2px; cursor:pointer; user-select:none;
+}
+.install-app-btn:active{ opacity:.6; }
+
+/* ---------- 서브페이지 공통 ---------- */
+.topbar{ flex-shrink:0; display:flex; align-items:center; gap:12px; padding:16px 20px 12px; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); z-index:30; }
+.back-btn{ width:36px; height:36px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink); transition:transform .15s; flex-shrink:0; background:#fff; font-size:18px; font-weight:300;}
+.back-btn:active{ transform:scale(0.9); }
+.topbar-title{ font-size:17px; font-weight:800; color:var(--ink); display:flex; align-items:center; white-space:nowrap;}
+.content{ flex:1; overflow-y:auto; padding:0; }
+
+/* ---------- 행사 프로그램 표 ---------- */
+.program-wrap { padding:20px; }
+.prog-table{ width:100%; border-collapse:collapse; background:#fff; border-radius:16px; overflow:hidden; box-shadow:var(--shadow-sm); font-size:13px; }
+.prog-table th{ background:var(--paper-deep); color:var(--ink-soft); font-weight:700; padding:12px 10px; font-size:13px; border-bottom:1px solid var(--line); text-align:center;}
+.prog-table td{ padding:14px 10px; border-bottom:1px solid var(--line); color:var(--ink); vertical-align:middle; line-height:1.6; font-size:13px; word-break:keep-all;}
+.prog-table td:first-child { font-weight:600; color:var(--blue-deep); text-align:center; white-space:nowrap; }
+.prog-table td:nth-child(2) { text-align:left; padding-left:14px; }
+.prog-table td:last-child { text-align:center; color:var(--ink-soft); }
+.prog-table tr:last-child td{ border-bottom:none; }
+
+.content-list { margin:0; padding:0; list-style:none; }
+.content-list li { position:relative; padding-left:10px; margin-bottom:2px; }
+.content-list li::before { content:'-'; position:absolute; left:0; top:0; }
+.content-list li:last-child { margin-bottom:0; }
+
+/* ---------- 지도 및 문의 페이지 ---------- */
+.map-frame{ width:100%; height:300px; border:none; margin-bottom:0; display:block; }
+.map-info{ padding:24px; font-size:14.5px; line-height:1.7; color:var(--ink); background:#fff; border-bottom:1px solid var(--line); }
+
+/* ---------- 조편성 페이지 ---------- */
+.search-wrap{ padding:14px 20px 10px; position:sticky; top:0; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); z-index:20; border-bottom:1px solid var(--line);}
+.search-box{ display:flex; align-items:center; gap:10px; background:var(--paper-deep); border:1px solid var(--line); border-radius:999px; padding:14px 18px; }
+.search-box input{ border:none; outline:none; background:transparent; flex:1; font-size:15px; font-family:inherit; color:var(--ink); font-weight:500;}
+.search-box input::placeholder { color:var(--ink-faint); }
+.legend{ display:flex; gap:16px; padding:14px 20px 4px; font-size:12px; font-weight:600; color:var(--ink-soft); }
+.dot{ width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; }
+.dot.blue{ background:var(--blue); } .dot.green{ background:var(--green); }
+
+.team-grid{ padding:12px 20px 40px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.team-btn{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px 14px; text-align:left; cursor:pointer; font-family:inherit; box-shadow:var(--shadow-sm); transition:transform .1s;}
+.team-btn:active{ transform:scale(0.96); box-shadow:var(--shadow-md); }
+.team-code{ font-size:16px; font-weight:900; }
+.team-code.blue{ color:var(--blue); } .team-code.green{ color:var(--green); }
+.team-start{ font-size:11.5px; color:var(--ink-faint); margin:4px 0 12px; font-weight:500; }
+.team-members{ font-size:13.5px; color:var(--ink-soft); line-height:1.5; font-weight:700; word-break:keep-all;}
+
+/* ---------- 팀/연락처 상세 페이지 공통 ---------- */
+.card-detail{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:32px 24px; box-shadow:var(--shadow-sm); margin-bottom:16px; }
+
+/* ---------- 구글시트 실시간 동기화 상태 ---------- */
+.sync-toggle-btn{ width:36px; height:36px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; cursor:pointer; background:#fff; font-size:16px; flex-shrink:0; margin-left:auto; transition:transform .4s ease; }
+.sync-toggle-btn.spinning{ animation:spin .8s linear infinite; }
+@keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+.sync-toggle-btn:active{ transform:scale(0.9); }
+.sync-status{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 20px; background:var(--blue-tint); border-bottom:1px solid #D7E4F5; font-size:11.5px; color:var(--blue-deep); font-weight:700; }
+.sync-status.error{ background:#FDEEEC; border-bottom-color:#F2C6C0; color:#C0392B; }
+.sync-status-btn{ border:1px solid rgba(12,82,170,0.25); background:#fff; color:var(--blue-deep); font-size:11px; font-weight:700; padding:5px 10px; border-radius:999px; cursor:pointer; font-family:inherit; }
+.sync-status.error .sync-status-btn{ border-color:#F2C6C0; color:#C0392B; }
+.sync-status-btn:active{ transform:scale(0.95); }
+.team-grid-loading{ grid-column:1/-1; text-align:center; padding:40px 20px; color:var(--ink-faint); font-size:13.5px; font-weight:600; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ================= COVER (첫 화면) ================= -->
+  <section id="screen-cover" class="screen active">
+    <img src="스크린샷 2026-08-12 140547_3.png" class="cover-logo" alt="KODA">
+    <div class="cover-title">2026 협회장배<br>KODA x ARP 골프대회</div>
+    <div class="cover-sub">2026.10.26(월) · 리베라CC</div>
+    <button class="enter-btn" id="enterBtn">입장하기</button>
+    <div class="cover-foot">한국디벨로퍼협회</div>
+  </section>
+
+  <!-- ================= HOME (개요 + 고급 버튼 리스트) ================= -->
+  <section id="screen-home" class="screen">
+    
+    <!-- 1. 대회 개요 -->
+    <div class="home-header-clean">
+      <div class="header-content-wrap">
+        <div class="title-year">2026 협회장배</div>
+        <div class="title-main">KODA x ARP<br>골프대회</div>
+        
+        <div class="info-box">
+          <div class="info-row">
+            <div class="info-icon">📅</div>
+            <div class="info-text"><strong>일시/장소</strong> : 2026.10.26(월) / 리베라C.C</div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">⛳</div>
+            <div class="info-text">
+                <strong>코스</strong> : 총 18홀 <span class="info-subtext">(레이크코스 9홀 + 밸리코스 9홀)</span>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">⏰</div>
+            <div class="info-text">
+                <strong>티오프</strong> : 13:00~ <span class="info-subtext">(신페리오, 샷건 방식)</span>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">👥</div>
+            <div class="info-text"><strong>참가인원</strong> : 160인 (40개팀)</div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">🏢</div>
+            <div class="info-text"><strong>주최</strong> : 한국디벨로퍼협회</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 본문 영역 (버튼 리스트) -->
+    <div class="home-content">
+      
+      <button class="btn-premium" data-go="teams">
+        <div class="btn-icon-wrap">🏌️‍♂️</div>
+        <div class="btn-text-wrap">
+            <div class="btn-title">조편성 확인하기</div>
+            <div class="btn-desc">전체 40개팀 160인 명단 검색</div>
+        </div>
+        <div class="btn-arrow">▶</div>
+      </button>
+
+      <button class="btn-premium" data-go="program">
+        <div class="btn-icon-wrap">📋</div>
+        <div class="btn-text-wrap">
+            <div class="btn-title">행사 프로그램</div>
+            <div class="btn-desc">접수부터 라운딩, 시상식 일정</div>
+        </div>
+        <div class="btn-arrow">▶</div>
+      </button>
+
+      <button class="btn-premium" data-go="location">
+        <div class="btn-icon-wrap">🗺️</div>
+        <div class="btn-text-wrap">
+            <div class="btn-title">찾아오시는 길</div>
+            <div class="btn-desc">리베라CC 위치 및 지도 안내</div>
+        </div>
+        <div class="btn-arrow">▶</div>
+      </button>
+
+      <button class="btn-premium" data-go="contact">
+        <div class="btn-icon-wrap">📢</div>
+        <div class="btn-text-wrap">
+            <div class="btn-title">안내 및 문의하기</div>
+            <div class="btn-desc">안내사항 및 협찬, 문의처 확인</div>
+        </div>
+        <div class="btn-arrow">▶</div>
+      </button>
+
+      <!-- 앱 설치하기 버튼 추가 -->
+      <div class="install-app-btn" id="installAppBtn">⬇️ 앱 설치</div>
+
+    </div>
+  </section>
+
+  <!-- ================= 행사 프로그램 페이지 ================= -->
+  <section id="screen-program" class="screen">
+    <div class="topbar">
+      <div class="back-btn" data-back>←</div>
+      <div class="topbar-title">행사 프로그램</div>
+    </div>
+    <div class="content program-wrap">
+      <table class="prog-table">
+        <thead>
+          <tr><th style="width:30%">시간</th><th style="width:45%; text-align:center;">주요내용</th><th style="width:25%">비고</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>10:30 ~ 11:00</td>
+            <td>
+              <ul class="content-list">
+                <li>참가자 등록 및 명찰배부</li>
+                <li>포토존 촬영</li>
+              </ul>
+            </td>
+            <td>웰컴데스크<br>포토존</td>
+          </tr>
+          <tr>
+            <td>11:00 ~ 12:00</td>
+            <td>
+              <ul class="content-list">
+                <li>점심식사</li>
+                <li>참석자 간 네트워킹</li>
+              </ul>
+            </td>
+            <td>1층 백합홀</td>
+          </tr>
+          <tr>
+            <td>12:00 ~ 12:40</td>
+            <td>
+              <ul class="content-list">
+                <li>시타 이벤트</li>
+                <li>단체 기념촬영</li>
+              </ul>
+            </td>
+            <td>밸리 1번<br>티샷지점</td>
+          </tr>
+          <tr>
+            <td>12:40 ~ 13:00</td>
+            <td>
+              <ul class="content-list">
+                <li>카트 장소 집합<br>(샷건 동시출발 준비)</li>
+              </ul>
+            </td>
+            <td>클럽하우스<br>주차장</td>
+          </tr>
+          <tr>
+            <td>13:00 ~ 18:00</td>
+            <td>
+              <ul class="content-list">
+                <li>라운딩 (신페리오방식)</li>
+              </ul>
+            </td>
+            <td>레이크/밸리<br>코스</td>
+          </tr>
+          <tr>
+            <td>18:00 ~ 18:30</td>
+            <td>
+              <ul class="content-list">
+                <li>환복 및 샤워</li>
+                <li>만찬장소 이동</li>
+              </ul>
+            </td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>18:30 ~ 18:35</td>
+            <td>
+              <ul class="content-list">
+                <li>개회</li>
+                <li>사회자 인사</li>
+              </ul>
+            </td>
+            <td>2층<br>에메랄드홀</td>
+          </tr>
+          <tr>
+            <td>18:35 ~ 18:45</td>
+            <td>
+              <ul class="content-list">
+                <li>협회장님 인사말씀</li>
+                <li>ARP 총동문회장님 인사말씀</li>
+              </ul>
+            </td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>18:45 ~ 18:55</td>
+            <td>
+              <ul class="content-list">
+                <li>협회 소개(회원가입 안내 등)</li>
+                <li>행사 협찬사 소개 등 감사인사</li>
+              </ul>
+            </td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>18:55 ~ 19:15</td>
+            <td>
+              <ul class="content-list">
+                <li>경기결과 발표<br>(메달리스트, 우승, 준우승 등 7개부문 시상)</li>
+              </ul>
+            </td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>19:15 ~ 19:30</td>
+            <td>
+              <ul class="content-list">
+                <li>단체 기념촬영 및 이벤트</li>
+              </ul>
+            </td>
+            <td>기념촬영</td>
+          </tr>
+          <tr>
+            <td>19:30 ~ 21:00</td>
+            <td>
+              <ul class="content-list">
+                <li>공식만찬 (상호교류)</li>
+              </ul>
+            </td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>21:00 ~</td>
+            <td>
+              <ul class="content-list">
+                <li>폐회</li>
+              </ul>
+            </td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= 오시는 길 (지도) ================= -->
+  <section id="screen-location" class="screen">
+    <div class="topbar">
+      <div class="back-btn" data-back>←</div>
+      <div class="topbar-title">찾아오시는 길</div>
+    </div>
+    <div class="content">
+      <iframe class="map-frame" loading="lazy" src="https://www.google.com/maps?q=경기도+화성시+동탄면+중리길+183+리베라CC&output=embed"></iframe>
+      <div class="map-info">
+        <b style="color:var(--blue-deep); font-size:17px; display:block; margin-bottom:8px;">리베라CC (레이크/밸리코스)</b>
+        경기도 화성시 동탄면 중리길 183<br>
+        대표전화: 031-8047-8000
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 안내 및 문의하기 ================= -->
+  <section id="screen-contact" class="screen">
+    <div class="topbar">
+      <div class="back-btn" data-back>←</div>
+      <div class="topbar-title">안내 및 문의하기</div>
+    </div>
+    
+    <div class="content" style="padding: 24px 20px;">
+      
+      <!-- 1. 참가자 안내사항 -->
+      <div class="card-detail">
+        <div style="display:flex; justify-content:flex-start; align-items:center; gap:10px; margin-bottom:24px;">
+            <div style="font-size:18px;">💡</div>
+            <div style="font-size:19px; font-weight:900; color:var(--blue-deep);">참가자 안내사항</div>
+        </div>
+        <ul style="margin:0; padding:0 0 0 20px; font-size:14.5px; line-height:1.6; color:var(--ink-soft); font-weight:600;">
+          <li style="margin-bottom:8px;">원활한 행사 진행을 위해 <b>티오프 1시간 전(12:00)까지</b> 골프장 등록을 완료해 주시기 바랍니다.</li>
+          <li style="margin-bottom:8px;">우천 등 기상 악화로 변경 사항 발생 시, 개별 안내해 드립니다.</li>
+          <li>기타 문의사항은 관련 담당부서로 연락 부탁드립니다.</li>
+        </ul>
+      </div>
+
+      <!-- 2. 협찬 안내 -->
+      <div class="card-detail">
+        <div style="display:flex; justify-content:flex-start; align-items:center; gap:10px; margin-bottom:24px;">
+            <div style="font-size:18px;">🎁</div>
+            <div style="font-size:19px; font-weight:900; color:var(--blue-deep);">협찬에 감사드립니다</div>
+        </div>
+        <ul style="margin:0; padding:0; list-style:none; font-size:14.5px; line-height:1.6; color:var(--ink-soft); font-weight:600;">
+          <li style="margin-bottom:8px;">1. 김한모 에이치엠그룹 회장 : 1,000만원 상당의 골프 기념품</li>
+          <li style="margin-bottom:8px;">2. </li>
+          <li>3. </li>
+        </ul>
+      </div>
+
+      <!-- 3. 대회 관련 문의 -->
+      <div class="card-detail" style="margin-bottom: 30px;">
+        <div style="display:flex; justify-content:flex-start; align-items:center; gap:10px; margin-bottom:24px;">
+            <div style="font-size:18px;">📞</div>
+            <div style="font-size:19px; font-weight:900; color:var(--blue-deep);">대회 관련 문의</div>
+        </div>
+        <table style="border-collapse: collapse; white-space: nowrap; font-size: 14.5px;">
+          <tr>
+            <td style="color:var(--ink-faint); font-weight:600; text-align:left; padding: 0 18px 12px 0;">담당부서</td>
+            <td style="font-weight:700; color:var(--ink); padding: 0 0 12px 0;">협회 기획운영실 기획홍보팀</td>
+          </tr>
+          <tr>
+            <td style="color:var(--ink-faint); font-weight:600; text-align:left; padding: 0 18px 12px 0;">연락처</td>
+            <td style="font-weight:700; padding: 0 0 12px 0;">
+              <a href="tel:02-512-4750" style="color:var(--blue); text-decoration:none;">02-512-4750</a>
+              <span style="color:var(--ink-soft); margin:0 4px;">/</span>
+              <a href="tel:010-5120-4750" style="color:var(--blue); text-decoration:none;">010-5120-4750</a>
+            </td>
+          </tr>
+          <tr>
+            <td style="color:var(--ink-faint); font-weight:600; text-align:left; padding: 0 18px 12px 0;">이메일</td>
+            <td style="font-weight:700; color:var(--ink); padding: 0 0 12px 0;">koda@koda.or.kr</td>
+          </tr>
+          <tr>
+            <td style="color:var(--ink-faint); font-weight:600; text-align:left; padding: 0 18px 0 0;">운영시간</td>
+            <td style="font-weight:700; color:var(--ink); padding: 0 0 0 0;">평일 09:00 ~ 18:00</td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 조편성 목록 ================= -->
+  <section id="screen-teams" class="screen">
+    <div class="topbar">
+      <div class="back-btn" data-back>←</div>
+      <div class="topbar-title">전체 조편성 명단</div>
+      <div class="sync-toggle-btn" id="syncRefreshBtn" onclick="manualRefresh()">🔄</div>
+    </div>
+    <div class="sync-status" id="syncStatus">
+      <span id="syncStatusText">불러오는 중...</span>
+      <button class="sync-status-btn" onclick="manualRefresh()">새로고침</button>
+    </div>
+    <div class="content">
+      <div class="search-wrap">
+        <div class="search-box">
+          <span style="font-size:18px;">🔍</span> <input id="teamSearch" type="text" placeholder="참가자 이름을 검색하세요" autocomplete="off">
+        </div>
+      </div>
+      <div class="legend">
+        <span><i class="dot blue"></i>레이크코스</span>
+        <span><i class="dot green"></i>밸리코스</span>
+      </div>
+      <div class="team-grid" id="teamGrid"><div class="team-grid-loading">조편성 명단을 불러오는 중...</div></div>
+    </div>
+  </section>
+
+  <!-- ================= 팀 상세 정보 ================= -->
+  <section id="screen-teamdetail" class="screen">
+    <div class="topbar">
+      <div class="back-btn" data-back>←</div>
+      <div class="topbar-title" id="detailTeamTitle" style="margin-right:6px;">L-1-1</div>
+      <div style="font-size:13.5px; color:var(--ink-soft); font-weight:600; white-space:nowrap; margin-top:2px;" id="detailTeamStart">(레이크코스 1번홀 시작, 13:00~)</div>
+    </div>
+    <div class="content" style="padding:24px 20px;">
+      <div id="detailPlayers"></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// 구글시트를 불러오지 못했을 때 사용할 예비 데이터(폴백)
+const FALLBACK_DATA = [{"no":1,"name":"김한모","org":"","title":"","mobile":"","teamId":"L-1-1","order":1},{"no":2,"name":"조영훈","org":"","title":"","mobile":"","teamId":"L-1-1","order":2},{"no":3,"name":"김대건","org":"","title":"","mobile":"","teamId":"L-1-1","order":3},{"no":4,"name":"김수경","org":"","title":"","mobile":"","teamId":"L-1-1","order":4},{"no":5,"name":"김영재","org":"","title":"","mobile":"","teamId":"L-1-2","order":1},{"no":6,"name":"김재승","org":"","title":"","mobile":"","teamId":"L-1-2","order":2},{"no":7,"name":"김창남","org":"","title":"","mobile":"","teamId":"L-1-2","order":3},{"no":8,"name":"노안수","org":"","title":"","mobile":"","teamId":"L-1-2","order":4},{"no":9,"name":"심태형","org":"","title":"","mobile":"","teamId":"L-2-1","order":1},{"no":10,"name":"안재홍","org":"","title":"","mobile":"","teamId":"L-2-1","order":2},{"no":11,"name":"양계호","org":"","title":"","mobile":"","teamId":"L-2-1","order":3},{"no":12,"name":"양병열","org":"","title":"","mobile":"","teamId":"L-2-1","order":4},{"no":13,"name":"오동식","org":"","title":"","mobile":"","teamId":"L-2-2","order":1},{"no":14,"name":"홍성윤","org":"","title":"","mobile":"","teamId":"L-2-2","order":2},{"no":15,"name":"황근호","org":"","title":"","mobile":"","teamId":"L-2-2","order":3},{"no":16,"name":"황영란","org":"","title":"","mobile":"","teamId":"L-2-2","order":4},{"no":17,"name":"김상국","org":"","title":"","mobile":"","teamId":"L-2-3","order":1},{"no":18,"name":"전주영","org":"","title":"","mobile":"","teamId":"L-2-3","order":2},{"no":19,"name":"황진성","org":"","title":"","mobile":"","teamId":"L-2-3","order":3},{"no":20,"name":"김상용","org":"","title":"","mobile":"","teamId":"L-2-3","order":4},{"no":21,"name":"문주현","org":"","title":"","mobile":"","teamId":"L-3-1","order":1},{"no":22,"name":"강철언","org":"","title":"","mobile":"","teamId":"L-3-1","order":2},{"no":23,"name":"구명완","org":"","title":"","mobile":"","teamId":"L-3-1","order":3},{"no":24,"name":"기세도","org":"","title":"","mobile":"","teamId":"L-3-1","order":4},{"no":25,"name":"류영찬","org":"","title":"","mobile":"","teamId":"L-3-2","order":1},{"no":26,"name":"문길주","org":"","title":"","mobile":"","teamId":"L-3-2","order":2},{"no":27,"name":"박민주","org":"","title":"","mobile":"","teamId":"L-3-2","order":3},{"no":28,"name":"박영광","org":"","title":"","mobile":"","teamId":"L-3-2","order":4},{"no":29,"name":"이락승","org":"","title":"","mobile":"","teamId":"L-4-1","order":1},{"no":30,"name":"이승현","org":"","title":"","mobile":"","teamId":"L-4-1","order":2},{"no":31,"name":"이승훈","org":"","title":"","mobile":"","teamId":"L-4-1","order":3},{"no":32,"name":"이우식","org":"","title":"","mobile":"","teamId":"L-4-1","order":4},{"no":33,"name":"이윤권","org":"","title":"","mobile":"","teamId":"L-4-2","order":1},{"no":34,"name":"김재연","org":"","title":"","mobile":"","teamId":"L-4-2","order":2},{"no":35,"name":"김재평","org":"","title":"","mobile":"","teamId":"L-4-2","order":3},{"no":36,"name":"김지영","org":"","title":"","mobile":"","teamId":"L-4-2","order":4},{"no":37,"name":"박수용","org":"","title":"","mobile":"","teamId":"L-5-1","order":1},{"no":38,"name":"전찬규","org":"","title":"","mobile":"","teamId":"L-5-1","order":2},{"no":39,"name":"이광준","org":"","title":"","mobile":"","teamId":"L-5-1","order":3},{"no":40,"name":"김봉현","org":"","title":"","mobile":"","teamId":"L-5-1","order":4},{"no":41,"name":"김승배","org":"","title":"","mobile":"","teamId":"L-5-2","order":1},{"no":42,"name":"김경탁","org":"","title":"","mobile":"","teamId":"L-5-2","order":2},{"no":43,"name":"김게현","org":"","title":"","mobile":"","teamId":"L-5-2","order":3},{"no":44,"name":"김관교","org":"","title":"","mobile":"","teamId":"L-5-2","order":4},{"no":45,"name":"박인복","org":"","title":"","mobile":"","teamId":"L-6-1","order":1},{"no":46,"name":"박진순","org":"","title":"","mobile":"","teamId":"L-6-1","order":2},{"no":47,"name":"박춘선","org":"","title":"","mobile":"","teamId":"L-6-1","order":3},{"no":48,"name":"박희성","org":"","title":"","mobile":"","teamId":"L-6-1","order":4},{"no":49,"name":"이은철","org":"","title":"","mobile":"","teamId":"L-6-2","order":1},{"no":50,"name":"이장원","org":"","title":"","mobile":"","teamId":"L-6-2","order":2},{"no":51,"name":"이종렬","org":"","title":"","mobile":"","teamId":"L-6-2","order":3},{"no":52,"name":"장은제","org":"","title":"","mobile":"","teamId":"L-6-2","order":4},{"no":53,"name":"장호익","org":"","title":"","mobile":"","teamId":"L-7-1","order":1},{"no":54,"name":"박원진","org":"","title":"","mobile":"","teamId":"L-7-1","order":2},{"no":55,"name":"박종화","org":"","title":"","mobile":"","teamId":"L-7-1","order":3},{"no":56,"name":"송영우","org":"","title":"","mobile":"","teamId":"L-7-1","order":4},{"no":57,"name":"신혜수","org":"","title":"","mobile":"","teamId":"L-7-2","order":1},{"no":58,"name":"차원주","org":"","title":"","mobile":"","teamId":"L-7-2","order":2},{"no":59,"name":"김병석","org":"","title":"","mobile":"","teamId":"L-7-2","order":3},{"no":60,"name":"이경동","org":"","title":"","mobile":"","teamId":"L-7-2","order":4},{"no":61,"name":"정춘보","org":"","title":"","mobile":"","teamId":"L-7-3","order":1},{"no":62,"name":"김동기","org":"","title":"","mobile":"","teamId":"L-7-3","order":2},{"no":63,"name":"김병석","org":"","title":"","mobile":"","teamId":"L-7-3","order":3},{"no":64,"name":"김승구","org":"","title":"","mobile":"","teamId":"L-7-3","order":4},{"no":65,"name":"손명익","org":"","title":"","mobile":"","teamId":"L-8-1","order":1},{"no":66,"name":"손병석","org":"","title":"","mobile":"","teamId":"L-8-1","order":2},{"no":67,"name":"손종구","org":"","title":"","mobile":"","teamId":"L-8-1","order":3},{"no":68,"name":"신민철","org":"","title":"","mobile":"","teamId":"L-8-1","order":4},{"no":69,"name":"정욱","org":"","title":"","mobile":"","teamId":"L-8-2","order":1},{"no":70,"name":"정일천","org":"","title":"","mobile":"","teamId":"L-8-2","order":2},{"no":71,"name":"주용국","org":"","title":"","mobile":"","teamId":"L-8-2","order":3},{"no":72,"name":"최봉욱","org":"","title":"","mobile":"","teamId":"L-8-2","order":4},{"no":73,"name":"최창욱","org":"","title":"","mobile":"","teamId":"L-9-1","order":1},{"no":74,"name":"유병호","org":"","title":"","mobile":"","teamId":"L-9-1","order":2},{"no":75,"name":"이동훈","org":"","title":"","mobile":"","teamId":"L-9-1","order":3},{"no":76,"name":"이성규","org":"","title":"","mobile":"","teamId":"L-9-1","order":4},{"no":77,"name":"장명관","org":"","title":"","mobile":"","teamId":"L-9-2","order":1},{"no":78,"name":"채창호","org":"","title":"","mobile":"","teamId":"L-9-2","order":2},{"no":79,"name":"박영필","org":"","title":"","mobile":"","teamId":"L-9-2","order":3},{"no":80,"name":"이슬빛나","org":"","title":"","mobile":"","teamId":"L-9-2","order":4},{"no":81,"name":"김도현","org":"","title":"","mobile":"","teamId":"V-1-1","order":1},{"no":82,"name":"김민석","org":"","title":"","mobile":"","teamId":"V-1-1","order":2},{"no":83,"name":"김성호","org":"","title":"","mobile":"","teamId":"V-1-1","order":3},{"no":84,"name":"김정훈","org":"","title":"","mobile":"","teamId":"V-1-1","order":4},{"no":85,"name":"김태윤","org":"","title":"","mobile":"","teamId":"V-1-2","order":1},{"no":86,"name":"김현우","org":"","title":"","mobile":"","teamId":"V-1-2","order":2},{"no":87,"name":"김형준","org":"","title":"","mobile":"","teamId":"V-1-2","order":3},{"no":88,"name":"김호진","org":"","title":"","mobile":"","teamId":"V-1-2","order":4},{"no":89,"name":"박건우","org":"","title":"","mobile":"","teamId":"V-2-1","order":1},{"no":90,"name":"박경수","org":"","title":"","mobile":"","teamId":"V-2-1","order":2},{"no":91,"name":"박동현","org":"","title":"","mobile":"","teamId":"V-2-1","order":3},{"no":92,"name":"박성민","org":"","title":"","mobile":"","teamId":"V-2-1","order":4},{"no":93,"name":"박준영","org":"","title":"","mobile":"","teamId":"V-2-2","order":1},{"no":94,"name":"박현수","org":"","title":"","mobile":"","teamId":"V-2-2","order":2},{"no":95,"name":"박현준","org":"","title":"","mobile":"","teamId":"V-2-2","order":3},{"no":96,"name":"박태준","org":"","title":"","mobile":"","teamId":"V-2-2","order":4},{"no":97,"name":"이건우","org":"","title":"","mobile":"","teamId":"V-3-1","order":1},{"no":98,"name":"이도윤","org":"","title":"","mobile":"","teamId":"V-3-1","order":2},{"no":99,"name":"이민재","org":"","title":"","mobile":"","teamId":"V-3-1","order":3},{"no":100,"name":"이상훈","org":"","title":"","mobile":"","teamId":"V-3-1","order":4},{"no":101,"name":"이성민","org":"","title":"","mobile":"","teamId":"V-3-2","order":1},{"no":102,"name":"이정민","org":"","title":"","mobile":"","teamId":"V-3-2","order":2},{"no":103,"name":"이정훈","org":"","title":"","mobile":"","teamId":"V-3-2","order":3},{"no":104,"name":"이준호","org":"","title":"","mobile":"","teamId":"V-3-2","order":4},{"no":105,"name":"이태현","org":"","title":"","mobile":"","teamId":"V-3-3","order":1},{"no":106,"name":"임성호","org":"","title":"","mobile":"","teamId":"V-3-3","order":2},{"no":107,"name":"임재현","org":"","title":"","mobile":"","teamId":"V-3-3","order":3},{"no":108,"name":"임준혁","org":"","title":"","mobile":"","teamId":"V-3-3","order":4},{"no":109,"name":"정민수","org":"","title":"","mobile":"","teamId":"V-4-1","order":1},{"no":110,"name":"정성훈","org":"","title":"","mobile":"","teamId":"V-4-1","order":2},{"no":111,"name":"정재현","org":"","title":"","mobile":"","teamId":"V-4-1","order":3},{"no":112,"name":"정현우","org":"","title":"","mobile":"","teamId":"V-4-1","order":4},{"no":113,"name":"조민석","org":"","title":"","mobile":"","teamId":"V-4-2","order":1},{"no":114,"name":"조성진","org":"","title":"","mobile":"","teamId":"V-4-2","order":2},{"no":115,"name":"조현우","org":"","title":"","mobile":"","teamId":"V-4-2","order":3},{"no":116,"name":"최민석","org":"","title":"","mobile":"","teamId":"V-4-2","order":4},{"no":117,"name":"최성호","org":"","title":"","mobile":"","teamId":"V-5-1","order":1},{"no":118,"name":"최영준","org":"","title":"","mobile":"","teamId":"V-5-1","order":2},{"no":119,"name":"최재현","org":"","title":"","mobile":"","teamId":"V-5-1","order":3},{"no":120,"name":"최정훈","org":"","title":"","mobile":"","teamId":"V-5-1","order":4},{"no":121,"name":"한상훈","org":"","title":"","mobile":"","teamId":"V-5-2","order":1},{"no":122,"name":"한승우","org":"","title":"","mobile":"","teamId":"V-5-2","order":2},{"no":123,"name":"한정우","org":"","title":"","mobile":"","teamId":"V-5-2","order":3},{"no":124,"name":"한태민","org":"","title":"","mobile":"","teamId":"V-5-2","order":4},{"no":125,"name":"윤상현","org":"","title":"","mobile":"","teamId":"V-6-1","order":1},{"no":126,"name":"윤성민","org":"","title":"","mobile":"","teamId":"V-6-1","order":2},{"no":127,"name":"윤정호","org":"","title":"","mobile":"","teamId":"V-6-1","order":3},{"no":128,"name":"윤태영","org":"","title":"","mobile":"","teamId":"V-6-1","order":4},{"no":129,"name":"서민재","org":"","title":"","mobile":"","teamId":"V-6-2","order":1},{"no":130,"name":"서정훈","org":"","title":"","mobile":"","teamId":"V-6-2","order":2},{"no":131,"name":"서현우","org":"","title":"","mobile":"","teamId":"V-6-2","order":3},{"no":132,"name":"송민호","org":"","title":"","mobile":"","teamId":"V-6-2","order":4},{"no":133,"name":"송재현","org":"","title":"","mobile":"","teamId":"V-6-3","order":1},{"no":134,"name":"송준호","org":"","title":"","mobile":"","teamId":"V-6-3","order":2},{"no":135,"name":"신동현","org":"","title":"","mobile":"","teamId":"V-6-3","order":3},{"no":136,"name":"신성호","org":"","title":"","mobile":"","teamId":"V-6-3","order":4},{"no":137,"name":"신재현","org":"","title":"","mobile":"","teamId":"V-7-1","order":1},{"no":138,"name":"신정훈","org":"","title":"","mobile":"","teamId":"V-7-1","order":2},{"no":139,"name":"오세훈","org":"","title":"","mobile":"","teamId":"V-7-1","order":3},{"no":140,"name":"오정민","org":"","title":"","mobile":"","teamId":"V-7-1","order":4},{"no":141,"name":"오현석","org":"","title":"","mobile":"","teamId":"V-7-2","order":1},{"no":142,"name":"유민석","org":"","title":"","mobile":"","teamId":"V-7-2","order":2},{"no":143,"name":"유성호","org":"","title":"","mobile":"","teamId":"V-7-2","order":3},{"no":144,"name":"유정훈","org":"","title":"","mobile":"","teamId":"V-7-2","order":4},{"no":145,"name":"장민석","org":"","title":"","mobile":"","teamId":"V-8-1","order":1},{"no":146,"name":"장성호","org":"","title":"","mobile":"","teamId":"V-8-1","order":2},{"no":147,"name":"장재현","org":"","title":"","mobile":"","teamId":"V-8-1","order":3},{"no":148,"name":"장준혁","org":"","title":"","mobile":"","teamId":"V-8-1","order":4},{"no":149,"name":"권민석","org":"","title":"","mobile":"","teamId":"V-8-2","order":1},{"no":150,"name":"권성훈","org":"","title":"","mobile":"","teamId":"V-8-2","order":2},{"no":151,"name":"권재현","org":"","title":"","mobile":"","teamId":"V-8-2","order":3},{"no":152,"name":"권현우","org":"","title":"","mobile":"","teamId":"V-8-2","order":4},{"no":153,"name":"배성민","org":"","title":"","mobile":"","teamId":"V-9-1","order":1},{"no":154,"name":"배정훈","org":"","title":"","mobile":"","teamId":"V-9-1","order":2},{"no":155,"name":"배준호","org":"","title":"","mobile":"","teamId":"V-9-1","order":3},{"no":156,"name":"남성민","org":"","title":"","mobile":"","teamId":"V-9-1","order":4},{"no":157,"name":"류현석","org":"","title":"","mobile":"","teamId":"V-9-2","order":1},{"no":158,"name":"문태현","org":"","title":"","mobile":"","teamId":"V-9-2","order":2},{"no":159,"name":"백승현","org":"","title":"","mobile":"","teamId":"V-9-2","order":3},{"no":160,"name":"허정민","org":"","title":"","mobile":"","teamId":"V-9-2","order":4}];
+
+// ===== 구글시트 설정 =====
+const SHEET_ID = '1RWExniINhCCEBcSPHguiOjZGvtd7IpGvJlUQ0CL5mrk';
+const SHEET_TAB_NAME = '시트1'; 
+const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_TAB_NAME)}`;
+const CACHE_KEY = 'koda_golf_players_cache_v2';
+const AUTO_REFRESH_MS = 20000; 
+
+let PLAYERS = [];
+let TEAMS = [];
+let CURRENT_TEAM_ID = null;
+let isFetching = false;
+let lastUpdatedAt = null;
+
+function escapeHtml(str){
+  return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function parseCSV(text){
+  const rows = [];
+  let row = [], field = '', inQuotes = false;
+  for(let i=0; i<text.length; i++){
+    const c = text[i], next = text[i+1];
+    if(inQuotes){
+      if(c === '"' && next === '"'){ field += '"'; i++; }
+      else if(c === '"'){ inQuotes = false; }
+      else field += c;
+    } else {
+      if(c === '"'){ inQuotes = true; }
+      else if(c === ','){ row.push(field); field=''; }
+      else if(c === '\r'){ /* skip */ }
+      else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+      else field += c;
+    }
+  }
+  if(field.length > 0 || row.length > 0){ row.push(field); rows.push(row); }
+  return rows;
+}
+
+function rowsToPlayers(rows){
+  const players = [];
+  for(let i=1; i<rows.length; i++){ 
+    const r = rows[i];
+    if(!r) continue;
+    const name = (r[3]||'').trim();
+    const teamId = (r[5]||'').trim();
+    if(!name || !teamId) continue; 
+    players.push({
+      no: parseInt(r[0]) || (i),
+      org: (r[1]||'').trim(),
+      title: (r[2]||'').trim(),
+      name: name,
+      mobile: (r[4]||'').trim(),
+      teamId: teamId,
+      order: parseInt(r[6]) || 1
+    });
+  }
+  return players;
+}
+
+function rebuildTeams(){
+  const mapData = {};
+  PLAYERS.forEach(p => {
+    if(!mapData[p.teamId]) {
+      mapData[p.teamId] = { id: p.teamId, course: p.teamId[0], hole: parseInt(p.teamId.split('-')[1]), members: [] };
+    }
+    mapData[p.teamId].members.push(p);
+  });
+  Object.values(mapData).forEach(t => t.members.sort((a,b)=> a.order - b.order));
+  TEAMS = Object.values(mapData).sort((a,b) => {
+    if(a.course !== b.course) return a.course === 'L' ? -1 : 1;
+    const ha = a.hole, hb = b.hole;
+    const ga = parseInt(a.id.split('-')[2]), gb = parseInt(b.id.split('-')[2]);
+    if(ha !== hb) return ha - hb;
+    return ga - gb;
+  });
+}
+
+function teamLabel(t) { return `(${t.course==='L'?'레이크코스':'밸리코스'} ${t.hole}번홀 시작, 13:00~)`; }
+
+function renderTeams(list){
+  const grid = document.getElementById('teamGrid');
+  if(!list || list.length === 0) {
+    const msg = PLAYERS.length === 0 ? '조편성 명단을 불러오는 중...' : '검색 결과가 없습니다.';
+    grid.innerHTML = `<div class="team-grid-loading">${msg}</div>`;
+    return;
+  }
+  grid.innerHTML = list.map(t=>`
+    <button class="team-btn" onclick="showTeamDetail('${t.id}')">
+      <div class="team-code ${t.course==='L'?'blue':'green'}">${t.id}</div>
+      <div class="team-start">${teamLabel(t)}</div>
+      <div class="team-members">${t.members.map(m=>escapeHtml(m.name)).join(', <span style="margin-right:2px;"></span>')}</div>
+    </button>`).join('');
+}
+
+function currentSearchQuery(){
+  const el = document.getElementById('teamSearch');
+  return el ? el.value.trim() : '';
+}
+function renderTeamsWithSearch(){
+  const q = currentSearchQuery();
+  renderTeams(q ? TEAMS.filter(t=> t.members.some(m=> m.name.includes(q))) : TEAMS);
+}
+
+document.getElementById('teamSearch').addEventListener('input', ()=>{
+  renderTeamsWithSearch();
+});
+
+// ===== 구글시트 연동 상태 =====
+function setSyncStatus(state, text){
+  const box = document.getElementById('syncStatus');
+  const textEl = document.getElementById('syncStatusText');
+  box.classList.toggle('error', state === 'error');
+  textEl.textContent = text;
+}
+function formatTime(d){
+  return d.toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'});
+}
+function setSpinning(on){
+  document.getElementById('syncRefreshBtn').classList.toggle('spinning', on);
+}
+
+async function fetchPlayersFromSheet(isManual){
+  if(isFetching) return;
+  isFetching = true;
+  setSpinning(true);
+  if(isManual) setSyncStatus('ok', '새로고침 중...');
+  try{
+    const res = await fetch(SHEET_CSV_URL + '&_ts=' + Date.now());
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    const players = rowsToPlayers(rows);
+    if(players.length === 0) throw new Error('empty');
+
+    PLAYERS = players;
+    rebuildTeams();
+    try{ localStorage.setItem(CACHE_KEY, JSON.stringify(PLAYERS)); }catch(e){}
+    lastUpdatedAt = new Date();
+    setSyncStatus('ok', `구글시트 실시간 연동됨 · ${formatTime(lastUpdatedAt)} 업데이트`);
+    renderTeamsWithSearch();
+    if(CURRENT_TEAM_ID) renderTeamDetail();
+  }catch(err){
+    if(PLAYERS.length === 0){
+      let fallback = null;
+      try{
+        const cached = localStorage.getItem(CACHE_KEY);
+        if(cached) fallback = JSON.parse(cached);
+      }catch(e){}
+      PLAYERS = fallback && fallback.length ? fallback : JSON.parse(JSON.stringify(FALLBACK_DATA));
+      rebuildTeams();
+      renderTeamsWithSearch();
+      if(CURRENT_TEAM_ID) renderTeamDetail();
+    }
+    setSyncStatus('error', '구글시트를 불러오지 못했습니다. 새로고침을 눌러주세요.');
+  } finally {
+    isFetching = false;
+    setSpinning(false);
+  }
+}
+window.manualRefresh = function(){ fetchPlayersFromSheet(true); };
+
+fetchPlayersFromSheet(false);
+setInterval(()=> fetchPlayersFromSheet(false), AUTO_REFRESH_MS);
+
+// ===== 앱 설치 (PWA) 기능 =====
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+document.getElementById('installAppBtn').addEventListener('click', async () => {
+  // 아이폰(iOS) 접속 체크
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  if (isIOS) {
+    alert("아이폰에서는 화면 하단의 '공유[↑]' 버튼을 누른 후, '홈 화면에 추가'를 선택하여 앱을 설치해주세요.");
+    return;
+  }
+  
+  // 안드로이드 / 크롬 브라우저 처리
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('앱 설치 수락됨');
+    }
+    deferredPrompt = null;
+  } else {
+    alert("현재 브라우저에서는 앱 설치 팝업을 지원하지 않거나 이미 설치되어 있습니다.\n브라우저 메뉴에서 '홈 화면에 추가'를 선택해주세요.");
+  }
+});
+
+// 팀 상세 페이지로 이동
+window.showTeamDetail = function(id) {
+  CURRENT_TEAM_ID = id;
+  renderTeamDetail();
+  navigateTo('teamdetail');
+}
+
+function renderTeamDetail(){
+  const t = TEAMS.find(x=>x.id===CURRENT_TEAM_ID);
+  const detailPlayers = document.getElementById('detailPlayers');
+  if(!t){
+    detailPlayers.innerHTML = '<div style="text-align:center; padding:30px; color:var(--ink-faint);">이 조 정보를 찾을 수 없습니다.<br>구글시트에서 조ID가 변경되었을 수 있습니다.</div>';
+    return;
+  }
+  document.getElementById('detailTeamTitle').textContent = t.id;
+  document.getElementById('detailTeamStart').textContent = teamLabel(t);
+  detailPlayers.innerHTML = t.members.map(m=>`
+    <div class="card-detail" style="margin-bottom:14px; padding:20px;">
+      <div style="font-size:18px; font-weight:900; margin-bottom:12px;">${escapeHtml(m.name)}</div>
+      <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">소속</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.org) || '-'}</div></div>
+      <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">직위</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.title) || '-'}</div></div>
+      <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">핸드폰</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.mobile) || '-'}</div></div>
+    </div>
+  `).join('') || '<div style="text-align:center; padding:30px; color:var(--ink-faint);">이 조에 남은 인원이 없습니다.</div>';
+}
+
+// 라우팅
+function applyScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+}
+function navigateTo(name){
+  window.history.pushState({screen:name}, '', '#'+name);
+  applyScreen(name);
+}
+window.history.replaceState({screen:'cover'}, '', '#cover');
+document.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => navigateTo(el.dataset.go)));
+document.querySelectorAll('[data-back]').forEach(el => el.addEventListener('click', () => window.history.back()));
+document.getElementById('enterBtn').addEventListener('click', () => navigateTo('home'));
+window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.screen) ? e.state.screen : 'cover'));
+
+</script>
+</body>
+</html>
