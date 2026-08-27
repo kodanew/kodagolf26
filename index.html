@@ -45,7 +45,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 #app{
-  max-width:480px; margin:0 auto; height:100vh; height:100dvh; position:relative;
+  width:100%; max-width:480px; margin:0 auto; height:100vh; height:100dvh; position:relative;
   display:flex; flex-direction:column; background:var(--paper-deep);
   box-shadow:0 0 60px rgba(0,0,0,0.08); overflow:hidden;
 }
@@ -67,10 +67,10 @@ body{
   text-align:center; animation:fadeIn .3s ease forwards;
   min-height:100%;
 }
-.cover-logo{ width:172px; height:auto; margin-bottom:22px; object-fit:contain; display:block; }
+.cover-logo{ width:172px; max-width:50vw; height:auto; margin-bottom:22px; object-fit:contain; display:block; }
 .cover-title{
   font-size:20px; font-weight:900; color:#111827; line-height:1.45;
-  margin-bottom:8px; letter-spacing:-0.6px;
+  margin-bottom:8px; letter-spacing:-0.6px; word-break:keep-all;
 }
 .cover-sub{ font-size:13px; color:#667085; margin-bottom:44px; font-weight:500; }
 .enter-btn{
@@ -104,14 +104,8 @@ body{
 
 .title-year{font-size:18px;font-weight:800;color:var(--blue);margin-bottom:4px;}
 .title-main{
-  font-size:36px;font-weight:900;color:var(--blue-deep);
-  line-height:1.2;letter-spacing:-1px;margin-bottom:24px;
-}
-
-.title-year { font-size:18px; font-weight:800; color:var(--blue); margin-bottom:4px; }
-.title-main { 
-    font-size:34px; font-weight:900; color:var(--blue-deep); 
-    line-height:1.18; letter-spacing:-1px; margin-bottom:18px;
+  font-size:34px; font-weight:900; color:var(--blue-deep); 
+  line-height:1.18; letter-spacing:-1px; margin-bottom:18px; word-break:keep-all;
 }
 
 .info-box {
@@ -120,7 +114,7 @@ body{
 }
 .info-row { display:flex; align-items:flex-start; gap:8px; font-size:13.5px; line-height:1.4; color:var(--ink-soft); }
 .info-icon { font-size:15px; color:var(--blue); flex-shrink:0;}
-.info-text { white-space:nowrap; letter-spacing:-0.5px; }
+.info-text { word-break:keep-all; letter-spacing:-0.5px; }
 .info-text strong { color:var(--ink); font-weight:800; }
 .info-subtext { color:var(--ink-soft); display:inline; margin-left:2px; }
 
@@ -145,13 +139,13 @@ body{
     color:var(--blue); flex-shrink:0;
 }
 .btn-text-wrap { flex:1; }
-.btn-title { font-size:16px; font-weight:800; color:var(--blue-deep); margin-bottom:2px; }
-.btn-desc { font-size:12px; font-weight:500; color:var(--ink-soft); }
-.btn-arrow { font-size:14px; color:var(--ink-faint); }
+.btn-title { font-size:16px; font-weight:800; color:var(--blue-deep); margin-bottom:2px; word-break:keep-all;}
+.btn-desc { font-size:12px; font-weight:500; color:var(--ink-soft); word-break:keep-all;}
+.btn-arrow { font-size:14px; color:var(--ink-faint); flex-shrink:0;}
 
 .install-app-btn {
   text-align:center; margin-top:12px; padding:12px 0 8px;
-  font-size:14px; font-weight:800; color:var(--blue-deep);
+  font-size:14px; font-weight:700; color:var(--ink-faint); /* 옅은 회색으로 변경 */
   letter-spacing:-0.2px; cursor:pointer; user-select:none;
 }
 .install-app-btn:active{ opacity:.6; }
@@ -180,7 +174,7 @@ body{
 
 /* ---------- 지도 및 문의 페이지 ---------- */
 .map-frame{ width:100%; height:300px; border:none; margin-bottom:0; display:block; }
-.map-info{ padding:24px; font-size:14.5px; line-height:1.7; color:var(--ink); background:#fff; border-bottom:1px solid var(--line); }
+.map-info{ padding:24px; font-size:14.5px; line-height:1.7; color:var(--ink); background:#fff; border-bottom:1px solid var(--line); word-break:keep-all;}
 
 /* ---------- 조편성 페이지 ---------- */
 .search-wrap{ padding:14px 20px 10px; position:sticky; top:0; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); z-index:20; border-bottom:1px solid var(--line);}
@@ -191,8 +185,8 @@ body{
 .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; }
 .dot.blue{ background:var(--blue); } .dot.green{ background:var(--green); }
 
-.team-grid{ padding:12px 20px 40px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.team-btn{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px 14px; text-align:left; cursor:pointer; font-family:inherit; box-shadow:var(--shadow-sm); transition:transform .1s;}
+.team-grid{ padding:12px 20px 40px; display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px; }
+.team-btn{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px 14px; text-align:left; cursor:pointer; font-family:inherit; box-shadow:var(--shadow-sm); transition:transform .1s; word-break:keep-all;}
 .team-btn:active{ transform:scale(0.96); box-shadow:var(--shadow-md); }
 .team-code{ font-size:16px; font-weight:900; }
 .team-code.blue{ color:var(--blue); } .team-code.green{ color:var(--green); }
@@ -200,7 +194,7 @@ body{
 .team-members{ font-size:13.5px; color:var(--ink-soft); line-height:1.5; font-weight:700; word-break:keep-all;}
 
 /* ---------- 팀/연락처 상세 페이지 공통 ---------- */
-.card-detail{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:32px 24px; box-shadow:var(--shadow-sm); margin-bottom:16px; }
+.card-detail{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:32px 24px; box-shadow:var(--shadow-sm); margin-bottom:16px; word-break:keep-all;}
 
 /* ---------- 구글시트 실시간 동기화 상태 ---------- */
 .sync-toggle-btn{ width:36px; height:36px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; cursor:pointer; background:#fff; font-size:16px; flex-shrink:0; margin-left:auto; transition:transform .4s ease; }
@@ -209,7 +203,7 @@ body{
 .sync-toggle-btn:active{ transform:scale(0.9); }
 .sync-status{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 20px; background:var(--blue-tint); border-bottom:1px solid #D7E4F5; font-size:11.5px; color:var(--blue-deep); font-weight:700; }
 .sync-status.error{ background:#FDEEEC; border-bottom-color:#F2C6C0; color:#C0392B; }
-.sync-status-btn{ border:1px solid rgba(12,82,170,0.25); background:#fff; color:var(--blue-deep); font-size:11px; font-weight:700; padding:5px 10px; border-radius:999px; cursor:pointer; font-family:inherit; }
+.sync-status-btn{ border:1px solid rgba(12,82,170,0.25); background:#fff; color:var(--blue-deep); font-size:11px; font-weight:700; padding:5px 10px; border-radius:999px; cursor:pointer; font-family:inherit; flex-shrink:0;}
 .sync-status.error .sync-status-btn{ border-color:#F2C6C0; color:#C0392B; }
 .sync-status-btn:active{ transform:scale(0.95); }
 .team-grid-loading{ grid-column:1/-1; text-align:center; padding:40px 20px; color:var(--ink-faint); font-size:13.5px; font-weight:600; }
@@ -220,7 +214,7 @@ body{
 
   <!-- ================= COVER (첫 화면) ================= -->
   <section id="screen-cover" class="screen active">
-    <img src="스크린샷 2026-08-12 140547_3.png" class="cover-logo" alt="KODA">
+    <img src="koda-logo.png" class="cover-logo" alt="KODA">
     <div class="cover-title">2026 협회장배<br>KODA x ARP 골프대회</div>
     <div class="cover-sub">2026.10.26(월) · 리베라CC</div>
     <button class="enter-btn" id="enterBtn">입장하기</button>
@@ -304,8 +298,8 @@ body{
         <div class="btn-arrow">▶</div>
       </button>
 
-      <!-- 앱 설치하기 버튼 추가 -->
-      <div class="install-app-btn" id="installAppBtn">⬇️ 앱 설치</div>
+      <!-- 앱 설치하기 버튼 (화살표 제거 및 색상 변경) -->
+      <div class="install-app-btn" id="installAppBtn">앱 설치</div>
 
     </div>
   </section>
@@ -744,29 +738,38 @@ setInterval(()=> fetchPlayersFromSheet(false), AUTO_REFRESH_MS);
 
 // ===== 앱 설치 (PWA) 기능 =====
 let deferredPrompt;
+
+// 브라우저가 PWA 설치 조건을 만족하면 beforeinstallprompt 이벤트를 발생시킵니다.
 window.addEventListener('beforeinstallprompt', (e) => {
+  // 기본 팝업이 바로 뜨지 않도록 방지
   e.preventDefault();
+  // 이벤트를 보관해두었다가 나중에 버튼 클릭 시 트리거
   deferredPrompt = e;
 });
 
 document.getElementById('installAppBtn').addEventListener('click', async () => {
-  // 아이폰(iOS) 접속 체크
+  // 아이폰(iOS) 접속 체크 (사파리 등에서는 PWA 다이렉트 설치 프롬프트를 미지원하므로 별도 안내)
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   if (isIOS) {
     alert("아이폰에서는 화면 하단의 '공유[↑]' 버튼을 누른 후, '홈 화면에 추가'를 선택하여 앱을 설치해주세요.");
     return;
   }
   
-  // 안드로이드 / 크롬 브라우저 처리
+  // 안드로이드 / 크롬 브라우저 처리 (직접 설치 팝업 호출)
   if (deferredPrompt) {
+    // 보관해둔 이벤트를 호출하여 안드로이드 하단 설치 팝업을 즉시 띄웁니다.
     deferredPrompt.prompt();
+    
+    // 유저가 설치를 수락했는지 거절했는지 확인
     const { outcome } = await deferredPrompt.userChoice;
     if (outcome === 'accepted') {
-      console.log('앱 설치 수락됨');
+      console.log('앱 설치가 진행됩니다.');
     }
+    // 프롬프트는 한 번만 사용할 수 있으므로 초기화
     deferredPrompt = null;
   } else {
-    alert("현재 브라우저에서는 앱 설치 팝업을 지원하지 않거나 이미 설치되어 있습니다.\n브라우저 메뉴에서 '홈 화면에 추가'를 선택해주세요.");
+    // 이미 앱이 설치되어 있거나, 매니페스트/서비스워커 설정이 누락되어 설치 요건을 충족하지 못했을 때
+    alert("현재 기기에서는 이미 앱이 설치되어 있거나 브라우저 팝업을 지원하지 않습니다.\n브라우저 설정 메뉴에서 '홈 화면에 추가'를 직접 선택해주세요.");
   }
 });
 
