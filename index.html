@@ -804,8 +804,8 @@ function renderTeamDetail(){
   detailPlayers.innerHTML = t.members.map(m=>`
     <div class="card-detail" style="margin-bottom:14px; padding:20px;">
       <div style="font-size:18px; font-weight:900; margin-bottom:12px;">${escapeHtml(m.name)}</div>
-      <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">소속</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.org) || '-'}</div></div>
-      <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">직위</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.title) || '-'}</div></div>
+      <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">소속 및 직위</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.org) || '-'}</div></div>
+      <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">KODA</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.title) || '-'}</div></div>
       <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">핸드폰</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.mobile) || '-'}</div></div>
     </div>
   `).join('') || '<div style="text-align:center; padding:30px; color:var(--ink-faint);">이 조에 남은 인원이 없습니다.</div>';
