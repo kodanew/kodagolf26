@@ -646,7 +646,7 @@ function rebuildTeams(){
   });
   Object.values(mapData).forEach(t => t.members.sort((a,b)=> a.order - b.order));
   TEAMS = Object.values(mapData).sort((a,b) => {
-    if(a.course !== b.course) return a.course === 'L' ? -1 : 1;
+    if(a.course !== b.course) return a.course === 'V' ? -1 : 1;
     const ha = a.hole, hb = b.hole;
     const ga = parseInt(a.id.split('-')[2]), gb = parseInt(b.id.split('-')[2]);
     if(ha !== hb) return ha - hb;
