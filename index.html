@@ -552,8 +552,8 @@ body{
         </div>
       </div>
       <div class="legend">
-        <span><i class="dot blue"></i>레이크코스</span>
         <span><i class="dot green"></i>밸리코스</span>
+        <span><i class="dot blue"></i>레이크코스</span>
       </div>
       <div class="team-grid" id="teamGrid"><div class="team-grid-loading">조편성 명단을 불러오는 중...</div></div>
     </div>
@@ -563,8 +563,8 @@ body{
   <section id="screen-teamdetail" class="screen">
     <div class="topbar">
       <div class="back-btn" data-back>←</div>
-      <div class="topbar-title" id="detailTeamTitle" style="margin-right:6px;">L-1-1</div>
-      <div style="font-size:13.5px; color:var(--ink-soft); font-weight:600; white-space:nowrap; margin-top:2px;" id="detailTeamStart">(레이크코스 1번홀 시작, 13:00~)</div>
+      <div class="topbar-title" id="detailTeamTitle" style="margin-right:6px;">V-1-1</div>
+      <div style="font-size:13.5px; color:var(--ink-soft); font-weight:600; white-space:nowrap; margin-top:2px;" id="detailTeamStart">(밸리코스 1번홀 시작, 13:00~)</div>
     </div>
     <div class="content" style="padding:24px 20px;">
       <div id="detailPlayers"></div>
@@ -654,7 +654,7 @@ function rebuildTeams(){
   });
 }
 
-function teamLabel(t) { return `(${t.course==='L'?'레이크코스':'밸리코스'} ${t.hole}번홀 시작, 13:00~)`; }
+function teamLabel(t) { return `(${t.course==='V'?'밸리코스':'레이크코스'} ${t.hole}번홀 시작, 13:00~)`; }
 
 function renderTeams(list){
   const grid = document.getElementById('teamGrid');
@@ -665,7 +665,7 @@ function renderTeams(list){
   }
   grid.innerHTML = list.map(t=>`
     <button class="team-btn" onclick="showTeamDetail('${t.id}')">
-      <div class="team-code ${t.course==='L'?'blue':'green'}">${t.id}</div>
+      <div class="team-code ${t.course==='L'?'green':'blue'}">${t.id}</div>
       <div class="team-start">${teamLabel(t)}</div>
       <div class="team-members">${t.members.map(m=>escapeHtml(m.name)).join(', <span style="margin-right:2px;"></span>')}</div>
     </button>`).join('');
@@ -804,7 +804,7 @@ function renderTeamDetail(){
   detailPlayers.innerHTML = t.members.map(m=>`
     <div class="card-detail" style="margin-bottom:14px; padding:20px;">
       <div style="font-size:18px; font-weight:900; margin-bottom:12px;">${escapeHtml(m.name)}</div>
-      <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">소속 및 직위</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.org) || '-'}</div></div>
+      <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">소속·직위</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.org) || '-'}</div></div>
       <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">KODA</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.title) || '-'}</div></div>
       <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">핸드폰</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.mobile) || '-'}</div></div>
     </div>
