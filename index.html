@@ -212,6 +212,21 @@ body{
 .sync-status.error .sync-status-btn{ border-color:#F2C6C0; color:#C0392B; }
 .sync-status-btn:active{ transform:scale(0.95); }
 .team-grid-loading{ grid-column:1/-1; text-align:center; padding:40px 20px; color:var(--ink-faint); font-size:13.5px; font-weight:600; }
+
+/* ---------- 내비게이션 버튼 ---------- */
+.navi-wrap { padding:24px 20px; background:#fff; border-bottom:1px solid var(--line); }
+.navi-title { font-size:15px; font-weight:800; color:var(--ink); margin-bottom:14px; display:flex; align-items:center; gap:6px; }
+.navi-buttons { display:flex; gap:10px; }
+.navi-btn {
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:14px 0; border-radius:12px; text-decoration:none; font-weight:800; font-size:14px;
+  transition:transform .15s; box-shadow:var(--shadow-sm);
+}
+.navi-btn:active { transform:scale(0.95); box-shadow:none; }
+.navi-btn.tmap { background:#111111; color:#ffffff; }
+.navi-btn.kakao { background:#FEE500; color:#191919; }
+.navi-btn.naver { background:#03C75A; color:#ffffff; }
+.navi-icon { margin-bottom:6px; font-size:18px; font-weight:900; }
 </style>
 </head>
 <body>
@@ -297,7 +312,7 @@ body{
       <button class="btn-premium" data-go="contact">
         <div class="btn-icon-wrap">📢</div>
         <div class="btn-text-wrap">
-            <div class="btn-title">공지 및 협찬 등 안내</div>
+            <div class="btn-title">공지 및 협찬 안내</div>
             <div class="btn-desc">공지사항 및 협찬, 담당부서 확인</div>
         </div>
         <div class="btn-arrow">▶</div>
@@ -457,12 +472,36 @@ body{
       <div class="topbar-title">찾아오시는 길</div>
     </div>
     <div class="content">
-      <iframe class="map-frame" loading="lazy" src="https://www.google.com/maps?q=경기도+화성시+동탄면+중리길+183+리베라CC&output=embed"></iframe>
+      <iframe class="map-frame" loading="lazy" src="https://maps.google.com/maps?q=리베라CC&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
+      
       <div class="map-info">
-        <b style="color:var(--blue-deep); font-size:17px; display:block; margin-bottom:8px;">리베라CC (레이크/밸리코스)</b>
+        <b style="color:var(--blue-deep); font-size:17px; display:block; margin-bottom:8px;">리베라CC (밸리/레이크코스)</b>
         경기도 화성시 동탄면 중리길 183<br>
         대표전화: 031-8047-8000
       </div>
+
+      <div class="navi-wrap">
+        <div class="navi-title">🚗 현위치에서 길찾기 (앱 바로가기)</div>
+        <div class="navi-buttons">
+          
+          <a href="tmap://route?goalname=리베라CC&goalx=127.1358&goaly=37.1902" class="navi-btn tmap">
+            <span class="navi-icon">T</span>
+            <span>티맵</span>
+          </a>
+          
+          <a href="https://map.kakao.com/link/to/리베라CC,37.1902,127.1358" target="_blank" class="navi-btn kakao">
+            <span class="navi-icon">K</span>
+            <span>카카오</span>
+          </a>
+          
+          <a href="nmap://route/car?dlat=37.1902&dlng=127.1358&dname=리베라CC&appname=koda-golf" class="navi-btn naver" onclick="setTimeout(function(){ window.open('https://map.naver.com/p/search/리베라CC'); }, 1500);">
+            <span class="navi-icon">N</span>
+            <span>네이버</span>
+          </a>
+          
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -552,8 +591,8 @@ body{
         </div>
       </div>
       <div class="legend">
-        <span><i class="dot green"></i>밸리코스</span>
-        <span><i class="dot blue"></i>레이크코스</span>
+        <span><i class="dot blue"></i>밸리코스</span>
+        <span><i class="dot green"></i>레이크코스</span>
       </div>
       <div class="team-grid" id="teamGrid"><div class="team-grid-loading">조편성 명단을 불러오는 중...</div></div>
     </div>
@@ -665,7 +704,7 @@ function renderTeams(list){
   }
   grid.innerHTML = list.map(t=>`
     <button class="team-btn" onclick="showTeamDetail('${t.id}')">
-      <div class="team-code ${t.course==='L'?'green':'blue'}">${t.id}</div>
+      <div class="team-code ${t.course==='L'?'blue':'green'}">${t.id}</div>
       <div class="team-start">${teamLabel(t)}</div>
       <div class="team-members">${t.members.map(m=>escapeHtml(m.name)).join(', <span style="margin-right:2px;"></span>')}</div>
     </button>`).join('');
