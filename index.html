@@ -138,9 +138,9 @@ body{
 .attendee-table th{background:var(--paper-deep);color:var(--ink-soft);font-weight:800;padding:11px 7px;border-bottom:1px solid var(--line);text-align:center;}
 .attendee-table td{padding:11px 7px;border-bottom:1px solid var(--line);color:var(--ink);line-height:1.4;vertical-align:middle;word-break:keep-all;}
 .attendee-table tr:last-child td{border-bottom:none;}
-.attendee-table th:nth-child(1),.attendee-table td:nth-child(1){width:42px;text-align:center;color:var(--ink-faint);}
+.attendee-table th:nth-child(1),.attendee-table td:nth-child(1){width:42px;text-align:center;color:var(--ink-soft);}
 .attendee-table th:nth-child(2),.attendee-table td:nth-child(2){width:76px;text-align:center;font-weight:800;}
-.attendee-table th:nth-child(4),.attendee-table td:nth-child(4){width:70px;text-align:center;color:var(--ink-soft);}
+.attendee-table th:nth-child(4),.attendee-table td:nth-child(4){width:150px;text-align:center;color:var(--ink-soft);}
 .attendee-name{color:var(--blue-deep);font-weight:800;}
 .attendee-empty{text-align:center;padding:36px 15px!important;color:var(--ink-faint)!important;}
 
@@ -370,7 +370,7 @@ body{
       <div class="attendee-search-wrap"><div class="search-box"><span style="font-size:18px;">🔍</span><input id="attendeeSearch" type="text" placeholder="이름을 검색하세요" autocomplete="off"></div></div>
       <div class="attendee-count" id="attendeeCount">참석 신청자 0명</div>
       <div class="attendee-table-wrap">
-        <table class="attendee-table"><thead><tr><th>NO</th><th>이름</th><th>소속 및 직위</th><th>비고</th></tr></thead><tbody id="attendeeBody"><tr><td colspan="4" class="attendee-empty">참석자 명단을 불러오는 중...</td></tr></tbody></table>
+        <table class="attendee-table"><thead><tr><th>NO</th><th>이름</th><th>소속 및 직위</th><th>KODA</th></tr></thead><tbody id="attendeeBody"><tr><td colspan="4" class="attendee-empty">참석자 명단을 불러오는 중...</td></tr></tbody></table>
       </div>
     </div>
   </section>
@@ -384,7 +384,7 @@ body{
     <div class="content program-wrap">
       <table class="prog-table">
         <thead>
-          <tr><th style="width:30%">시간</th><th style="width:45%; text-align:center;">주요내용</th><th style="width:25%">비고</th></tr>
+          <tr><th style="width:30%">시간</th><th style="width:42%; text-align:center;">주요내용</th><th style="width:28%">비고</th></tr>
         </thead>
         <tbody>
           <tr>
