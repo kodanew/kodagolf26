@@ -67,17 +67,17 @@ body{
 
 /* ---------- COVER ---------- */
 #screen-cover{
-  justify-content:center; align-items:center; padding:40px 17px;
+  justify-content:center; align-items:center; padding:30px 17px 90px;
   background:linear-gradient(145deg,#FFFFFF 0%,#EDF3FA 100%);
   text-align:center; animation:fadeIn .3s ease forwards;
   min-height:100%;
 }
-.cover-logo{ width:172px; max-width:50vw; height:auto; margin-bottom:22px; object-fit:contain; display:block; }
+.cover-logo{ width:172px; max-width:50vw; height:auto; margin-bottom:22px; margin-left:8px; object-fit:contain; display:block; }
 .cover-title{
   font-size:20px; font-weight:900; color:#111827; line-height:1.45;
   margin-bottom:8px; letter-spacing:-0.6px; word-break:keep-all;
 }
-.cover-sub{ font-size:13px; color:#667085; margin-bottom:44px; font-weight:500; }
+.cover-sub{ font-size:13px; color:#667085; margin-bottom:30px; font-weight:500; }
 .enter-btn{
   width:100%; padding:15px 0; border:none; border-radius:999px;
   background:#1456A8; color:#fff; font-size:16px; font-weight:800;
@@ -140,7 +140,7 @@ body{
 .attendee-table tr:last-child td{border-bottom:none;}
 .attendee-table th:nth-child(1),.attendee-table td:nth-child(1){width:42px;text-align:center;color:var(--ink-soft);}
 .attendee-table th:nth-child(2),.attendee-table td:nth-child(2){width:76px;text-align:center;font-weight:800;}
-.attendee-table th:nth-child(4),.attendee-table td:nth-child(4){width:160px;text-align:center;color:var(--ink-soft);}
+.attendee-table th:nth-child(4),.attendee-table td:nth-child(4){width:130px;text-align:center;color:var(--ink-soft);}
 .attendee-name{color:var(--blue-deep);font-weight:800;}
 .attendee-empty{text-align:center;padding:36px 15px!important;color:var(--ink-faint)!important;}
 
@@ -283,8 +283,8 @@ body{
   <!-- ================= COVER (첫 화면) ================= -->
   <section id="screen-cover" class="screen active">
     <img src="koda-logo-re.png" class="cover-logo" alt="KODA">
-    <div class="cover-title">2026 협회장배<br>KODA x ARP 골프대회</div>
-    <div class="cover-sub">2026.10.26(월) · 리베라CC</div>
+    <div class="cover-title">2026 협회장배<br>KODA · ARP 골프대회</div>
+    <div class="cover-sub">2026.10.26(월) · 리베라C.C</div>
     <button class="enter-btn" id="enterBtn">입장하기</button>
     <div class="cover-foot">한국디벨로퍼협회</div>
   </section>
@@ -329,22 +329,22 @@ body{
     <div class="home-content">
       <div class="home-menu-grid">
         <button class="btn-premium" data-go="attendees">
-          <div class="btn-icon-wrap">👥</div><div class="btn-text-wrap"><div class="btn-title">전체 참석자 명단</div><div class="btn-desc">참석 신청자 전체 명단</div></div><div class="btn-arrow">▶</div>
+          <div class="btn-icon-wrap">👥</div><div class="btn-text-wrap"><div class="btn-title">전체 참석자 명단</div><div class="btn-desc">대회 신청자 명단</div></div><div class="btn-arrow">▶</div>
         </button>
         <button class="btn-premium" data-go="teams">
-          <div class="btn-icon-wrap">🏌️‍♂️</div><div class="btn-text-wrap"><div class="btn-title">조편성 확인하기</div><div class="btn-desc">전체 40개팀 160인 명단 검색</div></div><div class="btn-arrow">▶</div>
+          <div class="btn-icon-wrap">🏌️‍♂️</div><div class="btn-text-wrap"><div class="btn-title">조편성 확인하기</div><div class="btn-desc">40개팀 160인 명단</div></div><div class="btn-arrow">▶</div>
         </button>
         <button class="btn-premium" data-go="program">
-          <div class="btn-icon-wrap">📋</div><div class="btn-text-wrap"><div class="btn-title">행사 프로그램</div><div class="btn-desc">접수부터 라운딩, 시상식 일정</div></div><div class="btn-arrow">▶</div>
+          <div class="btn-icon-wrap">📋</div><div class="btn-text-wrap"><div class="btn-title">행사 프로그램</div><div class="btn-desc">오찬, 라운딩, 시상식</div></div><div class="btn-arrow">▶</div>
         </button>
         <button class="btn-premium" data-go="sponsors">
-          <div class="btn-icon-wrap">🎁</div><div class="btn-text-wrap"><div class="btn-title">협찬 소개</div><div class="btn-desc">행사 협찬사 및 감사 안내</div></div><div class="btn-arrow">▶</div>
+          <div class="btn-icon-wrap">🎁</div><div class="btn-text-wrap"><div class="btn-title">협찬 소개</div><div class="btn-desc">대회 협찬 소개</div></div><div class="btn-arrow">▶</div>
         </button>
         <button class="btn-premium" data-go="notice">
-          <div class="btn-icon-wrap">📢</div><div class="btn-text-wrap"><div class="btn-title">공지사항</div><div class="btn-desc">참가자 안내 및 문의사항</div></div><div class="btn-arrow">▶</div>
+          <div class="btn-icon-wrap">📢</div><div class="btn-text-wrap"><div class="btn-title">공지사항</div><div class="btn-desc">대회 관련 문의사항</div></div><div class="btn-arrow">▶</div>
         </button>
         <button class="btn-premium" data-go="location">
-          <div class="btn-icon-wrap">🗺️</div><div class="btn-text-wrap"><div class="btn-title">찾아오시는길</div><div class="btn-desc">리베라CC 위치 및 지도 안내</div></div><div class="btn-arrow">▶</div>
+          <div class="btn-icon-wrap">🗺️</div><div class="btn-text-wrap"><div class="btn-title">찾아오시는길</div><div class="btn-desc">리베라CC 위치, 경로 안내</div></div><div class="btn-arrow">▶</div>
         </button>
       </div>
 
