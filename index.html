@@ -2,817 +2,112 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>2026 협회장배 KODA x ARP 골프대회</title>
-
-<!-- 카카오톡 등 SNS 공유 시 표시되는 정보 -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="2026 협회장배 KODA 골프대회">
-<meta property="og:description" content="2026.10.26(월) · 리베라C.C | 참가인원 160인(40개팀)">
-<meta property="og:image" content="https://koda-golf.netlify.app/og-image.png">
-<meta property="og:url" content="https://koda-golf.netlify.app/">
-
-<!-- 모바일 앱(PWA) 설정 -->
-<meta name="theme-color" content="#065f46">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0A192A">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="KODA 골프">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="KODA GOLF 2026">
 <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png" type="image/png">
+<title>2026 협회장배 KODA × ARP 골프대회</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="2026 협회장배 KODA × ARP 골프대회">
+<meta property="og:description" content="2026.10.26(월) · 리베라C.C · KODA × ARP">
+<meta property="og:image" content="https://kodanew.github.io/kodagolf26/og-image.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-
-<!-- 카카오톡 인앱 브라우저 강제 탈출 -->
-<script>
-  if(navigator.userAgent.toLowerCase().indexOf('kakaotalk') > -1){
-    location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(location.href);
-  }
-</script>
-
 <style>
-  :root {
-    /* 프리미엄 골프 테마: 에메랄드 그린 & 골드 */
-    --primary-color: #065f46; 
-    --primary-light: #059669;
-    --accent-color: #d4af37; 
-    --bg-color: #f4f7fb;
-    --card-bg: #ffffff;
-    --text-dark: #1a202c;
-    --text-muted: #718096;
-    --border-color: #e2e8f0;
-    --danger: #e53e3e;
-    --shadow-sm: 0 4px 12px rgba(6, 95, 70, 0.05);
-    --shadow-md: 0 8px 24px rgba(6, 95, 70, 0.08);
-  }
-
-  * { box-sizing: border-box; }
-  
-  body {
-    font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
-    background-color: var(--bg-color);
-    margin: 0; padding: 0;
-    color: var(--text-dark);
-    font-size: 14px;
-    -webkit-font-smoothing: antialiased;
-    user-select: none; -webkit-user-select: none;
-    width: 100%; overflow-x: hidden;
-  }
-
-  .app-container {
-    width: 100%; max-width: 480px; margin: 0 auto;
-    background: var(--bg-color); min-height: 100vh;
-    position: relative; overflow: hidden;
-    box-shadow: 0 0 40px rgba(0,0,0,0.05);
-  }
-
-  /* 커스텀 토스트 알림 */
-  #toastMsg {
-    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-    background: rgba(0,0,0,0.8); color: white; padding: 12px 24px;
-    border-radius: 30px; font-weight: 600; font-size: 14px;
-    z-index: 9999; display: none; white-space: nowrap;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    animation: slideDown 0.3s ease-out;
-  }
-  @keyframes slideDown { from { top: -20px; opacity: 0; } to { top: 20px; opacity: 1; } }
-
-  /* ================= 로그인 화면 ================= */
-  .login-screen {
-    position: fixed; inset: 0; background-color: var(--bg-color);
-    z-index: 2000; display: flex; align-items: center; justify-content: center;
-    padding: 20px;
-  }
-  .login-box {
-    background: var(--card-bg); width: 100%; max-width: 360px;
-    border-radius: 20px; padding: 40px 24px; text-align: center;
-    box-shadow: 0 20px 50px rgba(6, 95, 70, 0.1);
-    border: 1px solid rgba(6, 95, 70, 0.05);
-  }
-  
-  /* 신규 초록색 앱 로고 (SVG) */
-  .golf-logo-wrap {
-    width: 80px; height: 80px; margin: 0 auto 20px;
-    border-radius: 22px; background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 10px 25px rgba(6, 95, 70, 0.3);
-    position: relative;
-  }
-  .golf-logo-wrap::after {
-    content: ''; position: absolute; inset: -4px;
-    border: 2px solid var(--accent-color); border-radius: 26px; opacity: 0.3;
-  }
-  .golf-logo-wrap svg { width: 44px; height: 44px; fill: white; }
-
-  .login-title { font-size: 1.25rem; font-weight: 900; color: var(--primary-color); margin-bottom: 6px; letter-spacing: -0.5px; }
-  .login-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 28px; line-height: 1.5; font-weight: 500;}
-  
-  .login-input {
-    width: 100%; padding: 14px 16px; border: 1.5px solid var(--border-color);
-    border-radius: 12px; font-size: 0.95rem; margin-bottom: 12px;
-    outline: none; transition: all 0.2s; background: #fafbfc;
-  }
-  .login-input:focus { border-color: var(--primary-color); background: #fff; box-shadow: 0 0 0 3px rgba(6, 95, 70, 0.1); }
-  
-  .login-btn {
-    width: 100%; background: linear-gradient(135deg, var(--primary-color), #047857);
-    color: #fff; border: none; border-radius: 12px; padding: 15px;
-    font-size: 1.05rem; font-weight: 800; cursor: pointer;
-    margin-top: 8px; box-shadow: 0 8px 20px rgba(6, 95, 70, 0.2); transition: transform 0.1s;
-  }
-  .login-btn:active { transform: scale(0.97); }
-  .login-error { color: var(--danger); font-size: 0.8rem; margin-top: 12px; font-weight: 600; display: none; }
-
-  /* ================= 메인 헤더 및 배너 ================= */
-  .header {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 16px 20px; background: transparent; position: relative; z-index: 10;
-  }
-  .header-logo-text { font-size: 1.1rem; font-weight: 900; color: var(--primary-color); letter-spacing: -0.5px; }
-  .logout-btn {
-    background: #fff; color: var(--text-muted); border: 1px solid var(--border-color);
-    padding: 6px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .schedule-banner {
-    margin: 0 16px 20px; border-radius: 20px; padding: 24px 20px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, #047857 100%);
-    color: #fff; position: relative; overflow: hidden;
-    box-shadow: 0 12px 30px rgba(6, 95, 70, 0.25);
-  }
-  .schedule-banner::before {
-    content: ''; position: absolute; width: 120px; height: 120px;
-    background: rgba(255,255,255,0.1); border-radius: 50%; right: -20px; top: -40px;
-  }
-  .banner-kicker {
-    display: inline-block; padding: 4px 10px; background: var(--accent-color);
-    color: #fff; font-size: 0.7rem; font-weight: 800; border-radius: 999px; margin-bottom: 12px;
-  }
-  .banner-title { font-size: 1.4rem; font-weight: 900; line-height: 1.3; margin-bottom: 8px; letter-spacing: -0.5px; }
-  .banner-meta { font-size: 0.85rem; opacity: 0.9; font-weight: 500; line-height: 1.5; }
-
-  /* ================= 메인 메뉴 그리드 (일정 어플 스타일) ================= */
-  .quick-menu-container {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-    padding: 0 16px 30px;
-  }
-  .quick-btn {
-    background: var(--card-bg); border: 1px solid var(--border-color);
-    border-radius: 18px; padding: 18px 10px; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; text-decoration: none;
-    color: var(--text-dark); cursor: pointer; transition: all 0.2s;
-    box-shadow: var(--shadow-sm);
-  }
-  .quick-btn:active { transform: scale(0.95); box-shadow: none; background: #f8fafc; }
-  .quick-icon {
-    width: 48px; height: 48px; border-radius: 14px; margin-bottom: 10px;
-    background: #ecfdf5; display: flex; align-items: center; justify-content: center;
-    color: var(--primary-color);
-  }
-  .quick-icon svg { width: 24px; height: 24px; fill: currentColor; }
-  .quick-label { font-size: 0.8rem; font-weight: 800; letter-spacing: -0.3px; }
-
-  /* 외부 링크 배너 */
-  .external-links {
-    display: flex; gap: 8px; padding: 0 16px 30px; overflow-x: auto;
-    -webkit-overflow-scrolling: touch; scrollbar-width: none;
-  }
-  .external-links::-webkit-scrollbar { display: none; }
-  .ext-link-btn {
-    flex: 0 0 auto; padding: 10px 16px; background: #fff; border: 1px solid var(--border-color);
-    border-radius: 999px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
-    text-decoration: none; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 6px;
-  }
-
-  /* ================= 서브 페이지 (풀스크린 모달) ================= */
-  .fullscreen-screen {
-    position: fixed; inset: 0; background: var(--bg-color); z-index: 1500;
-    display: none; flex-direction: column; overflow: hidden;
-    animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-  .mobile-header {
-    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    height: 56px; background: #fff; border-bottom: 1px solid var(--border-color);
-    position: relative; z-index: 30; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-  }
-  .back-btn {
-    position: absolute; left: 10px; width: 40px; height: 40px;
-    background: none; border: none; font-size: 1.5rem; color: var(--primary-color);
-    display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 300;
-  }
-  .header-title { font-size: 1.1rem; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; }
-  .header-right-btn {
-    position: absolute; right: 16px; background: none; border: none;
-    font-size: 1.2rem; color: var(--text-muted); padding: 5px; cursor: pointer;
-  }
-  .header-right-btn.spinning { animation: spin 1s linear infinite; }
-  @keyframes spin { 100% { transform: rotate(360deg); } }
-
-  .fullscreen-content { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
-
-  /* ================= 공통 카드형 리스트 ================= */
-  .search-wrap { margin-bottom: 16px; position: relative; }
-  .search-input {
-    width: 100%; padding: 14px 16px 14px 44px; border: 1px solid var(--border-color);
-    border-radius: 14px; font-size: 0.95rem; background: #fff; box-shadow: var(--shadow-sm);
-    outline: none; transition: border-color 0.2s;
-  }
-  .search-input:focus { border-color: var(--primary-color); }
-  .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; }
-
-  .list-count { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; padding-left: 4px; }
-
-  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-  .card-item {
-    background: #fff; border: 1px solid var(--border-color); border-radius: 16px;
-    padding: 16px; text-align: left; box-shadow: var(--shadow-sm);
-    cursor: pointer; transition: transform 0.1s;
-  }
-  .card-item:active { transform: scale(0.96); background: #f8fafc; }
-  
-  /* 조편성 카드 */
-  .team-code { font-size: 1.1rem; font-weight: 900; margin-bottom: 4px; }
-  .team-code.valley { color: var(--primary-color); }
-  .team-code.lake { color: #2563eb; }
-  .team-course { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; margin-bottom: 12px; }
-  .team-members { font-size: 0.9rem; font-weight: 700; color: var(--text-dark); line-height: 1.5; word-break: keep-all; }
-
-  /* 참석자 리스트 (테이블 대신 세련된 리스트형) */
-  .attendee-list { display: flex; flex-direction: column; gap: 10px; }
-  .attendee-item {
-    background: #fff; border: 1px solid var(--border-color); border-radius: 14px;
-    padding: 16px; display: flex; align-items: center; justify-content: space-between;
-    box-shadow: var(--shadow-sm);
-  }
-  .att-left { display: flex; flex-direction: column; gap: 4px; }
-  .att-name { font-size: 1.05rem; font-weight: 800; color: var(--text-dark); }
-  .att-org { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
-  .att-badge {
-    background: #ecfdf5; color: var(--primary-color); font-size: 0.75rem;
-    font-weight: 800; padding: 4px 10px; border-radius: 999px;
-  }
-
-  /* ================= 상세 모달 (하단에서 올라오는 팝업) ================= */
-  .bottom-modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000;
-    display: none; align-items: flex-end; justify-content: center;
-  }
-  .bottom-modal-content {
-    background: #fff; width: 100%; max-width: 480px; border-radius: 24px 24px 0 0;
-    padding: 24px; box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
-    animation: slideUpModal 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    max-height: 85vh; overflow-y: auto; position: relative;
-  }
-  @keyframes slideUpModal { from { transform: translateY(100%); } to { transform: translateY(0); } }
-  .modal-drag-handle { width: 40px; height: 5px; background: #e2e8f0; border-radius: 3px; margin: 0 auto 20px; }
-  
-  .detail-title { font-size: 1.3rem; font-weight: 900; color: var(--text-dark); margin-bottom: 4px; }
-  .detail-subtitle { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 24px; }
-  
-  .player-card {
-    background: #f8fafc; border: 1px solid var(--border-color); border-radius: 16px;
-    padding: 16px; margin-bottom: 12px;
-  }
-  .p-name { font-size: 1.1rem; font-weight: 800; color: var(--primary-color); margin-bottom: 8px; }
-  .p-row { display: flex; font-size: 0.85rem; margin-bottom: 4px; line-height: 1.5; }
-  .p-label { width: 70px; color: var(--text-muted); font-weight: 600; flex-shrink: 0; }
-  .p-value { font-weight: 700; color: var(--text-dark); }
-
-  /* ================= 정보형 카드 (프로그램, 공지 등) ================= */
-  .info-card {
-    background: #fff; border: 1px solid var(--border-color); border-radius: 16px;
-    padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow-sm);
-  }
-  .info-card-title {
-    font-size: 1.15rem; font-weight: 900; color: var(--primary-color);
-    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
-  }
-  .prog-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-  .prog-table th, .prog-table td { padding: 14px 8px; border-bottom: 1px solid var(--border-color); line-height: 1.5; }
-  .prog-table th { color: var(--text-muted); font-weight: 700; text-align: left; }
-  .prog-table td:first-child { font-weight: 800; color: var(--text-dark); white-space: nowrap; }
-  .prog-table td:last-child { color: var(--text-muted); font-weight: 600; text-align: right; }
-  
-  ul.custom-list { margin: 0; padding-left: 20px; color: var(--text-dark); font-size: 0.9rem; line-height: 1.7; }
-  ul.custom-list li { margin-bottom: 8px; font-weight: 600; }
-  ul.custom-list li::marker { color: var(--primary-color); }
-
-  /* 지도 페이지 */
-  .map-frame { width: 100%; height: 250px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 16px; }
-  .navi-btn-group { display: flex; gap: 8px; margin-top: 16px; }
-  .navi-btn {
-    flex: 1; padding: 12px 0; border-radius: 12px; text-align: center; text-decoration: none;
-    font-weight: 800; font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; gap: 4px;
-  }
-  .navi-btn.tmap { background: #111; color: #fff; }
-  .navi-btn.kakao { background: #FEE500; color: #191919; }
-  .navi-btn.naver { background: #03C75A; color: #fff; }
-
-  /* 로딩 표시 */
-  .loading-msg { text-align: center; padding: 40px; color: var(--text-muted); font-weight: 700; font-size: 0.9rem; }
+:root{--navy:#0A192A;--green:#0D8A63;--mint:#E9F7F1;--gold:#D5A83B;--bg:#F4F6F8;--paper:#FFF;--ink:#16202A;--muted:#7A8590;--line:#E5E9ED;--shadow:0 12px 30px rgba(10,25,42,.08)}
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Malgun Gothic",sans-serif;background:#DDE4E9;color:var(--ink);-webkit-font-smoothing:antialiased}
+button,input{font:inherit}button{cursor:pointer}#app{width:100%;max-width:480px;height:100dvh;margin:auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,.12)}.screen{display:none;height:100%;flex-direction:column}.screen.active{display:flex;animation:in .22s ease}@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}::-webkit-scrollbar{width:0;height:0}
+.cover{background:linear-gradient(180deg,rgba(5,18,30,.30) 0%,rgba(5,18,30,.72) 62%,rgba(5,18,30,.95) 100%),url("koda-golf-cover.png") center/cover no-repeat;color:#fff;color:#fff;padding:32px 24px 28px;justify-content:space-between;position:relative;overflow:hidden}.cover:before,.cover:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.1)}.cover:before{width:360px;height:360px;right:-180px;top:80px}.cover:after{width:240px;height:240px;left:-160px;bottom:70px}
+.brand{display:flex;align-items:center;gap:10px;position:relative;z-index:1}.brand-mark{width:48px;height:48px;border-radius:14px;overflow:hidden;background:#fff;display:grid;place-items:center;border:1px solid rgba(255,255,255,.28);box-shadow:0 6px 18px rgba(0,0,0,.18)}.brand-mark img{width:100%;height:100%;object-fit:cover}.brand-text{font-size:13px;font-weight:800;letter-spacing:.4px}.brand-text small{display:block;font-size:10px;opacity:.55;font-weight:600;margin-top:2px}.cover-main{position:relative;z-index:1;margin-top:20px}.eyebrow{font-size:12px;letter-spacing:1.5px;font-weight:800;color:#9BE3C7;margin-bottom:12px}.cover h1{font-size:38px;line-height:1.08;letter-spacing:-1.8px;margin:0 0 14px;font-weight:900}.cover h1 span{color:#8DE0C0}.cover-desc{font-size:14px;line-height:1.7;color:rgba(255,255,255,.72)}.cover-bottom{position:relative;z-index:1}.date-card{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:16px 17px;margin-bottom:12px}.date-card strong{font-size:16px}.date-card span{font-size:12px;color:rgba(255,255,255,.62)}.enter-btn{width:100%;border:0;border-radius:16px;padding:16px;background:#fff;color:var(--navy);font-weight:900;font-size:16px;box-shadow:0 14px 30px rgba(0,0,0,.15)}.cover-foot{text-align:center;font-size:10px;color:rgba(255,255,255,.42);margin-top:12px}
+.auth-overlay{position:absolute;inset:0;background:rgba(4,13,22,.72);backdrop-filter:blur(8px);display:none;align-items:flex-end;z-index:100}.auth-overlay.show{display:flex}.auth-sheet{width:100%;background:#fff;border-radius:26px 26px 0 0;padding:24px 20px 28px;animation:sheet .25s ease}.auth-sheet h2{margin:0 0 5px;font-size:21px}.auth-sheet p{margin:0 0 20px;color:var(--muted);font-size:13px;line-height:1.55}.auth-label{font-size:12px;font-weight:800;color:#66727D;margin:13px 0 7px}.auth-input{width:100%;height:50px;border:1px solid var(--line);border-radius:13px;padding:0 14px;outline:none;background:#F8FAFB}.auth-input:focus{border-color:var(--green);background:#fff;box-shadow:0 0 0 3px rgba(13,138,99,.08)}.auth-actions{display:flex;gap:8px;margin-top:18px}.auth-cancel,.auth-submit{flex:1;height:50px;border-radius:13px;font-weight:800}.auth-cancel{background:#F1F3F5;border:0;color:#66727D}.auth-submit{background:var(--green);border:0;color:#fff}.auth-error{display:none;color:#C23B35;background:#FFF1F0;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;margin-top:12px}.auth-error.show{display:block}@keyframes sheet{from{transform:translateY(100%)}to{transform:none}}
+.home{background:var(--bg)}.home-top{padding:22px 20px 18px;background:var(--navy);color:#fff;border-radius:0 0 28px 28px}.home-topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}.home-logo{display:flex;align-items:center;gap:9px}.mini-mark{width:38px;height:38px;border-radius:11px;overflow:hidden;background:#fff;display:grid;place-items:center}.mini-mark img{width:100%;height:100%;object-fit:cover}.home-logo strong{font-size:13px}.home-logo small{display:block;color:rgba(255,255,255,.5);font-size:9px;margin-top:2px}.bell{width:34px;height:34px;border:1px solid rgba(255,255,255,.14);border-radius:50%;background:rgba(255,255,255,.07);color:#fff}.home-title small{display:block;color:#91DCC0;font-size:12px;font-weight:800;margin-bottom:5px}.home-title h2{margin:0;font-size:28px;letter-spacing:-1.2px}.home-title p{margin:7px 0 0;color:rgba(255,255,255,.63);font-size:12px}.event-summary{margin:0 20px;transform:translateY(-10px);background:#fff;border-radius:18px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(3,1fr);padding:15px 10px}.metric{text-align:center;border-right:1px solid var(--line)}.metric:last-child{border:0}.metric b{display:block;font-size:16px;color:var(--navy)}.metric span{font-size:10px;color:var(--muted);font-weight:700}.home-scroll{overflow:auto;flex:1;padding:0 16px 26px}.section-head{display:flex;justify-content:space-between;align-items:center;margin:2px 4px 10px}.section-head strong{font-size:15px}.section-head span{font-size:10px;color:var(--muted)}.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.menu-card{min-height:104px;border:1px solid var(--line);background:#fff;border-radius:17px;padding:15px;display:flex;flex-direction:column;justify-content:space-between;text-align:left;box-shadow:0 5px 14px rgba(10,25,42,.035);transition:.15s}.menu-card:active{transform:scale(.97)}.menu-icon{width:34px;height:34px;border-radius:11px;background:var(--mint);display:grid;place-items:center;font-size:17px}.menu-card strong{font-size:14px}.menu-card small{font-size:10px;color:var(--muted);margin-top:3px;display:block}.menu-card .arrow{align-self:flex-end;color:#AAB3BB;font-size:12px}.quick-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}.quick{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 3px;text-align:center;font-size:9.5px;font-weight:800;color:#6E7882;text-decoration:none}.install{margin:13px 2px 0;text-align:center;color:#8A949D;font-size:11px;font-weight:700;padding:8px}
+.topbar{height:62px;flex-shrink:0;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 16px;gap:10px}.back{width:35px;height:35px;border-radius:11px;background:#F2F5F6;border:0;font-size:18px;color:var(--navy)}.top-title{font-size:16px;font-weight:900}.top-spacer{margin-left:auto}.refresh{border:0;background:#F1F4F5;width:34px;height:34px;border-radius:50%}.content{flex:1;overflow:auto}.sub-head{padding:18px 18px 12px}.sub-head h3{margin:0 0 5px;font-size:22px}.sub-head p{margin:0;color:var(--muted);font-size:12px}.search-area{padding:0 16px 12px;position:sticky;top:0;background:rgba(244,246,248,.95);backdrop-filter:blur(8px);z-index:5}.search{height:46px;background:#fff;border:1px solid var(--line);border-radius:13px;display:flex;align-items:center;padding:0 13px;gap:8px}.search input{border:0;outline:0;flex:1;background:transparent;font-size:13px}.count{padding:0 18px 10px;color:var(--muted);font-size:11px;font-weight:700}
+.attendee-list{padding:0 16px 28px}.person-row{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px}.person-no{width:28px;height:28px;border-radius:9px;background:var(--mint);color:var(--green);display:grid;place-items:center;font-size:10px;font-weight:900}.person-main{min-width:0;flex:1}.person-main strong{font-size:14px}.person-main span{display:block;font-size:10.5px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.person-phone{font-size:10px;color:#84909A}.status{margin:0 16px 12px;padding:9px 11px;background:#EAF5F1;border:1px solid #D5ECE4;border-radius:11px;font-size:10px;color:#147054;font-weight:800}.status.error{background:#FFF0EE;border-color:#F4D1CC;color:#B84A40}.team-filter{display:flex;gap:7px;padding:0 16px 12px}.filter{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 11px;font-size:10px;font-weight:800;color:#6D7780}.filter.active{background:var(--navy);border-color:var(--navy);color:#fff}.team-grid{padding:0 16px 30px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.team-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:14px;text-align:left;min-height:116px;box-shadow:0 5px 14px rgba(10,25,42,.035)}.team-card:active{transform:scale(.97)}.team-code{font-size:18px;font-weight:950}.team-code.v{color:var(--green)}.team-code.l{color:#326EA8}.team-start{font-size:9.5px;color:#9AA3AB;margin:4px 0 12px}.team-members{font-size:11px;font-weight:750;line-height:1.55;color:#4F5A64}
+.detail-wrap{padding:16px}.detail-hero{background:var(--navy);color:#fff;border-radius:19px;padding:18px;margin-bottom:12px}.detail-hero .code{font-size:25px;font-weight:950}.detail-hero p{margin:5px 0 0;color:rgba(255,255,255,.6);font-size:11px}.player-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px;margin-bottom:8px}.player-card strong{font-size:16px}.player-info{display:grid;grid-template-columns:68px 1fr;gap:7px;margin-top:12px;font-size:11.5px}.player-info label{color:#9AA3AB}.player-info div{font-weight:700}
+.program{padding:16px}.timeline{position:relative}.timeline:before{content:"";position:absolute;left:45px;top:8px;bottom:8px;width:1px;background:#DCE3E6}.time-row{display:grid;grid-template-columns:68px 1fr;gap:12px;position:relative;margin-bottom:9px}.time{font-size:10px;color:var(--green);font-weight:900;padding-top:14px;text-align:right}.time-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 13px}.time-card b{font-size:12.5px}.time-card p{margin:5px 0 0;color:var(--muted);font-size:10.5px;line-height:1.5}.info-card{margin:16px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px;line-height:1.7;font-size:12.5px}.info-card h3{margin:0 0 12px;font-size:17px}.info-card ul{margin:0;padding-left:18px}.info-card li{margin-bottom:8px}.map-frame{width:100%;height:300px;border:0}.navi{padding:15px 16px;background:#fff}.navi-title{font-size:12px;font-weight:900;margin-bottom:9px}.navi-row{display:flex;gap:8px}.navi-row a{flex:1;text-decoration:none;text-align:center;border-radius:12px;padding:12px;font-size:11px;font-weight:900}.tm{background:#111;color:#fff}.ka{background:#FEE500;color:#191919}.na{background:#03C75A;color:#fff}.sponsor{margin:16px;background:linear-gradient(135deg,#fff,#F7FBF9);border:1px solid #DDEBE6;border-radius:18px;padding:20px}.sponsor h3{margin:0 0 14px;color:var(--green);font-size:18px}.sponsor li{font-size:13px;margin-bottom:9px;color:#53616B}.empty{text-align:center;padding:45px 20px;color:#9AA3AB;font-size:12px}@media(max-width:360px){.cover h1{font-size:33px}.menu-grid{gap:7px}.menu-card{min-height:96px;padding:12px}}
 </style>
 </head>
 <body>
+<div id="app">
+<section id="screen-cover" class="screen active cover">
+<div class="brand"><div class="brand-mark"><img src="koda-golf-cover.png" alt="KODA 골프 로고"></div><div class="brand-text">KODA GOLF 2026<small>KOREA DEVELOPER ASSOCIATION</small></div></div>
+<div class="cover-main"><div class="eyebrow">2026 KODA × ARP</div><h1>협회장배<br><span>골프대회</span></h1><div class="cover-desc">참가자 전용 모바일 안내 앱입니다.<br>참석자 확인 후 대회 정보를 이용하실 수 있습니다.</div></div>
+<div class="cover-bottom"><div class="date-card"><strong>10.26 MON</strong><span>리베라 C.C · 18 HOLES</span></div><button class="enter-btn" id="enterBtn">입장하기</button><div class="cover-foot">한국디벨로퍼협회 · KODA 회원위원회</div></div>
+</section>
+<div class="auth-overlay" id="authOverlay"><div class="auth-sheet"><h2>참가자 확인</h2><p>신청하신 이름과 핸드폰번호를 입력해주세요.<br>참가자 명단과 일치하면 앱에 입장할 수 있습니다.</p><div class="auth-label">이름</div><input id="loginName" class="auth-input" type="text" placeholder="예: 홍길동" autocomplete="name"><div class="auth-label">핸드폰번호</div><input id="loginPhone" class="auth-input" type="tel" inputmode="tel" placeholder="예: 010-1234-5678" autocomplete="tel"><div class="auth-error" id="authError">입력하신 정보와 참가자 명단이 일치하지 않습니다.</div><div class="auth-actions"><button class="auth-cancel" id="authCancel">취소</button><button class="auth-submit" id="authSubmit">확인하고 입장</button></div></div></div>
 
-<!-- ===== 로그인 화면 ===== -->
-<div class="login-screen" id="loginScreen">
-  <div class="login-box">
-    <!-- 프리미엄 초록색 골프 엠블럼 -->
-    <div class="golf-logo-wrap">
-      <svg viewBox="0 0 24 24">
-        <path d="M19.56 2.44A1.5 1.5 0 0 0 18 2H6a1.5 1.5 0 0 0-1.44.9l-2.4 7.2A1.5 1.5 0 0 0 2 11v8a1.5 1.5 0 0 0 1.5 1.5h17A1.5 1.5 0 0 0 22 19v-8a1.5 1.5 0 0 0-.16-.68l-2.28-7.88zm-2.07 1.06l1.83 6.33H15V4h4.5zM13 4v5.83h-2V4h2zM5.5 4H9v5.83H4.67L5.5 4zM4 19v-7.67h16V19H4z"/>
-        <circle cx="15.5" cy="14.5" r="1.5" fill="var(--accent-color)"/>
-      </svg>
-    </div>
-    <div class="login-title">KODA 골프대회 안내</div>
-    <div class="login-subtitle">대회 참가자만 입장하실 수 있습니다.<br>이름과 핸드폰 번호를 입력해주세요.</div>
+<section id="screen-home" class="screen home">
+<div class="home-top"><div class="home-topline"><div class="home-logo"><div class="mini-mark"><img src="koda-golf-cover.png" alt="KODA"></div><div><strong>KODA GOLF 2026</strong><small>참가자 전용 안내</small></div></div><button class="bell">●</button></div><div class="home-title"><small>2026.10.26 · MONDAY</small><h2>협회장배<br>KODA × ARP</h2><p>리베라 C.C · 13:00 샷건 동시출발</p></div></div>
+<div class="event-summary"><div class="metric"><b>160</b><span>참가인원</span></div><div class="metric"><b>40</b><span>전체팀</span></div><div class="metric"><b>18H</b><span>라운딩</span></div></div>
+<div class="home-scroll"><div class="section-head"><strong>대회 안내</strong><span>QUICK MENU</span></div><div class="menu-grid">
+<button class="menu-card" data-go="attendees"><span class="menu-icon">👥</span><div><strong>전체 참석자</strong><small>대회 신청자 명단</small></div><span class="arrow">↗</span></button>
+<button class="menu-card" data-go="teams"><span class="menu-icon">🏌️</span><div><strong>조편성 확인</strong><small>40개팀 160인</small></div><span class="arrow">↗</span></button>
+<button class="menu-card" data-go="program"><span class="menu-icon">◷</span><div><strong>행사 프로그램</strong><small>등록 · 라운딩 · 시상</small></div><span class="arrow">↗</span></button>
+<button class="menu-card" data-go="sponsors"><span class="menu-icon">✦</span><div><strong>협찬 소개</strong><small>함께해주신 분들</small></div><span class="arrow">↗</span></button>
+<button class="menu-card" data-go="notice"><span class="menu-icon">!</span><div><strong>공지 및 안내</strong><small>참가자 유의사항</small></div><span class="arrow">↗</span></button>
+<button class="menu-card" data-go="location"><span class="menu-icon">⌖</span><div><strong>찾아오시는 길</strong><small>리베라 C.C 위치</small></div><span class="arrow">↗</span></button>
+</div><div class="quick-strip"><a class="quick" href="https://www.koda.or.kr/main/" target="_blank">KODA HOME</a><a class="quick" href="https://search.naver.com/search.naver?query=디벨로퍼협회" target="_blank">언론보도</a><a class="quick" href="https://www.youtube.com/@kodatv9717" target="_blank">KODA-TV</a><a class="quick" href="https://kodaarp.kr/arp/" target="_blank">KODA-ARP</a></div><div class="install" id="installAppBtn">＋ 앱으로 설치하기</div></div>
+</section>
 
-    <input type="text" id="loginName" class="login-input" placeholder="이름" autocomplete="name">
-    <input type="tel" id="loginPhone" class="login-input" placeholder="핸드폰 번호 (- 없이 입력)" autocomplete="tel" onkeydown="if(event.key==='Enter') attemptLogin();">
+<section id="screen-attendees" class="screen"><div class="topbar"><button class="back" data-back>‹</button><div class="top-title">전체 참석자</div><div class="top-spacer"><button class="refresh" id="attendeeRefreshBtn">↻</button></div></div><div class="content"><div class="sub-head"><h3>참석자 명단</h3><p>현재 신청된 참가자 정보를 확인할 수 있습니다.</p></div><div class="search-area"><div class="search">⌕<input id="attendeeSearch" placeholder="이름을 검색하세요" autocomplete="off"></div></div><div class="count" id="attendeeCount">참석 신청자 0명</div><div class="attendee-list" id="attendeeBody"></div></div></section>
 
-    <button type="button" id="loginBtn" class="login-btn" onclick="attemptLogin()">입장하기</button>
-    <div class="login-error" id="loginError"></div>
-  </div>
+<section id="screen-teams" class="screen"><div class="topbar"><button class="back" data-back>‹</button><div class="top-title">조편성 확인</div><div class="top-spacer"><button class="refresh" id="syncRefreshBtn">↻</button></div></div><div class="content"><div class="sub-head"><h3>전체 조편성</h3><p>참가자 이름으로 빠르게 검색하세요.</p></div><div class="status" id="syncStatus"><span id="syncStatusText">구글시트 연결 중...</span></div><div class="search-area"><div class="search">⌕<input id="teamSearch" placeholder="참가자 이름을 검색하세요" autocomplete="off"></div></div><div class="team-filter"><button class="filter active" data-course="all">전체</button><button class="filter" data-course="V">밸리</button><button class="filter" data-course="L">레이크</button></div><div class="team-grid" id="teamGrid"></div></div></section>
+
+<section id="screen-teamdetail" class="screen"><div class="topbar"><button class="back" data-back>‹</button><div class="top-title" id="detailTeamTitle">V-1-1</div></div><div class="content detail-wrap"><div class="detail-hero"><div class="code" id="detailCode">V-1-1</div><p id="detailTeamStart"></p></div><div id="detailPlayers"></div></div></section>
+
+<section id="screen-program" class="screen"><div class="topbar"><button class="back" data-back>‹</button><div class="top-title">행사 프로그램</div></div><div class="content program"><div class="timeline">
+<div class="time-row"><div class="time">10:30<br>11:00</div><div class="time-card"><b>참가자 등록 · 포토존</b><p>참가자 등록 및 명찰 배부 / 포토존 촬영</p></div></div>
+<div class="time-row"><div class="time">11:00<br>12:00</div><div class="time-card"><b>점심식사 · 네트워킹</b><p>1층 백합홀</p></div></div>
+<div class="time-row"><div class="time">12:00<br>12:40</div><div class="time-card"><b>시타 이벤트 · 단체촬영</b><p>밸리 1번 티샷지점</p></div></div>
+<div class="time-row"><div class="time">12:40<br>13:00</div><div class="time-card"><b>카트 장소 집합</b><p>샷건 동시출발 준비</p></div></div>
+<div class="time-row"><div class="time">13:00<br>18:00</div><div class="time-card"><b>라운딩</b><p>신페리오 방식 · 레이크 / 밸리 코스</p></div></div>
+<div class="time-row"><div class="time">18:00<br>18:30</div><div class="time-card"><b>환복 · 만찬장소 이동</b></div></div>
+<div class="time-row"><div class="time">18:30<br>19:40</div><div class="time-card"><b>개회 · 인사말씀 · 협회소개 · 시상</b><p>2층 에메랄드홀 · 14개 부문 시상</p></div></div>
+<div class="time-row"><div class="time">19:40<br>21:00</div><div class="time-card"><b>공식만찬</b><p>상호교류</p></div></div>
+<div class="time-row"><div class="time">21:00~</div><div class="time-card"><b>폐회</b></div></div>
+</div></div></section>
+
+<section id="screen-sponsors" class="screen"><div class="topbar"><button class="back" data-back>‹</button><div class="top-title">협찬 소개</div></div><div class="content"><div class="sponsor"><h3>함께해주셔서 감사합니다</h3><ol><li>김한모 에이치엠그룹 회장님</li><li>ARP 총동문회</li><li>추가 협찬사</li></ol></div></div></section>
+<section id="screen-notice" class="screen"><div class="topbar"><button class="back" data-back>‹</button><div class="top-title">공지 및 안내</div></div><div class="content"><div class="info-card"><h3>참가자 안내사항</h3><ul><li>원활한 행사 진행을 위해 <b>티오프 1시간 전(12:00)까지</b> 골프장 등록을 완료해 주세요.</li><li>우천 등 기상 악화로 변경 사항 발생 시 개별 안내해 드립니다.</li><li>기타 문의사항은 관련 담당부서로 연락 부탁드립니다.</li></ul></div><div class="info-card"><h3>대회 관련 문의</h3><div>협회 기획운영실 기획홍보팀</div><div><a href="tel:02-512-4750">02-512-4750</a> / <a href="tel:010-5129-4750">010-5129-4750</a></div><div>koda@koda.or.kr</div></div></div></section>
+<section id="screen-location" class="screen"><div class="topbar"><button class="back" data-back>‹</button><div class="top-title">찾아오시는 길</div></div><div class="content"><iframe class="map-frame" loading="lazy" src="https://maps.google.com/maps?q=리베라CC&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe><div class="info-card" style="margin-top:0;border-radius:0;border-left:0;border-right:0"><h3>리베라CC</h3>경기도 화성시 동탄면 중리길 183<br>대표전화 031-8047-8000</div><div class="navi"><div class="navi-title">현위치에서 길찾기</div><div class="navi-row"><a class="tm" href="tmap://route?goalname=리베라CC&goalx=127.1358&goaly=37.1902">T맵</a><a class="ka" target="_blank" href="https://map.kakao.com/link/to/리베라CC,37.1902,127.1358">카카오</a><a class="na" href="nmap://route/car?dlat=37.1902&dlng=127.1358&dname=리베라CC&appname=koda-golf" onclick="setTimeout(()=>window.open('https://map.naver.com/p/search/리베라CC'),1200)">네이버</a></div></div></div></section>
 </div>
-
-<div class="app-container" id="appRoot" style="display:none;">
-
-  <!-- ===== HOME 화면 ===== -->
-  <section id="screen-home" class="screen active">
-    <div class="header">
-      <div class="header-logo-text">KODA GOLF</div>
-      <button class="logout-btn" onclick="logout()">로그아웃</button>
-    </div>
-
-    <div class="schedule-banner">
-      <span class="banner-kicker">D-DAY</span>
-      <div class="banner-title">2026 협회장배<br>KODA·ARP 골프대회</div>
-      <div class="banner-meta">
-        2026.10.26(월) 13:00 티오프<br>
-        리베라 C.C (밸리/레이크 코스)
-      </div>
-    </div>
-
-    <!-- 메뉴 그리드 (일정 어플 스타일 반영) -->
-    <div class="quick-menu-container">
-      <a href="javascript:void(0)" class="quick-btn" onclick="navigateTo('attendees')">
-        <div class="quick-icon">
-          <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-        </div>
-        <span class="quick-label">참석자 명단</span>
-      </a>
-      <a href="javascript:void(0)" class="quick-btn" onclick="navigateTo('teams')">
-        <div class="quick-icon">
-          <svg viewBox="0 0 24 24"><path d="M19.5 5.5c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-        </div>
-        <span class="quick-label">조편성 확인</span>
-      </a>
-      <a href="javascript:void(0)" class="quick-btn" onclick="navigateTo('program')">
-        <div class="quick-icon">
-          <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-        </div>
-        <span class="quick-label">프로그램</span>
-      </a>
-      <a href="javascript:void(0)" class="quick-btn" onclick="navigateTo('sponsors')">
-        <div class="quick-icon">
-          <svg viewBox="0 0 24 24"><path d="M22 10.24l-7.19-.61L12 3 9.19 9.63 2 10.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-6.03L22 10.24z"/></svg>
-        </div>
-        <span class="quick-label">협찬 소개</span>
-      </a>
-      <a href="javascript:void(0)" class="quick-btn" onclick="navigateTo('notice')">
-        <div class="quick-icon">
-          <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg>
-        </div>
-        <span class="quick-label">공지/문의</span>
-      </a>
-      <a href="javascript:void(0)" class="quick-btn" onclick="navigateTo('location')">
-        <div class="quick-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        </div>
-        <span class="quick-label">오시는 길</span>
-      </a>
-    </div>
-
-    <!-- 외부 링크 (일정어플 하단 참조) -->
-    <div class="external-links">
-      <a href="https://www.koda.or.kr/main/" target="_blank" class="ext-link-btn">🏠 KODA HOME</a>
-      <a href="https://kodaarp.kr/arp/" target="_blank" class="ext-link-btn">📘 KODA-ARP</a>
-      <a href="https://www.youtube.com/@kodatv9717" target="_blank" class="ext-link-btn">📺 KODA-TV</a>
-    </div>
-  </section>
-
-  <!-- ===== 전체 참석자 명단 ===== -->
-  <section id="screen-attendees" class="screen fullscreen-screen">
-    <div class="mobile-header">
-      <button class="back-btn" onclick="window.history.back()">←</button>
-      <div class="header-title">전체 참석자 명단</div>
-      <button class="header-right-btn" onclick="fetchAuthAndAttendeesData()">🔄</button>
-    </div>
-    <div class="fullscreen-content">
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="attSearch" class="search-input" placeholder="이름을 검색하세요" oninput="renderAttendeesList()">
-      </div>
-      <div class="list-count" id="attCount">총 0명</div>
-      <div class="attendee-list" id="attListContainer">
-        <div class="loading-msg">참석자 명단을 불러오는 중입니다...</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 전체 조편성 명단 ===== -->
-  <section id="screen-teams" class="screen fullscreen-screen">
-    <div class="mobile-header">
-      <button class="back-btn" onclick="window.history.back()">←</button>
-      <div class="header-title">전체 조편성 명단</div>
-      <button class="header-right-btn" id="teamRefreshBtn" onclick="fetchPlayersData()">🔄</button>
-    </div>
-    <div class="fullscreen-content" style="padding-bottom: 40px;">
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="teamSearch" class="search-input" placeholder="참가자 이름을 검색하세요" oninput="renderTeamsList()">
-      </div>
-      <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; margin-bottom: 12px; padding-left: 4px;">
-        <span style="color:var(--primary-color);">●</span> 밸리코스 &nbsp;&nbsp; <span style="color:#2563eb;">●</span> 레이크코스
-      </div>
-      <div class="card-grid" id="teamGridContainer">
-        <div class="loading-msg">조편성 명단을 불러오는 중입니다...</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 행사 프로그램 ===== -->
-  <section id="screen-program" class="screen fullscreen-screen">
-    <div class="mobile-header">
-      <button class="back-btn" onclick="window.history.back()">←</button>
-      <div class="header-title">행사 프로그램</div>
-    </div>
-    <div class="fullscreen-content">
-      <div class="info-card" style="padding: 16px 12px;">
-        <table class="prog-table">
-          <thead><tr><th style="width:30%">시간</th><th>주요내용</th><th style="width:25%; text-align:right;">비고</th></tr></thead>
-          <tbody>
-            <tr><td>10:30~11:00</td><td>참가자 등록, 명찰배부<br>포토존 촬영</td><td>웰컴데스크</td></tr>
-            <tr><td>11:00~12:00</td><td>점심식사 및 네트워킹</td><td>1층 백합홀</td></tr>
-            <tr><td>12:00~12:40</td><td>시타 이벤트<br>단체 기념촬영</td><td>밸리 1번 티샷</td></tr>
-            <tr><td>12:40~13:00</td><td>카트 장소 집합<br>(샷건 출발 준비)</td><td>클럽하우스 앞</td></tr>
-            <tr><td>13:00~18:00</td><td>라운딩 (신페리오)</td><td>코스</td></tr>
-            <tr><td>18:00~18:30</td><td>환복 및 샤워, 만찬장 이동</td><td>-</td></tr>
-            <tr><td>18:30~18:45</td><td>개회, 회장님 인사말씀<br>ARP 회장님 인사말씀</td><td>2층 에메랄드홀</td></tr>
-            <tr><td>18:45~19:05</td><td>협회 소개 및 협찬사 안내</td><td>-</td></tr>
-            <tr><td>19:05~19:30</td><td>경기결과 발표 및 시상</td><td>-</td></tr>
-            <tr><td>19:40~21:00</td><td>공식만찬 (상호교류) 및 폐회</td><td>-</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 협찬 소개 ===== -->
-  <section id="screen-sponsors" class="screen fullscreen-screen">
-    <div class="mobile-header">
-      <button class="back-btn" onclick="window.history.back()">←</button>
-      <div class="header-title">협찬 소개</div>
-    </div>
-    <div class="fullscreen-content">
-      <div class="info-card">
-        <div class="info-card-title">🎁 협찬에 감사드립니다</div>
-        <ul class="custom-list">
-          <li>김한모 에이치엠그룹 회장님 : </li>
-          <li>ARP 총동문회 : </li>
-          <li>추가 협찬 내역 </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 공지 및 문의 ===== -->
-  <section id="screen-notice" class="screen fullscreen-screen">
-    <div class="mobile-header">
-      <button class="back-btn" onclick="window.history.back()">←</button>
-      <div class="header-title">공지 및 문의사항</div>
-    </div>
-    <div class="fullscreen-content">
-      <div class="info-card">
-        <div class="info-card-title">💡 참가자 안내사항</div>
-        <ul class="custom-list">
-          <li>원활한 행사 진행을 위해 <b>티오프 1시간 전(12:00)까지</b> 골프장 등록을 완료해 주시기 바랍니다.</li>
-          <li>우천 등 기상 악화로 변경 사항 발생 시, 개별 안내해 드립니다.</li>
-          <li>기타 문의사항은 관련 담당부서로 연락 부탁드립니다.</li>
-        </ul>
-      </div>
-      <div class="info-card">
-        <div class="info-card-title">📞 대회 관련 문의</div>
-        <div style="font-size:0.9rem; line-height:1.8;">
-          <strong style="color:var(--text-muted);">담당부서</strong> : 협회 기획운영실 기획홍보팀<br>
-          <strong style="color:var(--text-muted);">연락처</strong> : <a href="tel:02-512-4750" style="color:var(--primary-color); font-weight:800; text-decoration:none;">02-512-4750</a> / <a href="tel:010-5129-4750" style="color:var(--primary-color); font-weight:800; text-decoration:none;">010-5129-4750</a><br>
-          <strong style="color:var(--text-muted);">이메일</strong> : koda@koda.or.kr<br>
-          <strong style="color:var(--text-muted);">운영시간</strong> : 평일 09:00 ~ 18:00
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 오시는 길 ===== -->
-  <section id="screen-location" class="screen fullscreen-screen">
-    <div class="mobile-header">
-      <button class="back-btn" onclick="window.history.back()">←</button>
-      <div class="header-title">찾아오시는 길</div>
-    </div>
-    <div class="fullscreen-content">
-      <div class="info-card" style="padding: 16px;">
-        <iframe class="map-frame" loading="lazy" src="https://maps.google.com/maps?q=리베라CC&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
-        <div style="font-size: 1rem; font-weight: 800; margin-bottom: 8px;">리베라CC (밸리/레이크코스)</div>
-        <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-          경기도 화성시 동탄면 중리길 183<br>
-          대표전화: 031-8047-8000
-        </div>
-        <div class="navi-btn-group">
-          <a href="tmap://route?goalname=리베라CC&goalx=127.1358&goaly=37.1902" class="navi-btn tmap"><span>T</span>티맵</a>
-          <a href="https://map.kakao.com/link/to/리베라CC,37.1902,127.1358" target="_blank" class="navi-btn kakao"><span>K</span>카카오</a>
-          <a href="nmap://route/car?dlat=37.1902&dlng=127.1358&dname=리베라CC&appname=koda-golf" class="navi-btn naver" onclick="setTimeout(function(){ window.open('https://map.naver.com/p/search/리베라CC'); }, 1500);"><span>N</span>네이버</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</div>
-
-<!-- ===== 하단 상세정보 모달 (조편성 팀 클릭 시) ===== -->
-<div class="bottom-modal-overlay" id="teamDetailModal" onclick="closeModalOnOutside(event)">
-  <div class="bottom-modal-content">
-    <div class="modal-drag-handle"></div>
-    <div class="detail-title" id="dtTitle">팀 번호</div>
-    <div class="detail-subtitle" id="dtCourse">출발 코스 안내</div>
-    <div id="dtPlayersList"></div>
-  </div>
-</div>
-
-<div id="toastMsg"></div>
-
 <script>
-// ================= 설정 및 URL =================
-// 1. 참석자 명단 및 로그인용 시트 (구글 시트2)
-const AUTH_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySre2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pub?gid=1550391915&single=true&output=csv";
-
-// 2. 팀 편성표 (기존 시트1)
-const TEAMS_SHEET_ID = '1RWExniINhCCEBcSPHguiOjZGvtd7IpGvJlUQ0CL5mrk';
-const TEAMS_SHEET_URL = `https://docs.google.com/spreadsheets/d/${TEAMS_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent('시트1')}`;
-
-let attendeesData = [];
-let playersData = [];
-let teamsData = [];
-
-// ================= 공통 유틸 =================
-function showToast(msg) {
-  const t = document.getElementById('toastMsg');
-  t.innerText = msg; t.style.display = 'block';
-  setTimeout(() => { t.style.display = 'none'; }, 2500);
-}
-
-function parseCSV(text) {
-  const rows = [];
-  let row = [], field = '', inQuotes = false;
-  for(let i=0; i<text.length; i++){
-    const c = text[i], next = text[i+1];
-    if(inQuotes){
-      if(c === '"' && next === '"'){ field += '"'; i++; }
-      else if(c === '"'){ inQuotes = false; }
-      else field += c;
-    } else {
-      if(c === '"'){ inQuotes = true; }
-      else if(c === ','){ row.push(field); field=''; }
-      else if(c === '\r'){ /* skip */ }
-      else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
-      else field += c;
-    }
-  }
-  if(field.length > 0 || row.length > 0){ row.push(field); rows.push(row); }
-  return rows;
-}
-
-function normalizePhone(str) { return (str || '').replace(/[^0-9]/g, ''); }
-
-// ================= 로그인 및 참석자 로직 =================
-async function fetchAuthAndAttendeesData() {
-  try {
-    const res = await fetch(AUTH_SHEET_URL + '&_ts=' + Date.now());
-    const text = await res.text();
-    const rows = parseCSV(text);
-    
-    // 시트 구조 (예상): B열(이름)=Index 1, C열(소속)=Index 2, D열(KODA)=Index 3, E열(핸드폰)=Index 4
-    attendeesData = rows.slice(1).map(r => ({
-      name: (r[1] || '').trim(),
-      org: (r[2] || '').trim(),
-      title: (r[3] || '').trim(),
-      phone: normalizePhone(r[4] || '')
-    })).filter(x => x.name);
-    
-    if (document.getElementById('screen-attendees').classList.contains('active')) {
-      renderAttendeesList();
-    }
-  } catch(e) {
-    console.error("참석자 로드 실패", e);
-  }
-}
-
-async function attemptLogin() {
-  const name = document.getElementById('loginName').value.trim();
-  const phone = normalizePhone(document.getElementById('loginPhone').value);
-  const err = document.getElementById('loginError');
-  const btn = document.getElementById('loginBtn');
-
-  if (!name || !phone) { err.innerText = '이름과 핸드폰 번호를 모두 입력해주세요.'; err.style.display = 'block'; return; }
-  
-  btn.innerText = '확인 중...'; btn.disabled = true; err.style.display = 'none';
-
-  if (attendeesData.length === 0) await fetchAuthAndAttendeesData();
-
-  const isMatch = attendeesData.some(a => a.name === name && a.phone === phone);
-  
-  if (isMatch) {
-    localStorage.setItem('kodagolf_auth', JSON.stringify({ name, phone }));
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('appRoot').style.display = 'block';
-    loadAppData();
-  } else {
-    err.innerText = '등록된 참석자 명단과 일치하지 않습니다.';
-    err.style.display = 'block';
-    btn.innerText = '입장하기'; btn.disabled = false;
-  }
-}
-
-function logout() {
-  if(!confirm('로그아웃 하시겠습니까?')) return;
-  localStorage.removeItem('kodagolf_auth');
-  document.getElementById('appRoot').style.display = 'none';
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('loginName').value = '';
-  document.getElementById('loginPhone').value = '';
-  document.getElementById('loginBtn').innerText = '입장하기';
-  document.getElementById('loginBtn').disabled = false;
-}
-
-// ================= 참석자 및 조편성 리스트 렌더링 =================
-function renderAttendeesList() {
-  const container = document.getElementById('attListContainer');
-  const countEl = document.getElementById('attCount');
-  const q = document.getElementById('attSearch').value.trim().toLowerCase();
-
-  let filtered = attendeesData;
-  if(q) filtered = filtered.filter(a => a.name.includes(q) || a.org.includes(q));
-
-  countEl.innerText = `총 ${filtered.length}명`;
-  
-  if(filtered.length === 0) {
-    container.innerHTML = `<div class="loading-msg">검색 결과가 없거나 명단이 비어있습니다.</div>`;
-    return;
-  }
-
-  container.innerHTML = filtered.map(a => `
-    <div class="attendee-item">
-      <div class="att-left">
-        <div class="att-name">${a.name}</div>
-        <div class="att-org">${a.org || '-'}</div>
-      </div>
-      ${a.title ? `<div class="att-badge">${a.title}</div>` : ''}
-    </div>
-  `).join('');
-}
-
-async function fetchPlayersData() {
-  const btn = document.getElementById('teamRefreshBtn');
-  if(btn) btn.classList.add('spinning');
-  
-  try {
-    const res = await fetch(TEAMS_SHEET_URL + '&_ts=' + Date.now());
-    const text = await res.text();
-    const rows = parseCSV(text);
-    
-    playersData = [];
-    for(let i=1; i<rows.length; i++){ 
-      const r = rows[i];
-      if(!r || !r[3] || !r[5]) continue;
-      playersData.push({
-        name: r[3].trim(),
-        org: r[1] ? r[1].trim() : '',
-        title: r[2] ? r[2].trim() : '',
-        phone: r[4] ? r[4].trim() : '',
-        teamId: r[5].trim(),
-        order: parseInt(r[6]) || 1
-      });
-    }
-
-    const mapData = {};
-    playersData.forEach(p => {
-      if(!mapData[p.teamId]) mapData[p.teamId] = { id: p.teamId, course: p.teamId[0], hole: parseInt(p.teamId.split('-')[1]), members: [] };
-      mapData[p.teamId].members.push(p);
-    });
-    
-    Object.values(mapData).forEach(t => t.members.sort((a,b)=> a.order - b.order));
-    teamsData = Object.values(mapData).sort((a,b) => {
-      if(a.course !== b.course) return a.course === 'V' ? -1 : 1;
-      return a.hole - b.hole;
-    });
-
-    renderTeamsList();
-  } catch(e) {
-    console.log("팀 정보 로드 실패", e);
-    document.getElementById('teamGridContainer').innerHTML = `<div class="loading-msg">조편성 명단을 불러오지 못했습니다.</div>`;
-  } finally {
-    if(btn) btn.classList.remove('spinning');
-  }
-}
-
-function renderTeamsList() {
-  const container = document.getElementById('teamGridContainer');
-  const q = document.getElementById('teamSearch').value.trim().toLowerCase();
-
-  let filtered = teamsData;
-  if(q) filtered = filtered.filter(t => t.members.some(m => m.name.includes(q)));
-
-  if(filtered.length === 0) {
-    container.innerHTML = `<div class="loading-msg">검색 결과가 없습니다.</div>`;
-    return;
-  }
-
-  container.innerHTML = filtered.map(t => {
-    const isValley = t.course === 'V';
-    const cName = isValley ? 'valley' : 'lake';
-    const startTxt = `(${isValley ? '밸리' : '레이크'} ${t.hole}번홀 시작)`;
-    const mNames = t.members.map(m => m.name).join(', ');
-    
-    return `
-      <div class="card-item" onclick="openTeamModal('${t.id}')">
-        <div class="team-code ${cName}">${t.id}</div>
-        <div class="team-course">${startTxt}</div>
-        <div class="team-members">${mNames}</div>
-      </div>
-    `;
-  }).join('');
-}
-
-// ================= 하단 모달 제어 =================
-function openTeamModal(teamId) {
-  const t = teamsData.find(x => x.id === teamId);
-  if(!t) return;
-
-  document.getElementById('dtTitle').innerText = t.id;
-  document.getElementById('dtCourse').innerText = `${t.course === 'V' ? '밸리코스' : '레이크코스'} ${t.hole}번홀 시작 (13:00~)`;
-  
-  const list = document.getElementById('dtPlayersList');
-  list.innerHTML = t.members.map(m => `
-    <div class="player-card">
-      <div class="p-name">${m.name}</div>
-      <div class="p-row"><div class="p-label">소속/직위</div><div class="p-value">${m.org || '-'}</div></div>
-      <div class="p-row"><div class="p-label">KODA</div><div class="p-value">${m.title || '-'}</div></div>
-      <div class="p-row"><div class="p-label">연락처</div><div class="p-value">${m.phone || '-'}</div></div>
-    </div>
-  `).join('');
-
-  document.getElementById('teamDetailModal').style.display = 'flex';
-}
-
-function closeModalOnOutside(e) {
-  if (e.target.id === 'teamDetailModal') document.getElementById('teamDetailModal').style.display = 'none';
-}
-
-// ================= 라우팅 및 초기 구동 =================
-function applyScreen(name){
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + name).classList.add('active');
-  if(name === 'attendees' && attendeesData.length === 0) fetchAuthAndAttendeesData();
-  if(name === 'teams' && teamsData.length === 0) fetchPlayersData();
-}
-
-function navigateTo(name){
-  window.history.pushState({screen:name}, '', '#'+name);
-  applyScreen(name);
-}
-
-window.addEventListener('popstate', (e) => {
-  document.getElementById('teamDetailModal').style.display = 'none'; // 뒤로가기 시 모달 닫기
-  applyScreen((e.state && e.state.screen) ? e.state.screen : 'home');
-});
-
-function loadAppData() {
-  fetchAuthAndAttendeesData();
-  fetchPlayersData();
-}
-
-window.onload = async () => {
-  await fetchAuthAndAttendeesData(); // 로드 전 로그인 확인을 위해 데이터 호출
-  const saved = JSON.parse(localStorage.getItem('kodagolf_auth') || 'null');
-  if (saved && attendeesData.some(a => a.name === saved.name && a.phone === saved.phone)) {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('appRoot').style.display = 'block';
-    window.history.replaceState({screen:'home'}, '', '#home');
-    loadAppData();
-  } else {
-    document.getElementById('loginScreen').style.display = 'flex';
-  }
-};
+const FALLBACK_DATA=[{"no":1,"name":"김한모","org":"","title":"","mobile":"","teamId":"L-1-1","order":1},{"no":2,"name":"조영훈","org":"","title":"","mobile":"","teamId":"L-1-1","order":2},{"no":3,"name":"김대건","org":"","title":"","mobile":"","teamId":"L-1-1","order":3},{"no":4,"name":"김수경","org":"","title":"","mobile":"","teamId":"L-1-1","order":4},{"no":5,"name":"김영재","org":"","title":"","mobile":"","teamId":"L-1-2","order":1},{"no":6,"name":"김재승","org":"","title":"","mobile":"","teamId":"L-1-2","order":2},{"no":7,"name":"김창남","org":"","title":"","mobile":"","teamId":"L-1-2","order":3},{"no":8,"name":"노안수","org":"","title":"","mobile":"","teamId":"L-1-2","order":4},{"no":9,"name":"심태형","org":"","title":"","mobile":"","teamId":"L-2-1","order":1},{"no":10,"name":"안재홍","org":"","title":"","mobile":"","teamId":"L-2-1","order":2},{"no":11,"name":"양계호","org":"","title":"","mobile":"","teamId":"L-2-1","order":3},{"no":12,"name":"양병열","org":"","title":"","mobile":"","teamId":"L-2-1","order":4},{"no":13,"name":"오동식","org":"","title":"","mobile":"","teamId":"L-2-2","order":1},{"no":14,"name":"홍성윤","org":"","title":"","mobile":"","teamId":"L-2-2","order":2},{"no":15,"name":"황근호","org":"","title":"","mobile":"","teamId":"L-2-2","order":3},{"no":16,"name":"황영란","org":"","title":"","mobile":"","teamId":"L-2-2","order":4},{"no":17,"name":"김상국","org":"","title":"","mobile":"","teamId":"L-2-3","order":1},{"no":18,"name":"전주영","org":"","title":"","mobile":"","teamId":"L-2-3","order":2},{"no":19,"name":"황진성","org":"","title":"","mobile":"","teamId":"L-2-3","order":3},{"no":20,"name":"김상용","org":"","title":"","mobile":"","teamId":"L-2-3","order":4},{"no":21,"name":"문주현","org":"","title":"","mobile":"","teamId":"L-3-1","order":1},{"no":22,"name":"강철언","org":"","title":"","mobile":"","teamId":"L-3-1","order":2},{"no":23,"name":"구명완","org":"","title":"","mobile":"","teamId":"L-3-1","order":3},{"no":24,"name":"기세도","org":"","title":"","mobile":"","teamId":"L-3-1","order":4},{"no":25,"name":"류영찬","org":"","title":"","mobile":"","teamId":"L-3-2","order":1},{"no":26,"name":"문길주","org":"","title":"","mobile":"","teamId":"L-3-2","order":2},{"no":27,"name":"박민주","org":"","title":"","mobile":"","teamId":"L-3-2","order":3},{"no":28,"name":"박영광","org":"","title":"","mobile":"","teamId":"L-3-2","order":4},{"no":29,"name":"이락승","org":"","title":"","mobile":"","teamId":"L-4-1","order":1},{"no":30,"name":"이승현","org":"","title":"","mobile":"","teamId":"L-4-1","order":2},{"no":31,"name":"이승훈","org":"","title":"","mobile":"","teamId":"L-4-1","order":3},{"no":32,"name":"이우식","org":"","title":"","mobile":"","teamId":"L-4-1","order":4},{"no":33,"name":"이윤권","org":"","title":"","mobile":"","teamId":"L-4-2","order":1},{"no":34,"name":"김재연","org":"","title":"","mobile":"","teamId":"L-4-2","order":2},{"no":35,"name":"김재평","org":"","title":"","mobile":"","teamId":"L-4-2","order":3},{"no":36,"name":"김지영","org":"","title":"","mobile":"","teamId":"L-4-2","order":4},{"no":37,"name":"박수용","org":"","title":"","mobile":"","teamId":"L-5-1","order":1},{"no":38,"name":"전찬규","org":"","title":"","mobile":"","teamId":"L-5-1","order":2},{"no":39,"name":"이광준","org":"","title":"","mobile":"","teamId":"L-5-1","order":3},{"no":40,"name":"김봉현","org":"","title":"","mobile":"","teamId":"L-5-1","order":4},{"no":41,"name":"김승배","org":"","title":"","mobile":"","teamId":"L-5-2","order":1},{"no":42,"name":"김경탁","org":"","title":"","mobile":"","teamId":"L-5-2","order":2},{"no":43,"name":"김게현","org":"","title":"","mobile":"","teamId":"L-5-2","order":3},{"no":44,"name":"김관교","org":"","title":"","mobile":"","teamId":"L-5-2","order":4},{"no":45,"name":"박인복","org":"","title":"","mobile":"","teamId":"L-6-1","order":1},{"no":46,"name":"박진순","org":"","title":"","mobile":"","teamId":"L-6-1","order":2},{"no":47,"name":"박춘선","org":"","title":"","mobile":"","teamId":"L-6-1","order":3},{"no":48,"name":"박희성","org":"","title":"","mobile":"","teamId":"L-6-1","order":4},{"no":49,"name":"이은철","org":"","title":"","mobile":"","teamId":"L-6-2","order":1},{"no":50,"name":"이장원","org":"","title":"","mobile":"","teamId":"L-6-2","order":2},{"no":51,"name":"이종렬","org":"","title":"","mobile":"","teamId":"L-6-2","order":3},{"no":52,"name":"장은제","org":"","title":"","mobile":"","teamId":"L-6-2","order":4},{"no":53,"name":"장호익","org":"","title":"","mobile":"","teamId":"L-7-1","order":1},{"no":54,"name":"박원진","org":"","title":"","mobile":"","teamId":"L-7-1","order":2},{"no":55,"name":"박종화","org":"","title":"","mobile":"","teamId":"L-7-1","order":3},{"no":56,"name":"송영우","org":"","title":"","mobile":"","teamId":"L-7-1","order":4},{"no":57,"name":"신혜수","org":"","title":"","mobile":"","teamId":"L-7-2","order":1},{"no":58,"name":"차원주","org":"","title":"","mobile":"","teamId":"L-7-2","order":2},{"no":59,"name":"김병석","org":"","title":"","mobile":"","teamId":"L-7-2","order":3},{"no":60,"name":"이경동","org":"","title":"","mobile":"","teamId":"L-7-2","order":4},{"no":61,"name":"정춘보","org":"","title":"","mobile":"","teamId":"L-7-3","order":1},{"no":62,"name":"김동기","org":"","title":"","mobile":"","teamId":"L-7-3","order":2},{"no":63,"name":"김병석","org":"","title":"","mobile":"","teamId":"L-7-3","order":3},{"no":64,"name":"김승구","org":"","title":"","mobile":"","teamId":"L-7-3","order":4},{"no":65,"name":"손명익","org":"","title":"","mobile":"","teamId":"L-8-1","order":1},{"no":66,"name":"손병석","org":"","title":"","mobile":"","teamId":"L-8-1","order":2},{"no":67,"name":"손종구","org":"","title":"","mobile":"","teamId":"L-8-1","order":3},{"no":68,"name":"신민철","org":"","title":"","mobile":"","teamId":"L-8-1","order":4},{"no":69,"name":"정욱","org":"","title":"","mobile":"","teamId":"L-8-2","order":1},{"no":70,"name":"정일천","org":"","title":"","mobile":"","teamId":"L-8-2","order":2},{"no":71,"name":"주용국","org":"","title":"","mobile":"","teamId":"L-8-2","order":3},{"no":72,"name":"최봉욱","org":"","title":"","mobile":"","teamId":"L-8-2","order":4},{"no":73,"name":"최창욱","org":"","title":"","mobile":"","teamId":"L-9-1","order":1},{"no":74,"name":"유병호","org":"","title":"","mobile":"","teamId":"L-9-1","order":2},{"no":75,"name":"이동훈","org":"","title":"","mobile":"","teamId":"L-9-1","order":3},{"no":76,"name":"이성규","org":"","title":"","mobile":"","teamId":"L-9-1","order":4},{"no":77,"name":"장명관","org":"","title":"","mobile":"","teamId":"L-9-2","order":1},{"no":78,"name":"채창호","org":"","title":"","mobile":"","teamId":"L-9-2","order":2},{"no":79,"name":"박영필","org":"","title":"","mobile":"","teamId":"L-9-2","order":3},{"no":80,"name":"이슬빛나","org":"","title":"","mobile":"","teamId":"L-9-2","order":4},{"no":81,"name":"김도현","org":"","title":"","mobile":"","teamId":"V-1-1","order":1},{"no":82,"name":"김민석","org":"","title":"","mobile":"","teamId":"V-1-1","order":2},{"no":83,"name":"김성호","org":"","title":"","mobile":"","teamId":"V-1-1","order":3},{"no":84,"name":"김정훈","org":"","title":"","mobile":"","teamId":"V-1-1","order":4},{"no":85,"name":"김태윤","org":"","title":"","mobile":"","teamId":"V-1-2","order":1},{"no":86,"name":"김현우","org":"","title":"","mobile":"","teamId":"V-1-2","order":2},{"no":87,"name":"김형준","org":"","title":"","mobile":"","teamId":"V-1-2","order":3},{"no":88,"name":"김호진","org":"","title":"","mobile":"","teamId":"V-1-2","order":4},{"no":89,"name":"박건우","org":"","title":"","mobile":"","teamId":"V-2-1","order":1},{"no":90,"name":"박경수","org":"","title":"","mobile":"","teamId":"V-2-1","order":2},{"no":91,"name":"박동현","org":"","title":"","mobile":"","teamId":"V-2-1","order":3},{"no":92,"name":"박성민","org":"","title":"","mobile":"","teamId":"V-2-1","order":4},{"no":93,"name":"박준영","org":"","title":"","mobile":"","teamId":"V-2-2","order":1},{"no":94,"name":"박현수","org":"","title":"","mobile":"","teamId":"V-2-2","order":2},{"no":95,"name":"박현준","org":"","title":"","mobile":"","teamId":"V-2-2","order":3},{"no":96,"name":"박태준","org":"","title":"","mobile":"","teamId":"V-2-2","order":4},{"no":97,"name":"이건우","org":"","title":"","mobile":"","teamId":"V-3-1","order":1},{"no":98,"name":"이도윤","org":"","title":"","mobile":"","teamId":"V-3-1","order":2},{"no":99,"name":"이민재","org":"","title":"","mobile":"","teamId":"V-3-1","order":3},{"no":100,"name":"이상훈","org":"","title":"","mobile":"","teamId":"V-3-1","order":4},{"no":101,"name":"이성민","org":"","title":"","mobile":"","teamId":"V-3-2","order":1},{"no":102,"name":"이정민","org":"","title":"","mobile":"","teamId":"V-3-2","order":2},{"no":103,"name":"이정훈","org":"","title":"","mobile":"","teamId":"V-3-2","order":3},{"no":104,"name":"이준호","org":"","title":"","mobile":"","teamId":"V-3-2","order":4},{"no":105,"name":"이태현","org":"","title":"","mobile":"","teamId":"V-3-3","order":1},{"no":106,"name":"임성호","org":"","title":"","mobile":"","teamId":"V-3-3","order":2},{"no":107,"name":"임재현","org":"","title":"","mobile":"","teamId":"V-3-3","order":3},{"no":108,"name":"임준혁","org":"","title":"","mobile":"","teamId":"V-3-3","order":4},{"no":109,"name":"정민수","org":"","title":"","mobile":"","teamId":"V-4-1","order":1},{"no":110,"name":"정성훈","org":"","title":"","mobile":"","teamId":"V-4-1","order":2},{"no":111,"name":"정재현","org":"","title":"","mobile":"","teamId":"V-4-1","order":3},{"no":112,"name":"정현우","org":"","title":"","mobile":"","teamId":"V-4-1","order":4},{"no":113,"name":"조민석","org":"","title":"","mobile":"","teamId":"V-4-2","order":1},{"no":114,"name":"조성진","org":"","title":"","mobile":"","teamId":"V-4-2","order":2},{"no":115,"name":"조현우","org":"","title":"","mobile":"","teamId":"V-4-2","order":3},{"no":116,"name":"최민석","org":"","title":"","mobile":"","teamId":"V-4-2","order":4},{"no":117,"name":"최성호","org":"","title":"","mobile":"","teamId":"V-5-1","order":1},{"no":118,"name":"최영준","org":"","title":"","mobile":"","teamId":"V-5-1","order":2},{"no":119,"name":"최재현","org":"","title":"","mobile":"","teamId":"V-5-1","order":3},{"no":120,"name":"최정훈","org":"","title":"","mobile":"","teamId":"V-5-1","order":4},{"no":121,"name":"한상훈","org":"","title":"","mobile":"","teamId":"V-5-2","order":1},{"no":122,"name":"한승우","org":"","title":"","mobile":"","teamId":"V-5-2","order":2},{"no":123,"name":"한정우","org":"","title":"","mobile":"","teamId":"V-5-2","order":3},{"no":124,"name":"한태민","org":"","title":"","mobile":"","teamId":"V-5-2","order":4},{"no":125,"name":"윤상현","org":"","title":"","mobile":"","teamId":"V-6-1","order":1},{"no":126,"name":"윤성민","org":"","title":"","mobile":"","teamId":"V-6-1","order":2},{"no":127,"name":"윤정호","org":"","title":"","mobile":"","teamId":"V-6-1","order":3},{"no":128,"name":"윤태영","org":"","title":"","mobile":"","teamId":"V-6-1","order":4},{"no":129,"name":"서민재","org":"","title":"","mobile":"","teamId":"V-6-2","order":1},{"no":130,"name":"서정훈","org":"","title":"","mobile":"","teamId":"V-6-2","order":2},{"no":131,"name":"서현우","org":"","title":"","mobile":"","teamId":"V-6-2","order":3},{"no":132,"name":"송민호","org":"","title":"","mobile":"","teamId":"V-6-2","order":4},{"no":133,"name":"송재현","org":"","title":"","mobile":"","teamId":"V-6-3","order":1},{"no":134,"name":"송준호","org":"","title":"","mobile":"","teamId":"V-6-3","order":2},{"no":135,"name":"신동현","org":"","title":"","mobile":"","teamId":"V-6-3","order":3},{"no":136,"name":"신성호","org":"","title":"","mobile":"","teamId":"V-6-3","order":4},{"no":137,"name":"신재현","org":"","title":"","mobile":"","teamId":"V-7-1","order":1},{"no":138,"name":"신정훈","org":"","title":"","mobile":"","teamId":"V-7-1","order":2},{"no":139,"name":"오세훈","org":"","title":"","mobile":"","teamId":"V-7-1","order":3},{"no":140,"name":"오정민","org":"","title":"","mobile":"","teamId":"V-7-1","order":4},{"no":141,"name":"오현석","org":"","title":"","mobile":"","teamId":"V-7-2","order":1},{"no":142,"name":"유민석","org":"","title":"","mobile":"","teamId":"V-7-2","order":2},{"no":143,"name":"유성호","org":"","title":"","mobile":"","teamId":"V-7-2","order":3},{"no":144,"name":"유정훈","org":"","title":"","mobile":"","teamId":"V-7-2","order":4},{"no":145,"name":"장민석","org":"","title":"","mobile":"","teamId":"V-8-1","order":1},{"no":146,"name":"장성호","org":"","title":"","mobile":"","teamId":"V-8-1","order":2},{"no":147,"name":"장재현","org":"","title":"","mobile":"","teamId":"V-8-1","order":3},{"no":148,"name":"장준혁","org":"","title":"","mobile":"","teamId":"V-8-1","order":4},{"no":149,"name":"권민석","org":"","title":"","mobile":"","teamId":"V-8-2","order":1},{"no":150,"name":"권성훈","org":"","title":"","mobile":"","teamId":"V-8-2","order":2},{"no":151,"name":"권재현","org":"","title":"","mobile":"","teamId":"V-8-2","order":3},{"no":152,"name":"권현우","org":"","title":"","mobile":"","teamId":"V-8-2","order":4},{"no":153,"name":"배성민","org":"","title":"","mobile":"","teamId":"V-9-1","order":1},{"no":154,"name":"배정훈","org":"","title":"","mobile":"","teamId":"V-9-1","order":2},{"no":155,"name":"배준호","org":"","title":"","mobile":"","teamId":"V-9-1","order":3},{"no":156,"name":"남성민","org":"","title":"","mobile":"","teamId":"V-9-1","order":4},{"no":157,"name":"류현석","org":"","title":"","mobile":"","teamId":"V-9-2","order":1},{"no":158,"name":"문태현","org":"","title":"","mobile":"","teamId":"V-9-2","order":2},{"no":159,"name":"백승현","org":"","title":"","mobile":"","teamId":"V-9-2","order":3},{"no":160,"name":"허정민","org":"","title":"","mobile":"","teamId":"V-9-2","order":4}];;
+const SHEET_ID='1RWExniINhCCEBcSPHguiOjZGvtd7IpGvJlUQ0CL5mrk';
+const SHEET_CSV_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=시트1`;
+const ATTENDEE_CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySeR2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pub?gid=1550391915&single=true&output=csv';
+const CACHE_KEY='koda_golf_players_redesign_v1',ATTENDEE_CACHE_KEY='koda_golf_attendees_redesign_v1';
+let PLAYERS=[],TEAMS=[],ATTENDEES=[],CURRENT_TEAM_ID=null,isFetching=false,isAttendeeFetching=false,currentCourse='all';
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+function parseCSV(t){const rows=[];let row=[],f='',q=false;for(let i=0;i<t.length;i++){const c=t[i],n=t[i+1];if(q){if(c==='"'&&n==='"'){f+='"';i++}else if(c==='"')q=false;else f+=c}else if(c==='"')q=true;else if(c===','){row.push(f);f=''}else if(c==='\n'){row.push(f);rows.push(row);row=[];f=''}else if(c!=='\r')f+=c}if(f||row.length){row.push(f);rows.push(row)}return rows}
+function rowsToPlayers(rows){let out=[];for(let i=1;i<rows.length;i++){let r=rows[i]||[],name=(r[3]||'').trim(),team=(r[5]||'').trim();if(name&&team)out.push({no:+r[0]||i,org:(r[1]||'').trim(),title:(r[2]||'').trim(),name,mobile:(r[4]||'').trim(),teamId:team,order:+r[6]||1})}return out}
+function rebuildTeams(){const m={};PLAYERS.forEach(p=>{if(!m[p.teamId])m[p.teamId]={id:p.teamId,course:p.teamId[0],hole:+p.teamId.split('-')[1],members:[]};m[p.teamId].members.push(p)});Object.values(m).forEach(t=>t.members.sort((a,b)=>a.order-b.order));TEAMS=Object.values(m).sort((a,b)=>a.id.localeCompare(b.id))}
+function teamLabel(t){return `${t.course==='V'?'밸리코스':'레이크코스'} ${t.hole}번홀 시작 · 13:00~`}
+function setStatus(msg,error=false){const b=document.getElementById('syncStatus');b.classList.toggle('error',error);document.getElementById('syncStatusText').textContent=msg}
+function renderTeams(){const q=document.getElementById('teamSearch').value.trim();let list=TEAMS.filter(t=>currentCourse==='all'||t.course===currentCourse);if(q)list=list.filter(t=>t.members.some(m=>m.name.includes(q)));const g=document.getElementById('teamGrid');if(!list.length){g.innerHTML='<div class="empty">검색 결과가 없습니다.</div>';return}g.innerHTML=list.map(t=>`<button class="team-card" onclick="showTeamDetail('${esc(t.id)}')"><div class="team-code ${t.course==='V'?'v':'l'}">${esc(t.id)}</div><div class="team-start">${teamLabel(t)}</div><div class="team-members">${t.members.map(m=>esc(m.name)).join(' · ')}</div></button>`).join('')}
+async function fetchPlayers(){if(isFetching)return;isFetching=true;try{const r=await fetch(SHEET_CSV_URL+'&_ts='+Date.now());if(!r.ok)throw 0;const p=rowsToPlayers(parseCSV(await r.text()));if(!p.length)throw 0;PLAYERS=p;rebuildTeams();localStorage.setItem(CACHE_KEY,JSON.stringify(p));setStatus('구글시트 실시간 연동 · '+new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}));renderTeams()}catch(e){try{PLAYERS=JSON.parse(localStorage.getItem(CACHE_KEY)||'null')||FALLBACK_DATA}catch(_){PLAYERS=FALLBACK_DATA}rebuildTeams();renderTeams();setStatus('오프라인 예비 명단으로 표시 중',true)}finally{isFetching=false}}
+function normalizePhone(v){return String(v||'').replace(/[^0-9]/g,'')}function normalizeName(v){return String(v||'').replace(/\s+/g,'').trim().toLowerCase()}
+async function loadAttendeeRows(){const r=await fetch(ATTENDEE_CSV_URL+'&_ts='+Date.now());if(!r.ok)throw 0;return parseCSV(await r.text())}
+function rowsToAttendees(rows){let out=[];if(!rows.length)return out;for(let i=1;i<rows.length;i++){const r=rows[i]||[],name=(r[1]||'').trim();if(!name)continue;out.push({no:(r[0]||i).trim(),name,org:(r[2]||'').trim(),title:(r[3]||'').trim(),phone:(r[4]||'').trim(),note:(r[5]||'').trim()})}return out}
+async function fetchAttendees(){if(isAttendeeFetching)return;isAttendeeFetching=true;try{ATTENDEES=rowsToAttendees(await loadAttendeeRows());localStorage.setItem(ATTENDEE_CACHE_KEY,JSON.stringify(ATTENDEES));renderAttendees()}catch(e){try{ATTENDEES=JSON.parse(localStorage.getItem(ATTENDEE_CACHE_KEY)||'[]')}catch(_){ATTENDEES=[]}renderAttendees()}finally{isAttendeeFetching=false}}
+function renderAttendees(){const q=normalizeName(document.getElementById('attendeeSearch').value);const list=q?ATTENDEES.filter(a=>normalizeName(a.name).includes(q)):ATTENDEES;document.getElementById('attendeeCount').textContent=`참석 신청자 ${ATTENDEES.length}명${q?' · 검색결과 '+list.length+'명':''}`;const box=document.getElementById('attendeeBody');box.innerHTML=list.length?list.map(a=>`<div class="person-row"><div class="person-no">${esc(a.no)}</div><div class="person-main"><strong>${esc(a.name)}</strong><span>${esc([a.org,a.title].filter(Boolean).join(' · '))||'-'}</span></div><div class="person-phone">${esc(a.phone)||''}</div></div>`).join(''):'<div class="empty">참석자 명단이 없습니다.</div>'}
+async function verifyEntry(){const name=document.getElementById('loginName').value,phone=document.getElementById('loginPhone').value,err=document.getElementById('authError');err.classList.remove('show');if(!normalizeName(name)||normalizePhone(phone).length<9){err.textContent='이름과 핸드폰번호를 정확히 입력해주세요.';err.classList.add('show');return}const btn=document.getElementById('authSubmit');btn.disabled=true;btn.textContent='확인 중...';try{if(!ATTENDEES.length)await fetchAttendees();const ok=ATTENDEES.some(a=>normalizeName(a.name)===normalizeName(name)&&normalizePhone(a.phone)===normalizePhone(phone));if(!ok){err.textContent='입력하신 정보와 참가자 명단이 일치하지 않습니다.';err.classList.add('show');return}sessionStorage.setItem('kodaGolfAuth','1');document.getElementById('authOverlay').classList.remove('show');navigateTo('home')}catch(e){err.textContent='참가자 명단을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.';err.classList.add('show')}finally{btn.disabled=false;btn.textContent='확인하고 입장'}}
+function applyScreen(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+n).classList.add('active')}
+function navigateTo(n){history.pushState({screen:n},'', '#'+n);applyScreen(n);if(n==='attendees')fetchAttendees();if(n==='teams'){renderTeams();fetchPlayers()}}
+window.showTeamDetail=function(id){CURRENT_TEAM_ID=id;const t=TEAMS.find(x=>x.id===id);if(!t)return;document.getElementById('detailTeamTitle').textContent=t.id;document.getElementById('detailCode').textContent=t.id;document.getElementById('detailTeamStart').textContent=teamLabel(t);document.getElementById('detailPlayers').innerHTML=t.members.map(m=>`<div class="player-card"><strong>${esc(m.name)}</strong><div class="player-info"><label>소속·직위</label><div>${esc(m.org)||'-'}</div><label>KODA</label><div>${esc(m.title)||'-'}</div><label>핸드폰</label><div>${esc(m.mobile)||'-'}</div></div></div>`).join('');navigateTo('teamdetail')}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>navigateTo(b.dataset.go)));document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>history.back()));
+document.getElementById('enterBtn').onclick=()=>{document.getElementById('authOverlay').classList.add('show');setTimeout(()=>document.getElementById('loginName').focus(),100)};document.getElementById('authCancel').onclick=()=>document.getElementById('authOverlay').classList.remove('show');document.getElementById('authSubmit').onclick=verifyEntry;
+document.getElementById('loginPhone').addEventListener('keydown',e=>{if(e.key==='Enter')verifyEntry()});document.getElementById('loginName').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginPhone').focus()});
+document.getElementById('attendeeSearch').addEventListener('input',renderAttendees);document.getElementById('teamSearch').addEventListener('input',renderTeams);document.getElementById('syncRefreshBtn').onclick=fetchPlayers;document.getElementById('attendeeRefreshBtn').onclick=fetchAttendees;
+document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentCourse=b.dataset.course;renderTeams()});
+history.replaceState({screen:'cover'},'', '#cover');window.addEventListener('popstate',e=>applyScreen(e.state?.screen||'cover'));fetchAttendees();fetchPlayers();
+let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e});document.getElementById('installAppBtn').onclick=async()=>{if(/iPad|iPhone|iPod/.test(navigator.userAgent)){alert("아이폰에서는 공유 버튼 → 홈 화면에 추가를 선택해주세요.");return}if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}else alert("브라우저 메뉴에서 '홈 화면에 추가' 또는 '앱 설치'를 선택해주세요.")};
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script>
 </body>
 </html>
