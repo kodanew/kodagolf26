@@ -70,7 +70,7 @@ body{
 .home-action-btn{flex:1;max-width:160px;border:0;border-radius:10px;padding:11px 12px;background:#eef4fb;color:var(--blue-deep);font-size:13px;font-weight:800;cursor:pointer;}
 .home-footer{padding:28px 20px 18px;text-align:center;color:#6f7f91;font-size:12px;font-weight:700;}
 .attendee-filter-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:12px 16px 8px;background:#fff;}
-.attendee-filter-btn{border:1px solid #d8e2ee;background:#fff;color:#536477;border-radius:8px;padding:8px 3px;font-size:12px;font-weight:800;cursor:pointer;}
+.attendee-filter-btn{border:1px solid #d8e2ee;background:#fff;color:#536477;border-radius:8px;padding:10px 3px;font-size:12px;font-weight:800;cursor:pointer;}
 .attendee-filter-btn.active{background:var(--blue-deep);border-color:var(--blue-deep);color:#fff;}
 
 /* ---------- COVER ---------- */
@@ -225,7 +225,7 @@ body{
 
 /* ---------- 조편성 페이지 ---------- */
 .search-wrap{ padding:14px 20px 10px; position:sticky; top:0; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); z-index:20; border-bottom:1px solid var(--line);}
-.search-box{ display:flex; align-items:center; gap:10px; background:var(--paper-deep); border:1px solid var(--line); border-radius:999px; padding:14px 18px; }
+.search-box{ display:flex; align-items:center; gap:10px; background:var(--paper-deep); border:1px solid var(--line); border-radius:999px; padding:6px 18px; }
 .search-box input{ border:none; outline:none; background:transparent; flex:1; font-size:15px; font-family:inherit; color:var(--ink); font-weight:500;}
 .search-box input::placeholder { color:var(--ink-faint); }
 .legend{ display:flex; gap:16px; padding:14px 20px 4px; font-size:12px; font-weight:600; color:var(--ink-soft); }
@@ -850,7 +850,7 @@ setInterval(()=> fetchPlayersFromSheet(false), AUTO_REFRESH_MS);
 
 // ===== 시트2 참석자 명단 =====
 function normalizeHeader(v){ return String(v||'').replace(/\s+/g,'').toLowerCase(); }
-function rowsToAttendees(rows, filterRows){
+function rowsToAttendees(rows){
   if(!rows || !rows.length) return [];
   const header=rows[0].map(normalizeHeader);
   const findCol=(...names)=>{for(const n of names){const i=header.indexOf(normalizeHeader(n));if(i>=0)return i;}return -1;};
@@ -861,19 +861,18 @@ function rowsToAttendees(rows, filterRows){
   if(!hasHeader){noCol=0;nameCol=1;orgCol=2;noteCol=3;}
   else {if(noCol<0)noCol=0;if(nameCol<0)nameCol=1;if(orgCol<0)orgCol=2;if(noteCol<0)noteCol=3;}
 
-  // 시트3 F열의 KODA 필터값을 같은 행 번호로 매칭합니다.
+  // 시트2 F열의 KODA 필터값을 사용합니다.
   // 1행은 헤더로 보고, 161행까지만 참석자 대상으로 사용합니다.
   const startRow=hasHeader?1:0, maxRow=Math.min(rows.length-1,160), out=[];
   for(let i=startRow;i<=maxRow;i++){
     const r=rows[i]||[], name=String(r[nameCol]||'').trim();
     if(!name) continue;
-    const fr=(filterRows&&filterRows[i])||[];
     out.push({
       no:String(r[noCol]||'').trim()||String(out.length+1),
       name,
       org:String(r[orgCol]||'').trim(),
       note:String(r[noteCol]||'').trim(),
-      koda:String(fr[5]||'').trim()
+      koda:String(r[5]||'').trim()
     });
   }
   return out;
@@ -893,15 +892,10 @@ async function fetchAttendeesFromSheet(){
   if(isAttendeeFetching)return; isAttendeeFetching=true;
   const btn=document.getElementById('attendeeRefreshBtn'); if(btn)btn.classList.add('spinning');
   try{
-    const [res, filterRes]=await Promise.all([
-      fetch(ATTENDEE_CSV_URL+'&_ts='+Date.now(),{cache:'no-store'}),
-      fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySre2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pub?gid=683652578&single=true&output=csv&_ts='+Date.now(),{cache:'no-store'})
-    ]);
+    const res=await fetch(ATTENDEE_CSV_URL+'&_ts='+Date.now(),{cache:'no-store'});
     if(!res.ok)throw new Error('참석자 시트 응답 오류');
-    if(!filterRes.ok)throw new Error('시트3 필터 응답 오류');
     const dataRows=parseCSV(await res.text());
-    const filterRows=parseCSV(await filterRes.text());
-    ATTENDEES=rowsToAttendees(dataRows,filterRows);
+    ATTENDEES=rowsToAttendees(dataRows);
     try{localStorage.setItem(ATTENDEE_CACHE_KEY,JSON.stringify(ATTENDEES));}catch(e){}
     renderAttendees();
   }catch(err){
