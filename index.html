@@ -67,25 +67,40 @@ body{
 
 /* ---------- COVER ---------- */
 #screen-cover{
-  justify-content:center; align-items:center; padding:30px 17px 90px;
+  justify-content:center; align-items:center; padding:24px 17px 70px;
   background:linear-gradient(145deg,#FFFFFF 0%,#EDF3FA 100%);
   text-align:center; animation:fadeIn .3s ease forwards;
   min-height:100%;
 }
-.cover-logo{ width:172px; max-width:50vw; height:auto; margin-bottom:22px; margin-left:8px; object-fit:contain; display:block; }
-.cover-title{
-  font-size:20px; font-weight:900; color:#111827; line-height:1.45;
-  margin-bottom:8px; letter-spacing:-0.6px; word-break:keep-all;
+.login-box-golf{
+  background:#fff; width:100%; max-width:340px; border-radius:14px;
+  padding:30px 24px 26px; box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
-.cover-sub{ font-size:13px; color:#667085; margin-bottom:30px; font-weight:500; }
+.cover-logo{ width:150px; max-width:55vw; height:auto; margin:0 auto 16px; object-fit:contain; display:block; }
+.cover-title{
+  font-size:19px; font-weight:900; color:#111827; line-height:1.45;
+  margin-bottom:5px; letter-spacing:-0.6px; word-break:keep-all;
+}
+.cover-sub{ font-size:12px; color:#667085; margin-bottom:20px; font-weight:500; line-height:1.45; }
 .enter-btn{
-  width:100%; padding:15px 0; border:none; border-radius:999px;
-  background:#1456A8; color:#fff; font-size:16px; font-weight:800;
-  cursor:pointer; box-shadow:0 12px 28px rgba(20,86,168,.14);
-  transition:transform .15s ease; font-family:inherit;
+  width:100%; padding:12px; border:none; border-radius:8px;
+  background:#1456A8; color:#fff; font-size:15px; font-weight:800;
+  cursor:pointer; transition:transform .15s ease; font-family:inherit;
+  margin-bottom:16px;
 }
 .enter-btn:active{ transform:scale(0.97); }
-.cover-foot{ margin-top:26px; font-size:11px; color:#AAB3C2; font-weight:600;}
+.enter-btn:disabled{ background:#A0AEC0; cursor:not-allowed; }
+.login-input-golf{
+  width:100%; padding:11px 12px; border:1px solid #E2E8F0; border-radius:8px;
+  font-size:14px; margin-bottom:10px; outline:none; font-family:inherit;
+  color:var(--ink);
+}
+.login-input-golf:focus{ border-color:#1456A8; }
+.login-error-golf{
+  color:#E53E3E; font-size:12px; margin-top:4px; line-height:1.45;
+  display:none;
+}
+.cover-foot{ margin-top:20px; font-size:11px; color:#AAB3C2; font-weight:600;}
 
 /* ---------- HOME 상단 개요 ---------- */
 .home-header-clean{
@@ -282,10 +297,16 @@ body{
 
   <!-- ================= COVER (첫 화면) ================= -->
   <section id="screen-cover" class="screen active">
-    <img src="koda-logo-re.png" class="cover-logo" alt="KODA">
-    <div class="cover-title">2026 협회장배<br>KODA · ARP 골프대회</div>
-    <div class="cover-sub">2026.10.26(월) · 리베라C.C</div>
-    <button class="enter-btn" id="enterBtn">입장하기</button>
+    <div class="login-box-golf">
+      <img src="koda-logo-re.png" class="cover-logo" alt="KODA">
+      <div class="cover-title">2026 협회장배<br>KODA · ARP 골프대회</div>
+      <div class="cover-sub">등록된 참가자만 이용하실 수 있습니다.<br>이름과 핸드폰 번호를 입력해주세요.</div>
+
+      <button type="button" class="enter-btn" id="enterBtn">입장하기</button>
+      <input type="text" id="loginName" class="login-input-golf" placeholder="이름" autocomplete="name">
+      <input type="tel" id="loginPhone" class="login-input-golf" placeholder="핸드폰 번호 (- 없이 입력)" autocomplete="tel" onkeydown="if(event.key==='Enter'){attemptGolfLogin();}">
+      <div class="login-error-golf" id="loginError"> </div>
+    </div>
     <div class="cover-foot">한국디벨로퍼협회</div>
   </section>
 
@@ -559,10 +580,8 @@ body{
     <div class="topbar"><div class="back-btn" data-back>←</div><div class="topbar-title">협찬 소개</div></div>
     <div class="content" style="padding:24px 20px;">
       <div class="card-detail">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;"><div style="font-size:18px;">🎁</div><div style="font-size:19px;font-weight:900;color:var(--blue-deep);">협찬에 감사드립니다</div></div>
-        <ul style="margin:0;padding:0;list-style:none;font-size:14.5px;line-height:1.6;color:var(--ink-soft);font-weight:600;">
-          <li style="margin-bottom:8px;">1. 김한모 에이치엠그룹 회장님 : </li><li style="margin-bottom:8px;">2. ARP 총동문회 : </li><li>3.</li>
-        </ul>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;"><div style="font-size:18px;">🎁</div><div style="font-size:19px;font-weight:900;color:var(--blue-deep);">협찬에 감사드립니다</div></div>
+        <div id="sponsorContent" style="font-size:14.5px;line-height:1.8;color:var(--ink-soft);font-weight:600;white-space:pre-wrap;word-break:keep-all;">협찬 내용을 불러오는 중입니다.</div>
       </div>
     </div>
   </section>
@@ -572,19 +591,12 @@ body{
     <div class="topbar"><div class="back-btn" data-back>←</div><div class="topbar-title">공지 및 기타사항</div></div>
     <div class="content" style="padding:24px 20px;">
       <div class="card-detail">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;"><div style="font-size:18px;">💡</div><div style="font-size:19px;font-weight:900;color:var(--blue-deep);">참가자 안내사항</div></div>
-        <ul style="margin:0;padding:0 0 0 20px;font-size:14.5px;line-height:1.6;color:var(--ink-soft);font-weight:600;">
-          <li style="margin-bottom:8px;">원활한 행사 진행을 위해 <b>티오프 1시간 전(12:00)까지</b> 골프장 등록을 완료해 주시기 바랍니다.</li><li style="margin-bottom:8px;">우천 등 기상 악화로 변경 사항 발생 시, 개별 안내해 드립니다.</li><li>기타 문의사항은 관련 담당부서로 연락 부탁드립니다.</li>
-        </ul>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;"><div style="font-size:18px;">💡</div><div style="font-size:19px;font-weight:900;color:var(--blue-deep);">참가자 안내사항</div></div>
+        <div id="noticeGuideContent" style="font-size:14.5px;line-height:1.8;color:var(--ink-soft);font-weight:600;white-space:pre-wrap;word-break:keep-all;">내용을 불러오는 중입니다.</div>
       </div>
       <div class="card-detail" style="margin-bottom:30px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;"><div style="font-size:18px;">📞</div><div style="font-size:19px;font-weight:900;color:var(--blue-deep);">대회 관련 문의</div></div>
-        <table style="border-collapse:collapse;white-space:nowrap;font-size:14.5px;">
-          <tr><td style="color:var(--ink-faint);font-weight:600;text-align:left;padding:0 18px 12px 0;">담당부서</td><td style="font-weight:700;color:var(--ink);padding:0 0 12px;">협회 기획운영실 기획홍보팀</td></tr>
-          <tr><td style="color:var(--ink-faint);font-weight:600;text-align:left;padding:0 18px 12px 0;">연락처</td><td style="font-weight:700;padding:0 0 12px;"><a href="tel:02-512-4750" style="color:var(--blue);text-decoration:none;">02-512-4750</a><span style="color:var(--ink-soft);margin:0 4px;">/</span><a href="tel:010-5129-4750" style="color:var(--blue);text-decoration:none;">010-5129-4750</a></td></tr>
-          <tr><td style="color:var(--ink-faint);font-weight:600;text-align:left;padding:0 18px 12px 0;">이메일</td><td style="font-weight:700;color:var(--ink);padding:0 0 12px;">koda@koda.or.kr</td></tr>
-          <tr><td style="color:var(--ink-faint);font-weight:600;text-align:left;padding:0 18px 0 0;">운영시간</td><td style="font-weight:700;color:var(--ink);">평일 09:00 ~ 18:00</td></tr>
-        </table>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;"><div style="font-size:18px;">📞</div><div style="font-size:19px;font-weight:900;color:var(--blue-deep);">대회 관련 문의</div></div>
+        <div style="font-size:14.5px;line-height:1.8;color:var(--ink-soft);font-weight:600;white-space:pre-wrap;word-break:keep-all;" id="noticeContactContent">내용을 불러오는 중입니다.</div>
       </div>
     </div>
   </section>
@@ -634,6 +646,11 @@ const FALLBACK_DATA = [{"no":1,"name":"김한모","org":"","title":"","mobile":"
 
 // ===== 구글시트 설정 =====
 const SHEET_ID = '1RWExniINhCCEBcSPHguiOjZGvtd7IpGvJlUQ0CL5mrk';
+
+// 참가자 로그인용 시트2 (B열=이름, E열=핸드폰)
+const MEMBER_AUTH_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySre2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pub?gid=1550391915&single=true&output=csv';
+// 협찬/공지용 시트3은 동일하게 게시된 Google Sheets에서 '시트3' 탭의 gid를 자동으로 찾아 불러옵니다.
+const PUBLISHED_WORKBOOK_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySre2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pubhtml';
 const SHEET_TAB_NAME = '시트1'; // 조편성
 const ATTENDEE_SHEET_TAB_NAME = '시트2'; // 참석 신청 명단 
 const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_TAB_NAME)}`;
@@ -839,6 +856,124 @@ document.getElementById('attendeeSearch').addEventListener('input',renderAttende
 fetchAttendeesFromSheet();
 setInterval(fetchAttendeesFromSheet,AUTO_REFRESH_MS);
 
+
+// ===== 입장 인증 : 시트2 B열(이름) + E열(핸드폰) =====
+let AUTH_MEMBERS = [];
+let authLoading = false;
+
+function normalizePhoneGolf(v){
+  return String(v || '').replace(/[^0-9]/g,'');
+}
+function parseGolfAuthCSV(csv){
+  const rows = parseCSV(csv);
+  const list = [];
+  for(let i=1;i<rows.length;i++){
+    const r=rows[i]||[];
+    const name=String(r[1]||'').trim();   // B열
+    const phone=normalizePhoneGolf(r[4]||''); // E열
+    if(name && phone) list.push({name,phone});
+  }
+  return list;
+}
+async function loadGolfAuthMembers(){
+  if(authLoading) return;
+  authLoading=true;
+  try{
+    const res=await fetch(MEMBER_AUTH_CSV_URL+'&_ts='+Date.now(),{cache:'no-store'});
+    if(!res.ok) throw new Error('인증 시트 응답 오류');
+    AUTH_MEMBERS=parseGolfAuthCSV(await res.text());
+  }finally{
+    authLoading=false;
+  }
+}
+function isGolfAuthorized(name,phone){
+  const n=String(name||'').trim();
+  const p=normalizePhoneGolf(phone);
+  return AUTH_MEMBERS.some(m=>m.name===n && m.phone===p);
+}
+window.attemptGolfLogin=async function(){
+  const nameEl=document.getElementById('loginName');
+  const phoneEl=document.getElementById('loginPhone');
+  const err=document.getElementById('loginError');
+  const btn=document.getElementById('enterBtn');
+  const name=nameEl.value.trim(), phone=phoneEl.value.trim();
+
+  err.style.display='none';
+  if(!name || !phone){
+    err.textContent='이름과 핸드폰 번호를 모두 입력해주세요.';
+    err.style.display='block';
+    return;
+  }
+  btn.disabled=true; btn.textContent='확인 중...';
+  try{
+    if(!AUTH_MEMBERS.length) await loadGolfAuthMembers();
+    if(isGolfAuthorized(name,phone)){
+      localStorage.setItem('koda_golf_auth',JSON.stringify({name,phone:normalizePhoneGolf(phone)}));
+      navigateTo('home');
+      loadGolfSheet3Content();
+    }else{
+      err.textContent='등록된 참가자 정보와 일치하지 않습니다. 다시 확인해주세요.';
+      err.style.display='block';
+    }
+  }catch(e){
+    err.textContent='참가자 정보를 확인하지 못했습니다. 잠시 후 다시 시도해주세요.';
+    err.style.display='block';
+  }finally{
+    btn.disabled=false; btn.textContent='입장하기';
+  }
+};
+
+// ===== 시트3 B2/B3/B5 연동 =====
+let sheet3Gid = null;
+function escapeRegex(v){ return String(v).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+async function discoverSheet3Gid(){
+  if(sheet3Gid) return sheet3Gid;
+  const res=await fetch(PUBLISHED_WORKBOOK_URL+'&_ts='+Date.now(),{cache:'no-store'});
+  if(!res.ok) throw new Error('게시된 시트 목록을 불러오지 못했습니다.');
+  const html=await res.text();
+
+  // 게시된 workbook의 탭 링크에서 "시트3" 텍스트와 gid를 찾습니다.
+  const patterns=[
+    /href=["'][^"']*[?&]gid=(\d+)[^"']*["'][^>]*>[\s\S]{0,120}?시트3[\s\S]{0,120}?<\/a>/i,
+    /(?:gid=)(\d+)[^"']{0,300}시트3/i,
+    /시트3[\s\S]{0,300}?(?:gid=)(\d+)/i
+  ];
+  for(const re of patterns){
+    const m=html.match(re);
+    if(m){ sheet3Gid=m[1]; return sheet3Gid; }
+  }
+  throw new Error('게시된 문서에서 시트3 탭을 찾지 못했습니다.');
+}
+async function loadGolfSheet3Content(){
+  const sponsorEl=document.getElementById('sponsorContent');
+  const guideEl=document.getElementById('noticeGuideContent');
+  const contactEl=document.getElementById('noticeContactContent');
+  if(!sponsorEl || !guideEl || !contactEl) return;
+
+  try{
+    const gid=await discoverSheet3Gid();
+    const csvUrl=`https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySre2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pub?gid=${gid}&single=true&output=csv`;
+    const res=await fetch(csvUrl+'&_ts='+Date.now(),{cache:'no-store'});
+    if(!res.ok) throw new Error('시트3 CSV 응답 오류');
+    const rows=parseCSV(await res.text());
+    const b2=String((rows[1]||[])[1]||'').trim();
+    const c2=String((rows[1]||[])[2]||'').trim();
+    const b3=String((rows[2]||[])[1]||'').trim();
+    const c3=String((rows[2]||[])[2]||'').trim();
+    const b5=String((rows[4]||[])[1]||'').trim();
+
+    sponsorEl.textContent=b5 || '등록된 협찬 내용이 없습니다.';
+    guideEl.textContent=[b2,c2].filter(Boolean).join('\\n\\n') || '등록된 참가자 안내사항이 없습니다.';
+    contactEl.textContent=[b3,c3].filter(Boolean).join('\\n\\n') || '등록된 대회 관련 문의사항이 없습니다.';
+  }catch(e){
+    sponsorEl.textContent='협찬 내용을 불러오지 못했습니다.';
+    guideEl.textContent='참가자 안내사항을 불러오지 못했습니다.';
+    contactEl.textContent='대회 관련 문의사항을 불러오지 못했습니다.';
+    console.error('시트3 연동 오류:',e);
+  }
+}
+
 // ===== 서비스워커 등록 (PWA 설치 조건 충족을 위해 필요) =====
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -921,7 +1056,13 @@ function navigateTo(name){
 window.history.replaceState({screen:'cover'}, '', '#cover');
 document.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => navigateTo(el.dataset.go)));
 document.querySelectorAll('[data-back]').forEach(el => el.addEventListener('click', () => window.history.back()));
-document.getElementById('enterBtn').addEventListener('click', () => navigateTo('home'));
+document.getElementById('enterBtn').addEventListener('click', () => attemptGolfLogin());
+// 공지/협찬 화면 진입 시 최신 시트3 내용을 다시 반영
+['sponsors','notice'].forEach(name=>{
+  const el=document.querySelector(`[data-go="${name}"]`);
+  if(el) el.addEventListener('click',()=>loadGolfSheet3Content());
+});
+loadGolfSheet3Content();
 window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.screen) ? e.state.screen : 'cover'));
 
 </script>
