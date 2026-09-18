@@ -298,6 +298,16 @@ body{
     transform: scale(0.95);
     background: var(--paper-deep);
 }
+
+/* ===== 요청사항 최종 조정 ===== */
+.home-action-row{gap:8px;max-width:210px;margin:14px auto 0;}
+.home-action-btn{flex:0 0 auto;width:92px;max-width:92px;padding:5px 7px;border-radius:7px;font-size:10px;font-weight:700;}
+.home-footer{padding:20px 20px 14px;font-size:12px;color:#6f7f91;font-weight:700;}
+.attendee-filter-row{padding:8px 16px 6px;gap:5px;}
+.attendee-filter-btn{padding:5px 2px;font-size:11px;border-radius:7px;}
+.attendee-search-wrap .search-box{padding:10px 16px;}
+.attendee-search-wrap .search-box input{font-size:14px;}
+
 </style>
 </head>
 <body>
@@ -429,7 +439,7 @@ body{
             <td>10:30 ~ 11:00</td>
             <td>
               <ul class="content-list">
-                <li>참가자 등록 및 명찰 배부</li>
+                <li>참가자 등록 및 명찰배부</li>
                 <li>포토존 촬영</li>
               </ul>
             </td>
@@ -471,7 +481,7 @@ body{
                 <li>라운딩 (신페리오방식)</li>
               </ul>
             </td>
-            <td>밸리/레이크<br>코스</td>
+            <td>레이크/밸리<br>코스</td>
           </tr>
           <tr>
             <td>18:00 ~ 18:30</td>
@@ -489,7 +499,6 @@ body{
               <ul class="content-list">
                 <li>개회</li>
                 <li>사회자 인사</li>
-                <li>내외빈 소개</li>
               </ul>
             </td>
             <td>2층<br>에메랄드홀</td>
@@ -499,7 +508,6 @@ body{
             <td>
               <ul class="content-list">
                 <li>협회장님 인사말씀</li>
-                <li>KODA 명예회장님 인사말씀</li>
                 <li>ARP 총동문회장님 인사말씀</li>
               </ul>
             </td>
@@ -842,22 +850,40 @@ setInterval(()=> fetchPlayersFromSheet(false), AUTO_REFRESH_MS);
 
 // ===== 시트2 참석자 명단 =====
 function normalizeHeader(v){ return String(v||'').replace(/\s+/g,'').toLowerCase(); }
-function rowsToAttendees(rows){
+function rowsToAttendees(rows, filterRows){
   if(!rows || !rows.length) return [];
   const header=rows[0].map(normalizeHeader);
   const findCol=(...names)=>{for(const n of names){const i=header.indexOf(normalizeHeader(n));if(i>=0)return i;}return -1;};
-  let noCol=findCol('NO','번호','순번'), nameCol=findCol('이름','성명','참석자'), orgCol=findCol('소속 및 직위','소속·직위','소속직위','소속','직위'), noteCol=findCol('비고','기타','메모');
+  let noCol=findCol('NO','번호','순번'), nameCol=findCol('이름','성명','참석자'),
+      orgCol=findCol('소속 및 직위','소속·직위','소속직위','소속','직위'),
+      noteCol=findCol('비고','기타','메모');
   const hasHeader=nameCol>=0||noCol>=0||orgCol>=0||noteCol>=0;
   if(!hasHeader){noCol=0;nameCol=1;orgCol=2;noteCol=3;}
   else {if(noCol<0)noCol=0;if(nameCol<0)nameCol=1;if(orgCol<0)orgCol=2;if(noteCol<0)noteCol=3;}
-  const start=hasHeader?1:0, out=[];
-  for(let i=start;i<rows.length;i++){const r=rows[i]||[],name=String(r[nameCol]||'').trim();if(!name)continue;out.push({no:String(r[noCol]||'').trim()||String(out.length+1),name,org:String(r[orgCol]||'').trim(),note:String(r[noteCol]||'').trim()});}
+
+  // 시트3 F열의 KODA 필터값을 같은 행 번호로 매칭합니다.
+  // 1행은 헤더로 보고, 161행까지만 참석자 대상으로 사용합니다.
+  const startRow=hasHeader?1:0, maxRow=Math.min(rows.length-1,160), out=[];
+  for(let i=startRow;i<=maxRow;i++){
+    const r=rows[i]||[], name=String(r[nameCol]||'').trim();
+    if(!name) continue;
+    const fr=(filterRows&&filterRows[i])||[];
+    out.push({
+      no:String(r[noCol]||'').trim()||String(out.length+1),
+      name,
+      org:String(r[orgCol]||'').trim(),
+      note:String(r[noteCol]||'').trim(),
+      koda:String(fr[5]||'').trim()
+    });
+  }
   return out;
 }
 function renderAttendees(){
   const body=document.getElementById('attendeeBody'),count=document.getElementById('attendeeCount'); if(!body||!count)return;
   const q=(document.getElementById('attendeeSearch')?.value||'').trim();
-  const baseList = ATTENDEE_FILTER==='전체' ? ATTENDEES : ATTENDEES.filter(a=>String(a.koda||'').trim().includes(ATTENDEE_FILTER));
+  const baseList = ATTENDEE_FILTER==='전체'
+    ? ATTENDEES
+    : ATTENDEES.filter(a=>String(a.koda||'').trim()===ATTENDEE_FILTER);
   const list=q?baseList.filter(a=>a.name.includes(q)):baseList;
   count.textContent=`${ATTENDEE_FILTER==='전체'?'참석 신청자':'['+ATTENDEE_FILTER+'] 참석자'} ${baseList.length}명${q?` · 검색결과 ${list.length}명`:''}`;
   if(!list.length){body.innerHTML=`<tr><td colspan="4" class="attendee-empty">${ATTENDEES.length?'검색 결과가 없습니다.':'참석자 명단이 없습니다.'}</td></tr>`;return;}
@@ -867,12 +893,21 @@ async function fetchAttendeesFromSheet(){
   if(isAttendeeFetching)return; isAttendeeFetching=true;
   const btn=document.getElementById('attendeeRefreshBtn'); if(btn)btn.classList.add('spinning');
   try{
-    const res=await fetch(ATTENDEE_CSV_URL+'&_ts='+Date.now()); if(!res.ok)throw new Error('HTTP '+res.status);
-    const data=rowsToAttendees(parseCSV(await res.text())); ATTENDEES=data;
-    try{localStorage.setItem(ATTENDEE_CACHE_KEY,JSON.stringify(ATTENDEES));}catch(e){} renderAttendees();
+    const [res, filterRes]=await Promise.all([
+      fetch(ATTENDEE_CSV_URL+'&_ts='+Date.now(),{cache:'no-store'}),
+      fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySre2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pub?gid=683652578&single=true&output=csv&_ts='+Date.now(),{cache:'no-store'})
+    ]);
+    if(!res.ok)throw new Error('참석자 시트 응답 오류');
+    if(!filterRes.ok)throw new Error('시트3 필터 응답 오류');
+    const dataRows=parseCSV(await res.text());
+    const filterRows=parseCSV(await filterRes.text());
+    ATTENDEES=rowsToAttendees(dataRows,filterRows);
+    try{localStorage.setItem(ATTENDEE_CACHE_KEY,JSON.stringify(ATTENDEES));}catch(e){}
+    renderAttendees();
   }catch(err){
     if(!ATTENDEES.length){try{const cached=localStorage.getItem(ATTENDEE_CACHE_KEY);if(cached)ATTENDEES=JSON.parse(cached);}catch(e){}}
     renderAttendees();
+    console.error('참석자/필터 연동 오류:',err);
   }finally{isAttendeeFetching=false;if(btn)btn.classList.remove('spinning');}
 }
 window.manualRefreshAttendees=function(){fetchAttendeesFromSheet();};
@@ -881,7 +916,6 @@ document.querySelectorAll('[data-attendee-filter]').forEach(btn=>btn.addEventLis
   document.querySelectorAll('[data-attendee-filter]').forEach(b=>b.classList.toggle('active',b===btn));
   renderAttendees();
 }));
-
 document.getElementById('attendeeSearch').addEventListener('input',renderAttendees);
 fetchAttendeesFromSheet();
 setInterval(fetchAttendeesFromSheet,AUTO_REFRESH_MS);
@@ -978,8 +1012,8 @@ async function loadGolfSheet3Content(){
     const b5=String((rows[4]||[])[1]||'').trim();
 
     sponsorEl.textContent=b5 || '등록된 협찬 내용이 없습니다.';
-    guideEl.textContent=[b2,c2].filter(Boolean).join('\\n\\n') || '등록된 참가자 안내사항이 없습니다.';
-    contactEl.textContent=[b3,c3].filter(Boolean).join('\\n\\n') || '등록된 대회 관련 문의사항이 없습니다.';
+    guideEl.textContent=c2 || '등록된 참가자 안내사항이 없습니다.';
+    contactEl.textContent=c3 || '등록된 대회 관련 문의사항이 없습니다.';
   }catch(e){
     sponsorEl.textContent='협찬 내용을 불러오지 못했습니다.';
     guideEl.textContent='참가자 안내사항을 불러오지 못했습니다.';
