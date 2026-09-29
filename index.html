@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<script>window.__INIT_HASH=(location.hash||"").replace("#","");</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <!-- 모바일 앱(PWA) 설치를 위한 매니페스트 및 iOS 설정 -->
@@ -316,17 +317,17 @@ body{
    NEW UI LAYER  (MY ROUND 중심 리디자인) — 기존 CSS는 그대로 두고 덮어씀
    ===================================================================== */
 :root{
-  --navy:#071E3D; --navy-2:#0B2F63; --gold:#D9B26A; --gold-deep:#A8823A;
-  --valley:#1FBF8A; --lake:#6FB1FF;
+  --navy:#0B3D91; --navy-2:#155BB8; --gold:#D6F25C; --gold-deep:#5E8A00;
+  --valley:#3DDC97; --lake:#CFE8FF;
   --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
 }
 .screen{ min-height:0; }
 .content{ min-height:0; }
 
 /* ---------- COVER (로그인 화면 톤만 맞춤, 로직 동일) ---------- */
-#screen-cover{ background:radial-gradient(120% 80% at 50% 0%, #10428C 0%, var(--navy) 70%); }
-#screen-cover .login-box-golf{ box-shadow:0 24px 60px rgba(0,0,0,.35); border-top:3px solid var(--gold); }
-#screen-cover .cover-foot{ color:rgba(255,255,255,.55); }
+#screen-cover{ background:radial-gradient(120% 80% at 50% 0%, #FFFFFF 0%, #DCEEFF 55%, #BFDDFB 100%); }
+#screen-cover .login-box-golf{ box-shadow:0 20px 50px rgba(22,99,199,.18); border-top:4px solid var(--gold); }
+#screen-cover .cover-foot{ color:var(--ink-soft); }
 
 /* ---------- HOME ---------- */
 #screen-home{ background:var(--paper-deep); }
@@ -334,40 +335,40 @@ body{
 .nh-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:calc(18px + env(safe-area-inset-top,0px)) 20px 14px; }
 .nh-brand{ font-family:var(--serif); font-size:19px; font-weight:700; color:var(--navy-2); line-height:1.1; letter-spacing:.2px; }
 .nh-brand small{ display:block; font-family:'Pretendard',sans-serif; font-size:11px; font-weight:700; color:var(--ink-soft); letter-spacing:-.2px; margin-top:3px; }
-.nh-dday{ flex-shrink:0; border:1px solid var(--gold); color:var(--gold-deep); background:#fff; border-radius:999px; padding:6px 12px; font-size:12px; font-weight:800; }
+.nh-dday{ flex-shrink:0; border:1px solid #BFE05A; color:var(--gold-deep); background:#F4FCD3; border-radius:999px; padding:6px 12px; font-size:12px; font-weight:800; }
 .nh-hello{ padding:2px 20px 14px; font-size:20px; font-weight:800; color:var(--ink); letter-spacing:-.6px; }
 .nh-hello b{ color:var(--blue); }
 .nh-hello span{ display:block; font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-top:3px; letter-spacing:-.2px; }
 
 /* MY ROUND 카드 */
 .mr-card{ margin:0 16px; border-radius:24px; padding:22px 20px 20px; color:#fff; position:relative; overflow:hidden;
-  background:radial-gradient(90% 70% at 100% 0%, rgba(217,178,106,.22) 0%, rgba(217,178,106,0) 60%), linear-gradient(160deg,var(--navy-2) 0%, var(--navy) 100%);
-  box-shadow:0 18px 40px rgba(7,30,61,.28); }
+  background:radial-gradient(90% 70% at 100% 0%, rgba(255,255,255,.3) 0%, rgba(255,255,255,0) 60%), linear-gradient(160deg,#4BA6FF 0%,#1F78E6 55%,#1560C9 100%);
+  box-shadow:0 18px 40px rgba(31,120,230,.32); }
 .mr-card.clickable{ cursor:pointer; }
 .mr-card.clickable:active{ transform:scale(.99); }
 .mr-head{ display:flex; align-items:center; justify-content:space-between; }
 .mr-label{ font-family:var(--serif); font-size:20px; font-weight:700; letter-spacing:1.5px; color:var(--gold); }
-.mr-course{ font-size:12px; font-weight:800; padding:5px 11px; border-radius:999px; background:rgba(255,255,255,.12); display:inline-flex; align-items:center; gap:6px; }
+.mr-course{ font-size:12px; font-weight:800; padding:5px 11px; border-radius:999px; background:rgba(255,255,255,.22); display:inline-flex; align-items:center; gap:6px; }
 .mr-course i{ width:8px; height:8px; border-radius:50%; display:inline-block; }
 .mr-course.v i{ background:var(--valley); } .mr-course.l i{ background:var(--lake); }
 .mr-tee{ margin:14px 0 4px; display:flex; align-items:baseline; gap:12px; }
 .mr-tee-time{ font-family:var(--serif); font-size:78px; line-height:.9; font-weight:700; color:var(--gold); letter-spacing:-1px; font-variant-numeric:tabular-nums; }
 .mr-tee-side{ font-size:13px; font-weight:800; color:#fff; line-height:1.45; letter-spacing:-.2px; }
-.mr-tee-side em{ display:block; font-style:normal; font-size:11px; font-weight:700; color:rgba(255,255,255,.6); }
-.mr-facts{ display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:18px; border-top:1px solid rgba(255,255,255,.16); }
+.mr-tee-side em{ display:block; font-style:normal; font-size:11px; font-weight:700; color:rgba(255,255,255,.85); }
+.mr-facts{ display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:18px; border-top:1px solid rgba(255,255,255,.32); }
 .mr-fact{ padding:14px 0 4px; }
-.mr-fact + .mr-fact{ padding-left:16px; border-left:1px solid rgba(255,255,255,.16); }
-.mr-fact span{ display:block; font-size:11.5px; font-weight:700; color:rgba(255,255,255,.6); margin-bottom:4px; }
+.mr-fact + .mr-fact{ padding-left:16px; border-left:1px solid rgba(255,255,255,.32); }
+.mr-fact span{ display:block; font-size:11.5px; font-weight:700; color:rgba(255,255,255,.85); margin-bottom:4px; }
 .mr-fact b{ font-size:22px; font-weight:900; letter-spacing:-.5px; word-break:keep-all; }
-.mr-mates{ margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.16); }
-.mr-mates > span{ display:block; font-size:11.5px; font-weight:700; color:rgba(255,255,255,.6); margin-bottom:9px; }
+.mr-mates{ margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.32); }
+.mr-mates > span{ display:block; font-size:11.5px; font-weight:700; color:rgba(255,255,255,.85); margin-bottom:9px; }
 .mr-mate-list{ display:flex; flex-wrap:wrap; gap:7px; }
-.mr-mate{ background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.14); border-radius:12px; padding:7px 12px; font-size:14px; font-weight:800; letter-spacing:-.3px; }
-.mr-empty{ margin-top:16px; padding:14px 0 2px; border-top:1px solid rgba(255,255,255,.16); font-size:13.5px; line-height:1.6; font-weight:600; color:rgba(255,255,255,.85); word-break:keep-all; }
+.mr-mate{ background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.35); border-radius:12px; padding:7px 12px; font-size:14px; font-weight:800; letter-spacing:-.3px; }
+.mr-empty{ margin-top:16px; padding:14px 0 2px; border-top:1px solid rgba(255,255,255,.32); font-size:13.5px; line-height:1.6; font-weight:600; color:rgba(255,255,255,.85); word-break:keep-all; }
 .mr-more{ margin-top:14px; font-size:12px; font-weight:800; color:var(--gold); text-align:right; }
 
 .mr-pick{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
-.mr-pick button{ text-align:left; font-family:inherit; cursor:pointer; color:#fff; background:rgba(255,255,255,.12); border:1px solid rgba(217,178,106,.6); border-radius:12px; padding:11px 14px; display:flex; justify-content:space-between; gap:10px; align-items:center; }
+.mr-pick button{ text-align:left; font-family:inherit; cursor:pointer; color:#fff; background:rgba(255,255,255,.12); border:1px solid rgba(214,242,92,.85); border-radius:12px; padding:11px 14px; display:flex; justify-content:space-between; gap:10px; align-items:center; }
 .mr-pick button b{ font-size:16px; font-weight:900; color:var(--gold); } .mr-pick button span{ font-size:12px; font-weight:700; color:rgba(255,255,255,.8); }
 /* 섹션 제목 */
 .nh-sec{ padding:0 20px; margin:30px 0 12px; display:flex; align-items:baseline; justify-content:space-between; }
@@ -394,7 +395,7 @@ body{
 .flow-item.is-now .flow-dot{ background:var(--blue); border-color:var(--blue); box-shadow:0 0 0 5px rgba(12,82,170,.15); }
 .flow-item.is-now .flow-title::after{ content:'진행 중'; margin-left:8px; font-size:10.5px; font-weight:800; color:#fff; background:var(--blue); padding:2px 7px; border-radius:999px; vertical-align:middle; }
 /* 티오프 강조 */
-.flow-item.is-tee{ margin:0 -16px; padding:16px 16px; background:linear-gradient(90deg, rgba(217,178,106,.2), rgba(217,178,106,.04)); border-top:0; border-left:4px solid var(--gold); grid-template-columns:62px 18px 1fr; padding-left:12px; }
+.flow-item.is-tee{ margin:0 -16px; padding:16px 16px; background:linear-gradient(90deg, rgba(214,242,92,.4), rgba(214,242,92,.06)); border-top:0; border-left:4px solid var(--gold); grid-template-columns:62px 18px 1fr; padding-left:12px; }
 .flow-item.is-tee + .flow-item{ border-top:0; }
 .flow-item.is-tee .flow-time{ color:var(--gold-deep); font-size:17px; }
 .flow-item.is-tee .flow-dot{ background:var(--gold); border-color:var(--gold-deep); }
@@ -404,23 +405,27 @@ body{
 
 /* 플레이어 도구 */
 .tool-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 16px; }
-.tool{ text-align:left; font-family:inherit; cursor:pointer; background:#fff; border:1px solid var(--line); border-radius:18px; padding:16px 15px 15px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:12px; min-height:112px; transition:transform .12s; }
+.tool{ position:relative; overflow:hidden; text-align:left; font-family:inherit; cursor:pointer; border:0; border-radius:20px; padding:16px 15px 14px; min-height:124px;
+  display:flex; flex-direction:column; justify-content:space-between; gap:14px; background:var(--tint); box-shadow:0 6px 16px rgba(22,99,199,.08); transition:transform .12s; }
 .tool:active{ transform:scale(.97); }
-.tool-ico{ width:38px; height:38px; border-radius:12px; background:var(--navy-2); color:var(--gold); display:flex; align-items:center; justify-content:center; }
+.tool-ico{ position:relative; z-index:1; width:40px; height:40px; border-radius:50%; background:#fff; color:var(--ink-c); display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.06); }
 .tool-ico svg{ width:20px; height:20px; }
-.tool-name{ font-size:13px; font-weight:900; letter-spacing:.6px; color:var(--navy-2); }
-.tool-desc{ font-size:11.5px; font-weight:600; color:var(--ink-soft); margin-top:2px; letter-spacing:-.2px; word-break:keep-all; }
-.tool-sub-row{ display:flex; gap:10px; padding:10px 16px 0; }
-.tool-sub{ flex:1; font-family:inherit; cursor:pointer; background:transparent; border:1px dashed #C5D2E6; border-radius:14px; padding:12px; font-size:12.5px; font-weight:800; color:var(--blue-deep); }
-.tool-sub:active{ background:var(--blue-tint); }
+.tool-txt{ position:relative; z-index:1; }
+.tool-name{ font-size:13px; font-weight:900; letter-spacing:.5px; color:var(--ink-c); }
+.tool-desc{ font-size:11.5px; font-weight:700; color:rgba(26,35,51,.62); margin-top:3px; letter-spacing:-.2px; word-break:keep-all; }
+.tool-wm{ position:absolute; right:-12px; bottom:-16px; width:92px; height:92px; color:var(--ink-c); opacity:.1; }
+.tool-wm svg{ width:100%; height:100%; }
+.t1{ --tint:#DCEEFF; --ink-c:#155BB8; } .t2{ --tint:#DDF6E8; --ink-c:#0E8F63; } .t3{ --tint:#F1FAC9; --ink-c:#5E8A00; }
+.t4{ --tint:#D9F3F7; --ink-c:#0B8794; } .t5{ --tint:#FFF0D2; --ink-c:#B36A00; } .t6{ --tint:#E8E6FB; --ink-c:#5B4FC7; }
 
 /* 리베라CC 프리미엄 클럽 카드 */
 .club{ margin:0 16px; border-radius:24px; overflow:hidden; position:relative; color:#fff; padding:26px 22px 20px; min-height:300px; display:flex; flex-direction:column; justify-content:flex-end;
-  background:linear-gradient(180deg, rgba(7,30,61,.5) 0%, rgba(7,30,61,.78) 46%, rgba(7,30,61,.96) 100%), url('https://images.unsplash.com/photo-1742498626135-67a7d3501eff?fm=jpg&q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
-  box-shadow:0 18px 40px rgba(7,30,61,.3); outline:1px solid rgba(217,178,106,.55); outline-offset:-8px; }
-.club-tag{ font-size:11px; font-weight:800; letter-spacing:.14em; color:var(--gold); margin-bottom:8px; }
-.club-name{ font-family:var(--serif); font-size:44px; line-height:1; font-weight:700; letter-spacing:.5px; }
-.club-courses{ margin-top:8px; font-size:13px; font-weight:700; color:rgba(255,255,255,.82); display:flex; align-items:center; gap:14px; }
+  background:linear-gradient(180deg, rgba(40,130,240,.45) 0%, rgba(24,110,225,.7) 46%, rgba(16,88,196,.94) 100%), url('https://images.unsplash.com/photo-1742498626135-67a7d3501eff?fm=jpg&q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
+  box-shadow:0 18px 40px rgba(31,120,230,.3); outline:1px solid rgba(255,255,255,.75); outline-offset:-8px; }
+.club-tag{ font-size:11px; font-weight:800; letter-spacing:.14em; color:#fff; margin-bottom:8px; }
+.club-ko{ font-size:13px; font-weight:800; color:rgba(255,255,255,.9); margin-top:8px; letter-spacing:-.2px; }
+.club-name{ font-family:var(--serif); font-size:40px; line-height:1.02; font-weight:700; letter-spacing:.5px; }
+.club-courses{ margin-top:12px; font-size:13px; font-weight:700; color:rgba(255,255,255,.82); display:flex; align-items:center; gap:14px; }
 .club-courses span{ display:inline-flex; align-items:center; gap:6px; }
 .club-courses i{ width:8px; height:8px; border-radius:50%; display:inline-block; }
 .club-addr{ margin-top:14px; font-size:12.5px; font-weight:600; line-height:1.6; color:rgba(255,255,255,.75); word-break:keep-all; }
@@ -443,7 +448,7 @@ body{
 .mrs-sync{ font-size:11px; font-weight:700; color:var(--ink-faint); }
 .roster{ display:flex; flex-direction:column; gap:10px; padding:0 16px; }
 .rost{ display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--line); border-radius:16px; padding:14px 14px; box-shadow:var(--shadow-sm); }
-.rost.me{ border-color:var(--gold); background:linear-gradient(90deg,#FFF9EE,#fff); }
+.rost.me{ border-color:var(--gold); background:linear-gradient(90deg,#F4FCD3,#fff); }
 .rost-no{ width:30px; height:30px; border-radius:50%; background:var(--blue-tint); color:var(--blue-deep); font-weight:900; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .rost.me .rost-no{ background:var(--gold); color:var(--navy); }
 .rost-body{ flex:1; min-width:0; }
@@ -463,7 +468,7 @@ body{
 .bn svg{ width:22px; height:22px; }
 .bn span{ font-size:10px; font-weight:800; letter-spacing:.5px; }
 .bn.active{ color:var(--navy-2); }
-.bn.active::before{ content:''; position:absolute; top:-7px; left:50%; width:26px; height:3px; margin-left:-13px; border-radius:0 0 3px 3px; background:var(--gold); }
+.bn.active::before{ content:''; position:absolute; top:-7px; left:50%; width:26px; height:3px; margin-left:-13px; border-radius:0 0 3px 3px; background:var(--blue); }
 .bn:focus-visible, .tool:focus-visible, .club-btn:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
 @media (prefers-reduced-motion:reduce){ .screen{ animation:none!important; } }
 
@@ -511,21 +516,20 @@ body{
       <!-- PLAYER TOOLS -->
       <div class="nh-sec"><h2>Player Tools</h2></div>
       <div class="tool-grid">
-        <button type="button" class="tool" data-go="teams"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg></div><div><div class="tool-name">TEAM DRAW</div><div class="tool-desc">40개 팀 조편성</div></div></button>
-        <button type="button" class="tool" data-go="attendees"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.4 0 4.2 1.9 4.2 4.5"/></svg></div><div><div class="tool-name">GOLF &amp; PEOPLE</div><div class="tool-desc">참석자 명단</div></div></button>
-        <button type="button" class="tool" data-go="notice"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg></div><div><div class="tool-name">CLUB NOTICE</div><div class="tool-desc">참가자 안내 · 문의</div></div></button>
-        <button type="button" class="tool" data-go="location"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div><div class="tool-name">VENUE</div><div class="tool-desc">오시는 길 · 길찾기</div></div></button>
-      </div>
-      <div class="tool-sub-row">
-        <button type="button" class="tool-sub" data-go="sponsors">협찬 소개</button>
-        <button type="button" class="tool-sub" data-go="program">행사 프로그램 전체</button>
+        <button type="button" class="tool t1" data-go="teams"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg></div><div class="tool-txt"><div class="tool-name">TEAM DRAW</div><div class="tool-desc">40개 팀 조편성</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg></span></button>
+        <button type="button" class="tool t2" data-go="attendees"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.4 0 4.2 1.9 4.2 4.5"/></svg></div><div class="tool-txt"><div class="tool-name">GOLF &amp; PEOPLE</div><div class="tool-desc">참석자 명단</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.4 0 4.2 1.9 4.2 4.5"/></svg></span></button>
+        <button type="button" class="tool t3" data-go="notice"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg></div><div class="tool-txt"><div class="tool-name">CLUB NOTICE</div><div class="tool-desc">참가자 안내 · 문의</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg></span></button>
+        <button type="button" class="tool t4" data-go="location"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div class="tool-txt"><div class="tool-name">VENUE</div><div class="tool-desc">오시는 길 · 길찾기</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span></button>
+        <button type="button" class="tool t5" data-go="sponsors"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="4" rx="1"/><path d="M5 12v8h14v-8"/><path d="M12 8v12"/><path d="M12 8c-1.5-3.5-5-3.5-5-1.2C7 8 9 8 12 8zM12 8c1.5-3.5 5-3.5 5-1.2C17 8 15 8 12 8z"/></svg></div><div class="tool-txt"><div class="tool-name">SPONSORS</div><div class="tool-desc">협찬 소개</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="4" rx="1"/><path d="M5 12v8h14v-8"/><path d="M12 8v12"/><path d="M12 8c-1.5-3.5-5-3.5-5-1.2C7 8 9 8 12 8zM12 8c1.5-3.5 5-3.5 5-1.2C17 8 15 8 12 8z"/></svg></span></button>
+        <button type="button" class="tool t6" data-go="program"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></div><div class="tool-txt"><div class="tool-name">PROGRAM</div><div class="tool-desc">행사 프로그램 전체</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span></button>
       </div>
 
       <!-- 리베라CC 클럽 카드 -->
       <div class="nh-sec"><h2>The Club</h2></div>
       <div class="club">
         <div class="club-tag">OFFICIAL VENUE</div>
-        <div class="club-name">Libera C.C</div>
+        <div class="club-name">Riviera<br>Country Club</div>
+        <div class="club-ko">리베라CC</div>
         <div class="club-courses"><span><i style="background:var(--valley)"></i>밸리코스</span><span><i style="background:var(--lake)"></i>레이크코스</span></div>
         <div class="club-addr">경기도 화성시 동탄면 중리길 183<br>대표전화 031-8047-8000</div>
         <div class="club-stats">
@@ -1486,6 +1490,16 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
 
   $('logoutBtn').addEventListener('click', ()=>{ localStorage.removeItem('koda_golf_myteam'); });
   const _ra = renderAttendees; renderAttendees = function(){ _ra(); renderMyRound(); };
+  // 로그인 유지: 저장된 로그인이 있으면 새로고침(당겨서 새로고침 포함)해도 로그인 화면을 건너뜀
+  (function restoreSession(){
+    const a = getAuth();
+    if(!a || !a.name || !a.phone) return;
+    const OK = ['home','myround','attendees','location','teams','program','sponsors','notice'];
+    let h = window.__INIT_HASH || '';
+    if(!OK.includes(h)) h = 'home';
+    history.replaceState({screen:h}, '', '#'+h);
+    applyScreen(h);
+  })();
   renderMyRound();
   setInterval(renderFlow, 60000);
 })();
