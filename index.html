@@ -488,6 +488,24 @@ body{
 .bn:focus-visible, .tool:focus-visible, .club-btn:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
 @media (prefers-reduced-motion:reduce){ .screen{ animation:none!important; } }
 
+
+/* MY ROUND v2: 가독성 중심의 고딕 폰트 + 코스/티오프 카드 재구성 */
+.mr-card, .mr-card *{ font-family:'Pretendard','Noto Sans KR','Malgun Gothic',Arial,sans-serif; }
+.mr-card{ overflow:hidden; }
+.mr-tee-panel{ margin-top:14px; padding:16px 16px 17px; border:1px solid rgba(255,255,255,.28); border-radius:18px; background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.055)); box-shadow:inset 0 1px 0 rgba(255,255,255,.12); }
+.mr-primary-course{ margin:0 0 10px; font-size:28px; line-height:1.15; font-weight:900; letter-spacing:-1.1px; color:#fff; }
+.mr-tee-row{ display:flex; align-items:flex-end; gap:10px; }
+.mr-tee-caption{ align-self:center; margin-right:2px; font-size:11px; font-weight:900; letter-spacing:1.1px; color:rgba(255,255,255,.72); }
+.mr-tee-time{ font-family:'Pretendard','Noto Sans KR','Malgun Gothic',Arial,sans-serif; font-size:64px; line-height:.9; font-weight:900; color:#D9F28A; letter-spacing:-2.5px; font-variant-numeric:tabular-nums; }
+.mr-tee-side{ align-self:center; margin-left:auto; padding-left:11px; border-left:1px solid rgba(255,255,255,.25); font-size:12px; line-height:1.25; color:#fff; }
+.mr-tee-side b{ display:block; font-size:14px; font-weight:900; }
+.mr-tee-side em{ display:block; margin-top:3px; font-style:normal; color:rgba(255,255,255,.72); font-size:10px; font-weight:700; }
+.mr-facts{ margin-top:14px; }
+.mr-fact span{ font-size:11px; letter-spacing:-.2px; }
+.mr-fact b{ font-family:'Pretendard','Noto Sans KR','Malgun Gothic',Arial,sans-serif; font-size:18px; }
+.mr-fact b small{ font-size:11px; }
+.mr-mates{ margin-top:14px; padding-top:13px; }
+.mr-mate{ font-family:'Pretendard','Noto Sans KR','Malgun Gothic',Arial,sans-serif; font-size:13.5px; padding:7px 11px; }
 </style>
 </head>
 <body>
@@ -1392,9 +1410,9 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
       const mate = team.members.filter(m => m !== me);
       facts = `<div class="mr-facts">
          <div class="mr-fact"><span>나의 조</span><b>${escapeHtml(team.id)} <small>(${escapeHtml(teamGroupLabel(team.id))})</small></b></div>
-         <div class="mr-fact"><span>출발 코스</span><b>${escapeHtml(teamDisplayLabel(team))}</b></div></div>`;
-      mates = `<div class="mr-mates"><span>동반자 · 이름을 누르면 상세보기</span><div class="mr-mate-list">$\{
-         mate.length ? mate.map(m=>'<button type="button" class="mr-mate" onclick="showPersonDetailByKey(\''+escapeHtml(String(m.no||m.name))+\'\')">'+escapeHtml(m.name)+'</button>').join('') : '<div class="mr-mate">-</div>'}</div></div>`;
+         <div class="mr-fact"><span>경기 방식</span><b>신페리오</b></div></div>`;
+      mates = `<div class="mr-mates"><span>동반자 · 이름을 누르면 상세보기</span><div class="mr-mate-list">${
+         mate.length ? mate.map(m=>'<button type="button" class="mr-mate" data-person-key="'+escapeHtml(String(m.no||m.name))+'" onclick="showPersonDetailByKey(this.dataset.personKey)">'+escapeHtml(m.name)+'</button>').join('') : '<div class="mr-mate">-</div>'}</div></div>`;
     } else {
       facts = '';
       if(isAmbiguous()){
@@ -1409,9 +1427,14 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     return `<div class="mr-card${clickable?' clickable':''}" ${clickable?'data-go-tab="myround"':''}>
       <div class="mr-head"><div class="mr-label">MY ROUND</div>
         ${team?`<div class="mr-course ${cls}"><i></i>${courseName(team.course)}</div>`:''}</div>
-      <div class="mr-primary-course">${team?escapeHtml(teamDisplayLabel(team)):'출발 코스'}</div>
-       <div class="mr-tee"><div class="mr-tee-time">${TEE_OFF}</div>
-        <div class="mr-tee-side">TEE OFF<em>샷건 · 동시출발</em></div></div>
+      <div class="mr-tee-panel">
+        <div class="mr-primary-course">${team?escapeHtml(teamDisplayLabel(team)):'출발 코스'}</div>
+        <div class="mr-tee-row">
+          <div class="mr-tee-caption">TEE OFF</div>
+          <div class="mr-tee-time">${TEE_OFF}</div>
+          <div class="mr-tee-side"><b>샷건</b><em>동시출발</em></div>
+        </div>
+      </div>
       ${facts}${mates}
       ${clickable?'<div class="mr-more">내 라운드 자세히 보기 ›</div>':''}
     </div>`;
