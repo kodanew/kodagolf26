@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<script>window.__INIT_HASH=(location.hash||"").replace("#","");</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <!-- 모바일 앱(PWA) 설치를 위한 매니페스트 및 iOS 설정 -->
@@ -24,6 +25,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&display=swap">
 <style>
 :root{
   --paper:#FFFFFF;
@@ -308,196 +312,169 @@ body{
 .attendee-search-wrap .search-box{padding:10px 16px;}
 .attendee-search-wrap .search-box input{font-size:14px;}
 
+
+/* =====================================================================
+   NEW UI LAYER  (MY ROUND 중심 리디자인) — 기존 CSS는 그대로 두고 덮어씀
+   ===================================================================== */
+:root{
+  --navy:#0B3D91; --navy-2:#155BB8; --gold:#D6F25C; --gold-deep:#5E8A00;
+  --valley:#3DDC97; --lake:#CFE8FF;
+  --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+}
+.screen{ min-height:0; }
+.content{ min-height:0; }
+
+/* ---------- COVER (로그인 화면 톤만 맞춤, 로직 동일) ---------- */
+#screen-cover{ background:radial-gradient(120% 80% at 50% 0%, #FFFFFF 0%, #DCEEFF 55%, #BFDDFB 100%); }
+#screen-cover .login-box-golf{ box-shadow:0 20px 50px rgba(22,99,199,.18); border-top:4px solid var(--gold); }
+#screen-cover .cover-foot{ color:var(--ink-soft); }
+
+/* ---------- HOME ---------- */
+#screen-home{ background:var(--paper-deep); }
+.nh-scroll{ flex:1; min-height:0; overflow-y:auto; padding-bottom:28px; }
+.nh-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:calc(18px + env(safe-area-inset-top,0px)) 20px 14px; }
+.nh-brand{ font-family:var(--serif); font-size:19px; font-weight:700; color:var(--navy-2); line-height:1.1; letter-spacing:.2px; }
+.nh-brand small{ display:block; font-family:'Pretendard',sans-serif; font-size:11px; font-weight:700; color:var(--ink-soft); letter-spacing:-.2px; margin-top:3px; }
+.nh-dday{ flex-shrink:0; border:1px solid #BFE05A; color:var(--gold-deep); background:#F4FCD3; border-radius:999px; padding:6px 12px; font-size:12px; font-weight:800; }
+.nh-hello{ padding:2px 20px 14px; font-size:20px; font-weight:800; color:var(--ink); letter-spacing:-.6px; }
+.nh-hello b{ color:var(--blue); }
+.nh-hello span{ display:block; font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-top:3px; letter-spacing:-.2px; }
+
+/* MY ROUND 카드 */
+.mr-card{ margin:0 16px; border-radius:24px; padding:22px 20px 20px; color:#fff; position:relative; overflow:hidden;
+  background:radial-gradient(90% 70% at 100% 0%, rgba(255,255,255,.3) 0%, rgba(255,255,255,0) 60%), linear-gradient(160deg,#4BA6FF 0%,#1F78E6 55%,#1560C9 100%);
+  box-shadow:0 18px 40px rgba(31,120,230,.32); }
+.mr-card.clickable{ cursor:pointer; }
+.mr-card.clickable:active{ transform:scale(.99); }
+.mr-head{ display:flex; align-items:center; justify-content:space-between; }
+.mr-label{ font-family:var(--serif); font-size:20px; font-weight:700; letter-spacing:1.5px; color:var(--gold); }
+.mr-course{ font-size:12px; font-weight:800; padding:5px 11px; border-radius:999px; background:rgba(255,255,255,.22); display:inline-flex; align-items:center; gap:6px; }
+.mr-course i{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+.mr-course.v i{ background:var(--valley); } .mr-course.l i{ background:var(--lake); }
+.mr-tee{ margin:14px 0 4px; display:flex; align-items:baseline; gap:12px; }
+.mr-tee-time{ font-family:var(--serif); font-size:78px; line-height:.9; font-weight:700; color:var(--gold); letter-spacing:-1px; font-variant-numeric:tabular-nums; }
+.mr-tee-side{ font-size:13px; font-weight:800; color:#fff; line-height:1.45; letter-spacing:-.2px; }
+.mr-tee-side em{ display:block; font-style:normal; font-size:11px; font-weight:700; color:rgba(255,255,255,.85); }
+.mr-facts{ display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:18px; border-top:1px solid rgba(255,255,255,.32); }
+.mr-fact{ padding:14px 0 4px; }
+.mr-fact + .mr-fact{ padding-left:16px; border-left:1px solid rgba(255,255,255,.32); }
+.mr-fact span{ display:block; font-size:11.5px; font-weight:700; color:rgba(255,255,255,.85); margin-bottom:4px; }
+.mr-fact b{ font-size:22px; font-weight:900; letter-spacing:-.5px; word-break:keep-all; }
+.mr-mates{ margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.32); }
+.mr-mates > span{ display:block; font-size:11.5px; font-weight:700; color:rgba(255,255,255,.85); margin-bottom:9px; }
+.mr-mate-list{ display:flex; flex-wrap:wrap; gap:7px; }
+.mr-mate{ background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.35); border-radius:12px; padding:7px 12px; font-size:14px; font-weight:800; letter-spacing:-.3px; }
+.mr-empty{ margin-top:16px; padding:14px 0 2px; border-top:1px solid rgba(255,255,255,.32); font-size:13.5px; line-height:1.6; font-weight:600; color:rgba(255,255,255,.85); word-break:keep-all; }
+.mr-more{ margin-top:14px; font-size:12px; font-weight:800; color:var(--gold); text-align:right; }
+
+.mr-pick{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+.mr-pick button{ text-align:left; font-family:inherit; cursor:pointer; color:#fff; background:rgba(255,255,255,.12); border:1px solid rgba(214,242,92,.85); border-radius:12px; padding:11px 14px; display:flex; justify-content:space-between; gap:10px; align-items:center; }
+.mr-pick button b{ font-size:16px; font-weight:900; color:var(--gold); } .mr-pick button span{ font-size:12px; font-weight:700; color:rgba(255,255,255,.8); }
+/* 섹션 제목 */
+.nh-sec{ padding:0 20px; margin:30px 0 12px; display:flex; align-items:baseline; justify-content:space-between; }
+.nh-sec h2{ margin:0; font-family:var(--serif); font-size:26px; font-weight:700; color:var(--navy-2); letter-spacing:.2px; font-style:italic; }
+.nh-sec button{ border:0; background:none; font-family:inherit; font-size:12px; font-weight:800; color:var(--blue); cursor:pointer; padding:4px 0; }
+
+/* Today's Flow 타임라인 */
+.flow-wrap{ margin:0 16px; background:#fff; border:1px solid var(--line); border-radius:20px; padding:8px 16px 6px; box-shadow:var(--shadow-sm); }
+.flow{ list-style:none; margin:0; padding:0; }
+.flow-item{ display:grid; grid-template-columns:62px 18px 1fr; gap:0 10px; position:relative; padding:14px 0; }
+.flow-item + .flow-item{ border-top:1px dashed var(--line); }
+.flow-time{ font-size:14px; font-weight:800; color:var(--ink); font-variant-numeric:tabular-nums; line-height:1.3; }
+.flow-time small{ display:block; font-size:11px; font-weight:600; color:var(--ink-faint); }
+.flow-rail{ position:relative; display:flex; justify-content:center; }
+.flow-rail::before{ content:''; position:absolute; top:-14px; bottom:-14px; width:2px; background:var(--line); }
+.flow-item:first-child .flow-rail::before{ top:6px; }
+.flow-item:last-child .flow-rail::before{ bottom:calc(100% - 12px); }
+.flow-dot{ position:relative; z-index:1; width:11px; height:11px; margin-top:5px; border-radius:50%; background:#fff; border:2px solid #B9C6DA; }
+.flow-title{ font-size:14.5px; font-weight:800; color:var(--ink); letter-spacing:-.3px; line-height:1.4; word-break:keep-all; }
+.flow-sub{ font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-top:2px; line-height:1.5; word-break:keep-all; }
+.flow-place{ display:inline-block; margin-top:6px; font-size:11px; font-weight:800; color:var(--blue-deep); background:var(--blue-tint); padding:3px 8px; border-radius:6px; }
+.flow-item.is-done .flow-title, .flow-item.is-done .flow-time{ color:var(--ink-faint); }
+.flow-item.is-done .flow-dot{ background:#B9C6DA; }
+.flow-item.is-now .flow-dot{ background:var(--blue); border-color:var(--blue); box-shadow:0 0 0 5px rgba(12,82,170,.15); }
+.flow-item.is-now .flow-title::after{ content:'진행 중'; margin-left:8px; font-size:10.5px; font-weight:800; color:#fff; background:var(--blue); padding:2px 7px; border-radius:999px; vertical-align:middle; }
+/* 티오프 강조 */
+.flow-item.is-tee{ margin:0 -16px; padding:16px 16px; background:linear-gradient(90deg, rgba(214,242,92,.4), rgba(214,242,92,.06)); border-top:0; border-left:4px solid var(--gold); grid-template-columns:62px 18px 1fr; padding-left:12px; }
+.flow-item.is-tee + .flow-item{ border-top:0; }
+.flow-item.is-tee .flow-time{ color:var(--gold-deep); font-size:17px; }
+.flow-item.is-tee .flow-dot{ background:var(--gold); border-color:var(--gold-deep); }
+.flow-item.is-tee .flow-title{ color:var(--navy); font-size:15.5px; }
+.flow-item.is-tee .flow-title::before{ content:'TEE OFF'; margin-right:8px; font-size:10.5px; font-weight:900; letter-spacing:.6px; color:#fff; background:var(--gold-deep); padding:2px 7px; border-radius:5px; vertical-align:middle; }
+.flow-toggle{ display:block; width:100%; border:0; border-top:1px solid var(--line); background:none; padding:13px 0 11px; font-family:inherit; font-size:12.5px; font-weight:800; color:var(--blue); cursor:pointer; }
+
+/* 플레이어 도구 */
+.tool-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 16px; }
+.tool{ position:relative; overflow:hidden; text-align:left; font-family:inherit; cursor:pointer; border:0; border-radius:20px; padding:16px 15px 14px; min-height:124px;
+  display:flex; flex-direction:column; justify-content:space-between; gap:14px; background:var(--tint); box-shadow:0 6px 16px rgba(22,99,199,.08); transition:transform .12s; }
+.tool:active{ transform:scale(.97); }
+.tool-ico{ position:relative; z-index:1; width:40px; height:40px; border-radius:50%; background:#fff; color:var(--ink-c); display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+.tool-ico svg{ width:20px; height:20px; }
+.tool-txt{ position:relative; z-index:1; }
+.tool-name{ font-size:13px; font-weight:900; letter-spacing:.5px; color:var(--ink-c); }
+.tool-desc{ font-size:11.5px; font-weight:700; color:rgba(26,35,51,.62); margin-top:3px; letter-spacing:-.2px; word-break:keep-all; }
+.tool-wm{ position:absolute; right:-12px; bottom:-16px; width:92px; height:92px; color:var(--ink-c); opacity:.1; }
+.tool-wm svg{ width:100%; height:100%; }
+.t1{ --tint:#DCEEFF; --ink-c:#155BB8; } .t2{ --tint:#DDF6E8; --ink-c:#0E8F63; } .t3{ --tint:#F1FAC9; --ink-c:#5E8A00; }
+.t4{ --tint:#D9F3F7; --ink-c:#0B8794; } .t5{ --tint:#FFF0D2; --ink-c:#B36A00; } .t6{ --tint:#E8E6FB; --ink-c:#5B4FC7; }
+
+/* 리베라CC 프리미엄 클럽 카드 */
+.club{ margin:0 16px; border-radius:24px; overflow:hidden; position:relative; color:#fff; padding:26px 22px 20px; min-height:300px; display:flex; flex-direction:column; justify-content:flex-end;
+  background:linear-gradient(180deg, rgba(40,130,240,.45) 0%, rgba(24,110,225,.7) 46%, rgba(16,88,196,.94) 100%), url('https://images.unsplash.com/photo-1742498626135-67a7d3501eff?fm=jpg&q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
+  box-shadow:0 18px 40px rgba(31,120,230,.3); outline:1px solid rgba(255,255,255,.75); outline-offset:-8px; }
+.club-tag{ font-size:11px; font-weight:800; letter-spacing:.14em; color:#fff; margin-bottom:8px; }
+.club-ko{ font-size:13px; font-weight:800; color:rgba(255,255,255,.9); margin-top:8px; letter-spacing:-.2px; }
+.club-name{ font-family:var(--serif); font-size:40px; line-height:1.02; font-weight:700; letter-spacing:.5px; }
+.club-courses{ margin-top:12px; font-size:13px; font-weight:700; color:rgba(255,255,255,.82); display:flex; align-items:center; gap:14px; }
+.club-courses span{ display:inline-flex; align-items:center; gap:6px; }
+.club-courses i{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+.club-addr{ margin-top:14px; font-size:12.5px; font-weight:600; line-height:1.6; color:rgba(255,255,255,.75); word-break:keep-all; }
+.club-stats{ display:grid; grid-template-columns:repeat(4,1fr); margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.2); }
+.club-stat b{ display:block; font-family:var(--serif); font-size:24px; font-weight:700; color:var(--gold); line-height:1.1; }
+.club-stat span{ font-size:10.5px; font-weight:700; color:rgba(255,255,255,.65); }
+.club-actions{ display:flex; gap:8px; margin-top:16px; }
+.club-btn{ flex:1; text-align:center; text-decoration:none; font-family:inherit; cursor:pointer; border:0; border-radius:12px; padding:13px 8px; font-size:13.5px; font-weight:800; }
+.club-btn.primary{ background:var(--gold); color:var(--navy); }
+.club-btn.ghost{ background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.25); }
+.club-btn:active{ transform:scale(.97); }
+
+.nh-links{ padding:22px 16px 0; }
+.nh-org{ text-align:center; font-size:11.5px; font-weight:600; color:var(--ink-faint); line-height:1.7; padding:8px 20px 0; }
+
+/* ---------- MY ROUND 탭 ---------- */
+#screen-myround{ background:var(--paper-deep); }
+.mrs-title{ padding:calc(18px + env(safe-area-inset-top,0px)) 20px 14px; display:flex; align-items:center; justify-content:space-between; }
+.mrs-title h1{ margin:0; font-family:var(--serif); font-size:30px; font-weight:700; color:var(--navy-2); letter-spacing:.5px; }
+.mrs-sync{ font-size:11px; font-weight:700; color:var(--ink-faint); }
+.roster{ display:flex; flex-direction:column; gap:10px; padding:0 16px; }
+.rost{ display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--line); border-radius:16px; padding:14px 14px; box-shadow:var(--shadow-sm); }
+.rost.me{ border-color:var(--gold); background:linear-gradient(90deg,#F4FCD3,#fff); }
+.rost-no{ width:30px; height:30px; border-radius:50%; background:var(--blue-tint); color:var(--blue-deep); font-weight:900; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.rost.me .rost-no{ background:var(--gold); color:var(--navy); }
+.rost-body{ flex:1; min-width:0; }
+.rost-name{ font-size:16px; font-weight:900; letter-spacing:-.4px; }
+.rost-name em{ font-style:normal; margin-left:6px; font-size:10.5px; font-weight:800; color:var(--gold-deep); border:1px solid var(--gold); padding:1px 6px; border-radius:999px; vertical-align:middle; }
+.rost-org{ font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-top:2px; word-break:keep-all; }
+.rost-call{ flex-shrink:0; width:40px; height:40px; border-radius:50%; background:var(--blue-tint); color:var(--blue); display:flex; align-items:center; justify-content:center; text-decoration:none; }
+.rost-call svg{ width:18px; height:18px; }
+.mrs-actions{ display:flex; gap:10px; padding:14px 16px 0; }
+.mrs-actions button{ flex:1; font-family:inherit; cursor:pointer; border-radius:14px; padding:13px 8px; font-size:13px; font-weight:800; border:1px solid var(--line); background:#fff; color:var(--blue-deep); }
+.mrs-actions button.primary{ background:var(--blue-deep); color:#fff; border-color:var(--blue-deep); }
+
+/* ---------- 하단 고정 네비게이션 ---------- */
+.bottom-nav{ flex-shrink:0; display:grid; grid-template-columns:repeat(4,1fr); background:rgba(255,255,255,.97); backdrop-filter:blur(12px); border-top:1px solid var(--line); padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px)); z-index:50; box-shadow:0 -6px 20px rgba(12,82,170,.06); }
+.bottom-nav.hidden{ display:none; }
+.bn{ position:relative; border:0; background:none; font-family:inherit; cursor:pointer; padding:8px 0 6px; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8B96A8; }
+.bn svg{ width:22px; height:22px; }
+.bn span{ font-size:10px; font-weight:800; letter-spacing:.5px; }
+.bn.active{ color:var(--navy-2); }
+.bn.active::before{ content:''; position:absolute; top:-7px; left:50%; width:26px; height:3px; margin-left:-13px; border-radius:0 0 3px 3px; background:var(--blue); }
+.bn:focus-visible, .tool:focus-visible, .club-btn:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
+@media (prefers-reduced-motion:reduce){ .screen{ animation:none!important; } }
+
 </style>
 </head>
-
-<div id="pg-modal-body"></div>
-  </div>
-</div>
-
-
-<style id="premium-golfclub-white-style">
-:root{
- --w-bg:#f6f7f8;--w-card:#fff;--w-navy:#172536;--w-blue:#28649a;
- --w-blue2:#eaf3fa;--w-line:#e3e7eb;--w-text:#1d2833;--w-muted:#7b8791;
- --w-green:#477565;--w-gold:#b48a48;--w-red:#b84c4c;
-}
-html,body{background:var(--w-bg)!important;color:var(--w-text)!important}
-body{font-family:"Pretendard","Noto Sans KR",Arial,sans-serif!important}
-#white-golf-shell{display:none;min-height:100vh;background:var(--w-bg);padding-bottom:86px}
-.wg-wrap{width:min(560px,100%);margin:0 auto}
-.wg-header{background:#fff;padding:18px 20px 16px;border-bottom:1px solid var(--w-line);position:sticky;top:0;z-index:15}
-.wg-headrow{display:flex;align-items:center;justify-content:space-between}
-.wg-koda{font-size:14px;font-weight:900;letter-spacing:.13em;color:var(--w-navy)}
-.wg-event{font-size:10px;color:var(--w-muted);margin-top:4px}
-.wg-user{width:36px;height:36px;border-radius:50%;border:1px solid #dbe1e6;background:#f7f9fa;color:var(--w-navy);font-size:14px}
-.wg-main{padding:18px 16px 24px}
-.wg-welcome{font-size:12px;color:var(--w-muted);margin:2px 2px 7px}
-.wg-name{font-size:25px;font-weight:800;letter-spacing:-.04em;color:var(--w-navy)}
-.wg-name small{font-size:15px;font-weight:600}
-.wg-date{margin-top:5px;font-size:11px;color:#8b949d}
-.wg-myround{margin-top:16px;border-radius:22px;background:linear-gradient(135deg,#2e689c,#214d76);color:#fff;padding:19px;box-shadow:0 9px 24px rgba(36,83,121,.16);position:relative;overflow:hidden}
-.wg-myround:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-95px;top:-105px;border:28px solid rgba(255,255,255,.055)}
-.wg-label{font-size:10px;font-weight:700;letter-spacing:.04em;opacity:.75}
-.wg-roundtitle{font-size:21px;font-weight:800;margin-top:5px}
-.wg-roundmeta{font-size:11px;opacity:.82;margin-top:5px}
-.wg-roundgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:17px}
-.wg-roundstat{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:10px 8px}
-.wg-roundstat b{display:block;font-size:16px;margin-top:3px}
-.wg-roundstat span{font-size:9px;opacity:.72}
-.wg-roundbottom{display:flex;justify-content:space-between;align-items:center;margin-top:13px}
-.wg-teamcode{font-size:11px;opacity:.8}
-.wg-detail{border:0;background:#fff;color:var(--w-blue);font-weight:800;border-radius:10px;padding:8px 11px;font-size:10px}
-.wg-section{margin-top:21px}
-.wg-sec-head{display:flex;justify-content:space-between;align-items:center;margin:0 2px 10px}
-.wg-sec-head h2{font-size:16px;margin:0;color:var(--w-navy);letter-spacing:-.04em}
-.wg-sec-head button{border:0;background:none;color:var(--w-blue);font-size:10px}
-.wg-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.wg-info{background:#fff;border:1px solid var(--w-line);border-radius:15px;padding:13px 10px;min-height:76px}
-.wg-info .ico{font-size:17px;color:var(--w-blue);margin-bottom:8px}
-.wg-info b{display:block;font-size:11px}
-.wg-info span{display:block;color:var(--w-muted);font-size:9px;margin-top:3px;white-space:nowrap}
-.wg-today{background:#fff;border:1px solid var(--w-line);border-radius:18px;padding:15px}
-.wg-row{display:flex;position:relative;padding:0 0 15px}
-.wg-row:last-child{padding-bottom:0}
-.wg-time{width:48px;font-size:10px;color:var(--w-blue);font-weight:800;padding-top:1px}
-.wg-dotline{width:17px;position:relative}
-.wg-dotline:before{content:"";position:absolute;top:4px;left:5px;width:7px;height:7px;border-radius:50%;background:#cbd3d9}
-.wg-row.current .wg-dotline:before{background:var(--w-blue);box-shadow:0 0 0 4px var(--w-blue2)}
-.wg-dotline:after{content:"";position:absolute;top:14px;bottom:-3px;left:8px;width:1px;background:#e2e6e9}
-.wg-row:last-child .wg-dotline:after{display:none}
-.wg-eventbox{flex:1;margin-left:7px}
-.wg-eventbox b{font-size:12px}
-.wg-eventbox p{font-size:9px;color:var(--w-muted);margin:3px 0 0}
-.wg-members{background:#fff;border:1px solid var(--w-line);border-radius:18px;overflow:hidden}
-.wg-member{display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid #edf0f2}
-.wg-member:last-child{border-bottom:0}
-.wg-avatar{width:34px;height:34px;border-radius:50%;background:#edf4f8;color:var(--w-blue);display:grid;place-items:center;font-weight:800;font-size:12px}
-.wg-memberinfo{margin-left:10px;flex:1}
-.wg-memberinfo b{font-size:12px}
-.wg-memberinfo span{display:block;color:var(--w-muted);font-size:9px;margin-top:3px}
-.wg-call{width:31px;height:31px;border-radius:50%;border:1px solid #dfe5e9;background:#fff;color:var(--w-blue)}
-.wg-tools{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.wg-tool{background:#fff;border:1px solid var(--w-line);border-radius:16px;padding:15px;text-align:left;min-height:91px;cursor:pointer}
-.wg-tool .ico{color:var(--w-blue);font-size:19px}
-.wg-tool b{display:block;margin-top:10px;font-size:12px}
-.wg-tool span{display:block;margin-top:3px;font-size:9px;color:var(--w-muted)}
-.wg-venue{background:#fff;border:1px solid var(--w-line);border-radius:18px;padding:16px}
-.wg-venue-title{font-size:18px;font-weight:800;color:var(--w-navy)}
-.wg-venue-sub{font-size:10px;color:var(--w-muted);margin-top:4px}
-.wg-route{display:flex;gap:7px;margin-top:13px}
-.wg-route button{flex:1;background:#f6f8f9;border:1px solid var(--w-line);border-radius:11px;padding:10px;font-size:10px;color:var(--w-navy)}
-.wg-bottom{position:fixed;z-index:20;bottom:0;left:50%;transform:translateX(-50%);width:min(560px,100%);height:70px;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-top:1px solid var(--w-line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px 8px 8px}
-.wg-nav{border:0;background:none;color:#8a949c;font-size:9px;display:flex;flex-direction:column;align-items:center;gap:5px}
-.wg-nav i{font-style:normal;font-size:17px}
-.wg-nav.active{color:var(--w-blue);font-weight:800}
-.wg-modal{display:none;position:fixed;z-index:50;inset:0;background:rgba(15,27,37,.38);padding:16px;align-items:flex-end}
-.wg-modal.show{display:flex}
-.wg-modal-card{width:min(560px,100%);margin:0 auto;background:#fff;border-radius:22px 22px 10px 10px;max-height:84vh;overflow:auto;padding:19px;box-shadow:0 -10px 40px rgba(0,0,0,.14)}
-.wg-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.wg-modal-head h3{font-size:19px;color:var(--w-navy);margin:0}
-.wg-close{border:0;background:#f2f4f5;width:31px;height:31px;border-radius:50%;font-size:20px;color:#68737c}
-.wg-legacy{display:none!important}
-@media(min-width:700px){#white-golf-shell{min-height:100vh}.wg-bottom{bottom:14px;border:1px solid var(--w-line);border-radius:18px}}
-</style>
-
-
-<div id="white-golf-shell">
-  <header class="wg-header">
-    <div class="wg-wrap wg-headrow">
-      <div>
-        <div class="wg-koda">KODA · ARP</div>
-        <div class="wg-event">협회장배 KODA-ARP 골프대회</div>
-      </div>
-      <button class="wg-user" onclick="wgOpen('team')">●</button>
-    </div>
-  </header>
-
-  <main class="wg-wrap wg-main">
-    <div class="wg-welcome">오늘의 라운드를 준비하세요</div>
-    <div class="wg-name" id="wg-name">참가자님 <small>환영합니다</small></div>
-    <div class="wg-date">2026년 10월 26일 월요일 · 리베라CC</div>
-
-    <section class="wg-myround">
-      <div class="wg-label">나의 라운드</div>
-      <div class="wg-roundtitle" id="wg-roundtitle">나의 조편성</div>
-      <div class="wg-roundmeta">오늘의 출발 정보와 동반자를 확인하세요.</div>
-      <div class="wg-roundgrid">
-        <div class="wg-roundstat"><span>티오프</span><b>13:00</b></div>
-        <div class="wg-roundstat"><span>코스</span><b id="wg-course">확인 중</b></div>
-        <div class="wg-roundstat"><span>출발홀</span><b id="wg-hole">확인 중</b></div>
-      </div>
-      <div class="wg-roundbottom">
-        <div class="wg-teamcode" id="wg-team">조편성 정보를 불러오는 중</div>
-        <button class="wg-detail" onclick="wgOpen('team')">나의 조 보기</button>
-      </div>
-    </section>
-
-    <section class="wg-section">
-      <div class="wg-sec-head"><h2>오늘 꼭 확인할 것</h2></div>
-      <div class="wg-info-grid">
-        <div class="wg-info"><div class="ico">◷</div><b>집결</b><span>12:20까지 집결</span></div>
-        <div class="wg-info"><div class="ico">◎</div><b>동시 출발</b><span>13:00 샷건 방식</span></div>
-        <div class="wg-info"><div class="ico">⌖</div><b>골프장</b><span>리베라CC</span></div>
-      </div>
-    </section>
-
-    <section class="wg-section">
-      <div class="wg-sec-head"><h2>오늘의 일정</h2><button onclick="wgOpen('guide')">전체 안내</button></div>
-      <div class="wg-today">
-        <div class="wg-row"><div class="wg-time">11:30</div><div class="wg-dotline"></div><div class="wg-eventbox"><b>등록 및 환복</b><p>클럽하우스 도착 후 참가 확인</p></div></div>
-        <div class="wg-row current"><div class="wg-time">12:20</div><div class="wg-dotline"></div><div class="wg-eventbox"><b>팀별 집결</b><p>나의 출발홀과 조원 확인</p></div></div>
-        <div class="wg-row"><div class="wg-time">13:00</div><div class="wg-dotline"></div><div class="wg-eventbox"><b>샷건 동시 출발</b><p>배정된 홀에서 동시에 출발</p></div></div>
-        <div class="wg-row"><div class="wg-time">18:00</div><div class="wg-dotline"></div><div class="wg-eventbox"><b>시상 및 만찬</b><p>행사장 이동 후 진행</p></div></div>
-      </div>
-    </section>
-
-    <section class="wg-section">
-      <div class="wg-sec-head"><h2>나의 동반자</h2><button onclick="wgOpen('team')">전체 보기</button></div>
-      <div class="wg-members" id="wg-members">
-        <div class="wg-member"><div class="wg-avatar">?</div><div class="wg-memberinfo"><b>조편성 확인 중</b><span>로그인 정보와 조편성을 확인하고 있습니다.</span></div></div>
-      </div>
-    </section>
-
-    <section class="wg-section">
-      <div class="wg-sec-head"><h2>대회 메뉴</h2></div>
-      <div class="wg-tools">
-        <button class="wg-tool" onclick="wgOpen('teams')"><div class="ico">◎</div><b>전체 조편성</b><span>40개 팀 출발홀 확인</span></button>
-        <button class="wg-tool" onclick="wgOpen('people')"><div class="ico">♙</div><b>참가자 찾기</b><span>이름·소속으로 검색</span></button>
-        <button class="wg-tool" onclick="wgOpen('notice')"><div class="ico">▱</div><b>대회 공지</b><span>중요 안내 확인</span></button>
-        <button class="wg-tool" onclick="wgOpen('guide')"><div class="ico">✓</div><b>참가 안내</b><span>행사 운영사항 확인</span></button>
-      </div>
-    </section>
-
-    <section class="wg-section">
-      <div class="wg-sec-head"><h2>오시는 길</h2><button onclick="wgOpen('location')">상세 보기</button></div>
-      <div class="wg-venue">
-        <div class="wg-venue-title">리베라컨트리클럽</div>
-        <div class="wg-venue-sub">레이크 9홀 · 밸리 9홀 · 샷건 동시 출발 13:00</div>
-        <div class="wg-route">
-          <button onclick="wgOpen('location')">골프장 위치</button>
-          <button onclick="wgOpen('location')">길찾기</button>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <nav class="wg-bottom">
-    <button class="wg-nav active" onclick="wgHome(this)"><i>⌂</i>홈</button>
-    <button class="wg-nav" onclick="wgOpen('team',this)"><i>◉</i>나의 라운드</button>
-    <button class="wg-nav" onclick="wgOpen('people',this)"><i>♙</i>참가자</button>
-    <button class="wg-nav" onclick="wgOpen('location',this)"><i>⌖</i>골프장</button>
-  </nav>
-</div>
-
-<div class="wg-modal" id="wg-modal" onclick="if(event.target===this)wgClose()">
- <div class="wg-modal-card">
-  <div class="wg-modal-head"><h3 id="wg-modal-title">대회 안내</h3><button class="wg-close" onclick="wgClose()">×</button></div>
-  <div id="wg-modal-body"></div>
- </div>
-</div>
-
-<body onload="premiumInit();" onload="premiumInit();">
+<body>
 <div id="app">
 
   <!-- ================= COVER (첫 화면) ================= -->
@@ -517,77 +494,88 @@ body{font-family:"Pretendard","Noto Sans KR",Arial,sans-serif!important}
 
   <!-- ================= HOME (개요 + 고급 버튼 리스트) ================= -->
   <section id="screen-home" class="screen">
-    
-    <!-- 1. 대회 개요 -->
-    <div class="home-header-clean">
-      <div class="header-content-wrap">
-        <div class="title-year">2026 협회장배</div>
-        <div class="title-main">KODA · ARP 골프대회</div>
-        
-        <div class="info-box">
-          <div class="info-row">
-            <div class="info-icon">📅</div>
-            <div class="info-text"><strong>일시 / 장소</strong> : 2026.10.26(월) / 리베라C.C</div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">⛳</div>
-            <div class="info-text">
-                <strong>라운딩</strong> : 18홀, 신페리오</div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">⏰</div>
-            <div class="info-text">
-                <strong>티오프</strong> : 13:00~ / 샷건, 동시출발</div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">👥</div>
-            <div class="info-text"><strong>참가인원</strong> : 160인 / 40개팀</div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">🏢</div>
-            <div class="info-text"><strong>주최 / 주관</strong> : 한국디벨로퍼협회 / KODA회원위원회</div>
-          </div>
+    <div class="nh-scroll">
+
+      <!-- 상단 -->
+      <div class="nh-top">
+        <div class="nh-brand">KODA · ARP Golf<small>2026 협회장배 골프대회</small></div>
+        <div class="nh-dday" id="nhDday">10.26 (월)</div>
+      </div>
+      <div class="nh-hello" id="nhHello">안녕하세요<span>2026.10.26(월) · 리베라C.C</span></div>
+
+      <!-- MY ROUND -->
+      <div id="homeRound"></div>
+
+      <!-- Today's Flow -->
+      <div class="nh-sec"><h2>Today's Flow</h2><button type="button" data-go="program">프로그램 표</button></div>
+      <div class="flow-wrap">
+        <ol class="flow" id="flowHome"></ol>
+        <button type="button" class="flow-toggle" id="flowToggle">전체 일정 보기</button>
+      </div>
+
+      <!-- PLAYER TOOLS -->
+      <div class="nh-sec"><h2>Player Tools</h2></div>
+      <div class="tool-grid">
+        <button type="button" class="tool t1" data-go="teams"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg></div><div class="tool-txt"><div class="tool-name">TEAM DRAW</div><div class="tool-desc">40개 팀 조편성</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg></span></button>
+        <button type="button" class="tool t2" data-go="attendees"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.4 0 4.2 1.9 4.2 4.5"/></svg></div><div class="tool-txt"><div class="tool-name">GOLF &amp; PEOPLE</div><div class="tool-desc">참석자 명단</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.4 0 4.2 1.9 4.2 4.5"/></svg></span></button>
+        <button type="button" class="tool t3" data-go="notice"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg></div><div class="tool-txt"><div class="tool-name">CLUB NOTICE</div><div class="tool-desc">참가자 안내 · 문의</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg></span></button>
+        <button type="button" class="tool t4" data-go="location"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div class="tool-txt"><div class="tool-name">VENUE</div><div class="tool-desc">오시는 길 · 길찾기</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span></button>
+        <button type="button" class="tool t5" data-go="sponsors"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="4" rx="1"/><path d="M5 12v8h14v-8"/><path d="M12 8v12"/><path d="M12 8c-1.5-3.5-5-3.5-5-1.2C7 8 9 8 12 8zM12 8c1.5-3.5 5-3.5 5-1.2C17 8 15 8 12 8z"/></svg></div><div class="tool-txt"><div class="tool-name">SPONSORS</div><div class="tool-desc">협찬 소개</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="4" rx="1"/><path d="M5 12v8h14v-8"/><path d="M12 8v12"/><path d="M12 8c-1.5-3.5-5-3.5-5-1.2C7 8 9 8 12 8zM12 8c1.5-3.5 5-3.5 5-1.2C17 8 15 8 12 8z"/></svg></span></button>
+        <button type="button" class="tool t6" data-go="program"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></div><div class="tool-txt"><div class="tool-name">PROGRAM</div><div class="tool-desc">행사 프로그램 전체</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span></button>
+      </div>
+
+      <!-- 리베라CC 클럽 카드 -->
+      <div class="nh-sec"><h2>The Club</h2></div>
+      <div class="club">
+        <div class="club-tag">OFFICIAL VENUE</div>
+        <div class="club-name">Riviera<br>Country Club</div>
+        <div class="club-ko">리베라CC</div>
+        <div class="club-courses"><span><i style="background:var(--valley)"></i>밸리코스</span><span><i style="background:var(--lake)"></i>레이크코스</span></div>
+        <div class="club-addr">경기도 화성시 동탄면 중리길 183<br>대표전화 031-8047-8000</div>
+        <div class="club-stats">
+          <div class="club-stat"><b>18</b><span>HOLES</span></div>
+          <div class="club-stat"><b>40</b><span>TEAMS</span></div>
+          <div class="club-stat"><b>160</b><span>PLAYERS</span></div>
+          <div class="club-stat"><b>13:00</b><span>SHOTGUN</span></div>
+        </div>
+        <div class="club-actions">
+          <button type="button" class="club-btn primary" data-go="location">길찾기</button>
+          <a class="club-btn ghost" href="tel:03180478000">전화하기</a>
         </div>
       </div>
-    </div>
 
-    <!-- 2. 본문 영역 (2열 3행 메뉴) -->
-    <div class="home-content">
-      <div class="home-menu-grid">
-        <button class="btn-premium" data-go="attendees">
-          <div class="btn-icon-wrap">👥</div><div class="btn-text-wrap"><div class="btn-title">전체 참석자 명단</div><div class="btn-desc">- 대회 신청자 명단</div></div><div class="btn-arrow">▶</div>
-        </button>
-        <button class="btn-premium" data-go="teams">
-          <div class="btn-icon-wrap">🏌️‍♂️</div><div class="btn-text-wrap"><div class="btn-title">조편성 확인하기</div><div class="btn-desc">- 40개팀 160인 명단</div></div><div class="btn-arrow">▶</div>
-        </button>
-        <button class="btn-premium" data-go="program">
-          <div class="btn-icon-wrap">📋</div><div class="btn-text-wrap"><div class="btn-title">행사 프로그램</div><div class="btn-desc">- 오찬, 라운딩, 시상식</div></div><div class="btn-arrow">▶</div>
-        </button>
-        <button class="btn-premium" data-go="sponsors">
-          <div class="btn-icon-wrap">🎁</div><div class="btn-text-wrap"><div class="btn-title">협찬 소개</div><div class="btn-desc">- 대회 협찬 소개</div></div><div class="btn-arrow">▶</div>
-        </button>
-        <button class="btn-premium" data-go="notice">
-          <div class="btn-icon-wrap">📢</div><div class="btn-text-wrap"><div class="btn-title">공지사항</div><div class="btn-desc">- 대회 관련 문의사항</div></div><div class="btn-arrow">▶</div>
-        </button>
-        <button class="btn-premium" data-go="location">
-          <div class="btn-icon-wrap">🗺️</div><div class="btn-text-wrap"><div class="btn-title">찾아오시는길</div><div class="btn-desc">- 리베라CC 위치 안내</div></div><div class="btn-arrow">▶</div>
-        </button>
-      </div>
-
-      <div class="quick-link-wrap">
+      <!-- 외부 링크 / 앱 설치 / 로그아웃 -->
+      <div class="nh-links">
+        <div class="quick-link-wrap">
         <a href="https://www.koda.or.kr/main/" target="_blank" class="quick-link-btn">KODA HOME</a>
         <a href="https://search.naver.com/search.naver?ssc=tab.news.all&query=%EB%94%94%EB%B2%A8%EB%A1%9C%ED%8D%BC%ED%98%91%ED%9A%8C&sm=tab_opt&sort=0&photo=0&field=0&pd=0&ds=2026.09.02&de=2026.09.02&docid=&qdt=0&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so%3Ar%2Cp%3Aall&is_sug_officeid=0&office_category=0&service_area=0" target="_blank" class="quick-link-btn">언론보도 현황</a>
         <a href="https://www.youtube.com/@kodatv9717" target="_blank" class="quick-link-btn">KODA-TV</a>
         <a href="https://kodaarp.kr/arp/" target="_blank" class="quick-link-btn">KODA-ARP</a>
       </div>
-
-      <!-- 앱 설치하기 버튼 (화살표 제거 및 색상 변경) -->
+      </div>
       <div class="home-action-row">
         <button type="button" class="home-action-btn" id="installAppBtn">앱 설치</button>
         <button type="button" class="home-action-btn" id="logoutBtn">로그아웃</button>
       </div>
-      <div class="home-footer">한국디벨로퍼협회</div>
+      <div class="nh-org">주최 한국디벨로퍼협회 · 주관 KODA회원위원회<br>18홀 신페리오 · 참가 160인 / 40개팀</div>
+    </div>
+  </section>
 
+  <!-- ================= MY ROUND (내 라운드 탭) ================= -->
+  <section id="screen-myround" class="screen">
+    <div class="nh-scroll">
+      <div class="mrs-title"><h1>My Round</h1><div class="mrs-sync" id="mrsSync"></div></div>
+      <div id="myRoundHero"></div>
+
+      <div class="nh-sec"><h2>Team</h2></div>
+      <div class="roster" id="myRoster"></div>
+      <div class="mrs-actions">
+        <button type="button" class="primary" id="mrsDetailBtn">내 조 상세</button>
+        <button type="button" data-go="teams">전체 조편성</button>
+      </div>
+
+      <div class="nh-sec"><h2>Today's Flow</h2></div>
+      <div class="flow-wrap"><ol class="flow" id="flowFull"></ol></div>
     </div>
   </section>
 
@@ -853,6 +841,14 @@ body{font-family:"Pretendard","Noto Sans KR",Arial,sans-serif!important}
       <div id="detailPlayers"></div>
     </div>
   </section>
+
+  <!-- ================= 하단 고정 네비게이션 ================= -->
+  <nav class="bottom-nav hidden" id="bottomNav" aria-label="주요 메뉴">
+    <button type="button" class="bn active" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg><span>HOME</span></button>
+    <button type="button" class="bn" data-tab="myround"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg><span>MY ROUND</span></button>
+    <button type="button" class="bn" data-tab="attendees"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.4 0 4.2 1.9 4.2 4.5"/></svg><span>PEOPLE</span></button>
+    <button type="button" class="bn" data-tab="location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>VENUE</span></button>
+  </nav>
 
 </div>
 
@@ -1295,76 +1291,218 @@ const logoutBtn=document.getElementById('logoutBtn'); if(logoutBtn) logoutBtn.ad
 loadGolfSheet3Content();
 window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.screen) ? e.state.screen : 'cover'));
 
+
+// =====================================================================
+// NEW UI LAYER — 기존 데이터(PLAYERS/TEAMS)·로그인·화면 라우팅을 그대로 읽어서 그린다
+// =====================================================================
+(function(){
+  const EVENT_YMD = [2026, 10, 26];
+  const TEE_OFF = '13:00';
+  const $ = id => document.getElementById(id);
+
+  function getAuth(){ try{ return JSON.parse(localStorage.getItem('koda_golf_auth')||'null'); }catch(e){ return null; } }
+  function digits(v){ return String(v||'').replace(/[^0-9]/g,''); }
+  function courseName(c){ return c==='V' ? '밸리코스' : '레이크코스'; }
+  function kstNow(){ return new Date(Date.now() + 9*3600*1000); }
+
+  // 시트1의 핸드폰 칸이 비어 있어도 동작: 전화 일치 → 이름 1건 → 저장된 선택(동명이인) 순
+  function candidates(){
+    const a = getAuth(); if(!a || !PLAYERS.length) return [];
+    return PLAYERS.filter(p => p.name===a.name);
+  }
+  function getPick(){ try{ return JSON.parse(localStorage.getItem('koda_golf_myteam')||'null'); }catch(e){ return null; } }
+  function findMe(){
+    const a = getAuth(); const c = candidates(); if(!a || !c.length) return null;
+    const byPhone = c.filter(p => digits(p.mobile) && digits(p.mobile)===digits(a.phone));
+    if(byPhone.length===1) return byPhone[0];
+    if(c.length===1) return c[0];
+    const pick = getPick();
+    if(pick && pick.name===a.name){ const m = c.find(p => p.teamId===pick.teamId); if(m) return m; }
+    return null;   // 동명이인 → 선택 필요
+  }
+  function isAmbiguous(){ return !findMe() && candidates().length > 1; }
+  // 시트1 소속·직위가 비어 있으면 시트2(참석자 명단)의 소속을 보충
+  function orgOf(m){
+    if(m.org || m.title) return [m.org, m.title].filter(Boolean).join(' · ');
+    const a = (typeof ATTENDEES!=='undefined' ? ATTENDEES : []).find(x => x.name===m.name);
+    return a && a.org ? a.org : '';
+  }
+  window.pickMyTeam = function(teamId){
+    const a = getAuth(); if(!a) return;
+    localStorage.setItem('koda_golf_myteam', JSON.stringify({name:a.name, teamId}));
+    renderMyRound();
+  };
+
+  // ---------- D-day / 인사 ----------
+  function renderTop(){
+    const n = kstNow();
+    const today = Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate());
+    const ev = Date.UTC(EVENT_YMD[0], EVENT_YMD[1]-1, EVENT_YMD[2]);
+    const d = Math.round((ev - today)/86400000);
+    $('nhDday').textContent = d>0 ? 'D-'+d : d===0 ? 'TODAY' : '대회 종료';
+    const a = getAuth();
+    $('nhHello').innerHTML = (a && a.name ? '안녕하세요, <b>'+escapeHtml(a.name)+'</b>님' : '안녕하세요')
+      + '<span>2026.10.26(월) · 리베라C.C</span>';
+  }
+
+  // ---------- MY ROUND 카드 ----------
+  function heroHTML(clickable){
+    const me = findMe();
+    const team = me ? TEAMS.find(t => t.id===me.teamId) : null;
+    const loading = !PLAYERS.length;
+    const cls = team ? (team.course==='V'?'v':'l') : '';
+    let facts, mates;
+    if(team){
+      const mate = team.members.filter(m => m !== me);
+      facts = `<div class="mr-facts">
+        <div class="mr-fact"><span>나의 조</span><b>${escapeHtml(team.id)}</b></div>
+        <div class="mr-fact"><span>출발 코스</span><b>${courseName(team.course).replace('코스','')} ${team.hole}번홀</b></div></div>`;
+      mates = `<div class="mr-mates"><span>동반자</span><div class="mr-mate-list">${
+        mate.length ? mate.map(m=>'<div class="mr-mate">'+escapeHtml(m.name)+'</div>').join('') : '<div class="mr-mate">-</div>'}</div></div>`;
+    } else {
+      facts = '';
+      if(isAmbiguous()){
+        mates = `<div class="mr-empty">같은 이름의 참가자가 ${candidates().length}명 있습니다. 본인 조를 선택해주세요.
+          <div class="mr-pick">${candidates().map(c=>`<button type="button" onclick="pickMyTeam('${escapeHtml(c.teamId)}')">
+            <b>${escapeHtml(c.teamId)}</b><span>${courseName(c.teamId[0])} ${escapeHtml(c.teamId.split('-')[1])}번홀${orgOf(c)?' · '+escapeHtml(orgOf(c)):''}</span></button>`).join('')}</div></div>`;
+      } else {
+        mates = `<div class="mr-empty">${loading ? '조편성 정보를 불러오는 중입니다.' :
+          '아직 배정된 조가 없습니다. 조편성이 확정되면 이곳에 나의 조와 동반자가 표시됩니다.'}</div>`;
+      }
+    }
+    return `<div class="mr-card${clickable?' clickable':''}" ${clickable?'data-go-tab="myround"':''}>
+      <div class="mr-head"><div class="mr-label">MY ROUND</div>
+        ${team?`<div class="mr-course ${cls}"><i></i>${courseName(team.course)}</div>`:''}</div>
+      <div class="mr-tee"><div class="mr-tee-time">${TEE_OFF}</div>
+        <div class="mr-tee-side">TEE OFF<em>샷건 · 동시출발</em></div></div>
+      ${facts}${mates}
+      ${clickable?'<div class="mr-more">내 라운드 자세히 보기 ›</div>':''}
+    </div>`;
+  }
+
+  // ---------- 조 명단 (MY ROUND 탭) ----------
+  function renderRoster(){
+    const me = findMe();
+    const team = me ? TEAMS.find(t => t.id===me.teamId) : null;
+    const box = $('myRoster'), btn = $('mrsDetailBtn');
+    if(!team){
+      box.innerHTML = '<div class="rost"><div class="rost-body"><div class="rost-org">'+(!PLAYERS.length?'불러오는 중...':isAmbiguous()?'위 카드에서 본인 조를 선택해주세요.':'배정된 조가 없습니다.')+'</div></div></div>';
+      btn.style.display='none'; return;
+    }
+    btn.style.display='';
+    box.innerHTML = team.members.map((m,i)=>`
+      <div class="rost${m===me?' me':''}">
+        <div class="rost-no">${i+1}</div>
+        <div class="rost-body">
+          <div class="rost-name">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</div>
+          <div class="rost-org">${escapeHtml(orgOf(m)||'-')}</div>
+        </div>
+        ${m!==me && digits(m.mobile) ? '<a class="rost-call" href="tel:'+digits(m.mobile)+'" aria-label="'+escapeHtml(m.name)+' 전화"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>':''}
+      </div>`).join('');
+  }
+
+  // ---------- Today's Flow : 기존 '행사 프로그램' 표를 데이터 소스로 사용 ----------
+  function cellText(el){
+    const c = el.cloneNode(true);
+    c.querySelectorAll('br').forEach(b => b.replaceWith(' '));
+    return c.textContent.replace(/\s+/g,' ').trim();
+  }
+  function readProgram(){
+    return Array.from(document.querySelectorAll('#screen-program tbody tr')).map(tr=>{
+      const td = tr.querySelectorAll('td'); if(td.length<2) return null;
+      const time = cellText(td[0]);
+      const m = time.match(/(\d{1,2}):(\d{2})\s*~\s*(?:(\d{1,2}):(\d{2}))?/);
+      const s = m ? (+m[1])*60+(+m[2]) : 0;
+      const e = m && m[3] ? (+m[3])*60+(+m[4]) : s+30;
+      const items = Array.from(td[1].querySelectorAll('li')).map(cellText);
+      const place = td[2] ? cellText(td[2]) : '';
+      const parts = time.split('~').map(x=>x.trim());
+      return { s, e, start:parts[0], end:parts[1]||'', items, place: place==='-'?'':place,
+               tee: items.join(' ').includes('라운딩') };
+    }).filter(Boolean);
+  }
+  let flowOpen = false;
+  function flowStatus(rows){
+    const n = kstNow();
+    const isDay = n.getUTCFullYear()===EVENT_YMD[0] && n.getUTCMonth()+1===EVENT_YMD[1] && n.getUTCDate()===EVENT_YMD[2];
+    const past = Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate()) > Date.UTC(EVENT_YMD[0],EVENT_YMD[1]-1,EVENT_YMD[2]);
+    const min = n.getUTCHours()*60 + n.getUTCMinutes();
+    return rows.map(r => past ? 'done' : !isDay ? 'next' : min>=r.e ? 'done' : min>=r.s ? 'now' : 'next');
+  }
+  function flowItemHTML(r, st){
+    const cls = [st==='done'?'is-done':'', st==='now'?'is-now':'', r.tee?'is-tee':''].join(' ');
+    return `<li class="flow-item ${cls}">
+      <div class="flow-time">${escapeHtml(r.start)}${r.end?'<small>~ '+escapeHtml(r.end)+'</small>':'<small>~</small>'}</div>
+      <div class="flow-rail"><div class="flow-dot"></div></div>
+      <div><div class="flow-title">${escapeHtml(r.items[0]||'')}</div>
+        ${r.items.length>1?'<div class="flow-sub">'+escapeHtml(r.items.slice(1).join(' · '))+'</div>':''}
+        ${r.place?'<span class="flow-place">'+escapeHtml(r.place)+'</span>':''}</div></li>`;
+  }
+  function renderFlow(){
+    const rows = readProgram(); if(!rows.length) return;
+    const st = flowStatus(rows);
+    let first = st.findIndex(x => x!=='done'); if(first<0) first = Math.max(0, rows.length-4);
+    const start = flowOpen ? 0 : first, end = flowOpen ? rows.length : Math.min(rows.length, first+5);
+    $('flowHome').innerHTML = rows.slice(start,end).map((r,i)=>flowItemHTML(r, st[start+i])).join('');
+    $('flowFull').innerHTML = rows.map((r,i)=>flowItemHTML(r, st[i])).join('');
+    $('flowToggle').textContent = flowOpen ? '접기' : '전체 일정 보기 ('+rows.length+')';
+    $('flowToggle').style.display = rows.length>5 ? '' : 'none';
+  }
+  $('flowToggle').addEventListener('click', ()=>{ flowOpen = !flowOpen; renderFlow(); });
+
+  // ---------- 전체 갱신 ----------
+  window.renderMyRound = function(){
+    renderTop();
+    $('homeRound').innerHTML = heroHTML(true);
+    $('myRoundHero').innerHTML = '<div style="margin:0 0 0">'+heroHTML(false)+'</div>';
+    renderRoster();
+    renderFlow();
+    const t = (typeof lastUpdatedAt!=='undefined' && lastUpdatedAt) ? formatTime(lastUpdatedAt)+' 업데이트' : '';
+    $('mrsSync').textContent = t;
+  };
+  // 카드 탭 → MY ROUND
+  document.addEventListener('click', e=>{
+    const c = e.target.closest('[data-go-tab]'); if(c) navigateTo(c.dataset.goTab);
+  });
+  $('mrsDetailBtn').addEventListener('click', ()=>{
+    const me = findMe(); if(me){ showTeamDetail(me.teamId); }
+  });
+
+  // ---------- 하단 네비 ----------
+  const TAB_OF = { home:'home', program:'home', sponsors:'home', notice:'home',
+                   myround:'myround', teams:'myround', teamdetail:'myround',
+                   attendees:'attendees', location:'location' };
+  const nav = $('bottomNav');
+  let current = 'cover';
+  nav.querySelectorAll('.bn').forEach(b => b.addEventListener('click', ()=>{
+    if(current !== b.dataset.tab) navigateTo(b.dataset.tab);
+  }));
+  const _apply = applyScreen;
+  applyScreen = function(name){
+    _apply(name); current = name;
+    nav.classList.toggle('hidden', name==='cover');
+    nav.querySelectorAll('.bn').forEach(b => b.classList.toggle('active', b.dataset.tab===TAB_OF[name]));
+    if(name!=='cover') renderMyRound();
+  };
+  // 조편성 데이터가 (재)계산될 때마다 MY ROUND 갱신
+  const _rebuild = rebuildTeams;
+  rebuildTeams = function(){ _rebuild(); renderMyRound(); };
+
+  $('logoutBtn').addEventListener('click', ()=>{ localStorage.removeItem('koda_golf_myteam'); });
+  const _ra = renderAttendees; renderAttendees = function(){ _ra(); renderMyRound(); };
+  // 로그인 유지: 저장된 로그인이 있으면 새로고침(당겨서 새로고침 포함)해도 로그인 화면을 건너뜀
+  (function restoreSession(){
+    const a = getAuth();
+    if(!a || !a.name || !a.phone) return;
+    const OK = ['home','myround','attendees','location','teams','program','sponsors','notice'];
+    let h = window.__INIT_HASH || '';
+    if(!OK.includes(h)) h = 'home';
+    history.replaceState({screen:h}, '', '#'+h);
+    applyScreen(h);
+  })();
+  renderMyRound();
+  setInterval(renderFlow, 60000);
+})();
 </script>
 </body>
 </html>
-
-
-<script id="premium-golfclub-white-script">
-(function(){
- function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
- function player(){
-   try{return JSON.parse(localStorage.getItem('koda_golf_auth')||'null')}catch(e){return null}
- }
- function listPlayers(){
-   if(Array.isArray(window.players)) return window.players;
-   if(Array.isArray(window.allPlayers)) return window.allPlayers;
-   if(window.data&&Array.isArray(window.data.players)) return window.data.players;
-   return [];
- }
- window.wgSync=function(){
-   const p=player(), ps=listPlayers();
-   const name=p&&(p.name||p.userName||p.memberName)||'';
-   document.getElementById('wg-name').innerHTML=name?esc(name)+' <small>님, 환영합니다</small>':'참가자님 <small>환영합니다</small>';
-   if(!name)return;
-   const mine=ps.find(x=>(x.name||x.memberName||x[3]||'')===name);
-   if(!mine)return;
-   const team=mine.teamId||mine.team||mine[5]||'';
-   const course=String(team).charAt(0).toUpperCase()==='L'?'레이크 9':String(team).charAt(0).toUpperCase()==='V'?'밸리 9':'확인 중';
-   const hole=String(team).replace(/^[A-Za-z]/,'')||'확인 중';
-   document.getElementById('wg-team').textContent=team?'나의 조 · '+team:'조편성 확인 중';
-   document.getElementById('wg-roundtitle').textContent=team?'나의 조 '+team:'나의 조편성';
-   document.getElementById('wg-course').textContent=course;
-   document.getElementById('wg-hole').textContent=hole+'번 홀';
-   const same=ps.filter(x=>(x.teamId||x.team||x[5]||'')===team).slice(0,4);
-   document.getElementById('wg-members').innerHTML=same.map(x=>{
-     const n=x.name||x.memberName||x[3]||'';
-     const org=x.org||x.company||x[1]||'';
-     const title=x.title||x.position||x[2]||'';
-     const phone=x.mobile||x.phone||x[4]||'';
-     return '<div class="wg-member"><div class="wg-avatar">'+esc(n.slice(0,1))+'</div><div class="wg-memberinfo"><b>'+esc(n)+'</b><span>'+esc([org,title].filter(Boolean).join(' · '))+'</span></div>'+(phone?'<button class="wg-call" onclick="location.href=\\'tel:'+esc(phone)+'\\'">☎</button>':'')+'</div>';
-   }).join('');
- };
- window.wgHome=function(btn){
-   document.querySelectorAll('.wg-nav').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
-   window.scrollTo({top:0,behavior:'smooth'});
- };
- window.wgOpen=function(type,btn){
-   document.querySelectorAll('.wg-nav').forEach(x=>x.classList.remove('active'));
-   if(btn)btn.classList.add('active');
-   const modal=document.getElementById('wg-modal'), title=document.getElementById('wg-modal-title'), body=document.getElementById('wg-modal-body');
-   modal.classList.add('show');
-   let fn, selector;
-   if(type==='team'){title.textContent='나의 라운드';fn='renderTeamDetail';selector='#screen-teamdetail';}
-   else if(type==='teams'){title.textContent='전체 조편성';fn='renderTeams';selector='#screen-teams';}
-   else if(type==='people'){title.textContent='참가자';fn='renderAttendees';selector='#screen-attendees';}
-   else if(type==='notice'){title.textContent='대회 공지';fn='renderNotice';selector='#screen-notice';}
-   else if(type==='location'){title.textContent='골프장 안내';fn='renderLocation';selector='#screen-location';}
-   else {title.textContent='참가 안내';fn='loadGolfSheet3Content';selector='#screen-program';}
-   try{
-     if(typeof window[fn]==='function') window[fn]();
-     setTimeout(()=>{
-       const src=document.querySelector(selector+' .screen-content, '+selector+' .content, '+selector);
-       body.innerHTML=src?src.innerHTML:'<div style="padding:20px;text-align:center;color:#7b8791;font-size:12px">내용을 불러오는 중입니다.</div>';
-     },150);
-   }catch(e){body.innerHTML='<div style="padding:20px;text-align:center;color:#7b8791;font-size:12px">내용을 불러오는 중입니다.</div>';}
- };
- window.wgClose=function(){document.getElementById('wg-modal').classList.remove('show');};
- window.premiumInit=function(){
-   document.querySelectorAll('#screen-cover,#screen-home,#screen-attendees,#screen-program,#screen-location,#screen-sponsors,#screen-notice,#screen-teams,#screen-teamdetail').forEach(el=>el.classList.add('wg-legacy'));
-   document.getElementById('white-golf-shell').style.display='block';
-   setTimeout(wgSync,800);
- };
- document.addEventListener('DOMContentLoaded',function(){setTimeout(premiumInit,300);setInterval(wgSync,3000);});
-})();
-</script>
