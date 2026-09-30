@@ -101,6 +101,13 @@ body{
   margin-bottom:16px;
 }
 .enter-btn:active{ transform:scale(0.97); }
+#screen-cover .enter-btn{ order:3; margin-top:2px; margin-bottom:0; }
+#screen-cover .login-input-golf{ order:1; }
+#screen-cover .login-error-golf{ order:4; }
+#screen-cover .login-box-golf{ display:flex; flex-direction:column; }
+#screen-cover .cover-logo,#screen-cover .cover-title,#screen-cover .cover-sub{ flex-shrink:0; }
+#screen-cover .login-input-golf:first-of-type{ margin-top:0; }
+
 .enter-btn:disabled{ background:#A0AEC0; cursor:not-allowed; }
 .login-input-golf{
   width:100%; padding:11px 12px; border:1px solid #E2E8F0; border-radius:8px;
@@ -317,16 +324,16 @@ body{
    NEW UI LAYER  (MY ROUND 중심 리디자인) — 기존 CSS는 그대로 두고 덮어씀
    ===================================================================== */
 :root{
-  --navy:#0B3D91; --navy-2:#155BB8; --gold:#D6F25C; --gold-deep:#5E8A00;
-  --valley:#3DDC97; --lake:#CFE8FF;
+  --navy:#245B9A; --navy-2:#3274B8; --gold:#DDEB72; --gold-deep:#718B20;
+  --valley:#A8D98B; --lake:#CFE4F7;
   --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
 }
 .screen{ min-height:0; }
 .content{ min-height:0; }
 
 /* ---------- COVER (로그인 화면 톤만 맞춤, 로직 동일) ---------- */
-#screen-cover{ background:radial-gradient(120% 80% at 50% 0%, #FFFFFF 0%, #DCEEFF 55%, #BFDDFB 100%); }
-#screen-cover .login-box-golf{ box-shadow:0 20px 50px rgba(22,99,199,.18); border-top:4px solid var(--gold); }
+#screen-cover{ background:linear-gradient(145deg,#FFFFFF 0%,#F3F7FB 58%,#E7EEF7 100%); }
+#screen-cover .login-box-golf{ box-shadow:0 20px 50px rgba(22,99,199,.12); border-top:0; }
 #screen-cover .cover-foot{ color:var(--ink-soft); }
 
 /* ---------- HOME ---------- */
@@ -351,7 +358,8 @@ body{
 .mr-course{ font-size:12px; font-weight:800; padding:5px 11px; border-radius:999px; background:rgba(255,255,255,.22); display:inline-flex; align-items:center; gap:6px; }
 .mr-course i{ width:8px; height:8px; border-radius:50%; display:inline-block; }
 .mr-course.v i{ background:var(--valley); } .mr-course.l i{ background:var(--lake); }
-.mr-tee{ margin:14px 0 4px; display:flex; align-items:baseline; gap:12px; }
+.mr-primary-course{ margin-top:18px; font-size:25px; line-height:1.2; font-weight:900; letter-spacing:-.7px; color:#fff; }
+.mr-tee{ margin:8px 0 4px; display:flex; align-items:baseline; gap:12px; }
 .mr-tee-time{ font-family:var(--serif); font-size:78px; line-height:.9; font-weight:700; color:var(--gold); letter-spacing:-1px; font-variant-numeric:tabular-nums; }
 .mr-tee-side{ font-size:13px; font-weight:800; color:#fff; line-height:1.45; letter-spacing:-.2px; }
 .mr-tee-side em{ display:block; font-style:normal; font-size:11px; font-weight:700; color:rgba(255,255,255,.85); }
@@ -359,11 +367,12 @@ body{
 .mr-fact{ padding:14px 0 4px; }
 .mr-fact + .mr-fact{ padding-left:16px; border-left:1px solid rgba(255,255,255,.32); }
 .mr-fact span{ display:block; font-size:11.5px; font-weight:700; color:rgba(255,255,255,.85); margin-bottom:4px; }
-.mr-fact b{ font-size:22px; font-weight:900; letter-spacing:-.5px; word-break:keep-all; }
+.mr-fact b{ font-size:20px; font-weight:900; letter-spacing:-.5px; word-break:keep-all; }
 .mr-mates{ margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.32); }
 .mr-mates > span{ display:block; font-size:11.5px; font-weight:700; color:rgba(255,255,255,.85); margin-bottom:9px; }
 .mr-mate-list{ display:flex; flex-wrap:wrap; gap:7px; }
-.mr-mate{ background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.35); border-radius:12px; padding:7px 12px; font-size:14px; font-weight:800; letter-spacing:-.3px; }
+.mr-fact b small{ font-size:12px; font-weight:700; opacity:.9; }
+.mr-mate{ background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.35); border-radius:12px; padding:7px 12px; font-size:14px; font-weight:800; letter-spacing:-.3px; cursor:pointer; font-family:inherit; color:#fff; }
 .mr-empty{ margin-top:16px; padding:14px 0 2px; border-top:1px solid rgba(255,255,255,.32); font-size:13.5px; line-height:1.6; font-weight:600; color:rgba(255,255,255,.85); word-break:keep-all; }
 .mr-more{ margin-top:14px; font-size:12px; font-weight:800; color:var(--gold); text-align:right; }
 
@@ -405,18 +414,18 @@ body{
 
 /* 플레이어 도구 */
 .tool-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 16px; }
-.tool{ position:relative; overflow:hidden; text-align:left; font-family:inherit; cursor:pointer; border:0; border-radius:20px; padding:16px 15px 14px; min-height:124px;
-  display:flex; flex-direction:column; justify-content:space-between; gap:14px; background:var(--tint); box-shadow:0 6px 16px rgba(22,99,199,.08); transition:transform .12s; }
+.tool{ position:relative; overflow:hidden; text-align:left; font-family:inherit; cursor:pointer; border:0; border-radius:16px; padding:12px 13px; min-height:82px;
+  display:flex; flex-direction:row; align-items:center; justify-content:flex-start; gap:10px; background:var(--tint); box-shadow:0 5px 14px rgba(22,99,199,.06); transition:transform .12s; }
 .tool:active{ transform:scale(.97); }
-.tool-ico{ position:relative; z-index:1; width:40px; height:40px; border-radius:50%; background:#fff; color:var(--ink-c); display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.06); }
-.tool-ico svg{ width:20px; height:20px; }
+.tool-ico{ position:relative; z-index:1; width:34px; height:34px; border-radius:50%; background:#fff; color:var(--ink-c); display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+.tool-ico svg{ width:18px; height:18px; }
 .tool-txt{ position:relative; z-index:1; }
 .tool-name{ font-size:13px; font-weight:900; letter-spacing:.5px; color:var(--ink-c); }
 .tool-desc{ font-size:11.5px; font-weight:700; color:rgba(26,35,51,.62); margin-top:3px; letter-spacing:-.2px; word-break:keep-all; }
-.tool-wm{ position:absolute; right:-12px; bottom:-16px; width:92px; height:92px; color:var(--ink-c); opacity:.1; }
+.tool-wm{ position:absolute; right:-16px; bottom:-20px; width:72px; height:72px; color:var(--ink-c); opacity:.1; }
 .tool-wm svg{ width:100%; height:100%; }
-.t1{ --tint:#DCEEFF; --ink-c:#155BB8; } .t2{ --tint:#DDF6E8; --ink-c:#0E8F63; } .t3{ --tint:#F1FAC9; --ink-c:#5E8A00; }
-.t4{ --tint:#D9F3F7; --ink-c:#0B8794; } .t5{ --tint:#FFF0D2; --ink-c:#B36A00; } .t6{ --tint:#E8E6FB; --ink-c:#5B4FC7; }
+.t1{ --tint:#E8F1FA; --ink-c:#3975AE; } .t2{ --tint:#E7F4EA; --ink-c:#31805F; } .t3{ --tint:#F4F6D9; --ink-c:#718B20; }
+.t4{ --tint:#E6F3F5; --ink-c:#378692; } .t5{ --tint:#FFF2DD; --ink-c:#A8752D; } .t6{ --tint:#ECEAF8; --ink-c:#665FB0; }
 
 /* 리베라CC 프리미엄 클럽 카드 */
 .club{ margin:0 16px; border-radius:24px; overflow:hidden; position:relative; color:#fff; padding:26px 22px 20px; min-height:300px; display:flex; flex-direction:column; justify-content:flex-end;
@@ -452,6 +461,13 @@ body{
 .rost-no{ width:30px; height:30px; border-radius:50%; background:var(--blue-tint); color:var(--blue-deep); font-weight:900; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .rost.me .rost-no{ background:var(--gold); color:var(--navy); }
 .rost-body{ flex:1; min-width:0; }
+.clickable-person{ cursor:pointer; }
+.person-detail-name{ font-size:28px; font-weight:900; color:var(--navy); margin-bottom:20px; }
+.person-detail-row{ display:flex; gap:12px; padding:12px 0; border-top:1px solid var(--line); font-size:14px; }
+.person-detail-row span{ width:72px; flex-shrink:0; color:var(--ink-faint); font-weight:700; }
+.person-detail-row b{ color:var(--ink); }
+.person-detail-row small{ font-size:11px; color:var(--ink-soft); }
+.person-call{ display:block; margin-top:18px; padding:13px; text-align:center; border-radius:12px; background:var(--blue); color:#fff; text-decoration:none; font-weight:800; }
 .rost-name{ font-size:16px; font-weight:900; letter-spacing:-.4px; }
 .rost-name em{ font-style:normal; margin-left:6px; font-size:10.5px; font-weight:800; color:var(--gold-deep); border:1px solid var(--gold); padding:1px 6px; border-radius:999px; vertical-align:middle; }
 .rost-org{ font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-top:2px; word-break:keep-all; }
@@ -542,16 +558,6 @@ body{
           <button type="button" class="club-btn primary" data-go="location">길찾기</button>
           <a class="club-btn ghost" href="tel:03180478000">전화하기</a>
         </div>
-      </div>
-
-      <!-- 외부 링크 / 앱 설치 / 로그아웃 -->
-      <div class="nh-links">
-        <div class="quick-link-wrap">
-        <a href="https://www.koda.or.kr/main/" target="_blank" class="quick-link-btn">KODA HOME</a>
-        <a href="https://search.naver.com/search.naver?ssc=tab.news.all&query=%EB%94%94%EB%B2%A8%EB%A1%9C%ED%8D%BC%ED%98%91%ED%9A%8C&sm=tab_opt&sort=0&photo=0&field=0&pd=0&ds=2026.09.02&de=2026.09.02&docid=&qdt=0&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so%3Ar%2Cp%3Aall&is_sug_officeid=0&office_category=0&service_area=0" target="_blank" class="quick-link-btn">언론보도 현황</a>
-        <a href="https://www.youtube.com/@kodatv9717" target="_blank" class="quick-link-btn">KODA-TV</a>
-        <a href="https://kodaarp.kr/arp/" target="_blank" class="quick-link-btn">KODA-ARP</a>
-      </div>
       </div>
       <div class="home-action-row">
         <button type="button" class="home-action-btn" id="installAppBtn">앱 설치</button>
@@ -842,6 +848,14 @@ body{
     </div>
   </section>
 
+  <!-- ================= 동반자 상세 정보 ================= -->
+  <section id="screen-persondetail" class="screen">
+    <div class="topbar">
+      <div class="back-btn" data-back>←</div><div class="topbar-title" id="personDetailTitle">동반자 상세</div>
+    </div>
+    <div class="content" style="padding:24px 20px;"><div id="personDetailBody"></div></div>
+  </section>
+
   <!-- ================= 하단 고정 네비게이션 ================= -->
   <nav class="bottom-nav hidden" id="bottomNav" aria-label="주요 메뉴">
     <button type="button" class="bn active" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg><span>HOME</span></button>
@@ -945,6 +959,8 @@ function rebuildTeams(){
 }
 
 function teamLabel(t) { return `(${t.course==='V'?'밸리코스':'레이크코스'} ${t.hole}번홀 시작, 13:00~)`; }
+function teamGroupLabel(id){ const p=String(id||'').split('-'); return p.length>=3 ? `${p[0]==='V'?'밸리코스':'레이크코스'} ${p[1]}번홀 ${p[2]}그룹` : ''; }
+function teamDisplayLabel(t){ return t ? `${t.course==='V'?'밸리코스':'레이크코스'} ${t.hole}번홀` : ''; }
 
 function renderTeams(list){
   const grid = document.getElementById('teamGrid');
@@ -1243,6 +1259,26 @@ document.getElementById('installAppBtn').addEventListener('click', async () => {
   }
 });
 
+
+window.showPersonDetailByKey = function(key){
+  const k=String(key||'');
+  const p=PLAYERS.find(x=>String(x.no||x.name)===k) || PLAYERS.find(x=>x.name===k);
+  if(!p) return;
+  const body=document.getElementById('personDetailBody');
+  document.getElementById('personDetailTitle').textContent=p.name+' 상세';
+  const team=TEAMS.find(t=>t.id===p.teamId);
+  body.innerHTML=`<div class="card-detail person-detail-card">
+    <div class="person-detail-name">${escapeHtml(p.name)}</div>
+    <div class="person-detail-row"><span>소속·직위</span><b>${escapeHtml(orgOf(p)||'-')}</b></div>
+    <div class="person-detail-row"><span>KODA</span><b>${escapeHtml(p.title||'-')}</b></div>
+    <div class="person-detail-row"><span>나의 조</span><b>${escapeHtml(p.teamId||'-')} ${team?'<small>('+escapeHtml(teamGroupLabel(team.id))+')</small>':''}</b></div>
+    <div class="person-detail-row"><span>출발 코스</span><b>${team?escapeHtml(teamDisplayLabel(team)):'-'}</b></div>
+    <div class="person-detail-row"><span>티오프</span><b>${escapeHtml(TEE_OFF)}</b></div>
+    ${digits(p.mobile)?`<a class="person-call" href="tel:${digits(p.mobile)}">전화하기 · ${escapeHtml(p.mobile)}</a>`:''}
+  </div>`;
+  navigateTo('persondetail');
+};
+
 // 팀 상세 페이지로 이동
 window.showTeamDetail = function(id) {
   CURRENT_TEAM_ID = id;
@@ -1355,10 +1391,10 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     if(team){
       const mate = team.members.filter(m => m !== me);
       facts = `<div class="mr-facts">
-        <div class="mr-fact"><span>나의 조</span><b>${escapeHtml(team.id)}</b></div>
-        <div class="mr-fact"><span>출발 코스</span><b>${courseName(team.course).replace('코스','')} ${team.hole}번홀</b></div></div>`;
-      mates = `<div class="mr-mates"><span>동반자</span><div class="mr-mate-list">${
-        mate.length ? mate.map(m=>'<div class="mr-mate">'+escapeHtml(m.name)+'</div>').join('') : '<div class="mr-mate">-</div>'}</div></div>`;
+         <div class="mr-fact"><span>나의 조</span><b>${escapeHtml(team.id)} <small>(${escapeHtml(teamGroupLabel(team.id))})</small></b></div>
+         <div class="mr-fact"><span>출발 코스</span><b>${escapeHtml(teamDisplayLabel(team))}</b></div></div>`;
+      mates = `<div class="mr-mates"><span>동반자 · 이름을 누르면 상세보기</span><div class="mr-mate-list">$\{
+         mate.length ? mate.map(m=>'<button type="button" class="mr-mate" onclick="showPersonDetailByKey(\''+escapeHtml(String(m.no||m.name))+\'\')">'+escapeHtml(m.name)+'</button>').join('') : '<div class="mr-mate">-</div>'}</div></div>`;
     } else {
       facts = '';
       if(isAmbiguous()){
@@ -1373,7 +1409,8 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     return `<div class="mr-card${clickable?' clickable':''}" ${clickable?'data-go-tab="myround"':''}>
       <div class="mr-head"><div class="mr-label">MY ROUND</div>
         ${team?`<div class="mr-course ${cls}"><i></i>${courseName(team.course)}</div>`:''}</div>
-      <div class="mr-tee"><div class="mr-tee-time">${TEE_OFF}</div>
+      <div class="mr-primary-course">${team?escapeHtml(teamDisplayLabel(team)):'출발 코스'}</div>
+       <div class="mr-tee"><div class="mr-tee-time">${TEE_OFF}</div>
         <div class="mr-tee-side">TEE OFF<em>샷건 · 동시출발</em></div></div>
       ${facts}${mates}
       ${clickable?'<div class="mr-more">내 라운드 자세히 보기 ›</div>':''}
@@ -1470,7 +1507,7 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
 
   // ---------- 하단 네비 ----------
   const TAB_OF = { home:'home', program:'home', sponsors:'home', notice:'home',
-                   myround:'myround', teams:'myround', teamdetail:'myround',
+                   myround:'myround', teams:'myround', teamdetail:'myround', persondetail:'myround',
                    attendees:'attendees', location:'location' };
   const nav = $('bottomNav');
   let current = 'cover';
