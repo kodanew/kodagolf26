@@ -533,6 +533,28 @@ body{
 
 .rost-line{ display:flex; align-items:baseline; gap:9px; min-width:0; flex-wrap:wrap; }
 .rost-org-inline{ font-size:12.5px; font-weight:600; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+
+/* ===== 2026-09-30 UI refinement ===== */
+.nh-brand{font-family:'Trebuchet MS','Avenir Next',Arial,sans-serif;font-size:24px;font-weight:900;letter-spacing:-.5px;color:#245B9A;}
+.nh-event-title{font-family:'Trebuchet MS','Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;font-size:27px;font-weight:900;letter-spacing:-1.15px;color:#173F6B;line-height:1.18;}
+.nh-event-meta{font-family:'Trebuchet MS','Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;font-size:15px;font-weight:800;color:#54708D;letter-spacing:-.25px;padding-top:7px;}
+.nh-hello-row{display:flex;align-items:center;justify-content:flex-end;gap:9px;padding:10px 20px 8px;}
+.nh-hello{padding:0;text-align:right;font-family:'Trebuchet MS','Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;font-size:18px;font-weight:800;color:#52677A;letter-spacing:-.45px;}
+.nh-hello b{color:#245B9A;font-weight:900;}
+.nh-dday{border:1px solid #9DBA55;color:#607B25;background:#F1F7D9;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:900;white-space:nowrap;}
+.home-myround-title{margin-top:17px;margin-bottom:10px;}
+.myround-page-title{margin-top:18px;margin-bottom:10px;}
+.nh-sec h2{font-family:'Trebuchet MS','Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;font-size:18px;font-weight:900;font-style:normal;letter-spacing:-.25px;}
+.mr-card{padding:0 20px 18px;}
+.mr-tee-panel{margin-top:0;padding:18px 16px 17px;}
+.mr-info-row{display:flex;align-items:baseline;gap:18px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.25);}
+.mr-info-label,.mr-tee-caption{font-family:'Trebuchet MS','Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;font-size:11px;font-weight:900;letter-spacing:1px;color:rgba(255,255,255,.74);}
+.mr-info-value{font-family:'Trebuchet MS','Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;font-size:23px;font-weight:900;letter-spacing:-.7px;color:#fff;}
+.mr-tee-row{padding-top:14px;}
+.mr-tee-time{font-family:'Trebuchet MS','Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;color:#B9E7B0;font-size:64px;font-weight:900;letter-spacing:-2px;font-variant-numeric:tabular-nums;}
+.mr-primary-row,.mr-primary-course{display:none!important;}
+.rost-name-btn{font-family:'Trebuchet MS','Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;}
+.rost-org-inline{font-family:'Trebuchet MS','Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;}
 </style>
 </head>
 <body>
@@ -559,14 +581,17 @@ body{
 
       <!-- 상단 -->
       <div class="nh-top">
-        <div class="nh-brand">KODA ARP Golf</div>
-        <div class="nh-dday" id="nhDday">10.26 (월)</div>
+        <div class="nh-brand">KODA·ARP Golf</div>
       </div>
       <div class="nh-event-title">2026 협회장배 골프대회</div>
       <div class="nh-event-meta">2026.10.26(월) · 리베라C.C</div>
-      <div class="nh-hello" id="nhHello">안녕하세요</div>
+      <div class="nh-hello-row">
+        <div class="nh-hello" id="nhHello">안녕하세요</div>
+        <div class="nh-dday" id="nhDday">10.26 (월)</div>
+      </div>
 
       <!-- MY ROUND -->
+      <div class="nh-sec home-myround-title"><h2>My Round</h2></div>
       <div id="homeRound"></div>
 
       <!-- Today's Flow -->
@@ -617,7 +642,7 @@ body{
   <!-- ================= MY ROUND (내 라운드 탭) ================= -->
   <section id="screen-myround" class="screen">
     <div class="nh-scroll">
-      <div class="mrs-title"><h1>MY ROUND</h1><div class="mrs-sync" id="mrsSync"></div></div>
+      <div class="nh-sec myround-page-title"><h2>My Round</h2></div>
       <div id="myRoundHero"></div>
 
       <div class="nh-sec"><h2>My Team</h2></div>
@@ -1355,7 +1380,11 @@ function renderTeamDetail(){
 // 라우팅
 function applyScreen(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+name).classList.add('active');
+  const target=document.getElementById('screen-'+name);
+  if(target) target.classList.add('active');
+  if(name==='myround' || name==='home'){
+    requestAnimationFrame(()=>{ const sc=target ? target.querySelector('.nh-scroll') : null; if(sc) sc.scrollTop=0; window.scrollTo(0,0); });
+  }
 }
 function navigateTo(name){
   window.history.pushState({screen:name}, '', '#'+name);
@@ -1453,11 +1482,10 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
       }
     }
     return `<div class="mr-card${clickable?' clickable':''}" ${clickable?'data-go-tab="myround"':''}>
-      <div class="mr-head"></div>
       <div class="mr-tee-panel">
-        <div class="mr-primary-row">
-          ${team?`<div class="mr-course ${cls}"><i></i>${courseName(team.course)}</div>`:''}
-          <div class="mr-primary-course">${team?escapeHtml(teamDisplayLabel(team).replace('코스 ', ' ')):'출발 코스'} <small>부터~</small></div>
+        <div class="mr-info-row">
+          <div class="mr-info-label">COURSE</div>
+          <div class="mr-info-value">${team?escapeHtml(teamDisplayLabel(team)):'-'}</div>
         </div>
         <div class="mr-tee-row">
           <div class="mr-tee-caption">TEE OFF</div>
@@ -1485,8 +1513,8 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
         <div class="rost-no">${i+1}</div>
         <div class="rost-body">
           <div class="rost-line">
-            <button type="button" class="rost-name-btn${m!==me?' clickable-person':''}" ${m!==me?'data-person-key="'+escapeHtml(String(m.no||m.name))+'" onclick="showPersonDetailByKey(this.dataset.personKey)"':''}>${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</button>
-            <span class="rost-org-inline">${escapeHtml(orgOf(m)||'-')} · KODA</span>
+            <button type="button" class="rost-name-btn clickable-person" data-person-key="${escapeHtml(String(m.no||m.name))}" onclick="showPersonDetailByKey(this.dataset.personKey)">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</button>
+            <span class="rost-org-inline">${escapeHtml(orgOf(m)||'-')}</span>
           </div>
         </div>
         ${m!==me && digits(m.mobile) ? '<a class="rost-call" href="tel:'+digits(m.mobile)+'" aria-label="'+escapeHtml(m.name)+' 전화" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>':''}
