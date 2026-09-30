@@ -506,6 +506,33 @@ body{
 .mr-fact b small{ font-size:11px; }
 .mr-mates{ margin-top:14px; padding-top:13px; }
 .mr-mate{ font-family:'Pretendard','Noto Sans KR','Malgun Gothic',Arial,sans-serif; font-size:13.5px; padding:7px 11px; }
+
+/* ---------- HOME / MY ROUND 추가 정리 ---------- */
+.nh-brand{ font-family:'Pretendard','Noto Sans KR','Malgun Gothic',Arial,sans-serif; font-size:24px; font-weight:900; letter-spacing:-.8px; color:var(--navy-2); }
+.nh-brand small{ display:none; }
+.nh-event-title{ padding:0 20px; font-family:'Pretendard','Noto Sans KR','Malgun Gothic',Arial,sans-serif; font-size:20px; line-height:1.25; font-weight:900; color:var(--ink); letter-spacing:-.7px; }
+.nh-event-meta{ padding:4px 20px 0; font-family:'Pretendard','Noto Sans KR','Malgun Gothic',Arial,sans-serif; font-size:13px; font-weight:700; color:var(--ink-soft); letter-spacing:-.2px; }
+.nh-hello{ padding:8px 20px 14px; text-align:right; font-family:'Pretendard','Noto Sans KR','Malgun Gothic',Arial,sans-serif; font-size:20px; font-weight:800; color:var(--ink-soft); }
+.nh-hello b{ color:var(--navy-2); }
+.mrs-title h1{ font-family:var(--serif); font-size:32px; font-weight:700; letter-spacing:1px; color:var(--navy-2); }
+.mr-head{ min-height:0; }
+.mr-label{ display:none !important; }
+.mr-primary-row{ display:flex; align-items:center; gap:9px; min-width:0; }
+.mr-primary-row .mr-course{ flex-shrink:0; order:0; }
+.mr-primary-row .mr-primary-course{ order:1; min-width:0; margin:0; }
+.mr-primary-course{ font-family:'Pretendard','Noto Sans KR','Malgun Gothic',Arial,sans-serif; font-size:27px; font-weight:900; letter-spacing:-1px; white-space:nowrap; }
+.mr-primary-course small{ font-size:15px; font-weight:700; letter-spacing:-.5px; opacity:.9; }
+.mr-mates > span{ font-family:'Pretendard','Noto Sans KR','Malgun Gothic',Arial,sans-serif; font-size:12.5px; }
+.rost-name-btn{ display:inline-flex; align-items:center; border:0; padding:0; margin:0; background:none; color:var(--ink); font:inherit; font-size:16px; font-weight:900; letter-spacing:-.4px; cursor:pointer; text-align:left; }
+.rost-name-btn em{ font-style:normal; margin-left:6px; font-size:10.5px; font-weight:800; color:var(--gold-deep); border:1px solid var(--gold); padding:1px 6px; border-radius:999px; vertical-align:middle; }
+.rost-org{ font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-top:3px; word-break:keep-all; }
+.flow-copy{ min-width:0; }
+.flow-copy .flow-title{ font-size:14.5px; font-weight:800; color:var(--ink); letter-spacing:-.3px; line-height:1.4; word-break:keep-all; }
+.flow-copy .flow-title + .flow-title{ margin-top:3px; }
+.flow-sub{ font-size:14.5px; font-weight:800; color:var(--ink); }
+
+.rost-line{ display:flex; align-items:baseline; gap:9px; min-width:0; flex-wrap:wrap; }
+.rost-org-inline{ font-size:12.5px; font-weight:600; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
 </style>
 </head>
 <body>
@@ -532,10 +559,12 @@ body{
 
       <!-- 상단 -->
       <div class="nh-top">
-        <div class="nh-brand">KODA · ARP Golf<small>2026 협회장배 골프대회</small></div>
+        <div class="nh-brand">KODA ARP Golf</div>
         <div class="nh-dday" id="nhDday">10.26 (월)</div>
       </div>
-      <div class="nh-hello" id="nhHello">안녕하세요<span>2026.10.26(월) · 리베라C.C</span></div>
+      <div class="nh-event-title">2026 협회장배 골프대회</div>
+      <div class="nh-event-meta">2026.10.26(월) · 리베라C.C</div>
+      <div class="nh-hello" id="nhHello">안녕하세요</div>
 
       <!-- MY ROUND -->
       <div id="homeRound"></div>
@@ -588,10 +617,10 @@ body{
   <!-- ================= MY ROUND (내 라운드 탭) ================= -->
   <section id="screen-myround" class="screen">
     <div class="nh-scroll">
-      <div class="mrs-title"><h1>My Round</h1><div class="mrs-sync" id="mrsSync"></div></div>
+      <div class="mrs-title"><h1>MY ROUND</h1><div class="mrs-sync" id="mrsSync"></div></div>
       <div id="myRoundHero"></div>
 
-      <div class="nh-sec"><h2>Team</h2></div>
+      <div class="nh-sec"><h2>My Team</h2></div>
       <div class="roster" id="myRoster"></div>
       <div class="mrs-actions">
         <button type="button" class="primary" id="mrsDetailBtn">내 조 상세</button>
@@ -1395,8 +1424,7 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     const d = Math.round((ev - today)/86400000);
     $('nhDday').textContent = d>0 ? 'D-'+d : d===0 ? 'TODAY' : '대회 종료';
     const a = getAuth();
-    $('nhHello').innerHTML = (a && a.name ? '안녕하세요, <b>'+escapeHtml(a.name)+'</b>님' : '안녕하세요')
-      + '<span>2026.10.26(월) · 리베라C.C</span>';
+    $('nhHello').innerHTML = (a && a.name ? '안녕하세요, <b>'+escapeHtml(a.name)+'</b>님' : '안녕하세요');
   }
 
   // ---------- MY ROUND 카드 ----------
@@ -1411,7 +1439,7 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
       facts = `<div class="mr-facts">
          <div class="mr-fact"><span>나의 조</span><b>${escapeHtml(team.id)} <small>(${escapeHtml(teamGroupLabel(team.id))})</small></b></div>
          <div class="mr-fact"><span>경기 방식</span><b>신페리오</b></div></div>`;
-      mates = `<div class="mr-mates"><span>동반자 · 이름을 누르면 상세보기</span><div class="mr-mate-list">${
+      mates = `<div class="mr-mates"><span>라운딩 동반자</span><div class="mr-mate-list">${
          mate.length ? mate.map(m=>'<button type="button" class="mr-mate" data-person-key="'+escapeHtml(String(m.no||m.name))+'" onclick="showPersonDetailByKey(this.dataset.personKey)">'+escapeHtml(m.name)+'</button>').join('') : '<div class="mr-mate">-</div>'}</div></div>`;
     } else {
       facts = '';
@@ -1425,10 +1453,12 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
       }
     }
     return `<div class="mr-card${clickable?' clickable':''}" ${clickable?'data-go-tab="myround"':''}>
-      <div class="mr-head"><div class="mr-label">MY ROUND</div>
-        ${team?`<div class="mr-course ${cls}"><i></i>${courseName(team.course)}</div>`:''}</div>
+      <div class="mr-head"></div>
       <div class="mr-tee-panel">
-        <div class="mr-primary-course">${team?escapeHtml(teamDisplayLabel(team)):'출발 코스'}</div>
+        <div class="mr-primary-row">
+          ${team?`<div class="mr-course ${cls}"><i></i>${courseName(team.course)}</div>`:''}
+          <div class="mr-primary-course">${team?escapeHtml(teamDisplayLabel(team).replace('코스 ', ' ')):'출발 코스'} <small>부터~</small></div>
+        </div>
         <div class="mr-tee-row">
           <div class="mr-tee-caption">TEE OFF</div>
           <div class="mr-tee-time">${TEE_OFF}</div>
@@ -1454,10 +1484,12 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
       <div class="rost${m===me?' me':''}">
         <div class="rost-no">${i+1}</div>
         <div class="rost-body">
-          <div class="rost-name">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</div>
-          <div class="rost-org">${escapeHtml(orgOf(m)||'-')}</div>
+          <div class="rost-line">
+            <button type="button" class="rost-name-btn${m!==me?' clickable-person':''}" ${m!==me?'data-person-key="'+escapeHtml(String(m.no||m.name))+'" onclick="showPersonDetailByKey(this.dataset.personKey)"':''}>${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</button>
+            <span class="rost-org-inline">${escapeHtml(orgOf(m)||'-')} · KODA</span>
+          </div>
         </div>
-        ${m!==me && digits(m.mobile) ? '<a class="rost-call" href="tel:'+digits(m.mobile)+'" aria-label="'+escapeHtml(m.name)+' 전화"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>':''}
+        ${m!==me && digits(m.mobile) ? '<a class="rost-call" href="tel:'+digits(m.mobile)+'" aria-label="'+escapeHtml(m.name)+' 전화" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>':''}
       </div>`).join('');
   }
 
@@ -1494,8 +1526,7 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     return `<li class="flow-item ${cls}">
       <div class="flow-time">${escapeHtml(r.start)}${r.end?'<small>~ '+escapeHtml(r.end)+'</small>':'<small>~</small>'}</div>
       <div class="flow-rail"><div class="flow-dot"></div></div>
-      <div><div class="flow-title">${escapeHtml(r.items[0]||'')}</div>
-        ${r.items.length>1?'<div class="flow-sub">'+escapeHtml(r.items.slice(1).join(' · '))+'</div>':''}
+      <div class="flow-copy">${r.items.map(item=>'<div class="flow-title">- '+escapeHtml(item)+'</div>').join('')}
         ${r.place?'<span class="flow-place">'+escapeHtml(r.place)+'</span>':''}</div></li>`;
   }
   function renderFlow(){
