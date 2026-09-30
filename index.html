@@ -599,6 +599,66 @@ body{
 .attendee-filter-btn{ min-height:44px; padding:12px 3px !important; font-size:13.5px !important; }
 /* 모든 영문 UI는 필기체 */
 .tool-desc,.tool-wm,.mr-fact span,.mr-fact b,.rost-org-inline,.rost-name-btn,.attendee-filter-btn,.topbar-title{ font-family:'Pretendard',sans-serif; }
+
+/* ===== 2026-09-30 HOME 리디자인 · 폰트 복원 ===== */
+#screen-home .nh-scroll::before{ display:none; }
+.nh-hero{ position:relative; overflow:hidden; padding:calc(20px + env(safe-area-inset-top,0px)) 22px 30px; color:#fff; border-radius:0 0 30px 30px;
+  background:linear-gradient(160deg,#0E3A4F 0%,#14524F 58%,#1E6B54 100%); box-shadow:0 14px 30px rgba(14,58,79,.22); }
+.nh-hero > *:not(.nh-contour){ position:relative; z-index:1; }
+.nh-contour{ position:absolute!important; z-index:0!important; right:-70px; top:-40px; width:340px; height:340px; opacity:.2; pointer-events:none; }
+.nh-hero-top{ display:flex; align-items:center; justify-content:space-between; }
+.nh-brand{ font-family:'Pretendard',sans-serif!important; font-size:14px!important; font-weight:800!important; letter-spacing:.3px!important; color:rgba(255,255,255,.82)!important; }
+.nh-dday{ order:0!important; font-family:'Pretendard',sans-serif!important; font-size:13px!important; font-weight:900!important; color:#173F2B!important; background:#D7F0A0!important; border:0!important; padding:6px 12px!important; box-shadow:none!important; }
+.nh-greet{ margin-top:26px; font-size:14px; font-weight:600; color:rgba(255,255,255,.78); letter-spacing:-.2px; }
+.nh-greet b{ color:#fff; font-weight:800; }
+.nh-title{ margin:6px 0 0; font-size:34px; line-height:1.16; font-weight:900; letter-spacing:-1.4px; color:#fff; word-break:keep-all; }
+.nh-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+.nh-chip{ display:inline-flex; align-items:center; gap:6px; padding:8px 13px 8px 11px; border-radius:999px; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.24); font-size:13px; font-weight:700; color:#fff; letter-spacing:-.2px; }
+.nh-chip svg{ width:15px; height:15px; color:#D7F0A0; }
+.home-myround-title{ margin-top:26px!important; }
+
+/* 영문 제목 폰트 원복 (Cormorant Garamond) */
+.nh-sec h2,.myround-page-title h2,.home-myround-title h2{ font-family:var(--serif)!important; font-size:26px!important; font-weight:700!important; font-style:italic!important; color:var(--navy-2)!important; letter-spacing:.2px!important; }
+.mrs-title h1{ font-family:var(--serif)!important; }
+.tool-name{ font-family:'Pretendard',sans-serif!important; font-size:13px!important; font-weight:900!important; letter-spacing:.5px!important; }
+
+/* 나의 라운딩 카드 */
+.rc{ margin:0 16px; padding:18px 18px 16px; background:#fff; border:1px solid var(--line); border-radius:24px; box-shadow:0 14px 32px rgba(14,58,79,.10); }
+.rc.clickable{ cursor:pointer; } .rc.clickable:active{ transform:scale(.99); }
+.rc-top{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.rc-course{ display:inline-flex; align-items:center; gap:7px; padding:6px 12px; border-radius:999px; font-size:13px; font-weight:800; background:#EEF2F7; color:#4A566B; }
+.rc-course i{ width:9px; height:9px; border-radius:50%; background:#9BA3B3; }
+.rc-course.v{ background:#EAF6E2; color:#2F6B3A; } .rc-course.v i{ background:#5DB35A; }
+.rc-course.l{ background:#E4F0FA; color:#2A6496; } .rc-course.l i{ background:#4A9BDB; }
+.rc-mode{ font-size:11.5px; font-weight:700; color:var(--ink-faint); letter-spacing:-.2px; }
+.rc-main{ display:grid; grid-template-columns:1fr 1.25fr; gap:10px; margin-top:14px; }
+.rc-hole,.rc-tee{ border-radius:18px; padding:14px 16px; display:flex; flex-direction:column; gap:6px; }
+.rc-hole{ background:#F1F5F9; } .rc-tee{ background:#143F3E; }
+.rc-hole small,.rc-tee small{ font-size:11.5px; font-weight:700; color:var(--ink-soft); }
+.rc-tee small{ color:rgba(255,255,255,.7); }
+.rc-hole b{ font-size:27px; line-height:1; font-weight:900; letter-spacing:-1px; color:var(--ink); }
+.rc-tee b{ font-size:38px; line-height:1; font-weight:900; letter-spacing:-1.5px; color:#D7F0A0; font-variant-numeric:tabular-nums; }
+.rc-group{ margin-top:14px; display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 8px; font-size:12.5px; font-weight:700; color:var(--ink-soft); }
+.rc-group b{ font-size:15px; font-weight:900; color:var(--navy); }
+.rc-group span{ font-weight:600; color:var(--ink-faint); }
+.rc-mates{ margin-top:14px; padding-top:14px; border-top:1px dashed var(--line); }
+.rc-mates-h{ font-size:11.5px; font-weight:800; color:var(--ink-faint); margin-bottom:9px; }
+.rc-mate-list{ display:flex; flex-wrap:wrap; gap:8px; }
+.rc-mate{ display:inline-flex; align-items:center; gap:8px; padding:5px 13px 5px 5px; border:1px solid var(--line); border-radius:999px; background:#F7FAFC; font-family:inherit; font-size:14px; font-weight:800; color:var(--ink); cursor:pointer; }
+.rc-mate i{ width:26px; height:26px; border-radius:50%; background:#DCEBE4; color:#1E5A47; font-style:normal; font-size:12px; font-weight:900; display:flex; align-items:center; justify-content:center; }
+.rc-mate:active{ background:#EAF2F6; }
+.rc-none{ font-size:13px; color:var(--ink-faint); }
+.rc-more{ margin-top:14px; text-align:right; font-size:12.5px; font-weight:800; color:var(--blue); }
+.rc .mr-empty{ margin-top:14px; border-top:1px dashed var(--line); color:var(--ink-soft); }
+.rc .mr-pick button{ background:#F4F7FC; border:1px solid var(--line); color:var(--ink); }
+.rc .mr-pick button b{ color:var(--navy-2); } .rc .mr-pick button span{ color:var(--ink-soft); }
+
+/* My Team 행 · 상세 */
+.rost.clickable-person{ cursor:pointer; transition:transform .12s; } .rost.clickable-person:active{ transform:scale(.985); }
+.rost.clickable-person:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
+.rost-chev{ flex-shrink:0; font-size:22px; line-height:1; color:var(--ink-faint); margin-left:2px; }
+.person-detail-card{ padding:28px 22px!important; border-radius:22px!important; }
+.person-detail-name{ font-size:26px!important; letter-spacing:-.8px; }
 </style>
 </head>
 <body>
@@ -624,15 +684,16 @@ body{
     <div class="nh-scroll">
 
       <!-- 상단 -->
-      <div class="nh-top">
-        <div class="nh-brand">KODA·ARP Golf</div>
-        <div class="nh-dday" id="nhDday">D-DAY</div>
-      </div>
-      <div class="nh-hero-copy">
-        <div class="nh-event-title">2026 협회장배 골프대회</div>
-        <div class="nh-event-meta">2026.10.26(월) · 리베라C.C</div>
-        <div class="nh-hello-row"><div class="nh-hello" id="nhHello">안녕하세요</div></div>
-      </div>
+      <header class="nh-hero">
+        <svg class="nh-contour" viewBox="0 0 340 340" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true"><ellipse cx="200" cy="150" rx="150" ry="112" transform="rotate(-18 200 150)"/><ellipse cx="200" cy="150" rx="118" ry="86" transform="rotate(-18 200 150)"/><ellipse cx="200" cy="150" rx="86" ry="60" transform="rotate(-18 200 150)"/><ellipse cx="200" cy="150" rx="54" ry="36" transform="rotate(-18 200 150)"/><ellipse cx="200" cy="150" rx="24" ry="14" transform="rotate(-18 200 150)"/></svg>
+        <div class="nh-hero-top"><div class="nh-brand">KODA × ARP</div><div class="nh-dday" id="nhDday">D-DAY</div></div>
+        <div class="nh-greet" id="nhHello">안녕하세요</div>
+        <h1 class="nh-title">2026 협회장배<br>골프대회</h1>
+        <div class="nh-chips">
+          <span class="nh-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>10.26 (월)</span>
+          <span class="nh-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>리베라C.C</span>
+        </div>
+      </header>
 
       <!-- MY ROUND -->
       <div class="nh-sec home-myround-title"><h2>My Round</h2></div>
@@ -1383,6 +1444,9 @@ window.showPersonDetailByKey = function(key){
   const k=String(key||'');
   const p=PLAYERS.find(x=>String(x.no||x.name)===k) || PLAYERS.find(x=>x.name===k);
   if(!p) return;
+  window.showPersonDetail(p);
+};
+window.showPersonDetail = function(p){
   const body=document.getElementById('personDetailBody');
   document.getElementById('personDetailTitle').textContent=p.name+' 상세';
   const team=TEAMS.find(t=>t.id===p.teamId);
@@ -1512,12 +1576,9 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     let facts, mates;
     if(team){
       const mate = team.members.filter(m => m !== me);
-      facts = `<div class="mr-facts">
-        <div class="mr-fact"><span>나의 조</span><b>${escapeHtml(team.id)} <small>(${escapeHtml(teamGroupLabel(team.id))})</small></b></div>
-        <div class="mr-fact"><span>경기 방식</span><b>신페리오</b></div>
-      </div>`;
-      mates = `<div class="mr-mates"><span>라운딩 동반자</span><div class="mr-mate-list">${
-        mate.length ? mate.map(m=>'<span class="mr-mate">'+escapeHtml(m.name)+'</span>').join('') : '<span class="mr-mate">-</span>'}</div></div>`;
+      facts = '';
+      mates = `<div class="rc-mates"><div class="rc-mates-h">함께 라운딩</div><div class="rc-mate-list">${
+        mate.length ? mate.map(m=>`<button type="button" class="rc-mate" data-person-tid="${escapeHtml(team.id)}" data-person-idx="${team.members.indexOf(m)}"><i>${escapeHtml(m.name.slice(0,1))}</i>${escapeHtml(m.name)}</button>`).join('') : '<span class="rc-none">동반자 정보 없음</span>'}</div></div>`;
     } else {
       facts = '';
       if(isAmbiguous()){
@@ -1529,22 +1590,19 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
           '아직 배정된 조가 없습니다. 조편성이 확정되면 이곳에 나의 조와 동반자가 표시됩니다.'}</div>`;
       }
     }
-    const course = team ? teamDisplayLabel(team) : '-';
-    return `<div class="mr-card${clickable?' clickable':''}" ${clickable?'data-go-tab="myround"':''}>
-      <div class="mr-hero-head">
-        <div class="mr-course-block">
-          <div class="mr-hero-kicker">COURSE</div>
-          <div class="mr-hero-course">${escapeHtml(course)}</div>
-        </div>
-        <div class="mr-tee-block">
-          <div class="mr-hero-kicker">TEE OFF</div>
-          <div class="mr-hero-time">${escapeHtml(TEE_OFF)}</div>
-        </div>
+    const cls = team ? (team.course==='V' ? 'v' : 'l') : '';
+    return `<div class="rc${clickable?' clickable':''}" ${clickable?'data-go-tab="myround"':''}>
+      <div class="rc-top">
+        <span class="rc-course ${cls}"><i></i>${team ? courseName(team.course) : '코스 미정'}</span>
+        <span class="rc-mode">샷건 동시출발 · 신페리오</span>
       </div>
-      <div class="mr-hero-rule"></div>
-      <div class="mr-hero-bottom"><span>샷건</span><b>동시출발</b></div>
-      ${facts}${mates}
-      ${clickable?'<div class="mr-more">내 라운드 자세히 보기 ›</div>':''}
+      <div class="rc-main">
+        <div class="rc-hole"><small>출발 홀</small><b>${team ? team.hole+'번홀' : '-'}</b></div>
+        <div class="rc-tee"><small>티오프</small><b>${escapeHtml(TEE_OFF)}</b></div>
+      </div>
+      ${team ? `<div class="rc-group">나의 조 <b>${escapeHtml(team.id)}</b><span>${escapeHtml(teamGroupLabel(team.id))}</span></div>` : ''}
+      ${mates}
+      ${clickable?'<div class="rc-more">내 라운드 자세히 보기 ›</div>':''}
     </div>`;
   }
 
@@ -1559,15 +1617,16 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     }
     btn.style.display='';
     box.innerHTML = team.members.map((m,i)=>`
-      <div class="rost${m===me?' me':''}">
+      <div class="rost clickable-person${m===me?' me':''}" role="button" tabindex="0" data-person-tid="${escapeHtml(team.id)}" data-person-idx="${i}" aria-label="${escapeHtml(m.name)} 상세보기">
         <div class="rost-no">${i+1}</div>
         <div class="rost-body">
           <div class="rost-line">
-            <button type="button" class="rost-name-btn clickable-person" data-person-key="${escapeHtml(String(m.no||m.name))}" onclick="window.showPersonDetailByKey(this.dataset.personKey)">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</button>
+            <span class="rost-name-btn">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</span>
             <span class="rost-org-inline">${escapeHtml(orgOf(m)||'-')}</span>
           </div>
         </div>
         ${m!==me && digits(m.mobile) ? '<a class="rost-call" href="tel:'+digits(m.mobile)+'" aria-label="'+escapeHtml(m.name)+' 전화" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>':''}
+        <span class="rost-chev" aria-hidden="true">›</span>
       </div>`).join('');
   }
 
@@ -1631,7 +1690,22 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
   };
   // 카드 탭 → MY ROUND
   document.addEventListener('click', e=>{
+    if(e.target.closest('[data-person-tid]')) return;
     const c = e.target.closest('[data-go-tab]'); if(c) navigateTo(c.dataset.goTab);
+  });
+  function openPersonFrom(el){
+    const t = TEAMS.find(x => x.id===el.dataset.personTid);
+    const m = t && t.members[+el.dataset.personIdx];
+    if(m) window.showPersonDetail(m);
+  }
+  document.addEventListener('click', e=>{
+    const el = e.target.closest('[data-person-tid]');
+    if(el && !e.target.closest('.rost-call')) openPersonFrom(el);
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key!=='Enter') return;
+    const el = e.target.closest && e.target.closest('.rost[data-person-tid]');
+    if(el) openPersonFrom(el);
   });
   $('mrsDetailBtn').addEventListener('click', ()=>{
     const me = findMe(); if(me){ showTeamDetail(me.teamId); }
