@@ -522,6 +522,7 @@ body{
 
 
 /* ---------- GOLF SPLASH ---------- */
+#app{visibility:hidden;}
 #golfSplash{
   position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
   overflow:hidden; background:
@@ -529,6 +530,7 @@ body{
   transition:opacity .55s ease, visibility .55s ease;
 }
 #golfSplash.hide{opacity:0;visibility:hidden;pointer-events:none;}
+#golfSplash.hide + #app{visibility:visible;}
 .splash-sky{position:absolute;inset:0;background:
   radial-gradient(55% 30% at 78% 18%,rgba(255,255,255,.95),transparent 70%),
   linear-gradient(180deg,rgba(255,255,255,.35),rgba(215,235,255,.18));}
@@ -578,6 +580,25 @@ body{
     <div class="s-sub">TEE OFF · RIVIERA C.C</div>
   </div>
 </div>
+<script>
+/* ---------- 골프 스플래시 ---------- */
+(function(){
+  function startGolfSplash(){
+    const splash=document.getElementById('golfSplash');
+    const app=document.getElementById('app');
+    if(!splash || !app) return;
+    app.style.visibility='hidden';
+    const hide=()=>{
+      splash.classList.add('hide');
+      app.style.visibility='visible';
+    };
+    setTimeout(hide, 1850);
+    setTimeout(hide, 2600);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startGolfSplash, {once:true});
+  else startGolfSplash();
+})();
+</script>
 <div id="app">
 
   <!-- 개인별 상세 팝업 -->
@@ -868,15 +889,7 @@ body{
             <span>카카오</span>
           </a>
           
-          <a href="nmap://route/car?dlat=37.1902&dlng=127.1358&dname=리베라CC&appname=koda-golf" class="navi-btn naver" onclick="setTimeout/* ---------- 골프 스플래시 ---------- */
-(function(){
-  const splash=document.getElementById('golfSplash');
-  if(!splash) return;
-  const hide=()=>splash.classList.add('hide');
-  window.addEventListener('load',()=>setTimeout(hide,1850),{once:true});
-  setTimeout(hide,2400);
-})();
-(function(){ window.open('https://map.naver.com/p/search/리베라CC'); }, 1500);">
+          <a href="nmap://route/car?dlat=37.1902&dlng=127.1358&dname=리베라CC&appname=koda-golf" class="navi-btn naver" onclick="setTimeout(function(){ window.open('https://map.naver.com/p/search/리베라CC'); }, 1500);">
             <span class="navi-icon">N</span>
             <span>네이버</span>
           </a>
