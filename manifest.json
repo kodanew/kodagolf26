@@ -4,11 +4,21 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#187848",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
   "description": "2026 협회장배 KODA x ARP 골프대회 참가자용 앱",
   "icons": [
-    {"src":"koda-icon-192-green-v2.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
-    {"src":"koda-icon-512-green-v2.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+    {
+      "src": "koda-icon-192-reference.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "koda-icon-512-reference.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }

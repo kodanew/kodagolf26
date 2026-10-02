@@ -1,5 +1,5 @@
-const CACHE_NAME = 'koda-golf-20261002-v2';
-const APP_SHELL = ['./','./index.html','./manifest.json','./koda-icon-192-green-v2.png','./koda-icon-512-green-v2.png','./koda-apple-touch-green-v2.png'];
+const CACHE_NAME = 'koda-golf-20261002-ux-v3';
+const APP_SHELL = ['./','./index.html','./manifest.json','./koda-logo-re.png','./koda-arp-splash-2026.jpg','./koda-icon-192-reference.png','./koda-icon-512-reference.png','./koda-apple-touch-reference.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
 });
