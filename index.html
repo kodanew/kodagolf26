@@ -333,7 +333,7 @@ body{
 /* ---------- HOME ---------- */
 #screen-home{ background:var(--paper-deep); }
 .nh-scroll{ flex:1; min-height:0; overflow-y:auto; padding-bottom:28px; }
- .nh-top{ position:relative; overflow:hidden; padding:calc(18px + env(safe-area-inset-top,0px)) 20px 16px;
+ .nh-top{ position:relative; overflow:hidden; margin-bottom:-54px; padding:calc(18px + env(safe-area-inset-top,0px)) 20px 70px;
   background:
     radial-gradient(circle at 88% 18%, rgba(214,242,92,.18) 0 2px, transparent 3px),
     radial-gradient(circle at 76% 34%, rgba(21,91,184,.08) 0 1px, transparent 2px),
@@ -350,7 +350,7 @@ body{
 .nh-title{ margin:8px 0 0; font-size:clamp(22px,7vw,30px); line-height:1.2; font-weight:900; letter-spacing:-1.2px; color:var(--ink); word-break:keep-all; }
 .nh-meta{ margin-top:7px; font-size:14px; font-weight:700; color:var(--ink-soft); letter-spacing:-.3px; }
 .nh-dday{ flex-shrink:0; border:1px solid #BFE05A; color:var(--gold-deep); background:#F4FCD3; border-radius:999px; padding:6px 12px; font-size:12px; font-weight:800; }
-.nh-hello{ padding:6px 20px 12px; font-size:20px; font-weight:800; color:var(--ink); letter-spacing:-.6px; }
+.nh-hello{ position:relative; z-index:2; padding:6px 20px 12px; font-size:20px; font-weight:800; color:var(--ink); letter-spacing:-.6px; }
 .nh-hello b{ color:var(--blue); }
 .nh-hello span{ display:block; font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-top:3px; letter-spacing:-.2px; }
 
@@ -392,7 +392,7 @@ body{
 /* 카드 2차 조정 */
 .mr2-top{ padding:20px 22px 22px; }
 .mr2-top{ border-bottom:1px solid rgba(255,255,255,.88); }
-.mr2-top::after{ content:''; position:absolute; inset:7px; border:1px solid rgba(255,255,255,.82); border-radius:0; pointer-events:none; }
+.mr2-top::after{ content:''; position:absolute; inset:7px; border:1px solid rgba(255,255,255,.88); border-radius:17px; pointer-events:none; }
 .mr2-top-lab{ font-size:13px; letter-spacing:.06em; color:var(--gold)!important; }
 .mr2-team{ margin-top:8px; font-size:clamp(17px,5.4vw,22px); font-weight:900; letter-spacing:-.6px; white-space:nowrap; line-height:1.25; }
 .mr2-team small{ font-size:13px; font-weight:700; opacity:.88; letter-spacing:-.2px; margin-left:2px; }
@@ -553,17 +553,16 @@ body{
   border-top:2px solid rgba(21,91,184,.18);border-radius:50% 55% 0 0;
   transform:rotate(-12deg);opacity:0;animation:trailIn 1.25s ease .22s forwards;}
 @keyframes teeShot{
-  0%{transform:translate(0,0) scale(1);}
-  30%{transform:translate(90px,-70px) scale(.92);}
-  68%{transform:translate(190px,-155px) scale(.72);}
-  100%{transform:translate(330px,-205px) scale(.48);}
+  0%{offset-distance:0%;transform:scale(1);}
+  45%{offset-distance:45%;transform:scale(.88);}
+  72%{offset-distance:72%;transform:scale(.68);}
+  100%{offset-distance:100%;transform:scale(.48);}
 }
 @keyframes trailIn{0%{opacity:0;transform:rotate(-12deg) scaleX(.15);transform-origin:left center}
   30%{opacity:1}100%{opacity:.45;transform:rotate(-12deg) scaleX(1);transform-origin:left center}}
 @media (max-width:360px){
-  .splash-brand .s-title{font-size:22px}.splash-ball{left:14%}
-  @keyframes teeShot{0%{transform:translate(0,0)}30%{transform:translate(65px,-55px)}
-    68%{transform:translate(140px,-120px)}100%{transform:translate(235px,-155px) scale(.48)}}
+  .splash-brand .s-title{font-size:22px}.splash-ball{left:14%;
+    offset-path:path('M 0 0 C 55 -5, 78 -95, 135 -120 C 170 -135, 205 -150, 235 -155');}
 }
 
 </style>
