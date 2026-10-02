@@ -222,6 +222,7 @@ body{
 .content-list li { position:relative; padding-left:10px; margin-bottom:2px; }
 .content-list li::before { content:'-'; position:absolute; left:0; top:0; }
 .content-list li:last-child { margin-bottom:0; }
+.content-list .li-sub{ display:block; font-size:12px; }
 
 /* ---------- 지도 및 문의 페이지 ---------- */
 .map-frame{ width:100%; height:300px; border:none; margin-bottom:0; display:block; }
@@ -377,6 +378,17 @@ body{
 .mr-pick button{ text-align:left; font-family:inherit; cursor:pointer; color:var(--ink); background:var(--blue-tint); border:1px solid #BCD3F0; border-radius:12px; padding:11px 14px; display:flex; justify-content:space-between; gap:10px; align-items:center; }
 .mr-pick button b{ font-size:16px; font-weight:900; color:var(--blue-deep); } .mr-pick button span{ font-size:12px; font-weight:700; color:var(--ink-soft); }
 
+/* 카드 2차 조정 */
+.mr2-top{ padding:20px 22px 22px; }
+.mr2-top::after{ content:''; position:absolute; inset:7px; border:1px solid rgba(255,255,255,.7); border-radius:18px; pointer-events:none; }
+.mr2-top-lab{ font-size:13px; letter-spacing:.06em; }
+.mr2-team{ margin-top:8px; font-size:clamp(17px,5.4vw,22px); font-weight:900; letter-spacing:-.6px; white-space:nowrap; line-height:1.25; }
+.mr2-team small{ font-size:13px; font-weight:700; opacity:.88; letter-spacing:-.2px; margin-left:2px; }
+.mr2-tile{ display:block; padding:12px 13px; }
+.mr2-tile span{ display:block; font-size:11.5px; font-weight:700; color:var(--ink-soft); margin-bottom:4px; white-space:nowrap; }
+.mr2-tile span i{ font-style:normal; font-size:10.5px; font-weight:600; color:var(--ink-faint); }
+.mr2-tile b{ display:block; font-size:clamp(14px,4.2vw,17px); font-weight:900; color:var(--ink); letter-spacing:-.5px; white-space:nowrap; line-height:1.3; }
+
 /* 개인별 상세 팝업 */
 .pm-overlay{ position:absolute; inset:0; z-index:200; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(15,25,45,.5); backdrop-filter:blur(3px); }
 .pm-overlay.open{ display:flex; animation:fadeIn .2s ease; }
@@ -415,7 +427,9 @@ body{
 .flow-item.is-done .flow-title, .flow-item.is-done .flow-time{ color:var(--ink-faint); }
 .flow-item.is-done .flow-dot{ background:#B9C6DA; }
 .flow-item.is-now .flow-dot{ background:var(--blue); border-color:var(--blue); box-shadow:0 0 0 5px rgba(12,82,170,.15); }
-.flow-title + .flow-title{ margin-top:2px; }
+.flow-title + .flow-title, .flow-title + .flow-sub2{ margin-top:2px; }
+.flow-sub2{ font-size:13.5px; font-weight:800; color:var(--ink); letter-spacing:-.3px; line-height:1.4; padding-left:9px; word-break:keep-all; }
+.flow-item.is-done .flow-sub2{ color:var(--ink-faint); }
 .flow-item.is-now .flow-title:first-child::after{ content:'진행 중'; margin-left:8px; font-size:10.5px; font-weight:800; color:#fff; background:var(--blue); padding:2px 7px; border-radius:999px; vertical-align:middle; }
 /* 티오프 강조 */
 .flow-item.is-tee{ margin:0 -16px; padding:16px 16px; background:linear-gradient(90deg, rgba(214,242,92,.4), rgba(214,242,92,.06)); border-top:0; border-left:4px solid var(--gold); grid-template-columns:62px 18px 1fr; padding-left:12px; }
@@ -721,7 +735,7 @@ body{
             <td>19:05 ~ 19:30</td>
             <td>
               <ul class="content-list">
-                <li>경기결과 발표<br>(우승, 메달리스트, 준우승 등 14개부문 시상)</li>
+                <li>경기결과 발표<span class="li-sub">우승, 메달리스트, 준우승 등 14개 부문 시상</span></li>
               </ul>
             </td>
             <td>-</td>
@@ -1365,7 +1379,7 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     const d = Math.round((ev - today)/86400000);
     $('nhDday').textContent = d>0 ? 'D-'+d : d===0 ? 'TODAY' : '대회 종료';
     const a = getAuth();
-    $('nhHello').innerHTML = (a && a.name ? '안녕하세요, <b>'+escapeHtml(a.name)+'</b>님' : '안녕하세요');
+    $('nhHello').innerHTML = (a && a.name ? '안녕하세요, <b>'+escapeHtml(a.name)+'님!</b><span>오늘 즐거운 라운딩 되세요~</span>' : '안녕하세요');
   }
 
   // ---------- MY ROUND 카드 ----------
@@ -1379,14 +1393,11 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     const team = me ? TEAMS.find(t => t.id===me.teamId) : null;
     const loading = !PLAYERS.length;
     const cv = team ? (team.course==='V'?'v':'l') : '';
-    const top = `<div class="mr2-top">
-      <div class="mr2-top-lab">${ICO.clock}Tee Off <small>(샷건-동시출발)</small></div>
-      <div class="mr2-time"><b>${TEE_OFF}</b></div></div>`;
+    const top = `<div class="mr2-top"><div class="mr2-top-lab">나의 조</div>
+      ${team ? '<div class="mr2-team">'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'번그룹 <small>('+escapeHtml(team.id)+')</small></div>' : '<div class="mr2-team">-</div>'}</div>`;
     const tiles = `<div class="mr2-grid">
-      <div class="mr2-tile ${cv}"><div class="mr2-ico">${ICO.flag}</div><div class="mr2-tile-txt"><span>출발코스</span>
-        ${team ? '<b>'+courseName(team.course)+'</b><em>'+escapeHtml(team.hole)+'번홀 출발</em>' : '<b>-</b>'}</div></div>
-      <div class="mr2-tile"><div class="mr2-ico">${ICO.team}</div><div class="mr2-tile-txt"><span>나의 조</span>
-        ${team ? '<b>'+escapeHtml(team.id)+'</b><em>'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'번그룹</em>' : '<b>-</b>'}</div></div></div>`;
+      <div class="mr2-tile"><span>Tee Off <i>(샷건-동시출발)</i></span><b>${TEE_OFF}</b></div>
+      <div class="mr2-tile"><span>출발코스</span><b>${team ? (team.course==='V'?'밸리':'레이크')+' '+escapeHtml(team.hole)+'번홀 출발' : '-'}</b></div></div>`;
     let mates;
     if(team){
       const mate = team.members.filter(m => m !== me);
@@ -1462,10 +1473,12 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
       const m = time.match(/(\d{1,2}):(\d{2})\s*~\s*(?:(\d{1,2}):(\d{2}))?/);
       const s = m ? (+m[1])*60+(+m[2]) : 0;
       const e = m && m[3] ? (+m[3])*60+(+m[4]) : s+30;
-      const items = Array.from(td[1].querySelectorAll('li')).map(cellText);
+      const lis = Array.from(td[1].querySelectorAll('li'));
+      const subs = lis.map(li => { const x = li.querySelector('.li-sub'); return x ? cellText(x) : ''; });
+      const items = lis.map(li => { const c = li.cloneNode(true); c.querySelectorAll('.li-sub').forEach(x=>x.remove()); return cellText(c); });
       const place = td[2] ? cellText(td[2]) : '';
       const parts = time.split('~').map(x=>x.trim());
-      return { s, e, start:parts[0], end:parts[1]||'', items, place: place==='-'?'':place,
+      return { s, e, start:parts[0], end:parts[1]||'', items, subs, place: place==='-'?'':place,
                tee: items.join(' ').includes('라운딩') };
     }).filter(Boolean);
   }
@@ -1482,7 +1495,7 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     return `<li class="flow-item ${cls}">
       <div class="flow-time">${escapeHtml(r.start)}${r.end?'<small>~ '+escapeHtml(r.end)+'</small>':'<small>~</small>'}</div>
       <div class="flow-rail"><div class="flow-dot"></div></div>
-      <div>${r.items.map(t=>'<div class="flow-title">- '+escapeHtml(t)+'</div>').join('')}
+      <div>${r.items.map((t,i)=>'<div class="flow-title">- '+escapeHtml(t)+'</div>'+(r.subs&&r.subs[i]?'<div class="flow-sub2">'+escapeHtml(r.subs[i])+'</div>':'')).join('')}
         ${r.place && !r.tee ?'<span class="flow-place">'+escapeHtml(r.place)+'</span>':''}</div></li>`;
   }
   function renderFlow(){
