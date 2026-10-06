@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<script>window.__INIT_HASH=(location.hash||"").replace("#","");</script>
+<script>window.__INIT_HASH=(location.hash||"").replace("#","");try{if(window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true)document.documentElement.classList.add("is-standalone");if(localStorage.getItem("koda_app_installed")==="1")document.documentElement.classList.add("is-installed");}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <!-- 모바일 앱(PWA) 설치를 위한 매니페스트 및 iOS 설정 -->
@@ -550,19 +550,23 @@ body{
 @media(max-width:380px){#golfSplash .splash-reference{object-position:center top;}}
 
 /* ---------- 설치 선택 페이지 ---------- */
-#screen-install-choice{justify-content:center;align-items:center;padding:28px 20px 70px;background:linear-gradient(180deg,#ffffff 0%,#f5faff 58%,#eaf4ff 100%);text-align:center;}
-.install-choice-wrap{width:100%;max-width:350px;padding:34px 24px 26px;border:1px solid rgba(21,91,184,.10);border-radius:26px;background:rgba(255,255,255,.88);box-shadow:0 20px 55px rgba(12,82,170,.13);backdrop-filter:blur(10px);}
-.install-choice-logo{width:min(190px,60vw);height:auto;display:block;margin:0 auto 15px;object-fit:contain;}
-.install-choice-title{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--navy);letter-spacing:.3px;}
-.install-choice-desc{margin:12px auto 24px;font-size:13px;line-height:1.7;color:var(--ink-soft);font-weight:600;word-break:keep-all;}
-.install-choice-buttons{display:grid;gap:10px;}
-.choice-install{width:100%;min-height:50px;border-radius:14px;padding:12px 16px;font-family:inherit;font-size:14px;font-weight:900;letter-spacing:-.3px;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;}
-.choice-install:active{transform:translateY(1px) scale(.985);}
-.choice-install.primary{border:1px solid #159B5A;background:linear-gradient(135deg,#16A968,#0E8F63);color:#fff;box-shadow:0 8px 18px rgba(14,143,99,.18);}
-.choice-install.secondary{border:1px solid #1456A8;background:#fff;color:#1456A8;}
-.install-choice-note{margin-top:15px;font-size:10.5px;line-height:1.45;color:#94A0AF;font-weight:600;}
-@media(max-width:360px){.install-choice-wrap{padding:28px 18px 22px;border-radius:22px}.install-choice-logo{width:165px}.install-choice-title{font-size:22px}.install-choice-desc{font-size:12px;margin-bottom:20px}.choice-install{min-height:47px;font-size:13px;}}
 
+
+/* ---------- 설치 안내 / 설치앱 전용 ---------- */
+html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-installed #installAppBtn,html.is-installed #installRow{display:none!important;}
+.install-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+.install-silver{min-height:38px;padding:8px 6px;border:1px solid #D6DCE4;border-radius:8px;background:#EEF1F5;color:#5B6677;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:-.3px;cursor:pointer;word-break:keep-all;transition:transform .15s ease,background .15s ease;}
+.install-silver:active{transform:scale(.97);background:#E3E8EE;}
+.ig-actions{display:grid;gap:8px;}
+.ig-btn{height:44px;border-radius:10px;font-family:inherit;font-weight:800;font-size:14px;cursor:pointer;}
+.ig-btn.primary{background:#1A9B5A;border:1px solid #1A9B5A;color:#fff;}
+.ig-btn.ghost{background:#fff;border:1px solid #D5E0EC;color:#4A5C70;}
+.ig-btn[hidden]{display:none;}
+
+/* ---------- MY ROUND 카드 : 흰 배경과 구분되도록 연한 스카이블루 ---------- */
+.mr-card{background:linear-gradient(180deg,#E9F3FE 0%,#DCEAF8 100%);border-color:#BFD5EC;}
+.mr2-tile{background:#fff;border-color:#CFE0F2;}
+.mr2-ico{background:#EAF3FD;box-shadow:none;}
 </style>
 </head>
 <body>
@@ -599,30 +603,24 @@ body{
     <button type="button" class="ios-install-close" id="iosInstallClose">확인</button>
   </div>
 </div>
+<div class="ios-install-help" id="installGuide" aria-hidden="true">
+  <div class="ios-install-box">
+    <img class="ios-install-icon" id="igIcon" alt="KODA">
+    <h3 id="igTitle"></h3>
+    <p id="igBody"></p>
+    <div class="ig-actions">
+      <button type="button" class="ig-btn primary" id="igPrimary"></button>
+      <button type="button" class="ig-btn ghost" id="igSecondary"></button>
+    </div>
+  </div>
+</div>
 <div id="app">
 
   <!-- 개인별 상세 팝업 -->
   <div class="pm-overlay" id="pmOverlay"><div class="pm-box" id="pmBox"></div></div>
 
-  <!-- ================= INSTALL CHOICE (입장하기 전 별도 페이지) ================= -->
-  <section id="screen-install-choice" class="screen active">
-    <div class="install-choice-wrap">
-      <img src="koda-logo-re.png" class="install-choice-logo" alt="KODA · Korea Developer Association">
-      <div class="install-choice-title">KODA · ARP Golf</div>
-      <div class="install-choice-desc">
-        2026 협회장배 골프대회 앱입니다.<br>
-        앱으로 설치하면 다음 방문부터 더욱 빠르고 편리하게 이용할 수 있습니다.
-      </div>
-      <div class="install-choice-buttons">
-        <button type="button" class="choice-install primary" id="choiceInstallBtn">앱설치 후 로그인하기</button>
-        <button type="button" class="choice-install secondary" id="choiceContinueBtn">설치없이 계속 하기</button>
-      </div>
-      <div class="install-choice-note">안드로이드 · 앱 설치 팝업 &nbsp; / &nbsp; iPhone · 홈 화면에 추가 안내</div>
-    </div>
-  </section>
-
   <!-- ================= COVER (로그인) ================= -->
-  <section id="screen-cover" class="screen">
+  <section id="screen-cover" class="screen active">
     <div class="login-box-golf">
       <img src="koda-logo-re.png" class="cover-logo" alt="KODA">
       <div class="cover-title">2026 협회장배<br>KODA · ARP 골프대회</div>
@@ -632,6 +630,10 @@ body{
       <input type="tel" id="loginPhone" class="login-input-golf" placeholder="핸드폰 번호 (- 없이 입력)" autocomplete="tel" onkeydown="if(event.key==='Enter'){attemptGolfLogin();}">
       <div class="login-error-golf" id="loginError"> </div>
       <button type="button" class="enter-btn" id="enterBtn">입장하기</button>
+      <div class="install-row" id="installRow">
+        <button type="button" class="install-silver" id="coverInstallBtn">앱 설치 후 사용</button>
+        <button type="button" class="install-silver" id="coverSkipBtn">설치하지 않고 계속</button>
+      </div>
     </div>
     <div class="cover-foot">한국디벨로퍼협회</div>
   </section>
@@ -1350,11 +1352,14 @@ if ('serviceWorker' in navigator) {
 }
 
 // ===== 앱 설치 (PWA) 기능 =====
+// 설치 버튼을 눌러도 화면은 넘어가지 않고, 설치 팝업/안내만 띄움
 let deferredPrompt = null;
+let installDoneShown = false;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
 });
+window.addEventListener('appinstalled', () => { deferredPrompt = null; showInstalledDone(); });
 
 function isIOSDevice(){
   return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
@@ -1362,35 +1367,94 @@ function isIOSDevice(){
 function isStandalone(){
   return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
+function isInAppBrowser(){
+  return /KAKAOTALK|NAVER\(|Line\/|FBAN|FBAV|Instagram|DaumApps/i.test(navigator.userAgent);
+}
+
+// 공용 안내 팝업
+function openInstallGuide(o){
+  const m=document.getElementById('installGuide'); if(!m) return;
+  const icon=document.getElementById('igIcon'), src=document.querySelector('#iosInstallHelp .ios-install-icon');
+  if(icon && src && !icon.src) icon.src=src.src;
+  document.getElementById('igTitle').textContent=o.title;
+  document.getElementById('igBody').innerHTML=o.body;
+  const p=document.getElementById('igPrimary'), s=document.getElementById('igSecondary');
+  p.textContent=o.primary; p.onclick=()=>{ closeInstallGuide(); if(o.onPrimary) o.onPrimary(); };
+  if(o.secondary){ s.hidden=false; s.textContent=o.secondary; s.onclick=()=>{ closeInstallGuide(); if(o.onSecondary) o.onSecondary(); }; }
+  else s.hidden=true;
+  m.classList.add('open'); m.setAttribute('aria-hidden','false');
+}
+function closeInstallGuide(){
+  const m=document.getElementById('installGuide');
+  if(m){ m.classList.remove('open'); m.setAttribute('aria-hidden','true'); }
+}
+function showInstalledDone(){
+  if(installDoneShown) return; installDoneShown=true; markInstalled();
+  openInstallGuide({
+    title:'설치가 완료되었어요 🎉',
+    body:'휴대폰 <b>홈 화면의 KODA 골프 아이콘</b>을 눌러 실행하시면<br>바로 <b>입장하기</b> 화면이 열립니다.',
+    primary:'확인'
+  });
+}
+function markInstalled(){
+  try{ localStorage.setItem('koda_app_installed','1'); }catch(e){}
+  document.documentElement.classList.add('is-installed');
+}
+// 설치하지 않고 계속 : 이번 방문에서만 설치 버튼을 숨김 (설치 전이면 다음 방문에 다시 표시)
+function skipInstall(){ const r=document.getElementById('installRow'); if(r) r.style.display='none'; }
+
 async function requestAppInstall(){
-  if(isStandalone()){
-    goToGolfLogin();
+  if(isStandalone()) return;
+
+  // 카카오톡 등 앱 내 브라우저는 설치 불가 → 외부 브라우저 안내
+  if(isInAppBrowser()){
+    openInstallGuide({
+      title:'기본 브라우저로 열어주세요',
+      body:'카카오톡 등 앱 안의 화면에서는 설치할 수 없어요.<br>우측 메뉴(⋯)에서 <b>“다른 브라우저로 열기”</b>를 선택한 뒤 설치해주세요.',
+      primary:'확인', secondary:'설치 없이 계속하기', onSecondary:skipInstall
+    });
     return;
   }
+  // iPhone : 설치 팝업 API가 없어 홈 화면 추가 안내
   if(isIOSDevice()){
     const modal=document.getElementById('iosInstallHelp');
     if(modal){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); }
     return;
   }
+  // Android/PC : 브라우저 설치 팝업
   if(deferredPrompt){
+    const promptEvt=deferredPrompt; deferredPrompt=null;
     try{
-      deferredPrompt.prompt();
-      const choice=await deferredPrompt.userChoice;
-      deferredPrompt=null;
-      goToGolfLogin();
-      return choice;
+      promptEvt.prompt();
+      const choice=await promptEvt.userChoice;
+      if(choice && choice.outcome==='accepted'){
+        showInstalledDone();
+      }else{
+        // 팝업을 무시/취소한 경우 → 설치 안내 문구를 한 번 더 표시
+        openInstallGuide({
+          title:'설치를 건너뛰셨나요?',
+          body:'앱으로 설치하면 다음부터 <b>홈 화면 아이콘으로 바로 입장</b>할 수 있어 더 편리해요.',
+          primary:'다시 설치하기', onPrimary:requestAppInstall,
+          secondary:'설치 없이 계속하기', onSecondary:skipInstall
+        });
+      }
+      return;
     }catch(e){ console.warn('PWA 설치 요청 실패',e); }
   }
-  alert("현재 브라우저에서 바로 설치 팝업을 열 수 없습니다. 브라우저 메뉴에서 '앱 설치' 또는 '홈 화면에 추가'를 선택해주세요.");
-  goToGolfLogin();
+  // 설치 팝업을 바로 띄울 수 없을 때 → 수동 설치 안내
+  openInstallGuide({
+    title:'앱 설치 방법',
+    body:'브라우저 메뉴(<b>⋮</b>)에서<br><b>“앱 설치”</b> 또는 <b>“홈 화면에 추가”</b>를 선택해주세요.',
+    primary:'확인', secondary:'설치 없이 계속하기', onSecondary:skipInstall
+  });
 }
 
 document.getElementById('installAppBtn')?.addEventListener('click', requestAppInstall);
-document.getElementById('choiceInstallBtn')?.addEventListener('click', requestAppInstall);
+document.getElementById('coverInstallBtn')?.addEventListener('click', requestAppInstall);
+document.getElementById('coverSkipBtn')?.addEventListener('click', skipInstall);
 document.getElementById('iosInstallClose')?.addEventListener('click', ()=>{
   const modal=document.getElementById('iosInstallHelp');
   if(modal){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); }
-  goToGolfLogin();
 });
 // 팀 상세 페이지로 이동
 window.showTeamDetail = function(id) {
@@ -1427,7 +1491,8 @@ function navigateTo(name){
   window.history.pushState({screen:name}, '', '#'+name);
   applyScreen(name);
 }
-window.history.replaceState({screen:'install-choice'}, '', '#install-choice');
+function entryScreen(){ return 'cover'; }
+window.history.replaceState({screen:entryScreen()}, '', '#'+entryScreen());
 document.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => navigateTo(el.dataset.go)));
 document.querySelectorAll('[data-back]').forEach(el => el.addEventListener('click', () => window.history.back()));
 document.getElementById('enterBtn').addEventListener('click', () => attemptGolfLogin());
@@ -1438,9 +1503,8 @@ function goToGolfLogin(){
   applyScreen('cover');
   setTimeout(()=>document.getElementById('loginName')?.focus(),120);
 }
-document.getElementById('choiceContinueBtn')?.addEventListener('click', goToGolfLogin);
 
-const logoutBtn=document.getElementById('logoutBtn'); if(logoutBtn) logoutBtn.addEventListener('click',()=>{ localStorage.removeItem('koda_golf_auth'); window.history.replaceState({screen:'install-choice'},'', '#install-choice'); applyScreen('install-choice'); document.getElementById('loginName').value=''; document.getElementById('loginPhone').value=''; });
+const logoutBtn=document.getElementById('logoutBtn'); if(logoutBtn) logoutBtn.addEventListener('click',()=>{ localStorage.removeItem('koda_golf_auth'); window.history.replaceState({screen:entryScreen()},'', '#'+entryScreen()); applyScreen(entryScreen()); document.getElementById('loginName').value=''; document.getElementById('loginPhone').value=''; });
 // 공지/협찬 화면 진입 시 최신 시트3 내용을 다시 반영
 ['sponsors','notice'].forEach(name=>{
   const el=document.querySelector(`[data-go="${name}"]`);
@@ -1656,7 +1720,7 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
                    myround:'myround', teams:'myround', teamdetail:'myround',
                    attendees:'attendees', location:'location' };
   const nav = $('bottomNav');
-  let current = 'install-choice';
+  let current = 'cover';
   nav.querySelectorAll('.bn').forEach(b => b.addEventListener('click', ()=>{
     if(current !== b.dataset.tab) navigateTo(b.dataset.tab);
   }));
@@ -1676,10 +1740,12 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
   // 로그인 유지: 저장된 로그인이 있으면 새로고침(당겨서 새로고침 포함)해도 로그인 화면을 건너뜀
   (function restoreSession(){
     const a = getAuth();
-    if(!a || !a.name || !a.phone) return;
+    if(!a || !a.name || !a.phone){
+      return;
+    }
     const OK = ['home','myround','attendees','location','teams','program','sponsors','notice'];
     let h = window.__INIT_HASH || '';
-    if(!OK.includes(h)) h = 'install-choice';
+    if(!OK.includes(h)) h = 'home';
     history.replaceState({screen:h}, '', '#'+h);
     applyScreen(h);
   })();
