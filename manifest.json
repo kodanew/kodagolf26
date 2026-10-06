@@ -1,12 +1,12 @@
 {
-  "name": "2026 협회장배 KODA x ARP 골프대회",
+  "name": "2026 협회장배 KODA 골프대회",
   "short_name": "KODA 골프",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#FFFFFF",
-  "description": "2026 협회장배 KODA x ARP 골프대회 참가자용 앱",
+  "description": "2026 협회장배 KODA x ARP 골프대회",
   "icons": [
     {
       "src": "koda-icon-192-reference.png",
