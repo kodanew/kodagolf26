@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <script>window.__INIT_HASH=(location.hash||"").replace("#","");try{if(window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true)document.documentElement.classList.add("is-standalone");if(localStorage.getItem("koda_app_installed")==="1")document.documentElement.classList.add("is-installed");}catch(e){}</script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-visual">
 
 <!-- 모바일 앱(PWA) 설치를 위한 매니페스트 및 iOS 설정 -->
 <link rel="manifest" href="manifest.json">
@@ -54,7 +54,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 #app{
-  width:100%; max-width:480px; margin:0 auto; height:100vh; height:100dvh; position:relative;
+  width:100%; max-width:480px; margin:0 auto; height:100vh; height:100dvh; height:var(--app-h,100dvh); position:relative;
   display:flex; flex-direction:column; background:var(--paper-deep);
   box-shadow:0 0 60px rgba(0,0,0,0.08); overflow:hidden;
 }
@@ -567,6 +567,33 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
 .mr-card{background:linear-gradient(180deg,#E9F3FE 0%,#DCEAF8 100%);border-color:#BFD5EC;}
 .mr2-tile{background:#fff;border-color:#CFE0F2;}
 .mr2-ico{background:#EAF3FD;box-shadow:none;}
+
+/* ---------- 2차 수정 ---------- */
+/* 입장 화면: 키보드가 올라와도 화면 고정 */
+#screen-cover{ overflow:hidden; }
+
+/* 홈 상단: 맨 위 ~ My Round 제목까지 그라데이션 (조금 더 짙게) */
+.nh-hero{ position:relative; padding-bottom:6px;
+  background:linear-gradient(180deg,#9EC5F0 0%,#BCD8F6 38%,#D4E6FA 72%,#E6F1FC 100%); }
+.nh-hero .nh-top{ background:
+    radial-gradient(circle at 88% 18%, rgba(214,242,92,.28) 0 2px, transparent 3px),
+    radial-gradient(ellipse at 100% 100%, rgba(255,255,255,.30) 0%, transparent 55%); }
+.nh-hero .nh-dday{ background:#EEFAC4; }
+
+/* Tee Off / 출발코스 타일 : 같은 톤으로 균형 있게 */
+.mr2-tile.tile-tee{ background:linear-gradient(180deg,#FAFEE6 0%,#F0F9C8 100%); border-color:#D3E88A; }
+.mr2-tile.tile-tee span{ color:var(--gold-deep); }
+.mr2-tile.tile-course{ background:#fff; border-color:#CFE0F2; }
+.mr2-tile.tile-course.v{ background:linear-gradient(180deg,#F0FBF6 0%,#DDF5EA 100%); border-color:#AEE3CB; }
+.mr2-tile.tile-course.v span{ color:#0E8F63; }
+.mr2-tile.tile-course.l{ background:linear-gradient(180deg,#F1F8FE 0%,#DDEEFC 100%); border-color:#B2D3F0; }
+.mr2-tile.tile-course.l span{ color:#2B76BE; }
+
+/* With Player : 하나의 영역 안에 동반자 이름 + 얇은 테두리 */
+.mr2-mates .mr-mate-list{ background:rgba(255,255,255,.78); border:1px solid #B9D1EC; border-radius:14px; padding:10px 10px; gap:6px 8px; }
+.mr2-mates .mr-mate{ background:transparent; border:0; box-shadow:none; border-radius:999px; padding:4px 12px 4px 4px; }
+.mr2-mates .mr-mate:active{ background:var(--blue-tint); }
+.mr2-mates .mr-mate-none{ padding:2px 4px; }
 </style>
 </head>
 <body>
@@ -642,7 +669,8 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
   <section id="screen-home" class="screen">
     <div class="nh-scroll">
 
-      <!-- 상단 -->
+      <!-- 상단 (My Round 제목까지 하나의 그라데이션 배경) -->
+      <div class="nh-hero">
       <div class="nh-top">
         <div class="nh-toprow"><div class="nh-eyebrow">KODA · ARP Golf</div><div class="nh-dday" id="nhDday">10.26 (월)</div></div>
         <h1 class="nh-title">2026 협회장배 골프대회</h1>
@@ -652,6 +680,7 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
 
       <!-- MY ROUND -->
       <div class="nh-sec" style="margin-top:18px;"><h2>My Round</h2></div>
+      </div>
       <div id="homeRound"></div>
 
       <!-- Today's Flow -->
@@ -1391,8 +1420,8 @@ function closeInstallGuide(){
 function showInstalledDone(){
   if(installDoneShown) return; installDoneShown=true; markInstalled();
   openInstallGuide({
-    title:'설치가 완료되었어요 🎉',
-    body:'휴대폰 <b>홈 화면의 KODA 골프 아이콘</b>을 눌러 실행하시면<br>바로 <b>입장하기</b> 화면이 열립니다.',
+    title:'설치가 되지 않을 때의 방법',
+    body:'<b>갤럭시</b>의 경우 <b>앱 검사</b>로 인해<br><b>“세부정보 더 보기”</b> 등이 나올 수 있어요.<br><b>“무시하고 설치 계속하기”</b>를 한 번 더 눌러야<br><b>설치가 완료되었다</b>는 메시지가 나옵니다.',
     primary:'확인'
   });
 }
@@ -1580,8 +1609,8 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     const top = `<div class="mr2-top"><div class="mr2-top-lab">나의 조</div>
       ${team ? '<div class="mr2-team">'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'번그룹 <small>('+escapeHtml(team.id)+')</small></div>' : '<div class="mr2-team">-</div>'}</div>`;
     const tiles = `<div class="mr2-grid">
-      <div class="mr2-tile"><span>Tee Off <i>(샷건-동시출발)</i></span><b>${TEE_OFF}</b></div>
-      <div class="mr2-tile"><span>출발코스</span><b>${team ? (team.course==='V'?'밸리':'레이크')+' '+escapeHtml(team.hole)+'번홀 출발' : '-'}</b></div></div>`;
+      <div class="mr2-tile tile-tee"><span>Tee Off <i>(샷건-동시출발)</i></span><b>${TEE_OFF}</b></div>
+      <div class="mr2-tile tile-course ${cv}"><span>출발코스</span><b>${team ? (team.course==='V'?'밸리':'레이크')+' '+escapeHtml(team.hole)+'번홀 출발' : '-'}</b></div></div>`;
     let mates;
     if(team){
       const mate = team.members.filter(m => m !== me);
@@ -1751,6 +1780,27 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
   })();
   renderMyRound();
   setInterval(renderFlow, 60000);
+})();
+</script>
+
+<script>
+/* 입장 화면: 키보드가 켜져도 화면 높이를 고정해 위로 밀리지 않게 */
+(function(){
+  var root=document.documentElement, h=window.innerHeight;
+  function coverOn(){ var c=document.getElementById('screen-cover'); return c && c.classList.contains('active'); }
+  function typing(){ var a=document.activeElement; return a && (a.tagName==='INPUT'||a.tagName==='TEXTAREA'); }
+  function apply(){
+    if(coverOn()){ root.style.setProperty('--app-h', h+'px'); }
+    else root.style.removeProperty('--app-h');
+  }
+  function update(){ if(coverOn() && typing()) return; h=window.innerHeight; apply(); }
+  window.addEventListener('resize', update);
+  window.addEventListener('orientationchange', function(){ setTimeout(update,350); });
+  document.addEventListener('focusin', function(){ if(coverOn()) apply(); });
+  document.addEventListener('focusout', function(){ setTimeout(update,350); });
+  new MutationObserver(apply).observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['class']});
+  document.addEventListener('DOMContentLoaded', apply);
+  apply();
 })();
 </script>
 </body>
