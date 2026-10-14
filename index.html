@@ -1969,5 +1969,71 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
   apply();
 })();
 </script>
+
+<style id="koda-mr-minimal-final">
+/* My Round 공통: 홈 배경과 구분되는 차분한 웜그레이/아이보리 카드 */
+#screen-home #homeRound .mr-card,
+#screen-myround #myRoundHero .mr-card{
+  margin:0 16px!important;
+  background:#fffdf8!important;
+  border:1px solid #e7dfd1!important;
+  border-radius:16px!important;
+  box-shadow:0 5px 18px rgba(76,61,38,.08)!important;
+  overflow:hidden!important;
+}
+#screen-home #homeRound .mr2-top,
+#screen-myround #myRoundHero .mr2-top{
+  background:#f5efe4!important;
+  color:#26394d!important;
+  border:0!important;
+  border-bottom:1px solid #e8dfd1!important;
+  border-radius:0!important;
+  padding:15px 17px!important;
+}
+#screen-home #homeRound .mr2-top::after,
+#screen-myround #myRoundHero .mr2-top::after{display:none!important}
+#screen-home #homeRound .mr2-top-lab,
+#screen-myround #myRoundHero .mr2-top-lab{color:#83745e!important;font-size:12px!important;letter-spacing:0!important}
+#screen-home #homeRound .mr2-team,
+#screen-myround #myRoundHero .mr2-team{color:#26394d!important;font-size:clamp(17px,4.8vw,21px)!important;white-space:normal!important}
+#screen-home #homeRound .mr2-time b,
+#screen-myround #myRoundHero .mr2-time b{font-family:inherit!important;color:#26394d!important;font-size:32px!important}
+#screen-home #homeRound .mr2-pill,
+#screen-myround #myRoundHero .mr2-pill{background:#fffdf8!important;color:#75664f!important;border-color:#e4d8c5!important}
+#screen-home #homeRound .mr2-grid,
+#screen-myround #myRoundHero .mr2-grid{gap:8px!important;padding:12px 12px 4px!important}
+#screen-home #homeRound .mr2-tile,
+#screen-myround #myRoundHero .mr2-tile{background:#fff!important;border:1px solid #e9e2d7!important;border-radius:10px!important;padding:11px 12px!important}
+#screen-home #homeRound .mr2-tile span,
+#screen-myround #myRoundHero .mr2-tile span{color:#8a7c68!important}
+#screen-home #homeRound .mr2-tile b,
+#screen-myround #myRoundHero .mr2-tile b{color:#26394d!important;white-space:normal!important}
+#screen-home #homeRound .mr2-tile.tile-tee,
+#screen-myround #myRoundHero .mr2-tile.tile-tee{background:#f7f0df!important;border-color:#e9d9b6!important}
+#screen-home #homeRound .mr2-tile.tile-course.v,
+#screen-myround #myRoundHero .mr2-tile.tile-course.v{background:#edf6f0!important;border-color:#d5e7da!important}
+#screen-home #homeRound .mr2-mates,
+#screen-myround #myRoundHero .mr2-mates{padding:12px 14px 15px!important}
+#screen-home #homeRound .mr2-mates-head,
+#screen-myround #myRoundHero .mr2-mates-head{color:#756b5c!important;margin-bottom:7px!important}
+#screen-home #homeRound .mr2-mates .mr-mate-list,
+#screen-myround #myRoundHero .mr2-mates .mr-mate-list{display:flex!important;flex-direction:column!important;gap:0!important;padding:0!important;background:#fff!important;border:1px solid #e9e2d7!important;border-radius:10px!important}
+#screen-home #homeRound .mr2-mate-row,
+#screen-myround #myRoundHero .mr2-mate-row{display:flex!important;align-items:center!important;padding:8px 11px!important;border-bottom:1px solid #f0ece5!important}
+#screen-home #homeRound .mr2-mate-row:last-child,
+#screen-myround #myRoundHero .mr2-mate-row:last-child{border-bottom:0!important}
+#screen-home #homeRound .mr2-mate-name,
+#screen-myround #myRoundHero .mr2-mate-name{font-size:13.5px!important;color:#33465a!important;cursor:pointer!important}
+#screen-home #homeRound .mr2-mate-actions,
+#screen-myround #myRoundHero .mr2-mate-actions{display:none!important}
+#screen-home #homeRound .mr2-more,
+#screen-myround #myRoundHero .mr-more{color:#8a7553!important}
+#screen-home .home-action-row{display:flex!important;visibility:visible!important;gap:8px!important;max-width:220px!important;margin:14px auto 0!important}
+#screen-home .home-action-btn{display:block!important;visibility:visible!important;width:96px!important;max-width:96px!important;padding:8px 7px!important;font-size:11px!important;background:#fff!important;color:#38516b!important;border:1px solid #d4dce5!important}
+#screen-home .nh-dday-stack{position:absolute!important;top:calc(16px + env(safe-area-inset-top,0px))!important;right:20px!important;left:auto!important;z-index:8!important;display:flex!important;align-items:flex-end!important}
+#screen-home .nh-dday{display:block!important}
+@media(max-width:360px){#screen-home .nh-dday-stack{right:14px!important}}
+</style>
+
 </body>
 </html>
