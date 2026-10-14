@@ -651,7 +651,8 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
 #screen-home .nh-toprow{display:block!important;min-height:0!important;}
 #screen-home .nh-toprow .nh-eyebrow{display:block;width:max-content;max-width:calc(100% - 88px);}
 #screen-home .nh-dday-stack{position:absolute!important;top:calc(16px + env(safe-area-inset-top,0px));right:20px;align-items:flex-end;z-index:5;}
-#screen-home .nh-dday-actions{margin-top:14px;}
+#screen-home .nh-dday-actions{display:none!important;}
+#screen-home .home-action-row{display:none!important;}
 #screen-home .nh-title{position:relative;margin-top:8px;max-width:100%;}
 #screen-home .nh-meta{position:relative;margin-top:7px;}
 #screen-home .nh-hello{position:relative;}
@@ -679,6 +680,29 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
 #screen-home .mr2-mates .mr-mate::before{content:'';display:inline-block;width:5px;height:5px;flex:0 0 5px;border-radius:50%;background:#a9b9ca;}
 #screen-home .mr-more{padding:0 14px 13px!important;color:#476987!important;font-size:11.5px!important;}
 @media(max-width:360px){#screen-home .nh-dday-stack{right:14px;}#screen-home .nh-top{padding-left:16px;padding-right:16px;}#screen-home .nh-title{font-size:23px!important;}}
+
+/* My Round: companion names on the left, contact shortcuts vertically on the right */
+#screen-home .mr2-mates .mr-mate-list{display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;gap:0!important;padding:0!important;}
+#screen-home .mr2-mate-row{display:grid;grid-template-columns:minmax(0,1fr) 34px;align-items:center;gap:8px;padding:7px 9px;border-bottom:1px solid #edf1f5;}
+#screen-home .mr2-mate-row:last-child{border-bottom:0;}
+#screen-home .mr2-mate-name{display:flex;align-items:center;min-width:0;text-align:left;border:0;background:transparent;padding:5px 2px;color:#203a55;font-family:inherit;font-size:13px;line-height:1.35;font-weight:750;cursor:pointer;}
+#screen-home .mr2-mate-name::before{content:'';width:5px;height:5px;flex:0 0 5px;border-radius:50%;background:#a9b9ca;margin-right:9px;}
+#screen-home .mr2-mate-actions{display:flex;flex-direction:column;align-items:center;gap:4px;}
+#screen-home .mr2-contact{display:flex;align-items:center;justify-content:center;width:28px;height:27px;border:1px solid #e0e7ef;border-radius:8px;background:#f8fafc;color:#355878;text-decoration:none;font-size:15px;line-height:1;cursor:pointer;}
+#screen-home .mr2-contact.phone{color:#16734a;background:#f0faf4;border-color:#d7efe1;}
+#screen-home .mr2-contact.kakao{color:#302b18;background:#fff5b8;border-color:#f5e99c;font-size:13px;font-weight:900;}
+#screen-home .mr2-contact.disabled{opacity:.35;cursor:default;pointer-events:none;}
+#screen-home .mr2-flow{margin:0 12px 14px;padding:12px;border:1px solid #e1e8f0;border-radius:12px;background:#fbfcfe;}
+#screen-home .mr2-flow-head{display:flex;justify-content:space-between;align-items:center;margin:0 1px 10px;color:#657990;font-size:11.5px;font-weight:850;}
+#screen-home .mr2-flow-head span{font-size:10px;font-weight:700;color:#8b9aab;}
+#screen-home .mr2-flow-list{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+#screen-home .mr2-flow-step{position:relative;display:flex;flex-direction:column;gap:4px;min-width:0;padding:10px 10px 9px;border:1px solid #e4e9f0;border-radius:9px;background:#fff;color:#8b95a3;transition:background .2s,border-color .2s,color .2s;}
+#screen-home .mr2-flow-step strong{font-size:12px;font-weight:850;line-height:1.25;color:inherit;}
+#screen-home .mr2-flow-step time{font-size:10.5px;font-weight:750;white-space:nowrap;color:inherit;}
+#screen-home .mr2-flow-step.is-current{background:#eaf3ff;border-color:#8db8ef;color:#155bb8;box-shadow:0 0 0 1px rgba(21,91,184,.04);}
+#screen-home .mr2-flow-step.is-done{background:#f0f8f3;border-color:#cce8d6;color:#328052;}
+#screen-home .mr2-flow-step.is-current::after{content:'진행 중';position:absolute;top:5px;right:5px;font-size:8px;font-weight:900;padding:2px 4px;border-radius:4px;background:#155bb8;color:#fff;}
+@media(max-width:350px){#screen-home .mr2-flow-step{padding:9px 7px;}#screen-home .mr2-flow-step strong{font-size:11.5px;}#screen-home .mr2-flow-step time{font-size:10px;}}
 </style>
 
 </head>
@@ -1718,6 +1742,26 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     flag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg>',
     team:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.4 0 4.2 1.9 4.2 4.5"/></svg>'
   };
+  const MYROUND_STAGES = [
+    {name:'이동중', start:'10:00', end:'11:00'},
+    {name:'식사중', start:'11:00', end:'12:00'},
+    {name:'라운딩', start:'13:00', end:'17:30'},
+    {name:'공식만찬', start:'18:00', end:'21:00'}
+  ];
+  function myRoundFlowHTML(){
+    const n = kstNow();
+    const isDay = n.getUTCFullYear()===EVENT_YMD[0] && n.getUTCMonth()+1===EVENT_YMD[1] && n.getUTCDate()===EVENT_YMD[2];
+    const isPast = Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate()) > Date.UTC(EVENT_YMD[0],EVENT_YMD[1]-1,EVENT_YMD[2]);
+    const minute = n.getUTCHours()*60+n.getUTCMinutes();
+    const items = MYROUND_STAGES.map(stage=>{
+      const [sh,sm]=stage.start.split(':').map(Number), [eh,em]=stage.end.split(':').map(Number);
+      const start=sh*60+sm, end=eh*60+em;
+      const status = isPast || (isDay && minute>=end) ? 'is-done' : (isDay && minute>=start && minute<end ? 'is-current' : '');
+      return `<div class="mr2-flow-step ${status}"><strong>${stage.name}</strong><time>${stage.start}–${stage.end}</time></div>`;
+    }).join('');
+    return `<div class="mr2-flow"><div class="mr2-flow-head">대회 당일 일정 <span>시간에 따라 자동 활성화</span></div><div class="mr2-flow-list">${items}</div></div>`;
+  }
+
   function heroHTML(clickable){
     const me = findMe();
     const team = me ? TEAMS.find(t => t.id===me.teamId) : null;
@@ -1731,9 +1775,9 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     let mates;
     if(team){
       const mate = team.members.filter(m => m !== me);
-      mates = `<div class="mr2-mates"><div class="mr2-mates-head">With Player <i>${mate.length}명</i></div><div class="mr-mate-list">${
-        mate.length ? mate.map(m=>{ const i = team.members.indexOf(m);
-          return '<button type="button" class="mr-mate" data-mate="'+escapeHtml(team.id)+'|'+i+'"><span class="mr-mate-av">'+(i+1)+'</span>'+escapeHtml(m.name)+'</button>'; }).join('')
+      mates = `<div class="mr2-mates"><div class="mr2-mates-head">동반 플레이어 <i>${mate.length}명</i></div><div class="mr-mate-list">${
+        mate.length ? mate.map(m=>{ const i = team.members.indexOf(m); const ph = digits(m.mobile||'');
+          return `<div class="mr2-mate-row"><button type="button" class="mr2-mate-name" data-mate="${escapeHtml(team.id)}|${i}">${escapeHtml(m.name)}</button><div class="mr2-mate-actions"><a class="mr2-contact phone ${ph?'':'disabled'}" ${ph?'href="tel:'+ph+'"':'aria-disabled="true"'} aria-label="${escapeHtml(m.name)} 전화하기" title="전화하기">☎</a><button type="button" class="mr2-contact kakao ${ph?'':'disabled'}" ${ph?'data-kakao-phone="'+ph+'"':'disabled'} aria-label="${escapeHtml(m.name)} 카카오톡 안내" title="카카오톡">톡</button></div></div>`; }).join('')
         : '<div class="mr-mate-none">-</div>'}</div></div>`;
     } else if(isAmbiguous()){
       mates = `<div class="mr-empty">같은 이름의 참가자가 ${candidates().length}명 있습니다. 본인 조를 선택해주세요.
@@ -1745,6 +1789,7 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     }
     return `<div class="mr-card${clickable?' clickable':''}" ${clickable?'data-go-tab="myround"':''}>
       ${top}${tiles}${mates}
+      ${clickable?myRoundFlowHTML():''}
       ${clickable?'<div class="mr-more">내 라운드 자세히 보기 ›</div>':''}
     </div>`;
   }
@@ -1850,8 +1895,12 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
     const t = (typeof lastUpdatedAt!=='undefined' && lastUpdatedAt) ? formatTime(lastUpdatedAt)+' 업데이트' : '';
     $('mrsSync').textContent = t;
   };
+  // 대회 당일에는 현재 시각에 맞춰 진행 단계 색상을 매분 갱신합니다.
+  setInterval(()=>{ const homeCard=document.querySelector('#homeRound .mr-card'); if(homeCard) { const old=homeCard.querySelector('.mr2-flow'); if(old) old.outerHTML=myRoundFlowHTML(); } },60000);
   // 카드 탭 → MY ROUND
   document.addEventListener('click', e=>{
+    const kakao = e.target.closest('[data-kakao-phone]');
+    if(kakao){ e.preventDefault(); alert('카카오톡 친구 연결은 참가자별 카카오톡 ID 또는 오픈채팅 링크가 등록되어야 사용할 수 있습니다. 현재는 전화번호만 등록되어 있습니다.'); return; }
     const mt = e.target.closest('[data-mate]');
     if(mt){ if(e.target.closest('a')) return; openMatePopup(mt.dataset.mate); return; }
     if(e.target.closest('.mr-pick')) return;
