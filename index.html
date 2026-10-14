@@ -643,6 +643,44 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
 #screen-home .mr-card{box-shadow:0 12px 30px rgba(50,65,85,.09)!important;}
 
 </style>
+
+<style id="koda-a-style-final-fix">
+/* Home hero: keep the event title/date/greeting at their original left-side positions.
+   The D-day and vertical actions are layered independently on the right. */
+#screen-home .nh-top{position:relative;}
+#screen-home .nh-toprow{display:block!important;min-height:0!important;}
+#screen-home .nh-toprow .nh-eyebrow{display:block;width:max-content;max-width:calc(100% - 88px);}
+#screen-home .nh-dday-stack{position:absolute!important;top:calc(16px + env(safe-area-inset-top,0px));right:20px;align-items:flex-end;z-index:5;}
+#screen-home .nh-dday-actions{margin-top:14px;}
+#screen-home .nh-title{position:relative;margin-top:8px;max-width:100%;}
+#screen-home .nh-meta{position:relative;margin-top:7px;}
+#screen-home .nh-hello{position:relative;}
+
+/* A style: genuinely minimalist white My Round card; no blue-gradient banner or round number badges. */
+#screen-home .mr-card{margin:0 16px!important;border:1px solid #dce4ed!important;border-radius:16px!important;background:#fff!important;box-shadow:0 4px 14px rgba(25,50,80,.045)!important;overflow:hidden;}
+#screen-home .mr2-top{padding:16px 17px 15px!important;background:#fff!important;color:#193653!important;border:0!important;border-bottom:1px solid #e6ebf1!important;border-radius:0!important;}
+#screen-home .mr2-top::after{display:none!important;}
+#screen-home .mr2-top-lab{color:#5c7188!important;font-size:12px!important;letter-spacing:0!important;}
+#screen-home .mr2-top-lab svg{color:#6b849e!important;}
+#screen-home .mr2-team{color:#172f49!important;font-size:clamp(17px,4.8vw,21px)!important;font-weight:850!important;letter-spacing:-.55px!important;white-space:normal!important;}
+#screen-home .mr2-time{margin-top:9px!important;align-items:center!important;}
+#screen-home .mr2-time b{font-family:inherit!important;font-size:34px!important;line-height:1!important;color:#173b63!important;letter-spacing:-1px!important;}
+#screen-home .mr2-pill{margin:0!important;padding:4px 8px!important;border:1px solid #e0e7ef!important;border-radius:7px!important;background:#f7f9fc!important;color:#5b7188!important;font-size:10px!important;}
+#screen-home .mr2-grid{gap:8px!important;padding:12px 12px 4px!important;}
+#screen-home .mr2-tile{padding:11px 12px!important;border:1px solid #e1e8f0!important;border-radius:10px!important;background:#fff!important;}
+#screen-home .mr2-tile span{color:#71839a!important;font-size:10.5px!important;}
+#screen-home .mr2-tile b{color:#1b344f!important;font-size:14px!important;white-space:normal!important;}
+#screen-home .mr2-mates{padding:12px!important;}
+#screen-home .mr2-mates-head{margin:0 1px 8px!important;color:#657990!important;font-size:11.5px!important;}
+#screen-home .mr2-mates-head i{background:#f1f5f9!important;color:#4b6682!important;border-radius:5px!important;}
+#screen-home .mr2-mates .mr-mate-list{display:flex!important;flex-wrap:wrap!important;gap:0!important;padding:3px 4px!important;border:1px solid #e1e7ef!important;border-radius:10px!important;background:#fff!important;}
+#screen-home .mr2-mates .mr-mate{display:inline-flex!important;align-items:center!important;gap:7px!important;padding:7px 9px!important;border:0!important;border-radius:7px!important;background:transparent!important;box-shadow:none!important;color:#203a55!important;font-size:13px!important;font-weight:750!important;}
+#screen-home .mr2-mates .mr-mate-av{display:none!important;}
+#screen-home .mr2-mates .mr-mate::before{content:'';display:inline-block;width:5px;height:5px;flex:0 0 5px;border-radius:50%;background:#a9b9ca;}
+#screen-home .mr-more{padding:0 14px 13px!important;color:#476987!important;font-size:11.5px!important;}
+@media(max-width:360px){#screen-home .nh-dday-stack{right:14px;}#screen-home .nh-top{padding-left:16px;padding-right:16px;}#screen-home .nh-title{font-size:23px!important;}}
+</style>
+
 </head>
 <body>
 <div id="golfSplash" aria-hidden="true">
