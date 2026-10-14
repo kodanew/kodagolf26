@@ -1777,7 +1777,7 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
       const mate = team.members.filter(m => m !== me);
       mates = `<div class="mr2-mates"><div class="mr2-mates-head">동반 플레이어 <i>${mate.length}명</i></div><div class="mr-mate-list">${
         mate.length ? mate.map(m=>{ const i = team.members.indexOf(m); const ph = digits(m.mobile||'');
-          return `<div class="mr2-mate-row"><button type="button" class="mr2-mate-name" data-mate="${escapeHtml(team.id)}|${i}">${escapeHtml(m.name)}</button><div class="mr2-mate-actions"><a class="mr2-contact phone ${ph?'':'disabled'}" ${ph?'href="tel:'+ph+'"':'aria-disabled="true"'} aria-label="${escapeHtml(m.name)} 전화하기" title="전화하기">☎</a><button type="button" class="mr2-contact kakao ${ph?'':'disabled'}" ${ph?'data-kakao-phone="'+ph+'"':'disabled'} aria-label="${escapeHtml(m.name)} 카카오톡 안내" title="카카오톡">톡</button></div></div>`; }).join('')
+          return `<div class="mr2-mate-row"><button type="button" class="mr2-mate-name" data-mate="${escapeHtml(team.id)}|${i}"><span class="mr2-mate-person-name">${escapeHtml(m.name)}</span><small class="mr2-mate-person-org">${escapeHtml([m.org, m.position || m.rank].filter(Boolean).join(" · ") || orgOf(m) || "")}</small></button><div class="mr2-mate-actions"><a class="mr2-contact phone ${ph?'':'disabled'}" ${ph?'href="tel:'+ph+'"':'aria-disabled="true"'} aria-label="${escapeHtml(m.name)} 전화하기" title="전화하기">☎</a><button type="button" class="mr2-contact kakao ${ph?'':'disabled'}" ${ph?'data-kakao-phone="'+ph+'"':'disabled'} aria-label="${escapeHtml(m.name)} 카카오톡 안내" title="카카오톡">톡</button></div></div>`; }).join('')
         : '<div class="mr-mate-none">-</div>'}</div></div>`;
     } else if(isAmbiguous()){
       mates = `<div class="mr-empty">같은 이름의 참가자가 ${candidates().length}명 있습니다. 본인 조를 선택해주세요.
@@ -1788,7 +1788,7 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
         '아직 배정된 조가 없습니다. 조편성이 확정되면 이곳에 나의 조와 동반자가 표시됩니다.'}</div>`;
     }
     return `<div class="mr-card${clickable?' clickable':''}" ${clickable?'data-go-tab="myround"':''}>
-      ${top}${tiles}${mates}
+      ${top}${tiles}${clickable?mates:'' }
       ${clickable?myRoundFlowHTML():''}
       ${clickable?'<div class="mr-more">내 라운드 자세히 보기 ›</div>':''}
     </div>`;
@@ -2035,5 +2035,14 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
 @media(max-width:360px){#screen-home .nh-dday-stack{right:14px!important}}
 </style>
 
+
+<style id="home-mate-org-and-myround-cleanup">
+/* 홈 카드: 동반자 이름 오른쪽에 작은 짙은 회색 소속·직위 */
+#screen-home #homeRound .mr2-mate-name{display:flex!important;align-items:baseline!important;gap:8px!important;flex:1!important;min-width:0!important;text-align:left!important;}
+#screen-home #homeRound .mr2-mate-person-name{font-size:13.5px!important;font-weight:800!important;white-space:nowrap!important;flex-shrink:0!important;}
+#screen-home #homeRound .mr2-mate-person-org{font-size:11.5px!important;font-weight:600!important;color:#59616b!important;line-height:1.35!important;white-space:normal!important;min-width:0!important;}
+/* My Round 탭에서는 My Team과 중복되는 동반 플레이어 목록을 숨김 */
+#screen-myround #myRoundHero .mr2-mates{display:none!important;}
+</style>
 </body>
 </html>
