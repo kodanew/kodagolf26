@@ -1657,9 +1657,18 @@ function navigateTo(name){
   applyScreen(name);
   if(name==='home') requestAnimationFrame(resetHomeScroll);
 }
+function hasValidGolfSession(){
+  try{
+    const a=JSON.parse(localStorage.getItem('koda_golf_auth')||'null');
+    return !!(a && String(a.name||'').trim() && String(a.phone||'').replace(/[^0-9]/g,''));
+  }catch(e){ return false; }
+}
 function entryScreen(){
+  // 인증 정보가 없으면 URL hash가 #home이어도 반드시 입장 화면부터 표시
+  if(!hasValidGolfSession()) return 'cover';
   const saved=(window.__INIT_HASH||'').replace(/^#/,'');
-  return saved && document.getElementById('screen-'+saved) ? saved : 'cover';
+  const allowed=['home','myround','attendees','location','teams','program','sponsors','notice','teamdetail'];
+  return allowed.includes(saved) ? saved : 'home';
 }
 window.history.replaceState({screen:entryScreen()}, '', '#'+entryScreen());
 applyScreen(entryScreen());
@@ -1674,14 +1683,38 @@ function goToGolfLogin(){
   setTimeout(()=>document.getElementById('loginName')?.focus(),120);
 }
 
-const logoutBtn=document.getElementById('logoutBtn'); if(logoutBtn) logoutBtn.addEventListener('click',()=>{ localStorage.removeItem('koda_golf_auth'); window.history.replaceState({screen:entryScreen()},'', '#'+entryScreen()); applyScreen(entryScreen()); resetHomeScroll(); document.getElementById('loginName').value=''; document.getElementById('loginPhone').value=''; });
+const logoutBtn=document.getElementById('logoutBtn'); if(logoutBtn) logoutBtn.addEventListener('click',()=>{
+  // 세션/개인 팀 정보를 먼저 지운 뒤, 항상 입장하기 화면으로 이동
+  localStorage.removeItem('koda_golf_auth');
+  localStorage.removeItem('koda_golf_myteam');
+  window.history.replaceState({screen:'cover'},'', '#cover');
+  applyScreen('cover');
+  resetHomeScroll();
+  const name=document.getElementById('loginName');
+  const phone=document.getElementById('loginPhone');
+  const err=document.getElementById('loginError');
+  if(name) name.value='';
+  if(phone) phone.value='';
+  if(err){ err.textContent=''; err.style.display='none'; }
+  const enter=document.getElementById('enterBtn');
+  if(enter){ enter.disabled=false; enter.textContent='입장하기'; }
+});
 // 공지/협찬 화면 진입 시 최신 시트3 내용을 다시 반영
 ['sponsors','notice'].forEach(name=>{
   const el=document.querySelector(`[data-go="${name}"]`);
   if(el) el.addEventListener('click',()=>loadGolfSheet3Content());
 });
 loadGolfSheet3Content();
-window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.screen) ? e.state.screen : 'cover'));
+window.addEventListener('popstate', (e) => {
+  // 로그아웃 후 브라우저 뒤로가기로 보호 화면에 재진입하지 못하도록 차단
+  if(!hasValidGolfSession()){
+    window.history.replaceState({screen:'cover'},'', '#cover');
+    applyScreen('cover');
+    return;
+  }
+  const target=(e.state && e.state.screen) ? e.state.screen : 'cover';
+  applyScreen(target);
+});
 
 
 // =====================================================================
@@ -1936,6 +1969,8 @@ window.addEventListener('popstate', (e) => applyScreen((e.state && e.state.scree
   (function restoreSession(){
     const a = getAuth();
     if(!a || !a.name || !a.phone){
+      history.replaceState({screen:'cover'}, '', '#cover');
+      applyScreen('cover');
       return;
     }
     const OK = ['home','myround','attendees','location','teams','program','sponsors','notice'];
