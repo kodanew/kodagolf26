@@ -899,7 +899,7 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
 
   <!-- ================= 전체 참석자 명단 ================= -->
   <section id="screen-attendees" class="screen">
-    <div class="topbar"><div class="back-btn" data-back>←</div><div class="topbar-title">전체 참석자 명단</div><div class="sync-toggle-btn" id="attendeeRefreshBtn" onclick="manualRefreshAttendees()">🔄</div></div>
+    <div class="topbar"><div class="back-btn" data-back>←</div><div class="people-heading"><div class="topbar-title">People</div><div class="people-subtitle">전체 참석자 명단</div></div><div class="sync-toggle-btn" id="attendeeRefreshBtn" onclick="manualRefreshAttendees()">🔄</div></div>
     <div class="content">
       <div class="attendee-filter-row" id="attendeeFilterRow">
         <button type="button" class="attendee-filter-btn active" data-attendee-filter="전체">전체</button>
@@ -2380,5 +2380,36 @@ document.addEventListener('click',function(e){
   document.getElementById('pmOverlay').classList.add('open');
 });
 </script>
+
+
+<style id="koda-people-myround-final-tweaks">
+/* People: My Round처럼 영문 타이틀 + 작은 한글 설명 */
+#screen-attendees .topbar{align-items:center!important;gap:12px!important;padding:13px 18px 12px!important}
+#screen-attendees .people-heading{display:flex;flex-direction:column;align-items:flex-start;gap:3px;flex:1;min-width:0}
+#screen-attendees .people-heading .topbar-title{font-family:var(--serif)!important;font-style:italic!important;font-size:32px!important;line-height:1!important;font-weight:700!important;color:#0B3D91!important}
+#screen-attendees .people-subtitle{font-size:12px;font-weight:700;color:#68778A;letter-spacing:-.2px}
+#screen-attendees .attendee-table tr.ppl-row{grid-template-columns:26px minmax(0,1fr) 18px!important;padding:10px 14px!important;min-height:58px}
+#screen-attendees .attendee-table tr.ppl-row td:nth-child(2){grid-column:2!important;grid-row:1!important;display:flex!important;align-items:baseline;flex-wrap:wrap;gap:0 7px;min-width:0;line-height:1.35}
+#screen-attendees .attendee-table tr.ppl-row td:nth-child(3){grid-column:2!important;grid-row:1!important;display:inline!important;margin:0 0 0 7px!important;font-size:11.5px!important;line-height:1.35!important;color:#8792A2!important;font-weight:600!important;white-space:normal}
+#screen-attendees .attendee-table tr.ppl-row td:nth-child(4){grid-column:2!important;grid-row:2!important;margin-top:3px!important;font-size:10.5px!important}
+#screen-attendees .attendee-table tr.ppl-row::after{grid-column:3!important;grid-row:1/3!important}
+#screen-attendees .attendee-filter-btn{padding:8px 2px!important;min-height:34px!important;font-size:11.5px!important}
+/* My Round: 나의 조 카드에 차분한 페어웨이 그린 + 네이비 톤 */
+#screen-myround #myRoundHero .mr-card{
+ background:
+   radial-gradient(ellipse at 100% 0%,rgba(255,255,255,.20) 0%,transparent 42%),
+   radial-gradient(ellipse at 0% 100%,rgba(64,170,126,.34) 0%,transparent 52%),
+   linear-gradient(135deg,#123E57 0%,#155A70 52%,#0C3B56 100%)!important;
+ box-shadow:0 16px 34px rgba(12,59,86,.22)!important;
+ outline-color:rgba(255,255,255,.48)!important;
+}
+#screen-myround #myRoundHero .mr2-top-lab{color:#D9F2A5!important}
+#screen-myround #myRoundHero .mr2-tile.tile-tee span{color:#D9F2A5!important}
+@media(max-width:380px){
+ #screen-attendees .people-heading .topbar-title{font-size:29px!important}
+ #screen-attendees .attendee-table tr.ppl-row{padding:9px 11px!important}
+}
+</style>
+
 </body>
 </html>
