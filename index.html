@@ -2240,7 +2240,8 @@ window.addEventListener('popstate', (e) => {
 
 <script id="photo-contest-link-setup">
 // 신청 링크가 준비되면 아래 빈 문자열에 URL을 입력해 주세요.
-const PHOTO_CONTEST_URL = "https://docs.google.com/forms/d/1G1obBXc2gEawb0I9aS9-BC50aTrmFYpeaP3T0qfQxLI/edit#responses";
+const PHOTO_CONTEST_URL = "https://koda-golfphoto.web.app/gallery
+";
 document.getElementById("photoContestBtn")?.addEventListener("click", function(){
   if (PHOTO_CONTEST_URL.trim()) { window.open(PHOTO_CONTEST_URL, "_blank", "noopener,noreferrer"); }
   else { alert("사진 콘테스트 신청 링크가 준비 중입니다. 링크가 등록되면 이 버튼에서 바로 접속할 수 있습니다."); }
@@ -2618,8 +2619,8 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 
 /* 홈 화면 내 프로필 사진 크기 지정 */
 .home-profile-photo-button {
-    width: 60px !important;  /* 원하는 가로 크기로 변경 (예: 50px, 70px 등) */
-    height: 60px !important; /* 원하는 세로 크기로 변경 */
+    width: 100px !important;  /* 원하는 가로 크기로 변경 (예: 50px, 70px 등) */
+    height: 100px !important; /* 원하는 세로 크기로 변경 */
     border-radius: 50% !important; /* 사진을 완전한 원형으로 유지 */
     overflow: hidden !important;
     padding: 0 !important;
