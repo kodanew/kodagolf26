@@ -788,24 +788,17 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
   <section id="screen-home" class="screen">
     <div class="nh-scroll">
 
-      <!-- 상단 (My Round 제목까지 하나의 그라데이션 배경) -->
+      <!-- 행사명과 환영 영역을 현수막 스타일로 연결 -->
       <div class="nh-hero">
       <div class="nh-top">
         <div class="nh-toprow">
           <div class="nh-eyebrow">KODA · ARP Golf</div>
-          <div class="nh-dday-stack">
-            <div class="nh-dday" id="nhDday">10.26 (월)</div>
-            <div class="nh-dday-actions">
-              <button type="button" class="nh-dday-action" id="installAppTopBtn">앱설치</button>
-              <button type="button" class="nh-dday-action" id="logoutTopBtn">로그아웃</button>
-            </div>
-          </div>
         </div>
         <div class="event-brand-lockup">
           <div class="event-title-line">2026 <span>KODA</span></div>
           <h1 class="nh-title">협회장배 골프대회</h1>
           <div class="event-slogan">WE’RE ONE <i>·</i> WE’RE NO.1</div>
-          <div class="nh-meta">2026.10.26(월) · 리베라CC</div>
+          <div class="nh-meta">10.26 <span class="event-meta-divider">/</span> 리베라CC</div>
         </div>
       </div>
       <div class="nh-greeting-row">
@@ -818,7 +811,7 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
       </div>
 
       <!-- MY ROUND -->
-      <div class="nh-sec" style="margin-top:18px;"><h2>My Round</h2></div>
+      <div class="nh-sec nh-home-round-heading" style="margin-top:18px;"><h2>My Round</h2><div class="nh-dday-stack"><div class="nh-dday" id="nhDday">D-6</div></div></div>
       </div>
       <div id="homeRound"></div>
 
@@ -2251,5 +2244,39 @@ document.getElementById("photoContestBtn")?.addEventListener("click", function()
  #screen-home .photo-contest-btn{flex-basis:76px;width:76px!important;height:68px!important}
 }
 </style>
+
+<style id="koda-exact-banner-ui">
+/* 홈 상단을 첨부한 KODA·ARP 현수막 UI에 맞춰 재구성 */
+#screen-home .nh-scroll{background:linear-gradient(180deg,#f4f8ff 0%,#fff 520px)!important;}
+#screen-home .nh-hero{position:relative!important;isolation:isolate;overflow:hidden!important;padding-bottom:0!important;background:linear-gradient(180deg,#0a0a35 0%,#101b58 62%,#dbeafa 100%)!important;}
+#screen-home .nh-hero:before{content:"";position:absolute;z-index:0;left:-8%;top:-4px;width:116%;height:320px;background:radial-gradient(ellipse at 7% 0%,#df1687 0%,transparent 19%),radial-gradient(ellipse at 23% 3%,#08b9f0 0%,transparent 29%),radial-gradient(ellipse at 100% 4%,#04b8f0 0%,transparent 28%),linear-gradient(145deg,#08062e 0%,#11154b 58%,#061b50 100%);pointer-events:none;}
+#screen-home .nh-hero:after{content:"";position:absolute;z-index:1;left:-7%;right:-7%;top:245px;height:115px;border-radius:48% 52% 0 0 / 25% 34% 0 0;background:linear-gradient(180deg,#f7fbff 0%,#fff 90%);transform:rotate(-1.4deg);pointer-events:none;}
+#screen-home .nh-top{position:relative!important;z-index:2!important;min-height:0!important;padding:29px 20px 24px!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;overflow:visible!important;}
+#screen-home .nh-toprow{display:none!important;height:0!important;min-height:0!important;}
+#screen-home .nh-top:before{right:-58px!important;top:-102px!important;width:205px!important;height:205px!important;border:23px solid rgba(0,190,255,.75)!important;box-shadow:0 0 0 16px rgba(0,160,240,.15)!important;transform:rotate(32deg)!important;}
+#screen-home .nh-top:after{left:-45px!important;bottom:-47px!important;width:220px!important;height:82px!important;border:0!important;background:linear-gradient(105deg,#00b9ef 0%,#0877d3 48%,#ffd13f 100%)!important;opacity:.96!important;transform:rotate(-8deg)!important;}
+#screen-home .event-brand-lockup{position:relative!important;z-index:3!important;padding-top:0!important;max-width:100%!important;margin-top:0!important;}
+#screen-home .event-title-line{font-size:clamp(31px,8.7vw,39px)!important;line-height:1.08!important;letter-spacing:-1.6px!important;color:#fff!important;text-shadow:0 2px 8px rgba(0,0,0,.12)!important;}
+#screen-home .event-title-line span{letter-spacing:-1.4px!important;}
+#screen-home .nh-title{margin:8px 0 0!important;font-size:clamp(23px,6.5vw,29px)!important;line-height:1.2!important;font-weight:950!important;letter-spacing:-1.2px!important;color:#fff!important;white-space:nowrap!important;text-shadow:0 2px 8px rgba(0,0,0,.12)!important;}
+#screen-home .event-slogan{display:none!important;}
+#screen-home .nh-meta{margin-top:12px!important;font-size:12px!important;line-height:1.2!important;font-weight:700!important;letter-spacing:.2px!important;color:rgba(255,255,255,.87)!important;}
+#screen-home .event-meta-divider{display:inline-block;margin:0 7px;color:#ffdf57;font-weight:900;}
+#screen-home .nh-greeting-row{position:relative!important;z-index:3!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;min-height:100px!important;margin:0!important;padding:19px 17px 13px!important;background:linear-gradient(180deg,rgba(248,251,255,.97) 0%,#fff 100%)!important;}
+#screen-home .nh-hello{flex:1!important;min-width:0!important;margin:0!important;padding:2px 0!important;color:#0d2250!important;font-size:clamp(16px,4.5vw,19px)!important;line-height:1.35!important;font-weight:850!important;letter-spacing:-.55px!important;}
+#screen-home .nh-hello b{color:#087ed0!important;}
+#screen-home .nh-hello span{margin-top:4px!important;color:#4a6388!important;font-size:13px!important;font-weight:650!important;}
+#screen-home .photo-contest-btn{position:relative!important;inset:auto!important;flex:0 0 112px!important;width:112px!important;height:66px!important;display:flex!important;flex-direction:row!important;justify-content:center!important;align-items:center!important;gap:7px!important;padding:8px 9px!important;border:0!important;border-radius:18px!important;background:linear-gradient(115deg,#087dd4 0%,#2842d5 48%,#c42b98 78%,#ffd13f 115%)!important;color:#fff!important;box-shadow:0 8px 18px rgba(27,82,170,.22)!important;font-size:12px!important;line-height:1.25!important;font-weight:900!important;white-space:normal!important;}
+#screen-home .photo-contest-icon{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 22px!important;width:22px!important;height:22px!important;border-radius:50%!important;background:rgba(255,255,255,.2)!important;color:#fff!important;font-size:17px!important;}
+#screen-home .photo-contest-btn small{display:none!important;}
+#screen-home .nh-home-round-heading{position:relative!important;z-index:4!important;display:flex!important;align-items:center!important;justify-content:space-between!important;margin:0!important;padding:5px 20px 14px!important;background:#fff!important;}
+#screen-home .nh-home-round-heading h2{margin:0!important;color:#0c2354!important;font-family:var(--serif)!important;font-size:27px!important;font-style:italic!important;font-weight:700!important;letter-spacing:-.4px!important;}
+#screen-home .nh-home-round-heading .nh-dday-stack{position:static!important;display:flex!important;align-items:flex-end!important;justify-content:center!important;margin:0!important;}
+#screen-home .nh-home-round-heading .nh-dday{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:43px!important;padding:6px 11px!important;border:0!important;border-radius:999px!important;background:#ffdf57!important;color:#10133f!important;font-size:11px!important;font-weight:950!important;box-shadow:0 3px 8px rgba(0,0,0,.08)!important;}
+#screen-home #homeRound{background:#fff!important;}
+#screen-home .nh-sec:not(.nh-home-round-heading) h2{color:#155bb8!important;}
+@media(max-width:360px){#screen-home .nh-top{padding:25px 16px 22px!important;}#screen-home .event-title-line{font-size:29px!important;}#screen-home .nh-title{font-size:22px!important;}#screen-home .nh-greeting-row{padding-left:13px!important;padding-right:13px!important;gap:8px!important;}#screen-home .photo-contest-btn{flex-basis:96px!important;width:96px!important;height:62px!important;font-size:11px!important;}#screen-home .nh-home-round-heading{padding-left:16px!important;padding-right:16px!important;}}
+</style>
+
 </body>
 </html>
