@@ -2240,8 +2240,7 @@ window.addEventListener('popstate', (e) => {
 
 <script id="photo-contest-link-setup">
 // 신청 링크가 준비되면 아래 빈 문자열에 URL을 입력해 주세요.
-const PHOTO_CONTEST_URL = "https://koda-golfphoto.web.app/gallery
-";
+const PHOTO_CONTEST_URL = "https://koda-golfphoto.web.app/gallery";
 document.getElementById("photoContestBtn")?.addEventListener("click", function(){
   if (PHOTO_CONTEST_URL.trim()) { window.open(PHOTO_CONTEST_URL, "_blank", "noopener,noreferrer"); }
   else { alert("사진 콘테스트 신청 링크가 준비 중입니다. 링크가 등록되면 이 버튼에서 바로 접속할 수 있습니다."); }
