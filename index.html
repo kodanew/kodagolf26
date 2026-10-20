@@ -805,15 +805,17 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
       </div>
       <div class="nh-greeting-row">
         <div class="nh-hello" id="nhHello">안녕하세요</div>
+        <div class="nh-right"><div class="nh-dday" id="nhDday">D-day</div>
         <button type="button" class="photo-contest-btn" id="photoContestBtn" aria-label="사진 콘테스트 신청">
           <span class="pc-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.2h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg></span>
           <span class="pc-txt"><b>사진 콘테스트</b><em>참가 신청</em></span>
           <span class="pc-arrow" aria-hidden="true">›</span>
         </button>
+        </div>
       </div>
 
       <!-- MY ROUND -->
-      <div class="nh-sec nh-sec-round"><h2>My Round</h2><div class="nh-dday" id="nhDday">D-day</div></div>
+      <div class="nh-sec nh-sec-round"><h2>My Round</h2></div>
       </div>
       <div id="homeRound"></div>
 
@@ -2238,7 +2240,7 @@ document.getElementById("photoContestBtn")?.addEventListener("click", function()
 }
 #screen-home .photo-contest-icon{color:#0c6ec0!important;font-size:15px!important}
 #screen-home .photo-contest-btn small{color:#32547a!important;font-size:6px!important}
-#screen-home .nh-sec h2{color:#fff!important}
+#screen-home .nh-sec h2{color:#155bb8!important}
 #screen-home .nh-hero>.nh-sec{position:relative;z-index:1;margin-top:8px!important;padding-bottom:3px}
 @media(max-width:360px){
  #screen-home .nh-greeting-row{padding-left:13px;padding-right:13px;gap:7px}
@@ -2250,8 +2252,8 @@ document.getElementById("photoContestBtn")?.addEventListener("click", function()
 <style id="koda-home-header-v3">
 #screen-home .nh-hero{
   position:relative!important;isolation:isolate;overflow:hidden!important;
-  padding:0 0 64px!important;
-  background:linear-gradient(180deg,#0d0838 0%,#130c3d 46%,#16164f 62%,#3a5b93 76%,#c3d4ea 88%,#ffffff 100%)!important;
+  padding:0 0 8px!important;
+  background:linear-gradient(180deg,#0d0838 0%,#130c3d calc(100% - 150px),#2a3f7c calc(100% - 112px),#8fa9d2 calc(100% - 70px),#dbe6f3 calc(100% - 38px),#ffffff calc(100% - 14px))!important;
 }
 #screen-home .nh-hero:before{
   content:"";position:absolute;z-index:-1;left:0;right:0;top:0;height:420px;pointer-events:none;
@@ -2278,7 +2280,7 @@ document.getElementById("photoContestBtn")?.addEventListener("click", function()
 #screen-home .nh-meta i{font-style:normal;color:#ffd24a;padding:0 5px}
 #screen-home .nh-greeting-row{
   position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:26px 18px 6px;min-height:0;
+  padding:26px 18px 46px;min-height:0;align-items:flex-end;
 }
 #screen-home .nh-hello{flex:1;min-width:0;margin:0!important;padding:0!important;color:#fff!important;font-size:17px!important;line-height:1.4!important;font-weight:500!important}
 #screen-home .nh-hello b{color:#ffd24a!important;font-weight:800!important}
@@ -2298,9 +2300,10 @@ document.getElementById("photoContestBtn")?.addEventListener("click", function()
 #screen-home .pc-txt b{font-size:12.5px;font-weight:800;color:#fff;letter-spacing:-.3px}
 #screen-home .pc-txt em{font-style:normal;font-size:10.5px;font-weight:600;color:#ffd24a}
 #screen-home .pc-arrow{font-size:18px;line-height:1;color:rgba(255,255,255,.8);margin-left:1px}
-#screen-home .nh-sec-round{display:flex!important;align-items:center;justify-content:space-between;margin:22px 0 0!important;padding:0 18px!important;position:relative;z-index:2}
-#screen-home .nh-sec-round h2{margin:0!important;color:#fff!important}
-#screen-home .nh-sec-round .nh-dday{display:block!important;position:static!important;margin:0!important;
+#screen-home .nh-sec-round{display:flex!important;align-items:center;justify-content:space-between;margin:0!important;padding:0 18px!important;position:relative;z-index:2}
+#screen-home .nh-sec-round h2{margin:0!important;color:#155bb8!important}
+#screen-home .nh-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:0 0 auto}
+#screen-home .nh-right .nh-dday{display:block!important;position:static!important;margin:0!important;
   background:linear-gradient(135deg,#ffd24a,#ff9a2e)!important;color:#1a1245!important;border:0!important;
   padding:6px 14px!important;font-size:12.5px!important;font-weight:900!important;letter-spacing:.3px;border-radius:999px;
   box-shadow:0 4px 12px rgba(255,154,46,.4)}
@@ -2311,6 +2314,10 @@ document.getElementById("photoContestBtn")?.addEventListener("click", function()
  #screen-home .pc-txt b{font-size:11.5px}
  #screen-home .nh-sec-round{padding:0 14px!important}
 }
+</style>
+<style id="koda-myround-grid-balance">
+#screen-myround #myRoundHero .mr2-grid{padding:12px!important;gap:10px!important;margin:0!important;box-sizing:border-box}
+#screen-myround #myRoundHero .mr2-grid>.mr2-tile{margin:0!important}
 </style>
 </body>
 </html>
