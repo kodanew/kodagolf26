@@ -2607,3 +2607,102 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
  #screen-home .nh-right{max-width:54%!important;}
 }
 </style>
+
+<style id="koda-color-harmony-20261020">
+/* 1) 프로필 사진: 약 1.4배 확대, 살짝 왼쪽으로 이동, 얇은 차콜 테두리 */
+#screen-home .home-profile-photo{
+  right:14px!important; top:clamp(76px,20vw,88px)!important;
+  width:106px!important;height:106px!important;flex:0 0 106px!important;
+}
+#screen-home .home-profile-photo-button{
+  width:106px!important;height:106px!important;box-sizing:border-box!important;
+  border:1.5px solid #34323b!important;border-radius:50%!important;
+  box-shadow:0 3px 10px rgba(28,24,42,.14)!important;
+}
+@media(max-width:420px){
+  #screen-home .home-profile-photo{right:14px!important;top:78px!important;width:90px!important;height:90px!important;flex-basis:90px!important}
+  #screen-home .home-profile-photo-button{width:90px!important;height:90px!important;border:1.5px solid #34323b!important}
+}
+@media(max-width:360px){
+  #screen-home .home-profile-photo{right:12px!important;top:74px!important;width:78px!important;height:78px!important;flex-basis:78px!important}
+  #screen-home .home-profile-photo-button{width:78px!important;height:78px!important}
+}
+
+/* 2) 나의 조: 블루 대신 밝고 차분한 보라색 그라데이션 */
+#screen-home #homeRound .mr-card,
+#screen-myround #myRoundHero .mr-card{
+  border:1px solid #d8cde9!important;
+  box-shadow:0 5px 17px rgba(91,64,135,.09)!important;
+}
+#screen-home #homeRound .mr2-top,
+#screen-myround #myRoundHero .mr2-top{
+  background:linear-gradient(115deg,#f0e8fb 0%,#e7ddf7 52%,#f7effb 100%)!important;
+  border-bottom:1px solid #ddd0ef!important;
+}
+#screen-home #homeRound .mr2-top-lab,
+#screen-myround #myRoundHero .mr2-top-lab{color:#75618f!important}
+#screen-home #homeRound .mr2-team,
+#screen-myround #myRoundHero .mr2-team,
+#screen-home #homeRound .mr2-time b,
+#screen-myround #myRoundHero .mr2-time b{color:#4d376f!important}
+#screen-home #homeRound .mr2-pill,
+#screen-myround #myRoundHero .mr2-pill{background:#faf7ff!important;color:#6d5292!important;border-color:#d8c9ee!important}
+#screen-home #homeRound .mr2-tile.tile-tee,
+#screen-myround #myRoundHero .mr2-tile.tile-tee{background:#f7f0ff!important;border-color:#e5d8f5!important}
+#screen-home #homeRound .mr2-tile.tile-course.v,
+#screen-myround #myRoundHero .mr2-tile.tile-course.v{background:#eef8f5!important;border-color:#d4e9e1!important}
+#screen-home #homeRound .mr2-mates-head,
+#screen-myround #myRoundHero .mr2-mates-head{color:#725a8c!important}
+
+/* 3) Today's Flow: 밝은 중립 바탕에 행사 포스터 컬러를 소량만 강조 */
+#screen-home .flow-wrap,#screen-myround .flow-wrap{
+  background:linear-gradient(145deg,#fff 0%,#fbf9ff 100%)!important;
+  border-color:#e5dcef!important;box-shadow:0 4px 14px rgba(73,54,104,.055)!important;
+}
+#screen-home .flow-dot,#screen-myround .flow-dot{border-color:#b9a6d8!important}
+#screen-home .flow-item.is-now .flow-dot,#screen-myround .flow-item.is-now .flow-dot{
+  background:#8061b2!important;border-color:#8061b2!important;box-shadow:0 0 0 4px rgba(128,97,178,.13)!important
+}
+#screen-home .flow-item.is-now .flow-title:first-child::after,#screen-myround .flow-item.is-now .flow-title:first-child::after{background:#8061b2!important}
+#screen-home .flow-place,#screen-myround .flow-place{background:#f1eafa!important;color:#6f4f9d!important}
+#screen-home .flow-item.is-tee,#screen-myround .flow-item.is-tee{
+  background:linear-gradient(90deg,rgba(255,190,75,.22),rgba(238,224,250,.42))!important;
+  border-left-color:#ed9a45!important
+}
+#screen-home .flow-item.is-tee .flow-time,#screen-myround .flow-item.is-tee .flow-time{color:#9a612a!important}
+#screen-home .flow-item.is-tee .flow-dot,#screen-myround .flow-item.is-tee .flow-dot{background:#f0a34c!important;border-color:#d78b36!important}
+#screen-home .flow-toggle,#screen-myround .flow-toggle{color:#7656a3!important;border-top-color:#eee6f5!important}
+
+/* 4) Player Tools: 기존 밝은 버튼을 유지하고 아이콘·작은 포인트에만 포스터 색상 */
+#screen-home .tool-grid .tool{box-shadow:0 3px 10px rgba(52,39,76,.045)!important;border:1px solid rgba(95,75,125,.08)!important}
+#screen-home .tool-grid .tool-ico{box-shadow:0 1px 5px rgba(35,25,50,.07)!important}
+#screen-home .tool-grid .t1 .tool-ico{color:#168fc2!important;background:#f4fbff!important}
+#screen-home .tool-grid .t2 .tool-ico{color:#148b83!important;background:#f3fffa!important}
+#screen-home .tool-grid .t3 .tool-ico{color:#d18b24!important;background:#fffaf0!important}
+#screen-home .tool-grid .t4 .tool-ico{color:#805eb0!important;background:#faf6ff!important}
+#screen-home .tool-grid .t5 .tool-ico{color:#e66b76!important;background:#fff7f7!important}
+#screen-home .tool-grid .t6 .tool-ico{color:#7656a3!important;background:#faf7ff!important}
+
+/* 5) The Club: 포스터의 시안·보라·코랄·골드 계열을 밝게 재해석 */
+#screen-home .nh-sec:has(+ .club) h2{color:#72549b!important}
+#screen-home .club{
+  color:#30284c!important;
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(0,184,226,.22) 0%,rgba(0,184,226,0) 42%),
+    radial-gradient(ellipse at 0% 100%,rgba(239,69,145,.20) 0%,rgba(239,69,145,0) 38%),
+    radial-gradient(ellipse at 95% 100%,rgba(255,183,55,.25) 0%,rgba(255,183,55,0) 32%),
+    linear-gradient(135deg,#f3efff 0%,#e8f8fc 48%,#fff4ed 100%)!important;
+  border:1px solid #d9d0e8!important;border-radius:22px!important;
+  box-shadow:0 8px 22px rgba(85,65,120,.10)!important;outline:1px solid rgba(69,55,91,.14)!important;outline-offset:-6px!important;
+}
+#screen-home .club-tag{color:#6d5792!important;letter-spacing:.12em!important}
+#screen-home .club-name{color:#34264f!important;text-shadow:none!important}
+#screen-home .club-ko{color:#655575!important}
+#screen-home .club-courses{color:#554765!important}
+#screen-home .club-addr{color:#655c70!important}
+#screen-home .club-stats{border-top-color:rgba(103,82,135,.20)!important}
+#screen-home .club-stat b{color:#795aa6!important}
+#screen-home .club-stat span{color:#71677d!important}
+#screen-home .club-btn.primary{background:linear-gradient(110deg,#f6c65b,#f5a15c)!important;color:#392a4c!important}
+#screen-home .club-btn.ghost{background:rgba(255,255,255,.72)!important;color:#57436f!important;border-color:#d5c7e7!important}
+</style>
