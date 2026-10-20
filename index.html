@@ -1777,6 +1777,9 @@ window.addEventListener('popstate', (e) => {
     return;
   }
   const target=(e.state && e.state.screen) ? e.state.screen : 'cover';
+  // 인원 상세 팝업이 열려 있다면 뒤로가기는 페이지 이동 대신 팝업 닫기에 사용
+  const matePopup=document.getElementById('pmOverlay');
+  if(matePopup && matePopup.classList.contains('open')) matePopup.classList.remove('open');
   applyScreen(target);
 });
 
@@ -1913,9 +1916,20 @@ window.addEventListener('popstate', (e) => {
         <div class="pm-team">${escapeHtml(team.id)} · ${courseName(team.course)} ${escapeHtml(team.hole)}번홀</div></div></div>
       ${row('소속·직위', org)}${row('KODA', m.title)}${row('핸드폰', m.mobile)}
       ${ph && m!==me ? '<a class="pm-call" href="tel:'+ph+'">전화하기</a>' : ''}`;
+    // 팝업을 별도 브라우저 기록으로 등록해 휴대폰 뒤로가기로 팝업만 닫히게 함
+    if(!window.history.state || !window.history.state.popup){
+      const currentScreen=document.querySelector('.screen.active')?.id?.replace('screen-','') || 'home';
+      window.history.pushState({screen:currentScreen,popup:'mate'},'', '#'+currentScreen+'-person');
+    }
     $('pmOverlay').classList.add('open');
   }
-  function closeMatePopup(){ $('pmOverlay').classList.remove('open'); }
+  function closeMatePopup(){
+    if(window.history.state && window.history.state.popup==='mate'){
+      window.history.back();
+    }else{
+      $('pmOverlay').classList.remove('open');
+    }
+  }
   $('pmOverlay').addEventListener('click', e=>{ if(e.target===$('pmOverlay') || e.target.closest('#pmClose')) closeMatePopup(); });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeMatePopup(); });
 
@@ -2634,4 +2648,36 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
     object-fit: cover !important; /* 이미지가 찌그러지지 않고 꽉 차게 표시 */
 }
 
+</style>
+
+<style id="koda-fold-fixed-nav-fix">
+/* 갤럭시 폴드 접힘/펼침 및 주소창 높이 변화에도 하단 4개 메뉴를 화면 하단에 고정 */
+#app{position:relative;isolation:isolate;}
+#app .bottom-nav{
+  position:fixed!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:0!important;
+  transform:translateX(-50%)!important;
+  width:min(100%,480px)!important;
+  flex:0 0 auto!important;
+  min-height:calc(58px + env(safe-area-inset-bottom,0px))!important;
+  padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))!important;
+  box-sizing:border-box!important;
+  z-index:999!important;
+}
+#app .bottom-nav.hidden{display:none!important;}
+/* 고정 메뉴에 본문이 가려지지 않도록 각 스크롤 영역 아래 여유 확보 */
+#screen-home .nh-scroll,
+#screen-myround .content,
+#screen-attendees .content,
+#screen-teams .content,
+#screen-teamdetail .content,
+#screen-location .content,
+#screen-program .content,
+#screen-sponsors .content,
+#screen-notice .content{
+  padding-bottom:calc(82px + env(safe-area-inset-bottom,0px))!important;
+}
+#app .pm-overlay{position:fixed!important;inset:0!important;z-index:2000!important;}
 </style>
