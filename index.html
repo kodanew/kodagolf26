@@ -1186,7 +1186,7 @@ const PUBLISHED_WORKBOOK_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1
 const SHEET_TAB_NAME = '시트1'; // 조편성
 const ATTENDEE_SHEET_TAB_NAME = '시트2'; // 참석 신청 명단 
 const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_TAB_NAME)}`;
-const ATTENDEE_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=1550391915`; // 시트2: GID로 직접 호출해 F열 필터값 누락 방지
+const ATTENDEE_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=1550391915`; // 시트2: export CSV로 F열 원본값 누락 방지
 const CACHE_KEY = 'koda_golf_players_cache_v2';
 const AUTO_REFRESH_MS = 20000;
 const ATTENDEE_CACHE_KEY = 'koda_golf_attendees_cache_v1';
@@ -1381,7 +1381,7 @@ function rowsToAttendees(rows){
       name,
       org:String(r[orgCol]||'').trim(),
       note:String(r[noteCol]||'').trim(),
-      koda:normKoda(r[5]),phone:String(r[4]||'').trim()
+      koda:normKoda(r[5] || r.find(v=>/스태프|staff/i.test(String(v||''))) || ''),phone:String(r[4]||'').trim()
     });
   }
   return out;
@@ -1832,6 +1832,8 @@ window.addEventListener('popstate', (e) => {
     const a = getAuth();
     $('nhHello').innerHTML = (a && a.name ? '안녕하세요, <b>'+escapeHtml(a.name)+'님!</b><span>오늘 즐거운 라운딩 되세요~</span>' : '안녕하세요');
     const profileBox = $('homeProfilePhoto');
+    const brandLockup = document.querySelector('#screen-home .event-brand-lockup');
+    if(profileBox && brandLockup && profileBox.parentElement !== brandLockup) brandLockup.appendChild(profileBox);
     if(profileBox){
       const photo = a ? golfPhotoFor({name:a.name, phone:a.phone}) : '';
       profileBox.innerHTML = photo ? `<button type="button" class="home-profile-photo-button" data-photo-zoom="${escapeHtml(photo)}" data-photo-name="${escapeHtml(a.name||'내 프로필')}" aria-label="내 프로필 사진 확대"><img src="${escapeHtml(photo)}" alt="${escapeHtml(a.name||'내 프로필')}" referrerpolicy="no-referrer"></button>` : '';
@@ -2238,7 +2240,7 @@ window.addEventListener('popstate', (e) => {
 
 <script id="photo-contest-link-setup">
 // 신청 링크가 준비되면 아래 빈 문자열에 URL을 입력해 주세요.
-const PHOTO_CONTEST_URL = "";
+const PHOTO_CONTEST_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdyfo9YnZZESO_ZPvvgGZ-h4t_MOulGWnlwqQW9yZH0ON5C4g/viewform?usp=sharing&ouid=114299516817028692511";
 document.getElementById("photoContestBtn")?.addEventListener("click", function(){
   if (PHOTO_CONTEST_URL.trim()) { window.open(PHOTO_CONTEST_URL, "_blank", "noopener,noreferrer"); }
   else { alert("사진 콘테스트 신청 링크가 준비 중입니다. 링크가 등록되면 이 버튼에서 바로 접속할 수 있습니다."); }
@@ -2568,4 +2570,15 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 #screen-myround #myRoster .rost-no{display:none!important}
 #screen-myround #myRoster .rost{gap:10px!important}
 @media(max-width:380px){#screen-home .home-profile-photo,#screen-home .home-profile-photo-button{width:76px!important;height:76px!important;flex-basis:76px!important}}
+</style>
+
+<style id="koda-home-profile-alignment-v2">
+/* Align the circular profile to the event-title top and the slogan's midline */
+#screen-home .event-brand-lockup{position:relative!important;padding-right:112px!important;box-sizing:border-box!important}
+#screen-home .home-profile-photo{position:absolute!important;z-index:4!important;right:18px!important;top:0!important;width:94px!important;height:94px!important;flex:0 0 94px!important;margin:0!important;align-self:auto!important}
+#screen-home .home-profile-photo-button{width:94px!important;height:94px!important;box-sizing:border-box!important}
+#screen-home .nh-greeting-row{align-items:flex-end!important}
+#screen-home .nh-right{position:relative!important}
+#screen-home .nh-right .home-profile-photo{display:none!important}
+@media(max-width:420px){#screen-home .event-brand-lockup{padding-right:91px!important}#screen-home .home-profile-photo{right:10px!important;width:78px!important;height:78px!important}#screen-home .home-profile-photo-button{width:78px!important;height:78px!important}}
 </style>
