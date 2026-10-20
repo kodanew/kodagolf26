@@ -807,13 +807,15 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
           <div class="event-slogan">WE’RE ONE <i>·</i> WE’RE NO.1</div>
           <div class="nh-meta">2026.10.26(월) · 리베라CC</div>
         </div>
+      </div>
+      <div class="nh-greeting-row">
+        <div class="nh-hello" id="nhHello">안녕하세요</div>
         <button type="button" class="photo-contest-btn" id="photoContestBtn" aria-label="사진 콘테스트 신청">
           <span class="photo-contest-icon">✦</span>
           <span>사진<br>콘테스트<br>신청</span>
           <small>PHOTO EVENT ↗</small>
         </button>
       </div>
-      <div class="nh-hello" id="nhHello">안녕하세요</div>
 
       <!-- MY ROUND -->
       <div class="nh-sec" style="margin-top:18px;"><h2>My Round</h2></div>
@@ -2180,5 +2182,74 @@ document.getElementById("photoContestBtn")?.addEventListener("click", function()
   else { alert("사진 콘테스트 신청 링크가 준비 중입니다. 링크가 등록되면 이 버튼에서 바로 접속할 수 있습니다."); }
 });
 </script>
+
+<style id="koda-banner-inspired-home-header">
+/* 현수막 시안의 네이비·스카이블루·노란색을 홈 상단부터 인사 영역까지 연결 */
+#screen-home .nh-hero{
+  padding-bottom:10px!important;
+  background:linear-gradient(180deg,#08072e 0%,#101044 42%,#123b78 72%,#eaf3fc 100%)!important;
+  position:relative;isolation:isolate;overflow:hidden;
+}
+#screen-home .nh-hero:before{
+  content:"";position:absolute;z-index:-1;inset:0 0 auto;height:390px;
+  background:
+    radial-gradient(ellipse at 2% 72%,rgba(255,190,36,.98) 0%,rgba(255,190,36,.0) 21%),
+    radial-gradient(ellipse at 10% 22%,rgba(3,190,244,.96) 0%,rgba(3,190,244,0) 30%),
+    radial-gradient(ellipse at 100% 12%,rgba(0,180,245,.95) 0%,rgba(0,180,245,0) 28%),
+    radial-gradient(ellipse at 96% 58%,rgba(225,23,126,.78) 0%,rgba(225,23,126,0) 23%),
+    linear-gradient(130deg,#090526 20%,#111044 62%,#08072e 100%);
+  pointer-events:none;
+}
+#screen-home .nh-top{
+  min-height:228px!important;padding:24px 18px 18px!important;
+  border-radius:0!important;box-shadow:none!important;
+  background:transparent!important;
+}
+#screen-home .nh-top:before{
+  right:-58px!important;top:-88px!important;width:220px!important;height:220px!important;
+  border:24px solid rgba(0,190,255,.45)!important;
+  box-shadow:0 0 0 16px rgba(0,160,240,.12)!important;transform:rotate(32deg)!important;
+}
+#screen-home .nh-top:after{
+  left:-46px!important;bottom:-72px!important;width:230px!important;height:120px!important;
+  background:linear-gradient(110deg,#05baf0 0%,#1476d1 48%,#f6bd28 100%)!important;
+  opacity:.9!important;
+}
+#screen-home .nh-eyebrow{color:#bdeaff!important}
+#screen-home .event-brand-lockup{max-width:100%!important;padding-top:17px!important}
+#screen-home .event-title-line,#screen-home .event-title-line span,
+#screen-home .nh-title{color:#fff!important;text-shadow:0 2px 12px rgba(0,0,0,.18)}
+#screen-home .event-title-line{font-size:clamp(29px,8vw,36px)!important}
+#screen-home .nh-title{font-size:clamp(20px,5.6vw,26px)!important}
+#screen-home .event-slogan{color:#ffe16a!important}
+#screen-home .event-slogan i{color:#ff71bd!important}
+#screen-home .nh-meta{color:rgba(255,255,255,.86)!important}
+#screen-home .nh-dday{background:#ffdf57!important;color:#17133f!important;border-color:#ffec9b!important}
+#screen-home .nh-greeting-row{
+  position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;
+  gap:10px;padding:10px 16px 14px;min-height:78px;
+}
+#screen-home .nh-hello{
+  flex:1;min-width:0;padding:4px 4px 4px!important;margin:0!important;
+  color:#fff!important;font-size:18px!important;line-height:1.35!important;
+}
+#screen-home .nh-hello b{color:#ffdf57!important}
+#screen-home .nh-hello span{color:rgba(255,255,255,.86)!important;font-size:12.5px!important}
+#screen-home .photo-contest-btn{
+  position:relative!important;inset:auto!important;flex:0 0 84px;width:84px!important;height:72px!important;
+  border:1px solid rgba(255,255,255,.78)!important;border-radius:13px!important;padding:6px 3px!important;
+  background:linear-gradient(145deg,#fff8cb 0%,#ffdc52 100%)!important;color:#10103e!important;
+  box-shadow:0 5px 16px rgba(0,0,0,.22)!important;font-size:11px!important;
+}
+#screen-home .photo-contest-icon{color:#0c6ec0!important;font-size:15px!important}
+#screen-home .photo-contest-btn small{color:#32547a!important;font-size:6px!important}
+#screen-home .nh-sec h2{color:#fff!important}
+#screen-home .nh-hero>.nh-sec{position:relative;z-index:1;margin-top:8px!important;padding-bottom:3px}
+@media(max-width:360px){
+ #screen-home .nh-greeting-row{padding-left:13px;padding-right:13px;gap:7px}
+ #screen-home .nh-hello{font-size:16px!important}
+ #screen-home .photo-contest-btn{flex-basis:76px;width:76px!important;height:68px!important}
+}
+</style>
 </body>
 </html>
