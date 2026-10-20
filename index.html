@@ -2609,24 +2609,7 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 </style>
 
 <style id="koda-color-harmony-20261020">
-/* 1) 프로필 사진: 약 1.4배 확대, 살짝 왼쪽으로 이동, 얇은 차콜 테두리 */
-#screen-home .home-profile-photo{
-  right:14px!important; top:clamp(76px,20vw,88px)!important;
-  width:106px!important;height:106px!important;flex:0 0 106px!important;
-}
-#screen-home .home-profile-photo-button{
-  width:106px!important;height:106px!important;box-sizing:border-box!important;
-  border:1.5px solid #34323b!important;border-radius:50%!important;
-  box-shadow:0 3px 10px rgba(28,24,42,.14)!important;
-}
-@media(max-width:420px){
-  #screen-home .home-profile-photo{right:14px!important;top:78px!important;width:90px!important;height:90px!important;flex-basis:90px!important}
-  #screen-home .home-profile-photo-button{width:90px!important;height:90px!important;border:1.5px solid #34323b!important}
-}
-@media(max-width:360px){
-  #screen-home .home-profile-photo{right:12px!important;top:74px!important;width:78px!important;height:78px!important;flex-basis:78px!important}
-  #screen-home .home-profile-photo-button{width:78px!important;height:78px!important}
-}
+/* 프로필 사진 크기/위치는 기존 CSS 설정을 그대로 사용 */
 
 /* 2) 나의 조: 블루 대신 밝고 차분한 보라색 그라데이션 */
 #screen-home #homeRound .mr-card,
