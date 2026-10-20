@@ -1392,7 +1392,7 @@ function renderAttendees(){
   const list=q?baseList.filter(a=>a.name.includes(q)):baseList;
   count.textContent=`${ATTENDEE_FILTER==='전체'?'참석 신청자':'['+ATTENDEE_FILTER+'] 참석자'} ${baseList.length}명${q?` · 검색결과 ${list.length}명`:''}`;
   if(!list.length){body.innerHTML=`<tr><td colspan="4" class="attendee-empty">${ATTENDEES.length?'검색 결과가 없습니다.':'참석자 명단이 없습니다.'}</td></tr>`;return;}
-  body.innerHTML=list.map((a,i)=>`<tr class="ppl-row" data-ai="${ATTENDEES.indexOf(a)}"><td>${ATTENDEE_FILTER==='전체'?escapeHtml(a.no||i+1):i+1}</td><td><span class="attendee-name">${escapeHtml(a.name)}</span></td><td>${escapeHtml(a.org)||'-'}</td><td>${escapeHtml(a.note)||'-'}</td></tr>`).join('');
+  body.innerHTML=list.map((a,i)=>`<tr class="ppl-row" data-ai="${ATTENDEES.indexOf(a)}"><td>${ATTENDEE_FILTER==='전체'?escapeHtml(a.no||i+1):i+1}</td><td class="attendee-detail-cell"><span class="attendee-inline-name">${escapeHtml(a.name)}</span><span class="attendee-inline-org">${escapeHtml([a.org,a.title].filter(Boolean).join(' · ')||'-')}</span><span class="attendee-inline-koda">${escapeHtml(a.note||'')}</span></td></tr>`).join('');
 }
 async function fetchAttendeesFromSheet(){
   if(isAttendeeFetching)return; isAttendeeFetching=true;
@@ -1424,6 +1424,7 @@ setInterval(fetchAttendeesFromSheet,AUTO_REFRESH_MS);
 // ===== 입장 인증 : 시트2 B열(이름) + E열(핸드폰) =====
 let AUTH_MEMBERS = [];
 let authLoading = false;
+let authLoadPromise = null;
 
 function normalizePhoneGolf(v){
   return String(v || '').replace(/[^0-9]/g,'');
@@ -1435,19 +1436,25 @@ function parseGolfAuthCSV(csv){
     const r=rows[i]||[];
     const name=String(r[1]||'').trim();   // B열
     const phone=normalizePhoneGolf(r[4]||''); // E열
-    if(name && phone) list.push({name,phone});
+    if(name && phone) list.push({name,phone,photo:String(r[6]||'').trim()});
   }
   return list;
 }
 async function loadGolfAuthMembers(){
-  if(authLoading) return;
+  if(authLoadPromise) return authLoadPromise;
   authLoading=true;
-  try{
+  authLoadPromise=(async()=>{
     const res=await fetch(MEMBER_AUTH_CSV_URL+'&_ts='+Date.now(),{cache:'no-store'});
     if(!res.ok) throw new Error('인증 시트 응답 오류');
     AUTH_MEMBERS=parseGolfAuthCSV(await res.text());
+    return AUTH_MEMBERS;
+  })();
+  try{
+    return await authLoadPromise;
   }finally{
     authLoading=false;
+    authLoadPromise=null;
+    if(typeof window.refreshGolfPhotoViews==='function') window.refreshGolfPhotoViews();
   }
 }
 function isGolfAuthorized(name,phone){
@@ -1455,6 +1462,32 @@ function isGolfAuthorized(name,phone){
   const p=normalizePhoneGolf(phone);
   return AUTH_MEMBERS.some(m=>m.name===n && m.phone===p);
 }
+
+// 시트 G열 사진 URL을 참석자/조편성 명단과 연결합니다.
+function golfPhotoFor(person){
+  if(!person) return '';
+  const name=String(person.name||'').trim();
+  const phone=normalizePhoneGolf(person.mobile||person.phone||'');
+  let match=phone ? AUTH_MEMBERS.find(x=>x.name===name && x.phone===phone && x.photo) : null;
+  if(!match) {
+    const matches=AUTH_MEMBERS.filter(x=>x.name===name && x.photo);
+    if(matches.length===1) match=matches[0];
+  }
+  let url=match && match.photo ? String(match.photo).trim() : '';
+  if(!/^https?:\/\//i.test(url)) return '';
+  // 구글 드라이브 공유 링크를 이미지 표시용 URL로 변환합니다.
+  let id='';
+  const driveMatch=url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?.*?id=)([A-Za-z0-9_-]+)/i);
+  if(driveMatch) id=driveMatch[1];
+  if(!id){ const m=url.match(/[?&]id=([A-Za-z0-9_-]+)/); if(/drive\.google\.com/i.test(url)&&m) id=m[1]; }
+  return id ? 'https://drive.google.com/thumbnail?id='+encodeURIComponent(id)+'&sz=w800' : url;
+}
+function photoMarkup(person, className='golf-face'){
+  const url=golfPhotoFor(person);
+  if(!url) return `<span class="${className} golf-face-empty" aria-label="사진 없음">${escapeHtml((person&&person.name||'?').charAt(0))}</span>`;
+  return `<span role="button" tabindex="0" class="${className} golf-face-button" data-photo-zoom="${escapeHtml(url)}" data-photo-name="${escapeHtml(person.name||'참석자')}" aria-label="${escapeHtml(person.name||'참석자')} 사진 확대"><img src="${escapeHtml(url)}" alt="${escapeHtml(person.name||'참석자')}" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.classList.add('golf-face-failed')"></span>`;
+}
+// 사진 URL은 화면 초기화가 끝난 뒤 시트 G열에서 읽습니다.
 window.attemptGolfLogin=async function(){
   const nameEl=document.getElementById('loginName');
   const phoneEl=document.getElementById('loginPhone');
@@ -1831,7 +1864,7 @@ window.addEventListener('popstate', (e) => {
       const mate = team.members.filter(m => m !== me);
       mates = `<div class="mr2-mates"><div class="mr2-mates-head">동반 플레이어 <i>${mate.length}명</i></div><div class="mr-mate-list">${
         mate.length ? mate.map(m=>{ const i = team.members.indexOf(m); const ph = digits(m.mobile||'');
-          return `<div class="mr2-mate-row"><button type="button" class="mr2-mate-name" data-mate="${escapeHtml(team.id)}|${i}"><span class="mr2-mate-person-name">${escapeHtml(m.name)}</span><small class="mr2-mate-person-org">${escapeHtml([m.org, m.position || m.rank].filter(Boolean).join(" · ") || orgOf(m) || "")}</small></button><div class="mr2-mate-actions"><a class="mr2-contact phone ${ph?'':'disabled'}" ${ph?'href="tel:'+ph+'"':'aria-disabled="true"'} aria-label="${escapeHtml(m.name)} 전화하기" title="전화하기">☎</a><button type="button" class="mr2-contact kakao ${ph?'':'disabled'}" ${ph?'data-kakao-phone="'+ph+'"':'disabled'} aria-label="${escapeHtml(m.name)} 카카오톡 안내" title="카카오톡">톡</button></div></div>`; }).join('')
+          return `<div class="mr2-mate-row"><button type="button" class="mr2-mate-name" data-mate="${escapeHtml(team.id)}|${i}"><span class="mr2-mate-person-name">${escapeHtml(m.name)}</span><small class="mr2-mate-person-org">${escapeHtml([m.org, m.position || m.rank].filter(Boolean).join(" · ") || orgOf(m) || "")}</small>${photoMarkup(m,'golf-face golf-face-inline')}</button><div class="mr2-mate-actions"><a class="mr2-contact phone ${ph?'':'disabled'}" ${ph?'href="tel:'+ph+'"':'aria-disabled="true"'} aria-label="${escapeHtml(m.name)} 전화하기" title="전화하기">☎</a><button type="button" class="mr2-contact kakao ${ph?'':'disabled'}" ${ph?'data-kakao-phone="'+ph+'"':'disabled'} aria-label="${escapeHtml(m.name)} 카카오톡 안내" title="카카오톡">톡</button></div></div>`; }).join('')
         : '<div class="mr-mate-none">-</div>'}</div></div>`;
     } else if(isAmbiguous()){
       mates = `<div class="mr-empty">같은 이름의 참가자가 ${candidates().length}명 있습니다. 본인 조를 선택해주세요.
@@ -1857,7 +1890,7 @@ window.addEventListener('popstate', (e) => {
     const row = (k,v) => '<div class="pm-row"><span>'+k+'</span><b>'+(v?escapeHtml(v):'-')+'</b></div>';
     const org = m.org || (m.title ? '' : orgOf(m));
     $('pmBox').innerHTML = `<button type="button" class="pm-close" id="pmClose" aria-label="닫기">✕</button>
-      <div class="pm-head"><div class="pm-av">${escapeHtml((m.name||'?').charAt(0))}</div>
+      <div class="pm-head">${photoMarkup(m,'pm-av golf-face-popup')}<div>
         <div><div class="pm-name">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</div>
         <div class="pm-team">${escapeHtml(team.id)} · ${courseName(team.course)} ${escapeHtml(team.hole)}번홀</div></div></div>
       ${row('소속·직위', org)}${row('KODA', m.title)}${row('핸드폰', m.mobile)}
@@ -1881,6 +1914,7 @@ window.addEventListener('popstate', (e) => {
     box.innerHTML = team.members.map((m,i)=>`
       <div class="rost${m===me?' me':''}" data-mate="${escapeHtml(team.id)}|${i}" role="button" tabindex="0" style="cursor:pointer;">
         <div class="rost-no">${i+1}</div>
+        ${photoMarkup(m,'golf-face golf-face-roster')}
         <div class="rost-body">
           <div class="rost-name">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</div>
           <div class="rost-org">${escapeHtml(orgOf(m)||'-')}</div>
@@ -2001,6 +2035,8 @@ window.addEventListener('popstate', (e) => {
     applyScreen(h);
   })();
   renderMyRound();
+  window.refreshGolfPhotoViews=function(){ try{ renderMyRound(); renderRoster(); }catch(e){} };
+  loadGolfAuthMembers().catch(err=>console.warn('사진 데이터 로드 실패:',err));
   setInterval(renderFlow, 60000);
 })();
 </script>
@@ -2376,7 +2412,7 @@ document.addEventListener('click',function(e){
   var esc=function(t){return String(t||'').replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
   var ph=(a.phone||'').replace(/\D/g,'');
   var row=function(k,v){return '<div class="pm-row"><span>'+k+'</span><b>'+(v?esc(v):'-')+'</b></div>'};
-  document.getElementById('pmBox').innerHTML='<button type="button" class="pm-close" id="pmClose" aria-label="닫기">✕</button><div class="pm-head"><div class="pm-av">'+esc((a.name||'?').charAt(0))+'</div><div><div class="pm-name">'+esc(a.name)+'</div><div class="pm-team">'+esc(a.koda||'')+'</div></div></div>'+row('소속·직위',a.org)+row('KODA',a.note)+row('핸드폰',a.phone)+(ph.length>=9?'<a class="pm-call" href="tel:'+ph+'">전화하기</a>':'');
+  var photo=golfPhotoFor({name:a.name,phone:a.phone}); document.getElementById('pmBox').innerHTML='<button type="button" class="pm-close" id="pmClose" aria-label="닫기">✕</button><div class="pm-head">'+(photo?'<button type="button" class="pm-av golf-face-button golf-face-popup" data-photo-zoom="'+esc(photo)+'" data-photo-name="'+esc(a.name)+'"><img src="'+esc(photo)+'" alt="'+esc(a.name)+'" referrerpolicy="no-referrer"></button>':'<div class="pm-av">'+esc((a.name||'?').charAt(0))+'</div>')+'<div><div class="pm-name">'+esc(a.name)+'</div><div class="pm-team">'+esc(a.koda||'')+'</div></div></div>'+row('소속·직위',a.org)+row('KODA',a.note)+row('핸드폰',a.phone)+(ph.length>=9?'<a class="pm-call" href="tel:'+ph+'">전화하기</a>':'');
   document.getElementById('pmOverlay').classList.add('open');
 });
 </script>
@@ -2410,6 +2446,46 @@ document.addEventListener('click',function(e){
  #screen-attendees .attendee-table tr.ppl-row{padding:9px 11px!important}
 }
 </style>
+
+
+<style id="koda-photo-and-people-fixes">
+/* People: 이름 뒤 한 칸 띄우고 소속·직위를 같은 줄에 배치해 겹침을 방지 */
+#screen-attendees .attendee-table tr.ppl-row{grid-template-columns:26px minmax(0,1fr) 18px!important;grid-template-rows:auto auto!important;align-items:center!important;min-height:54px!important;padding:11px 14px!important}
+#screen-attendees .attendee-table tr.ppl-row td:nth-child(1){grid-column:1!important;grid-row:1/3!important}
+#screen-attendees .attendee-table tr.ppl-row td.attendee-detail-cell{grid-column:2!important;grid-row:1/3!important;display:flex!important;align-items:baseline!important;flex-wrap:wrap!important;gap:3px 8px!important;min-width:0!important;line-height:1.4!important}
+#screen-attendees .attendee-inline-name{font-size:15px;font-weight:900;color:#0B3D91;white-space:nowrap;flex:0 0 auto}
+#screen-attendees .attendee-inline-org{font-size:11.5px;font-weight:600;color:#8792A2;min-width:0;overflow-wrap:anywhere}
+#screen-attendees .attendee-inline-koda{flex-basis:100%;font-size:10.5px;font-weight:700;color:#155BB8;line-height:1.25}
+#screen-attendees .attendee-table tr.ppl-row::after{grid-column:3!important;grid-row:1/3!important}
+.golf-face{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:34px;height:34px;border-radius:50%;overflow:hidden;background:#eaf0f6;color:#47617c;font-size:13px;font-weight:800;border:1px solid rgba(60,90,120,.16);padding:0}
+.golf-face img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.golf-face-button{cursor:zoom-in;appearance:none;-webkit-appearance:none}
+.golf-face-empty{cursor:default}
+.golf-face-inline{width:32px;height:32px;margin-left:auto;}
+#screen-home .mr2-mate-name,#screen-myround .mr2-mate-name{gap:7px!important;}
+#screen-home .mr2-mate-name .golf-face-inline,#screen-myround .mr2-mate-name .golf-face-inline{margin-left:auto!important;}
+#screen-myround #myRoster .rost{display:flex;align-items:center;gap:11px}
+#screen-myround #myRoster .rost-body{min-width:0;flex:1}
+.golf-face-roster{width:40px;height:40px}
+.pm-head .pm-av.golf-face-popup{width:66px;height:66px;min-width:66px;border:2px solid #e6edf5;background:#edf2f7;padding:0;overflow:hidden}
+.pm-head .pm-av.golf-face-popup img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+#photoZoomOverlay{position:fixed;inset:0;z-index:10050;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(7,18,32,.88);backdrop-filter:blur(6px)}
+#photoZoomOverlay.open{display:flex}
+#photoZoomOverlay .photo-zoom-panel{position:relative;max-width:min(92vw,720px);max-height:90vh;text-align:center}
+#photoZoomOverlay img{display:block;max-width:90vw;max-height:78vh;object-fit:contain;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+#photoZoomOverlay .photo-zoom-name{color:#fff;font-weight:800;margin-top:12px;font-size:15px}
+#photoZoomOverlay .photo-zoom-close{position:absolute;right:-9px;top:-13px;width:36px;height:36px;border:0;border-radius:50%;background:#fff;color:#17324e;font-size:22px;font-weight:800;cursor:pointer}
+@media(max-width:380px){.golf-face-inline{width:28px;height:28px}.golf-face-roster{width:34px;height:34px}#screen-attendees .attendee-inline-org{font-size:10.5px}}
+</style>
+<div id="photoZoomOverlay" role="dialog" aria-modal="true" aria-label="사진 확대"><div class="photo-zoom-panel"><button type="button" class="photo-zoom-close" aria-label="닫기">×</button><img id="photoZoomImage" alt="확대 사진"><div id="photoZoomName" class="photo-zoom-name"></div></div></div>
+<script id="koda-photo-zoom-js">
+document.addEventListener('click',function(e){
+ const b=e.target.closest('[data-photo-zoom]');
+ if(b){e.preventDefault();e.stopPropagation();const u=b.getAttribute('data-photo-zoom');if(!u)return;const o=document.getElementById('photoZoomOverlay');document.getElementById('photoZoomImage').src=u;document.getElementById('photoZoomName').textContent=b.getAttribute('data-photo-name')||'';o.classList.add('open');return;}
+ const o=document.getElementById('photoZoomOverlay');if(o&&(e.target===o||e.target.closest('.photo-zoom-close'))) {o.classList.remove('open');document.getElementById('photoZoomImage').removeAttribute('src');}
+},true);
+document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.closest&&e.target.closest('[data-photo-zoom]')){e.preventDefault();e.target.closest('[data-photo-zoom]').click();return;}if(e.key==='Escape'){const o=document.getElementById('photoZoomOverlay');if(o)o.classList.remove('open');}});
+</script>
 
 </body>
 </html>
