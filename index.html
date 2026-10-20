@@ -2615,4 +2615,23 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
  #screen-home .home-profile-photo-button{width:56px!important;height:56px!important;}
  #screen-home .nh-right{max-width:54%!important;}
 }
+
+/* 홈 화면 내 프로필 사진 크기 지정 */
+.home-profile-photo-button {
+    width: 60px !important;  /* 원하는 가로 크기로 변경 (예: 50px, 70px 등) */
+    height: 60px !important; /* 원하는 세로 크기로 변경 */
+    border-radius: 50% !important; /* 사진을 완전한 원형으로 유지 */
+    overflow: hidden !important;
+    padding: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-profile-photo-button img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* 이미지가 찌그러지지 않고 꽉 차게 표시 */
+}
+
 </style>
