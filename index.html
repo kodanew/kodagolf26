@@ -1371,8 +1371,8 @@ function rowsToAttendees(rows){
   else {if(noCol<0)noCol=0;if(nameCol<0)nameCol=1;if(orgCol<0)orgCol=2;if(noteCol<0)noteCol=3;}
 
   // 시트2 F열의 KODA 필터값을 사용합니다.
-  // 1행은 헤더로 보고, 161행까지만 참석자 대상으로 사용합니다.
-  const startRow=hasHeader?1:0, maxRow=Math.min(rows.length-1,160), out=[];
+  // 1행은 헤더로 보고, 시트에 있는 모든 행을 사용합니다(스태프가 161행 이후에 있어도 포함).
+  const startRow=hasHeader?1:0, maxRow=rows.length-1, out=[];
   for(let i=startRow;i<=maxRow;i++){
     const r=rows[i]||[], name=String(r[nameCol]||'').trim();
     if(!name) continue;
@@ -1381,7 +1381,7 @@ function rowsToAttendees(rows){
       name,
       org:String(r[orgCol]||'').trim(),
       note:String(r[noteCol]||'').trim(),
-      koda:normKoda(r[5] || r.find(v=>/스태프|staff/i.test(String(v||''))) || ''),phone:String(r[4]||'').trim()
+      koda:normKoda(r[5] || ''),phone:String(r[4]||'').trim()
     });
   }
   return out;
@@ -2240,7 +2240,7 @@ window.addEventListener('popstate', (e) => {
 
 <script id="photo-contest-link-setup">
 // 신청 링크가 준비되면 아래 빈 문자열에 URL을 입력해 주세요.
-const PHOTO_CONTEST_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdyfo9YnZZESO_ZPvvgGZ-h4t_MOulGWnlwqQW9yZH0ON5C4g/viewform?usp=sharing&ouid=114299516817028692511";
+const PHOTO_CONTEST_URL = "";
 document.getElementById("photoContestBtn")?.addEventListener("click", function(){
   if (PHOTO_CONTEST_URL.trim()) { window.open(PHOTO_CONTEST_URL, "_blank", "noopener,noreferrer"); }
   else { alert("사진 콘테스트 신청 링크가 준비 중입니다. 링크가 등록되면 이 버튼에서 바로 접속할 수 있습니다."); }
@@ -2581,4 +2581,29 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 #screen-home .nh-right{position:relative!important}
 #screen-home .nh-right .home-profile-photo{display:none!important}
 @media(max-width:420px){#screen-home .event-brand-lockup{padding-right:91px!important}#screen-home .home-profile-photo{right:10px!important;width:78px!important;height:78px!important}#screen-home .home-profile-photo-button{width:78px!important;height:78px!important}}
+</style>
+
+
+<style id="koda-home-photo-contest-final-fix">
+/* 프로필 사진은 행사명 오른쪽, 날짜·장소 라인 높이에 배치 */
+#screen-home .event-brand-lockup{position:relative!important;padding-right:0!important;max-width:100%!important;box-sizing:border-box!important}
+#screen-home .home-profile-photo{position:absolute!important;z-index:5!important;right:0!important;top:clamp(78px,21vw,88px)!important;width:76px!important;height:76px!important;flex:0 0 76px!important;margin:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
+#screen-home .home-profile-photo-button{width:76px!important;height:76px!important;box-sizing:border-box!important}
+#screen-home .nh-right .home-profile-photo{display:none!important}
+/* 콘테스트 버튼 오른쪽 끝을 '나의 조' 콘텐츠 우측 여백과 맞춤 */
+#screen-home .nh-greeting-row{box-sizing:border-box!important;padding-left:18px!important;padding-right:18px!important;gap:10px!important;}
+#screen-home .nh-right{box-sizing:border-box!important;min-width:0!important;max-width:48%!important;align-items:flex-end!important;}
+#screen-home .photo-contest-btn{box-sizing:border-box!important;max-width:100%!important;align-self:flex-end!important;white-space:normal!important;}
+#screen-home .photo-contest-btn .pc-txt{min-width:0!important;}
+@media(max-width:420px){
+ #screen-home .home-profile-photo{right:0!important;top:78px!important;width:64px!important;height:64px!important;}
+ #screen-home .home-profile-photo-button{width:64px!important;height:64px!important;}
+ #screen-home .nh-greeting-row{padding-left:16px!important;padding-right:16px!important;}
+ #screen-home .nh-right{max-width:52%!important;}
+}
+@media(max-width:360px){
+ #screen-home .home-profile-photo{top:74px!important;width:56px!important;height:56px!important;}
+ #screen-home .home-profile-photo-button{width:56px!important;height:56px!important;}
+ #screen-home .nh-right{max-width:54%!important;}
+}
 </style>
