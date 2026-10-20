@@ -1392,7 +1392,7 @@ function renderAttendees(){
   const list=q?baseList.filter(a=>a.name.includes(q)):baseList;
   count.textContent=`${ATTENDEE_FILTER==='전체'?'참석 신청자':'['+ATTENDEE_FILTER+'] 참석자'} ${baseList.length}명${q?` · 검색결과 ${list.length}명`:''}`;
   if(!list.length){body.innerHTML=`<tr><td colspan="4" class="attendee-empty">${ATTENDEES.length?'검색 결과가 없습니다.':'참석자 명단이 없습니다.'}</td></tr>`;return;}
-  body.innerHTML=list.map((a,i)=>`<tr class="ppl-row" data-ai="${ATTENDEES.indexOf(a)}"><td>${ATTENDEE_FILTER==='전체'?escapeHtml(a.no||i+1):i+1}</td><td class="attendee-detail-cell"><span class="attendee-inline-name">${escapeHtml(a.name)}</span><span class="attendee-inline-org">${escapeHtml([a.org,a.title].filter(Boolean).join(' · ')||'-')}</span><span class="attendee-inline-koda">${escapeHtml(a.note||'')}</span></td></tr>`).join('');
+  body.innerHTML=list.map((a,i)=>`<tr class="ppl-row" data-ai="${ATTENDEES.indexOf(a)}"><td>${ATTENDEE_FILTER==='전체'?escapeHtml(a.no||i+1):i+1}</td><td class="attendee-detail-cell">${photoMarkup(a,'golf-face golf-face-people')}<div class="attendee-text-stack"><div class="attendee-name-line"><span class="attendee-inline-name">${escapeHtml(a.name)}</span><span class="attendee-inline-org">${escapeHtml([a.org,a.title].filter(Boolean).join(' · ')||'-')}</span></div><span class="attendee-inline-koda">${escapeHtml(a.note||'')}</span></div></td></tr>`).join('');
 }
 async function fetchAttendeesFromSheet(){
   if(isAttendeeFetching)return; isAttendeeFetching=true;
@@ -1890,8 +1890,8 @@ window.addEventListener('popstate', (e) => {
     const row = (k,v) => '<div class="pm-row"><span>'+k+'</span><b>'+(v?escapeHtml(v):'-')+'</b></div>';
     const org = m.org || (m.title ? '' : orgOf(m));
     $('pmBox').innerHTML = `<button type="button" class="pm-close" id="pmClose" aria-label="닫기">✕</button>
-      <div class="pm-head">${photoMarkup(m,'pm-av golf-face-popup')}<div>
-        <div><div class="pm-name">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</div>
+      <div class="pm-head">${photoMarkup(m,'pm-av golf-face-popup')}<div class="pm-head-text">
+        <div class="pm-name">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</div>
         <div class="pm-team">${escapeHtml(team.id)} · ${courseName(team.course)} ${escapeHtml(team.hole)}번홀</div></div></div>
       ${row('소속·직위', org)}${row('KODA', m.title)}${row('핸드폰', m.mobile)}
       ${ph && m!==me ? '<a class="pm-call" href="tel:'+ph+'">전화하기</a>' : ''}`;
@@ -2476,6 +2476,44 @@ document.addEventListener('click',function(e){
 #photoZoomOverlay .photo-zoom-name{color:#fff;font-weight:800;margin-top:12px;font-size:15px}
 #photoZoomOverlay .photo-zoom-close{position:absolute;right:-9px;top:-13px;width:36px;height:36px;border:0;border-radius:50%;background:#fff;color:#17324e;font-size:22px;font-weight:800;cursor:pointer}
 @media(max-width:380px){.golf-face-inline{width:28px;height:28px}.golf-face-roster{width:34px;height:34px}#screen-attendees .attendee-inline-org{font-size:10.5px}}
+</style>
+<style id="koda-photo-layout-repair">
+/* 홈 화면: 사진을 이름 앞으로 이동하고 사진·이름·소속을 한 줄 중앙 정렬 */
+#screen-home #homeRound .mr2-mate-row{display:flex!important;align-items:center!important;gap:7px!important;min-width:0!important}
+#screen-home #homeRound .mr2-mate-name{display:flex!important;flex:1 1 auto!important;align-items:center!important;align-content:center!important;gap:7px!important;min-width:0!important;min-height:42px!important;line-height:1.25!important}
+#screen-home #homeRound .mr2-mate-name::before{display:none!important;content:none!important}
+#screen-home #homeRound .mr2-mate-name .golf-face-inline{order:-1!important;flex:0 0 32px!important;width:32px!important;height:32px!important;margin:0!important}
+#screen-home #homeRound .mr2-mate-person-name{flex:0 0 auto!important;white-space:nowrap!important;line-height:1.3!important}
+#screen-home #homeRound .mr2-mate-person-org{flex:1 1 auto!important;min-width:0!important;line-height:1.3!important;overflow-wrap:anywhere!important}
+#screen-home #homeRound .mr2-mate-actions{flex:0 0 auto!important;align-self:center!important}
+/* My Team 명단의 행/사진/텍스트를 정렬하고 상세 팝업 헤더를 People 팝업처럼 정돈 */
+#screen-myround #myRoster .rost{display:flex!important;align-items:center!important;gap:11px!important;min-height:62px!important;box-sizing:border-box!important}
+#screen-myround #myRoster .rost-no{flex:0 0 20px!important;text-align:center!important}
+#screen-myround #myRoster .golf-face-roster{flex:0 0 40px!important;width:40px!important;height:40px!important}
+#screen-myround #myRoster .rost-body{flex:1 1 auto!important;min-width:0!important;align-self:center!important}
+#screen-myround #myRoster .rost-name{line-height:1.35!important;margin:0!important;overflow-wrap:anywhere!important}
+#screen-myround #myRoster .rost-org{line-height:1.4!important;overflow-wrap:anywhere!important}
+#pmBox .pm-head{display:flex!important;align-items:center!important;gap:14px!important;min-width:0!important;margin-bottom:16px!important}
+#pmBox .pm-head-text{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;justify-content:center!important;min-width:0!important;padding-right:25px!important}
+#pmBox .pm-name{font-size:21px!important;line-height:1.3!important;overflow-wrap:anywhere!important}
+#pmBox .pm-team{line-height:1.4!important;overflow-wrap:anywhere!important}
+#pmBox .pm-av.golf-face-popup{display:inline-flex!important;flex:0 0 66px!important;width:66px!important;height:66px!important;min-width:66px!important;align-items:center!important;justify-content:center!important;border-radius:50%!important;overflow:hidden!important}
+#pmBox .pm-av.golf-face-popup img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;border-radius:50%!important}
+/* People: 번호 바로 오른쪽에 얼굴 사진, 오른쪽에 이름/소속 */
+#screen-attendees .attendee-table tr.ppl-row{grid-template-columns:26px minmax(0,1fr) 18px!important;align-items:center!important}
+#screen-attendees .attendee-table tr.ppl-row td.attendee-detail-cell{grid-column:2!important;grid-row:1/3!important;display:flex!important;align-items:center!important;flex-wrap:nowrap!important;gap:9px!important;min-width:0!important}
+#screen-attendees .golf-face-people{flex:0 0 36px!important;width:36px!important;height:36px!important;margin:0!important}
+#screen-attendees .attendee-text-stack{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;justify-content:center!important;gap:3px!important;min-width:0!important}
+#screen-attendees .attendee-name-line{display:flex!important;align-items:baseline!important;flex-wrap:wrap!important;gap:2px 7px!important;min-width:0!important;line-height:1.35!important}
+#screen-attendees .attendee-inline-name{flex:0 0 auto!important;white-space:nowrap!important}
+#screen-attendees .attendee-inline-org{flex:0 1 auto!important;min-width:0!important;overflow-wrap:anywhere!important;line-height:1.35!important}
+#screen-attendees .attendee-inline-koda{display:block!important;flex-basis:auto!important;line-height:1.3!important;overflow-wrap:anywhere!important}
+@media(max-width:380px){
+ #screen-home #homeRound .mr2-mate-name{gap:5px!important}
+ #screen-home #homeRound .mr2-mate-name .golf-face-inline{flex-basis:28px!important;width:28px!important;height:28px!important}
+ #screen-attendees .golf-face-people{flex-basis:32px!important;width:32px!important;height:32px!important}
+ #screen-myround #myRoster .golf-face-roster{flex-basis:34px!important;width:34px!important;height:34px!important}
+}
 </style>
 <div id="photoZoomOverlay" role="dialog" aria-modal="true" aria-label="사진 확대"><div class="photo-zoom-panel"><button type="button" class="photo-zoom-close" aria-label="닫기">×</button><img id="photoZoomImage" alt="확대 사진"><div id="photoZoomName" class="photo-zoom-name"></div></div></div>
 <script id="koda-photo-zoom-js">
