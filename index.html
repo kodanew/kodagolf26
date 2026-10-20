@@ -1186,7 +1186,7 @@ const PUBLISHED_WORKBOOK_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1
 const SHEET_TAB_NAME = '시트1'; // 조편성
 const ATTENDEE_SHEET_TAB_NAME = '시트2'; // 참석 신청 명단 
 const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_TAB_NAME)}`;
-const ATTENDEE_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(ATTENDEE_SHEET_TAB_NAME)}`;
+const ATTENDEE_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=1550391915`; // 시트2: GID로 직접 호출해 F열 필터값 누락 방지
 const CACHE_KEY = 'koda_golf_players_cache_v2';
 const AUTO_REFRESH_MS = 20000;
 const ATTENDEE_CACHE_KEY = 'koda_golf_attendees_cache_v1';
@@ -1354,7 +1354,7 @@ setInterval(()=> fetchPlayersFromSheet(false), AUTO_REFRESH_MS);
 // ===== 시트2 참석자 명단 =====
 function normalizeHeader(v){ return String(v||'').replace(/\s+/g,'').toLowerCase(); }
 function normKoda(v){
-  const t=String(v||'').trim();
+  const t=String(v||'').replace(/[\s\u200B\uFEFF]/g,'').trim();
   if(/스태프|staff/i.test(t)) return '스태프';
   if(/협회|임원/.test(t)) return '협회(임원)';
   return t;
@@ -2555,4 +2555,17 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 #screen-home .home-profile-photo-button{display:block;width:62px;height:62px;padding:0;border:3px solid rgba(255,255,255,.92);border-radius:50%;overflow:hidden;background:rgba(255,255,255,.18);box-shadow:0 5px 16px rgba(0,0,0,.22),0 0 0 1px rgba(255,255,255,.25);cursor:pointer}
 #screen-home .home-profile-photo-button img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
 @media(max-width:360px){#screen-home .home-profile-photo,#screen-home .home-profile-photo-button{width:54px;height:54px;flex-basis:54px}#screen-home .home-profile-photo{height:54px}}
+</style>
+
+<style id="koda-latest-layout-fixes">
+/* Home profile: move the circular face photo into the open area to the right of the slogan, above the photo-contest button */
+#screen-home .nh-greeting-row{position:relative!important;align-items:flex-end!important;padding-right:0!important}
+#screen-home .nh-right{display:flex!important;flex-direction:column!important;align-items:flex-end!important;justify-content:flex-end!important;gap:9px!important;position:relative!important}
+#screen-home .home-profile-photo{width:88px!important;height:88px!important;flex:0 0 88px!important;margin:0 15px 0 0!important;align-self:center!important}
+#screen-home .home-profile-photo-button{width:88px!important;height:88px!important;border-width:3px!important}
+#screen-home .photo-contest-btn{align-self:flex-end!important}
+/* My Team: remove the numbered circle at the far left; keep face photo and member details */
+#screen-myround #myRoster .rost-no{display:none!important}
+#screen-myround #myRoster .rost{gap:10px!important}
+@media(max-width:380px){#screen-home .home-profile-photo,#screen-home .home-profile-photo-button{width:76px!important;height:76px!important;flex-basis:76px!important}}
 </style>
