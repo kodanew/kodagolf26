@@ -707,11 +707,14 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
 
 <style id="koda-home-tweaks-v4">
 #screen-home .koda-logo-img{height:.74em;width:auto;vertical-align:baseline;margin-left:.04em;display:inline-block;filter:drop-shadow(0 4px 22px rgba(0,0,0,.25))}
-#screen-home .nh-top>.nh-dday{position:absolute!important;top:calc(14px + env(safe-area-inset-top,0px))!important;right:18px!important;left:auto!important;margin:0!important;z-index:8!important;display:block!important;
+#screen-home .nh-top>.nh-dday{position:absolute!important;top:calc(34px + env(safe-area-inset-top,0px) + clamp(40px,12.5vw,54px)/2 - 14px)!important;right:22px!important;left:auto!important;margin:0!important;z-index:8!important;display:block!important;
   background:linear-gradient(135deg,#ffd24a,#ff9a2e)!important;color:#1a1245!important;border:0!important;padding:6px 14px!important;font-size:12.5px!important;font-weight:900!important;letter-spacing:.3px;border-radius:999px;box-shadow:0 4px 12px rgba(255,154,46,.4)}
 #screen-home .home-slogan{position:relative;z-index:2;padding:22px 22px 0;color:#fff;font-weight:900;font-size:clamp(19px,5.8vw,25px);letter-spacing:-.6px;line-height:1.2;white-space:nowrap;text-shadow:0 3px 16px rgba(0,0,0,.28)}
 #screen-home .nh-greeting-row{padding-top:22px!important;padding-bottom:14px!important}
-@media(max-width:360px){#screen-home .nh-top>.nh-dday{right:14px!important}#screen-home .home-slogan{padding-left:16px}}
+#screen-home .home-slogan em{font-style:normal;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;text-shadow:none}
+#screen-home .home-slogan .sg-one{background-image:linear-gradient(90deg,#fdc317 0%,#f7924f 55%,#ee5d6c 100%)}
+#screen-home .home-slogan .sg-no1{background-image:linear-gradient(90deg,#f8a54a 0%,#f2706a 55%,#ec3b6b 100%)}
+@media(max-width:360px){#screen-home .nh-top>.nh-dday{right:16px!important}#screen-home .home-slogan{padding-left:16px}}
 </style>
 </head>
 <body>
@@ -812,7 +815,7 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
           <div class="nh-meta">10.26 <i>/</i> 리베라CC</div>
         </div>
       </div>
-      <div class="home-slogan">We're ONE, We're No.1</div>
+      <div class="home-slogan">We're <em class="sg-one">ONE</em>, We're <em class="sg-no1">No.1</em></div>
       <div class="nh-greeting-row">
         <div class="nh-hello" id="nhHello">안녕하세요</div>
         <div class="nh-right">
