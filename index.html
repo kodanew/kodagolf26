@@ -819,6 +819,7 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
       <div class="nh-greeting-row">
         <div class="nh-hello" id="nhHello">안녕하세요</div>
         <div class="nh-right">
+        <div id="homeProfilePhoto" class="home-profile-photo" aria-label="내 프로필 사진"></div>
         <button type="button" class="photo-contest-btn" id="photoContestBtn" aria-label="사진 콘테스트 신청">
           <span class="pc-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.2h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg></span>
           <span class="pc-txt"><b>사진 콘테스트</b><em>참가 신청</em></span>
@@ -907,6 +908,7 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
         <button type="button" class="attendee-filter-btn" data-attendee-filter="회원사">회원사</button>
         <button type="button" class="attendee-filter-btn" data-attendee-filter="ARP">ARP</button>
         <button type="button" class="attendee-filter-btn" data-attendee-filter="외빈">외빈</button>
+        <button type="button" class="attendee-filter-btn" data-attendee-filter="스태프">스태프</button>
       </div>
       <div class="attendee-search-wrap"><div class="search-box"><span style="font-size:18px;">🔍</span><input id="attendeeSearch" type="text" placeholder="이름을 검색하세요" autocomplete="off"></div></div>
       <div class="attendee-count" id="attendeeCount">참석 신청자 0명</div>
@@ -1353,6 +1355,7 @@ setInterval(()=> fetchPlayersFromSheet(false), AUTO_REFRESH_MS);
 function normalizeHeader(v){ return String(v||'').replace(/\s+/g,'').toLowerCase(); }
 function normKoda(v){
   const t=String(v||'').trim();
+  if(/스태프|staff/i.test(t)) return '스태프';
   if(/협회|임원/.test(t)) return '협회(임원)';
   return t;
 }
@@ -1386,11 +1389,18 @@ function rowsToAttendees(rows){
 function renderAttendees(){
   const body=document.getElementById('attendeeBody'),count=document.getElementById('attendeeCount'); if(!body||!count)return;
   const q=(document.getElementById('attendeeSearch')?.value||'').trim();
+  const applicantList = ATTENDEES.filter(a=>normKoda(a.koda)!=='스태프');
   const baseList = ATTENDEE_FILTER==='전체'
     ? ATTENDEES
     : ATTENDEES.filter(a=>normKoda(a.koda)===ATTENDEE_FILTER);
   const list=q?baseList.filter(a=>a.name.includes(q)):baseList;
-  count.textContent=`${ATTENDEE_FILTER==='전체'?'참석 신청자':'['+ATTENDEE_FILTER+'] 참석자'} ${baseList.length}명${q?` · 검색결과 ${list.length}명`:''}`;
+  if(ATTENDEE_FILTER==='스태프'){
+    count.textContent=`스태프 명단 ${baseList.length}명${q?` · 검색결과 ${list.length}명`:''}`;
+  }else if(ATTENDEE_FILTER==='전체'){
+    count.textContent=`참석 신청자 ${applicantList.length}명${q?` · 검색결과 ${list.filter(a=>normKoda(a.koda)!=='스태프').length}명`:''}`;
+  }else{
+    count.textContent=`[${ATTENDEE_FILTER==='협회(임원)'?'협회':ATTENDEE_FILTER}] 참석자 ${baseList.length}명${q?` · 검색결과 ${list.length}명`:''}`;
+  }
   if(!list.length){body.innerHTML=`<tr><td colspan="4" class="attendee-empty">${ATTENDEES.length?'검색 결과가 없습니다.':'참석자 명단이 없습니다.'}</td></tr>`;return;}
   body.innerHTML=list.map((a,i)=>`<tr class="ppl-row" data-ai="${ATTENDEES.indexOf(a)}"><td>${ATTENDEE_FILTER==='전체'?escapeHtml(a.no||i+1):i+1}</td><td class="attendee-detail-cell">${photoMarkup(a,'golf-face golf-face-people')}<div class="attendee-text-stack"><div class="attendee-name-line"><span class="attendee-inline-name">${escapeHtml(a.name)}</span><span class="attendee-inline-org">${escapeHtml([a.org,a.title].filter(Boolean).join(' · ')||'-')}</span></div><span class="attendee-inline-koda">${escapeHtml(a.note||'')}</span></div></td></tr>`).join('');
 }
@@ -1821,6 +1831,12 @@ window.addEventListener('popstate', (e) => {
     $('nhDday').textContent = d>0 ? 'D-'+d : d===0 ? 'TODAY' : '대회 종료';
     const a = getAuth();
     $('nhHello').innerHTML = (a && a.name ? '안녕하세요, <b>'+escapeHtml(a.name)+'님!</b><span>오늘 즐거운 라운딩 되세요~</span>' : '안녕하세요');
+    const profileBox = $('homeProfilePhoto');
+    if(profileBox){
+      const photo = a ? golfPhotoFor({name:a.name, phone:a.phone}) : '';
+      profileBox.innerHTML = photo ? `<button type="button" class="home-profile-photo-button" data-photo-zoom="${escapeHtml(photo)}" data-photo-name="${escapeHtml(a.name||'내 프로필')}" aria-label="내 프로필 사진 확대"><img src="${escapeHtml(photo)}" alt="${escapeHtml(a.name||'내 프로필')}" referrerpolicy="no-referrer"></button>` : '';
+      profileBox.style.display = photo ? 'flex' : 'none';
+    }
   }
 
   // ---------- MY ROUND 카드 ----------
@@ -2527,3 +2543,16 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 
 </body>
 </html>
+
+<style id="koda-staff-filter-and-home-profile">
+/* People: six equal-width filters, including the separate staff list */
+#screen-attendees .attendee-filter-row{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:5px!important}
+#screen-attendees .attendee-filter-btn{width:100%!important;min-width:0!important;box-sizing:border-box!important;padding:8px 1px!important;font-size:clamp(10px,2.8vw,12px)!important;white-space:nowrap!important}
+/* Home: the logged-in participant's circular face photo sits above the photo-contest button */
+#screen-home .nh-greeting-row{align-items:flex-end!important}
+#screen-home .nh-right{align-items:flex-end!important;gap:9px!important}
+#screen-home .home-profile-photo{display:flex;justify-content:center;align-items:center;width:62px;height:62px;flex:0 0 62px;margin:0 5px 0 0}
+#screen-home .home-profile-photo-button{display:block;width:62px;height:62px;padding:0;border:3px solid rgba(255,255,255,.92);border-radius:50%;overflow:hidden;background:rgba(255,255,255,.18);box-shadow:0 5px 16px rgba(0,0,0,.22),0 0 0 1px rgba(255,255,255,.25);cursor:pointer}
+#screen-home .home-profile-photo-button img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
+@media(max-width:360px){#screen-home .home-profile-photo,#screen-home .home-profile-photo-button{width:54px;height:54px;flex-basis:54px}#screen-home .home-profile-photo{height:54px}}
+</style>
