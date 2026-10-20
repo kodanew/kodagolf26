@@ -882,7 +882,7 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
   <!-- ================= MY ROUND (내 라운드 탭) ================= -->
   <section id="screen-myround" class="screen">
     <div class="nh-scroll">
-      <div class="nh-sec" style="margin-top:calc(20px + env(safe-area-inset-top,0px));"><h2>My Round</h2><div class="mrs-sync" id="mrsSync"></div></div>
+      <div class="mrs-hero"><h1>My Round</h1><div class="mrs-meta">협회장배 골프대회 &nbsp;10.26 / 리베라CC</div><div class="mrs-sync" id="mrsSync"></div></div>
       <div id="myRoundHero"></div>
 
       <div class="nh-sec"><h2>My Team</h2></div>
@@ -1378,7 +1378,7 @@ function rowsToAttendees(rows){
       name,
       org:String(r[orgCol]||'').trim(),
       note:String(r[noteCol]||'').trim(),
-      koda:normKoda(r[5])
+      koda:normKoda(r[5]),phone:String(r[4]||'').trim()
     });
   }
   return out;
@@ -1392,7 +1392,7 @@ function renderAttendees(){
   const list=q?baseList.filter(a=>a.name.includes(q)):baseList;
   count.textContent=`${ATTENDEE_FILTER==='전체'?'참석 신청자':'['+ATTENDEE_FILTER+'] 참석자'} ${baseList.length}명${q?` · 검색결과 ${list.length}명`:''}`;
   if(!list.length){body.innerHTML=`<tr><td colspan="4" class="attendee-empty">${ATTENDEES.length?'검색 결과가 없습니다.':'참석자 명단이 없습니다.'}</td></tr>`;return;}
-  body.innerHTML=list.map((a,i)=>`<tr><td>${ATTENDEE_FILTER==='전체'?escapeHtml(a.no||i+1):i+1}</td><td><span class="attendee-name">${escapeHtml(a.name)}</span></td><td>${escapeHtml(a.org)||'-'}</td><td>${escapeHtml(a.note)||'-'}</td></tr>`).join('');
+  body.innerHTML=list.map((a,i)=>`<tr class="ppl-row" data-ai="${ATTENDEES.indexOf(a)}"><td>${ATTENDEE_FILTER==='전체'?escapeHtml(a.no||i+1):i+1}</td><td><span class="attendee-name">${escapeHtml(a.name)}</span></td><td>${escapeHtml(a.org)||'-'}</td><td>${escapeHtml(a.note)||'-'}</td></tr>`).join('');
 }
 async function fetchAttendeesFromSheet(){
   if(isAttendeeFetching)return; isAttendeeFetching=true;
@@ -2332,5 +2332,53 @@ document.getElementById("photoContestBtn")?.addEventListener("click", function()
 #screen-myround #myRoundHero .mr2-grid{padding:12px!important;gap:10px!important;margin:0!important;box-sizing:border-box}
 #screen-myround #myRoundHero .mr2-grid>.mr2-tile{margin:0!important}
 </style>
+<style id="koda-v2">
+/* ===== v2: My Round 상단 / People (홈 히어로 톤) ===== */
+.mrs-hero{padding:calc(40px + env(safe-area-inset-top,0px)) 20px 16px;background:radial-gradient(circle at 88% 18%,rgba(12,82,170,.06) 0 2px,transparent 3px),radial-gradient(ellipse at 100% 100%,rgba(210,219,230,.5),transparent 55%),linear-gradient(180deg,#F1F4F7 0%,#F7F8FA 55%,#fff 100%)}
+.mrs-hero h1{margin:0;font-family:var(--serif);font-style:italic;font-size:40px;line-height:1;font-weight:700;color:#0B3D91}
+.mrs-meta{margin-top:8px;font-size:13px;font-weight:700;color:#5C6677}
+.mrs-hero .mrs-sync{margin-top:4px;color:#6B7587}
+#screen-myround #myRoundHero .mr-card{margin:2px 16px 0!important;border:0!important;border-radius:24px!important;color:#fff!important;position:relative;overflow:hidden;padding:24px 24px 22px!important;box-shadow:0 18px 40px rgba(31,120,230,.28)!important;outline:1px solid rgba(255,255,255,.75);outline-offset:-8px;
+ background:radial-gradient(120% 60% at 18% 120%,rgba(61,220,151,.30) 0 55%,transparent 56%),radial-gradient(110% 55% at 98% 128%,rgba(8,56,117,.45) 0 55%,transparent 56%),linear-gradient(180deg,rgba(40,130,240,.5) 0%,rgba(24,110,225,.75) 46%,rgba(16,88,196,.96) 100%),url('https://images.unsplash.com/photo-1742498626135-67a7d3501eff?fm=jpg&q=80&w=1200&auto=format&fit=crop') center/cover no-repeat!important}
+#screen-myround #myRoundHero .mr2-top{background:none!important;border:0!important;padding:0!important}
+#screen-myround #myRoundHero .mr2-top-lab{color:rgba(255,255,255,.9)!important;font-size:11px!important;font-weight:900!important;letter-spacing:.14em!important}
+#screen-myround #myRoundHero .mr2-team{color:#fff!important;font-size:clamp(26px,8vw,32px)!important;font-weight:900!important;line-height:1.18!important;margin-top:8px!important;white-space:normal!important;word-break:keep-all}
+#screen-myround #myRoundHero .mr2-team small{display:none!important}
+#screen-myround #myRoundHero .mr2-grid{display:block!important;padding:0!important;margin:14px 0 0!important}
+#screen-myround #myRoundHero .mr2-tile.tile-course{display:none!important}
+#screen-myround #myRoundHero .mr2-tile.tile-tee{display:flex!important;align-items:baseline!important;gap:10px!important;background:none!important;border:0!important;padding:0!important}
+#screen-myround #myRoundHero .mr2-tile.tile-tee span{color:#fff!important;margin:0!important;font-size:11px!important;font-weight:900!important;letter-spacing:.14em!important}
+#screen-myround #myRoundHero .mr2-tile.tile-tee span i{color:rgba(255,255,255,.85)!important;letter-spacing:0}
+#screen-myround #myRoundHero .mr2-tile.tile-tee b{color:#fff!important;font-family:var(--serif)!important;font-size:28px!important;line-height:1!important}
+/* People */
+#screen-attendees .topbar{background:linear-gradient(180deg,#F1F4F7 0%,#F7F8FA 100%)!important;border-bottom:0!important}
+#screen-attendees .topbar-title{font-family:var(--serif);font-style:italic;font-size:24px!important;color:#0B3D91!important}
+#screen-attendees .attendee-filter-btn{border-radius:999px!important}
+#screen-attendees .attendee-filter-btn.active{background:#0B3D91!important;border-color:#0B3D91!important;color:#fff!important}
+#screen-attendees .attendee-table,#screen-attendees .attendee-table tbody{display:block!important;border:0!important;box-shadow:none!important;background:transparent!important}
+#screen-attendees .attendee-table-wrap{padding:8px 16px 40px}
+#screen-attendees .attendee-table{background:#fff!important;border:1px solid var(--line)!important;border-radius:18px!important;overflow:hidden;box-shadow:0 12px 30px rgba(50,65,85,.08)!important}
+#screen-attendees .attendee-table thead{display:none!important}
+#screen-attendees .attendee-table tr:not(.ppl-row){display:block!important}
+#screen-attendees .attendee-table tr.ppl-row{display:grid!important;grid-template-columns:26px 1fr 18px;column-gap:10px;align-items:center;padding:13px 14px;border-top:1px solid var(--line);cursor:pointer;position:relative}
+#screen-attendees .attendee-table tr.ppl-row:first-child{border-top:0}
+#screen-attendees .attendee-table tr.ppl-row:active{background:#F4F7FC}
+#screen-attendees .attendee-table tr.ppl-row::after{content:"›";grid-column:3;grid-row:1/4;font-size:22px;color:#9BA3B3;text-align:center}
+#screen-attendees .attendee-table tr.ppl-row td{display:block!important;width:auto!important;padding:0!important;border:0!important;text-align:left!important}
+#screen-attendees .attendee-table tr.ppl-row td:nth-child(1){grid-column:1;grid-row:1/4;text-align:center!important;font-size:12px;font-weight:800;color:#5C6677}
+#screen-attendees .attendee-table tr.ppl-row td:nth-child(2){grid-column:2;grid-row:1;font-size:15.5px;font-weight:900}
+#screen-attendees .attendee-table tr.ppl-row td:nth-child(3){grid-column:2;grid-row:2;font-size:12.5px;color:#5C6677;margin-top:2px}
+#screen-attendees .attendee-table tr.ppl-row td:nth-child(4){grid-column:2;grid-row:3;font-size:11.5px;font-weight:700;color:#155BB8;margin-top:3px}
+</style><script id="koda-v2-js">
+document.addEventListener('click',function(e){
+  var tr=e.target.closest&&e.target.closest('tr.ppl-row'); if(!tr) return;
+  var a=ATTENDEES[+tr.dataset.ai]; if(!a) return;
+  var esc=function(t){return String(t||'').replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+  var ph=(a.phone||'').replace(/\D/g,'');
+  var row=function(k,v){return '<div class="pm-row"><span>'+k+'</span><b>'+(v?esc(v):'-')+'</b></div>'};
+  document.getElementById('pmBox').innerHTML='<button type="button" class="pm-close" id="pmClose" aria-label="닫기">✕</button><div class="pm-head"><div class="pm-av">'+esc((a.name||'?').charAt(0))+'</div><div><div class="pm-name">'+esc(a.name)+'</div><div class="pm-team">'+esc(a.koda||'')+'</div></div></div>'+row('소속·직위',a.org)+row('KODA',a.note)+row('핸드폰',a.phone)+(ph.length>=9?'<a class="pm-call" href="tel:'+ph+'">전화하기</a>':'');
+  document.getElementById('pmOverlay').classList.add('open');
+});
+</script>
 </body>
 </html>
