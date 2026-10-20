@@ -2240,7 +2240,7 @@ window.addEventListener('popstate', (e) => {
 
 <script id="photo-contest-link-setup">
 // 신청 링크가 준비되면 아래 빈 문자열에 URL을 입력해 주세요.
-const PHOTO_CONTEST_URL = "";
+const PHOTO_CONTEST_URL = "https://docs.google.com/forms/d/1G1obBXc2gEawb0I9aS9-BC50aTrmFYpeaP3T0qfQxLI/edit#responses";
 document.getElementById("photoContestBtn")?.addEventListener("click", function(){
   if (PHOTO_CONTEST_URL.trim()) { window.open(PHOTO_CONTEST_URL, "_blank", "noopener,noreferrer"); }
   else { alert("사진 콘테스트 신청 링크가 준비 중입니다. 링크가 등록되면 이 버튼에서 바로 접속할 수 있습니다."); }
@@ -2605,5 +2605,77 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
  #screen-home .home-profile-photo{top:74px!important;width:56px!important;height:56px!important;}
  #screen-home .home-profile-photo-button{width:56px!important;height:56px!important;}
  #screen-home .nh-right{max-width:54%!important;}
+}
+</style>
+
+<style id="koda-home-color-system-2026">
+/* Unified KODA event palette: midnight navy, cyan, magenta, warm gold and white */
+#screen-home{background:#100936!important;color:#fff!important}
+#screen-home .nh-scroll{background:linear-gradient(180deg,#100936 0%,#171044 23%,#f8f9fc 23.2%,#f8f9fc 100%)!important;background-size:100% 100%!important}
+#screen-home .nh-hero{background:linear-gradient(180deg,#100936 0%,#171044 78%,#f8f9fc 100%)!important;color:#fff!important;position:relative;isolation:isolate;overflow:hidden}
+#screen-home .nh-hero::before{content:"";position:absolute;z-index:-1;pointer-events:none;left:-8%;right:-8%;top:-22px;height:180px;background:
+ radial-gradient(ellipse at 13% 4%,#ed087d 0 9%,transparent 10%),
+ radial-gradient(ellipse at 26% -10%,#00b8ee 0 17%,transparent 18%),
+ radial-gradient(ellipse at 58% -18%,#00b8ee 0 16%,transparent 17%),
+ radial-gradient(ellipse at 89% 0%,#ffbf32 0 8%,transparent 9%),
+ radial-gradient(ellipse at 96% 30%,#ed087d 0 9%,transparent 10%);opacity:.94;filter:saturate(1.08)}
+#screen-home .nh-hero::after{content:"";position:absolute;z-index:-1;pointer-events:none;left:0;right:0;bottom:0;height:70px;background:linear-gradient(115deg,transparent 0 8%,rgba(0,184,238,.82) 8% 13%,transparent 22%),linear-gradient(25deg,transparent 0 66%,rgba(237,8,125,.88) 66% 75%,transparent 86%),linear-gradient(155deg,transparent 0 80%,rgba(255,191,50,.9) 80% 88%,transparent 95%);opacity:.72}
+#screen-home .nh-hero .nh-top{background:linear-gradient(145deg,rgba(16,9,54,.96),rgba(23,16,68,.92))!important;color:#fff!important}
+#screen-home .nh-title{color:#fff!important;text-shadow:0 2px 16px rgba(0,0,0,.18)!important}
+#screen-home .nh-meta{color:rgba(255,255,255,.82)!important}
+#screen-home .nh-meta i{color:#ffbf32!important}
+#screen-home .nh-hello{color:#fff!important}
+#screen-home .nh-eyebrow{color:#00b8ee!important}
+#screen-home .nh-dday-action{background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.24)!important;color:#fff!important;backdrop-filter:blur(8px)}
+#screen-home .nh-sec h2{color:#100936!important}
+#screen-home .nh-sec button{color:#087fbe!important}
+#screen-home .mr-card{border:1px solid #e2e5f0!important;background:#fff!important;box-shadow:0 12px 28px rgba(16,9,54,.1)!important}
+#screen-home .mr2-top{border-bottom-color:#e9e6f4!important}
+#screen-home .mr2-time b{color:#100936!important}
+#screen-home .mr2-pill{background:#e8f9ff!important;border-color:#b7efff!important;color:#087fbe!important}
+#screen-home .mr2-tile{border-color:#e6e3f0!important}
+#screen-home .mr2-tile b{color:#100936!important}
+#screen-home .tool{border:1px solid rgba(16,9,54,.08)!important;background:#fff!important;color:#100936!important;box-shadow:0 7px 18px rgba(16,9,54,.07)!important}
+#screen-home .tool-name{color:#100936!important}
+#screen-home .tool-desc{color:#5c5a76!important}
+#screen-home .tool-ico{background:#e8f9ff!important;color:#087fbe!important}
+#screen-home .tool:nth-child(4n+1) .tool-ico{background:#ffe8f3!important;color:#d80070!important}
+#screen-home .tool:nth-child(4n+3) .tool-ico{background:#fff3d1!important;color:#9a6900!important}
+#screen-home .photo-contest-btn{border:1px solid rgba(255,191,50,.65)!important;background:linear-gradient(135deg,#fff 0%,#fff6dc 100%)!important;color:#100936!important;box-shadow:0 8px 22px rgba(0,0,0,.16)!important}
+#screen-home .photo-contest-icon{color:#087fbe!important}
+#screen-home .photo-contest-btn small{color:#087fbe!important}
+#screen-home .club{margin:0 16px!important;min-height:320px!important;padding:27px 22px 20px!important;border:1px solid rgba(255,255,255,.15)!important;border-radius:22px!important;overflow:hidden!important;isolation:isolate!important;background:
+ radial-gradient(ellipse at 0% 0%,rgba(237,8,125,.96) 0%,transparent 34%),
+ radial-gradient(ellipse at 100% 2%,rgba(0,184,238,.98) 0%,transparent 31%),
+ radial-gradient(ellipse at 100% 100%,rgba(255,191,50,.96) 0%,transparent 27%),
+ radial-gradient(ellipse at 10% 110%,rgba(0,184,238,.9) 0%,transparent 34%),
+ linear-gradient(145deg,#100936 0%,#171044 58%,#100936 100%)!important;box-shadow:0 14px 32px rgba(16,9,54,.18)!important}
+#screen-home .club::before{content:"";position:absolute;z-index:-1;pointer-events:none;inset:0;background:linear-gradient(120deg,transparent 0 22%,rgba(0,184,238,.16) 22% 31%,transparent 42%),linear-gradient(25deg,transparent 0 65%,rgba(237,8,125,.28) 65% 75%,transparent 86%);opacity:.9}
+#screen-home .club-tag{display:inline-flex;align-self:flex-start;padding:6px 9px;border:1px solid rgba(0,184,238,.55);border-radius:5px;background:rgba(0,184,238,.13);color:#7de5ff!important;letter-spacing:.16em!important}
+#screen-home .club-name{color:#fff!important;text-shadow:0 2px 14px rgba(0,0,0,.18)!important}
+#screen-home .club-ko{color:#fff!important}
+#screen-home .club-courses{color:#fff!important}
+#screen-home .club-courses span:first-child i{background:#00b8ee!important}
+#screen-home .club-courses span:last-child i{background:#ffbf32!important}
+#screen-home .club-addr{color:rgba(255,255,255,.78)!important}
+#screen-home .club-stats{border-top-color:rgba(255,255,255,.24)!important}
+#screen-home .club-stat b{color:#ffbf32!important}
+#screen-home .club-stat span{color:rgba(255,255,255,.78)!important}
+#screen-home .club-btn.primary{background:#ffbf32!important;color:#100936!important}
+#screen-home .club-btn.ghost{background:rgba(255,255,255,.09)!important;color:#fff!important;border-color:rgba(255,255,255,.36)!important}
+#screen-home .nh-org{color:#5c5a76!important}
+/* Enlarge participant portrait by ~1.4x and nudge it inward/left from the right edge. */
+#screen-home .event-brand-lockup{padding-right:0!important;max-width:100%!important;overflow:visible!important}
+#screen-home .home-profile-photo{right:14px!important;top:clamp(76px,20vw,88px)!important;width:106px!important;height:106px!important;flex:0 0 106px!important}
+#screen-home .home-profile-photo-button{width:106px!important;height:106px!important;border:4px solid #fff!important;box-shadow:0 0 0 3px rgba(0,184,238,.8),0 8px 22px rgba(0,0,0,.28)!important}
+@media(max-width:600px){
+ #screen-home .nh-hero::before{height:145px}
+ #screen-home .home-profile-photo{right:12px!important;top:76px!important;width:90px!important;height:90px!important}
+ #screen-home .home-profile-photo-button{width:90px!important;height:90px!important}
+ #screen-home .club{padding:24px 18px 18px!important}
+}
+@media(max-width:380px){
+ #screen-home .home-profile-photo{right:10px!important;top:73px!important;width:78px!important;height:78px!important}
+ #screen-home .home-profile-photo-button{width:78px!important;height:78px!important}
 }
 </style>
