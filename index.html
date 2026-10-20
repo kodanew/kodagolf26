@@ -801,8 +801,17 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
             </div>
           </div>
         </div>
-        <h1 class="nh-title">2026 협회장배 골프대회</h1>
-        <div class="nh-meta">2026.10.26(월) · 리베라CC</div>
+        <div class="event-brand-lockup">
+          <div class="event-title-line">2026 <span>KODA</span></div>
+          <h1 class="nh-title">협회장배 골프대회</h1>
+          <div class="event-slogan">WE’RE ONE <i>·</i> WE’RE NO.1</div>
+          <div class="nh-meta">2026.10.26(월) · 리베라CC</div>
+        </div>
+        <button type="button" class="photo-contest-btn" id="photoContestBtn" aria-label="사진 콘테스트 신청">
+          <span class="photo-contest-icon">✦</span>
+          <span>사진<br>콘테스트<br>신청</span>
+          <small>PHOTO EVENT ↗</small>
+        </button>
       </div>
       <div class="nh-hello" id="nhHello">안녕하세요</div>
 
@@ -2079,5 +2088,97 @@ window.addEventListener('popstate', (e) => {
 /* My Round 탭에서는 My Team과 중복되는 동반 플레이어 목록을 숨김 */
 #screen-myround #myRoundHero .mr2-mates{display:none!important;}
 </style>
+
+<style id="koda-2026-event-home-refresh">
+/* 2026 KODA 행사 포스터 톤: 딥 네이비 + 시원한 블루/시안 */
+#screen-home .nh-hero{
+  padding-bottom:8px!important;
+  background:linear-gradient(180deg,#eef5ff 0%,#f7f9fc 76%,#f7f9fc 100%)!important;
+}
+#screen-home .nh-top{
+  min-height:228px!important; position:relative!important; overflow:hidden!important;
+  padding:24px 18px 20px!important; border-radius:0 0 25px 25px!important;
+  color:#fff!important;
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(0,177,255,.30) 0%,transparent 43%),
+    radial-gradient(ellipse at 0% 100%,rgba(30,91,220,.35) 0%,transparent 48%),
+    linear-gradient(135deg,#090522 0%,#111044 52%,#071d48 100%)!important;
+  box-shadow:0 12px 28px rgba(13,35,82,.18)!important;
+}
+#screen-home .nh-top:before{
+  content:"";position:absolute;right:-54px;top:-80px;width:210px;height:210px;border-radius:48%;
+  border:25px solid rgba(0,180,255,.24);transform:rotate(32deg);box-shadow:0 0 0 18px rgba(36,88,220,.12);pointer-events:none;
+}
+#screen-home .nh-top:after{
+  content:"";position:absolute;left:-38px;bottom:-74px;width:230px;height:115px;border-radius:50%;
+  background:linear-gradient(110deg,#04b9ef,#1d68d5 60%,#ed328e);transform:rotate(-12deg);opacity:.75;pointer-events:none;
+}
+#screen-home .nh-top > *{z-index:2}
+#screen-home .nh-toprow{min-height:20px!important}
+#screen-home .nh-eyebrow{color:#a8dfff!important;font-family:'Pretendard',sans-serif!important;font-size:11px!important;font-weight:900!important;letter-spacing:2px!important;text-transform:uppercase}
+#screen-home .event-brand-lockup{position:relative;z-index:2;padding-top:17px;max-width:calc(100% - 82px)}
+#screen-home .event-title-line{font-size:clamp(28px,8vw,36px);font-weight:950;letter-spacing:-1.4px;line-height:1.02;color:#fff}
+#screen-home .event-title-line span{font-weight:950;letter-spacing:-1px}
+#screen-home .nh-title{margin:7px 0 0!important;font-size:clamp(20px,5.6vw,26px)!important;line-height:1.22!important;font-weight:900!important;letter-spacing:-1px!important;color:#fff!important;white-space:nowrap}
+#screen-home .event-slogan{margin-top:13px;font-size:12px;font-weight:900;letter-spacing:1.25px;color:#9beaff}
+#screen-home .event-slogan i{font-style:normal;color:#ff4eaa;padding:0 3px}
+#screen-home .nh-meta{margin-top:8px!important;font-size:11.5px!important;color:rgba(255,255,255,.78)!important;font-weight:700!important}
+#screen-home .nh-dday-stack{top:22px!important;right:16px!important;align-items:flex-end!important}
+#screen-home .nh-dday{background:#fff!important;color:#10285a!important;border:1px solid rgba(255,255,255,.65)!important;font-size:10px!important;padding:5px 8px!important}
+#screen-home .nh-dday-actions{gap:4px!important}
+#screen-home .nh-dday-action{font-size:9px!important;padding:4px 6px!important}
+#screen-home .photo-contest-btn{
+  position:absolute;z-index:5;right:17px;top:103px;width:76px;height:82px;
+  border:1px solid rgba(255,255,255,.82);border-radius:17px;padding:8px 4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  background:linear-gradient(145deg,#fff 0%,#dff4ff 100%);color:#10295b;
+  box-shadow:0 8px 22px rgba(0,0,0,.24);font-family:inherit;font-size:12px;line-height:1.22;font-weight:950;cursor:pointer;
+}
+#screen-home .photo-contest-btn:active{transform:scale(.96)}
+#screen-home .photo-contest-icon{font-size:17px;line-height:1;color:#087bd4}
+#screen-home .photo-contest-btn small{font-size:6.5px;letter-spacing:.25px;color:#3975ac;font-weight:900;white-space:nowrap}
+#screen-home .nh-hello{color:#182b49!important}
+#screen-home .nh-sec h2{color:#155bb8!important}
+#screen-home .mr-card,#screen-myround #myRoundHero .mr-card{
+  background:linear-gradient(155deg,#ffffff 0%,#edf5ff 100%)!important;
+  border:1.5px solid #2878d4!important;border-radius:18px!important;
+  box-shadow:0 8px 23px rgba(28,105,194,.12)!important;
+}
+#screen-home #homeRound .mr2-top,#screen-myround #myRoundHero .mr2-top{
+  background:linear-gradient(115deg,#0b3d83 0%,#1769bd 58%,#dceaf8 160%)!important;
+  color:#fff!important;border-bottom:1px solid #7fb6ee!important;border-radius:0!important;
+}
+#screen-home #homeRound .mr2-top-lab,#screen-myround #myRoundHero .mr2-top-lab{color:#d9efff!important}
+#screen-home #homeRound .mr2-team,#screen-myround #myRoundHero .mr2-team{color:#fff!important}
+#screen-home #homeRound .mr2-time b,#screen-myround #myRoundHero .mr2-time b{color:#fff!important}
+#screen-home #homeRound .mr2-pill,#screen-myround #myRoundHero .mr2-pill{background:rgba(255,255,255,.15)!important;color:#fff!important;border-color:rgba(255,255,255,.5)!important}
+#screen-home #homeRound .mr2-tile,#screen-myround #myRoundHero .mr2-tile{
+  background:linear-gradient(145deg,#fff 0%,#f1f6fc 100%)!important;border:1px solid #b9d5f2!important;border-radius:12px!important
+}
+#screen-home #homeRound .mr2-tile span,#screen-myround #myRoundHero .mr2-tile span{color:#60758e!important}
+#screen-home #homeRound .mr2-tile b,#screen-myround #myRoundHero .mr2-tile b{color:#12396c!important}
+#screen-home #homeRound .mr2-tile.tile-tee,#screen-myround #myRoundHero .mr2-tile.tile-tee{background:#e4f1ff!important;border-color:#7db6ed!important}
+#screen-home #homeRound .mr2-tile.tile-course.v,#screen-myround #myRoundHero .mr2-tile.tile-course.v{background:#f8fbff!important;border-color:#b9d5f2!important}
+#screen-home #homeRound .mr2-mates-head,#screen-myround #myRoundHero .mr2-mates-head{color:#45617f!important}
+#screen-home #homeRound .mr2-mates .mr-mate-list,#screen-myround #myRoundHero .mr2-mates .mr-mate-list{border-color:#c6dcf3!important}
+#screen-home #homeRound .mr2-mate-row,#screen-myround #myRoundHero .mr2-mate-row{border-bottom-color:#e4edf7!important}
+#screen-home #homeRound .mr2-mate-person-org{color:#62758a!important}
+@media(max-width:360px){
+ #screen-home .nh-top{padding-left:15px!important;padding-right:15px!important}
+ #screen-home .event-brand-lockup{max-width:calc(100% - 76px)}
+ #screen-home .event-title-line{font-size:27px}
+ #screen-home .nh-title{font-size:19px!important}
+ #screen-home .photo-contest-btn{right:12px;width:70px;height:78px}
+}
+</style>
+
+<script id="photo-contest-link-setup">
+// 신청 링크가 준비되면 아래 빈 문자열에 URL을 입력해 주세요.
+const PHOTO_CONTEST_URL = "";
+document.getElementById("photoContestBtn")?.addEventListener("click", function(){
+  if (PHOTO_CONTEST_URL.trim()) { window.open(PHOTO_CONTEST_URL, "_blank", "noopener,noreferrer"); }
+  else { alert("사진 콘테스트 신청 링크가 준비 중입니다. 링크가 등록되면 이 버튼에서 바로 접속할 수 있습니다."); }
+});
+</script>
 </body>
 </html>
