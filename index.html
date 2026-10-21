@@ -2022,7 +2022,7 @@ window.addEventListener('popstate', (e) => {
     const top = `<div class="mr2-top"><div class="mr2-top-lab">나의 조</div>
       ${team ? '<div class="mr2-team">'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'번그룹 <small>('+escapeHtml(team.id)+')</small></div>' : '<div class="mr2-team">-</div>'}</div>`;
     const tiles = `<div class="mr2-grid">
-      <div class="mr2-tile tile-tee"><span>Tee Off <i>(샷건-동시출발)</i></span><b>${TEE_OFF}</b></div>
+      <div class="mr2-tile tile-tee"><span>Tee Off</span><b>${TEE_OFF}</b><small class="mr2-tee-note">(샷건 동시출발)</small></div>
       <div class="mr2-tile tile-course ${cv}"><span>출발코스</span><b>${team ? (team.course==='V'?'밸리':'레이크')+' '+escapeHtml(team.hole)+'번홀 출발' : '-'}</b></div></div>`;
     let mates;
     if(team){
@@ -2962,6 +2962,35 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 @media(prefers-reduced-motion:reduce){#screen-people .pc-card{transition:none!important;}}
 </style>
 
+
+<style id="koda-fit-fixes-20261022">
+/* 1) 사진콘테스트 타일: 크기(--pc-size)에 비례해 내부 요소도 축소 */
+#screen-home .nh-right{--pc-size:88px}
+#screen-home .photo-contest-btn{padding:4px!important;overflow:hidden!important;gap:calc(var(--pc-size)*.05)!important}
+#screen-home .photo-contest-btn .pc-cam{width:calc(var(--pc-size)*.30)!important;height:calc(var(--pc-size)*.30)!important}
+#screen-home .photo-contest-btn .pc-side{font-size:calc(var(--pc-size)*.15)!important}
+#screen-home .photo-contest-btn .pc-r{font-size:calc(var(--pc-size)*.17)!important}
+#screen-home .photo-contest-btn .pc-txt{gap:calc(var(--pc-size)*.04)!important;padding:0 2px!important}
+#screen-home .photo-contest-btn .pc-txt b{font-size:clamp(8px,calc(var(--pc-size)*.135),14px)!important;letter-spacing:-.5px!important}
+#screen-home .photo-contest-btn .pc-txt em{font-size:clamp(7.5px,calc(var(--pc-size)*.11),10.5px)!important;padding:2px 5px!important}
+
+/* 2,3) Tee Off: (샷건 동시출발)을 시간 숫자 아래에 배치, 화면 폭에 맞춰 축소 */
+#screen-home #homeRound .mr2-tile.tile-tee,
+#screen-myround #myRoundHero .mr2-tile.tile-tee{overflow:hidden!important;min-width:0!important}
+#screen-home #homeRound .mr2-tile .mr2-tee-note,
+#screen-myround #myRoundHero .mr2-tile .mr2-tee-note{display:block!important;margin-top:3px!important;font-size:clamp(8.5px,2.7vw,11.5px)!important;font-weight:700!important;line-height:1.2!important;color:#60758e!important;white-space:nowrap!important;max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important}
+
+/* 4) Player Tools: 아이콘 원형 배경 제거 → 타일 배경에 자연스럽게 */
+#screen-home .tool .tool-ico,
+#screen-home .tool.t1 .tool-ico,#screen-home .tool.t2 .tool-ico,#screen-home .tool.t3 .tool-ico,
+#screen-home .tool.t4 .tool-ico,#screen-home .tool.t5 .tool-ico,#screen-home .tool.t6 .tool-ico{
+  background:none!important;background-image:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+#screen-home .tool .tool-ico svg{width:24px!important;height:24px!important}
+#screen-home .tool.t1 .tool-ico,#screen-home .tool.t4 .tool-ico{color:#0788B8!important}
+#screen-home .tool.t2 .tool-ico,#screen-home .tool.t5 .tool-ico{color:#6D28D9!important}
+#screen-home .tool.t3 .tool-ico,#screen-home .tool.t6 .tool-ico{color:#1767A8!important}
+@media(max-width:380px){#screen-home .tool .tool-ico svg{width:21px!important;height:21px!important}}
+</style>
 </body>
 
 <style id="koda-final-refinements">
@@ -3548,6 +3577,17 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
     top += 32;
     if(size<60){top=Math.max(0,Math.round(sr.top-hr.top));size=Math.max(60,Math.round(sr.bottom-sr.top));}
     size=Math.min(size,112);
+    /* 슬로건 글자의 실제 오른쪽 끝을 재서, 겹치지 않도록 정사각형 크기를 줄임 */
+    try{
+      const rg=document.createRange(); rg.selectNodeContents(slogan);
+      const tr=rg.getBoundingClientRect();
+      const rightGap=(window.innerWidth<=380)?12:16;
+      const avail=Math.floor(hr.right-rightGap-tr.right-10);
+      const vOverlap=(top+hr.top)<sr.bottom && (top+hr.top+size)>sr.top;
+      if(vOverlap && avail<size) size=Math.max(44,avail);
+    }catch(e){}
+    hero.style.setProperty('--contest-size',size+'px');
+    right.style.setProperty('--pc-size',size+'px');
     right.style.setProperty('top',top+'px','important');
     right.style.setProperty('right','16px','important');
     right.style.setProperty('width',size+'px','important');
