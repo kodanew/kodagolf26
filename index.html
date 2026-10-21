@@ -1066,10 +1066,14 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
       <div class="topbar-title">찾아오시는 길</div>
     </div>
     <div class="content">
-      <div class="kakao-map-panel" role="region" aria-label="카카오맵 리베라CC">
-        <div class="kakao-map-mark">kakao<span>map</span></div>
-        <div class="kakao-map-desc">리베라CC 위치와 길찾기는 카카오맵에서 확인하세요.</div>
-        <a class="kakao-map-open" href="https://map.kakao.com/link/search/리베라CC" target="_blank" rel="noopener">카카오맵에서 지도 보기 ↗</a>
+      <div id="kakaoMapWrap" class="kmap-wrap">
+        <div id="kakaoMap" class="kmap" aria-label="리베라CC 카카오맵"></div>
+        <div id="kakaoMapFallback" class="kmap-fallback" hidden>
+          <div class="kmap-fb-pin">📍</div>
+          <b>리베라CC</b>
+          <span>경기도 화성시 동탄면 중리길 183</span>
+          <a href="https://map.kakao.com/link/map/리베라CC,37.1902,127.1358" target="_blank" rel="noopener" class="kmap-fb-btn">카카오맵에서 보기</a>
+        </div>
       </div>
       
       <div class="map-info">
@@ -2570,72 +2574,6 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 @media(max-width:360px){#screen-home .home-profile-photo{width:78px!important;height:78px!important;flex-basis:78px!important;}#screen-home .home-profile-photo-button{width:78px!important;height:78px!important;}}
 </style>
 
-
-<style id="koda-request-fixes-20261021">
-/* 사진콘테스트: 인사말과 같은 상단선, My Round 제목선까지 확보해 겹침 방지 */
-#screen-home .nh-greeting-row{
-  position:relative!important;
-  z-index:12!important;
-  min-height:80px!important;
-  padding-top:0!important;
-  padding-bottom:0!important;
-  overflow:visible!important;
-}
-#screen-home .nh-greeting-row .nh-hello{
-  align-self:flex-start!important;
-  margin-top:0!important;
-}
-#screen-home .photo-contest-btn{
-  position:absolute!important;
-  top:0!important;
-  right:16px!important;
-  z-index:15!important;
-  width:78px!important;
-  height:78px!important;
-  min-width:78px!important;
-  max-width:78px!important;
-  aspect-ratio:1/1!important;
-  margin:0!important;
-  transform:none!important;
-}
-#screen-home .nh-hero,
-#screen-home .nh-scroll{overflow:visible!important}
-#screen-home .nh-sec-round{position:relative!important;z-index:1!important;margin-top:0!important}
-@media(max-width:380px){
-  #screen-home .nh-greeting-row{min-height:76px!important}
-  #screen-home .photo-contest-btn{width:72px!important;height:72px!important;min-width:72px!important;max-width:72px!important;right:14px!important}
-}
-/* My Round 탭의 나의 조 카드와 My Team의 라임색 강조를 홈 카드의 자주-네이비 톤에 통일 */
-#screen-myround #myRoundHero .mr-card{
-  border:1.5px solid rgba(33,17,90,.28)!important;
-  background:linear-gradient(160deg,#fff 0%,#F5F0FF 55%,#EAF9FF 100%)!important;
-  box-shadow:0 9px 24px rgba(18,11,61,.12)!important;
-}
-#screen-myround #myRoundHero .mr2-top{
-  background:
-    radial-gradient(ellipse at 100% 0%,rgba(18,188,235,.52) 0%,transparent 48%),
-    radial-gradient(ellipse at 0% 100%,rgba(217,21,120,.40) 0%,transparent 48%),
-    linear-gradient(135deg,#120B3D 0%,#21115A 58%,#30206B 100%)!important;
-}
-#screen-myround #myRoundHero .mr2-tile{background:linear-gradient(135deg,#fff 0%,#F4F0FF 100%)!important;border-color:#D9C9F0!important}
-#screen-myround #myRoster .rost.me{
-  border-color:rgba(217,21,120,.32)!important;
-  background:linear-gradient(110deg,#FCE4F1 0%,#F5F0FF 52%,#EAF9FF 100%)!important;
-}
-#screen-myround #myRoster .rost.me .rost-no{background:#D91578!important;color:#fff!important}
-/* Google 지도 대신 카카오맵 링크 패널 */
-.kakao-map-panel{
-  min-height:300px;padding:28px 22px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;gap:14px;
-  background:linear-gradient(145deg,#fff9d9 0%,#fff 55%,#eef7ff 100%);
-  border-bottom:1px solid var(--line);
-}
-.kakao-map-mark{font-size:29px;font-weight:900;letter-spacing:-1.2px;color:#191919}
-.kakao-map-mark span{font-weight:600;color:#6a6a6a;margin-left:3px}
-.kakao-map-desc{font-size:13px;line-height:1.6;color:var(--ink-soft);font-weight:700}
-.kakao-map-open{display:inline-flex;align-items:center;justify-content:center;padding:13px 20px;border-radius:12px;background:#FEE500;color:#191919;text-decoration:none;font-size:14px;font-weight:900;box-shadow:0 4px 12px rgba(0,0,0,.08)}
-</style>
-
 </body>
 </html>
 
@@ -2869,3 +2807,177 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 }
 #app .pm-overlay{position:fixed!important;inset:0!important;z-index:2000!important;}
 </style>
+
+<style id="koda-final-fixes-20261021">
+/* =========================================================
+   1) 홈: 사진콘테스트 버튼
+      위쪽 선  = "안녕하세요, 김봉현님!" 문구 윗선
+      아래쪽 선 = "My Round" 글자 아랫선
+      → 두 선 사이 높이를 JS가 실측해서 --pc-size 로 넣고, 정사각형으로 맞춤
+      → 버튼은 .nh-hero 기준으로 배치되어 My Round 카드 뒤로 가려지지 않음
+   ========================================================= */
+#screen-home .nh-hero{--pc-size:94px;--pc-bottom:8px;--pc-right:16px;}
+#screen-home .nh-greeting-row,
+#screen-home .nh-right{position:static!important;}
+#screen-home .nh-greeting-row{padding-right:calc(var(--pc-size) + var(--pc-right) + 10px)!important;}
+#screen-home .nh-right{max-width:none!important;}
+#screen-home .photo-contest-btn{
+  position:absolute!important;z-index:6!important;
+  left:auto!important;top:auto!important;
+  right:var(--pc-right)!important;bottom:var(--pc-bottom)!important;
+  width:var(--pc-size)!important;height:var(--pc-size)!important;
+  min-width:0!important;max-width:none!important;aspect-ratio:1/1!important;
+  margin:0!important;padding:6px 4px!important;box-sizing:border-box!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;
+  border-radius:14px!important;
+}
+#screen-home .photo-contest-btn .pc-txt{align-items:center!important;gap:5px!important;text-align:center!important}
+#screen-home .photo-contest-btn .pc-txt b{font-size:12px!important}
+#screen-home .photo-contest-btn .pc-txt em{font-size:10.5px!important;padding:3px 7px!important}
+
+/* =========================================================
+   2) My Round 탭 '나의 조' 카드 → 홈의 My Round 카드와 동일한 색/구성
+   ========================================================= */
+#screen-myround #myRoundHero .mr-card{
+  position:static!important;margin:4px 16px 0!important;padding:0!important;
+  border:1.5px solid rgba(33,17,90,.28)!important;border-radius:16px!important;
+  color:#1a2333!important;outline:0!important;overflow:hidden!important;
+  background:linear-gradient(160deg,#fff 0%,#F5F0FF 55%,#EAF9FF 100%)!important;
+  box-shadow:0 9px 24px rgba(18,11,61,.12)!important;
+}
+#screen-myround #myRoundHero .mr2-top{padding:15px 17px!important;border-radius:0!important}
+#screen-myround #myRoundHero .mr2-top::after{display:none!important}
+#screen-myround #myRoundHero .mr2-top-lab{color:#d9efff!important;font-size:12px!important;font-weight:800!important;letter-spacing:normal!important;margin:0!important}
+#screen-myround #myRoundHero .mr2-team{color:#fff!important;font-size:clamp(17px,4.8vw,21px)!important;font-weight:850!important;letter-spacing:-.55px!important;line-height:1.25!important;margin-top:8px!important;white-space:normal!important}
+#screen-myround #myRoundHero .mr2-team small{display:inline!important;font-size:13px!important;font-weight:700!important;opacity:.88!important;letter-spacing:-.2px!important;margin-left:2px!important}
+#screen-myround #myRoundHero .mr2-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;padding:12px!important;margin:0!important}
+#screen-myround #myRoundHero .mr2-grid>.mr2-tile{margin:0!important;display:block!important;padding:11px 12px!important;border-radius:12px!important;align-items:initial!important}
+#screen-myround #myRoundHero .mr2-tile.tile-tee{background:#e4f1ff!important;border:1px solid #7db6ed!important}
+#screen-myround #myRoundHero .mr2-tile.tile-course{background:linear-gradient(145deg,#fff 0%,#f1f6fc 100%)!important;border:1px solid #b9d5f2!important}
+#screen-myround #myRoundHero .mr2-tile.tile-tee span,
+#screen-myround #myRoundHero .mr2-tile.tile-course span{color:#60758e!important;font-size:10.5px!important;font-weight:700!important;letter-spacing:normal!important;margin:0 0 4px!important;display:block!important}
+#screen-myround #myRoundHero .mr2-tile.tile-tee span i,
+#screen-myround #myRoundHero .mr2-tile.tile-course span i{color:var(--ink-faint)!important;letter-spacing:normal!important;font-style:normal!important}
+#screen-myround #myRoundHero .mr2-tile.tile-tee b,
+#screen-myround #myRoundHero .mr2-tile.tile-course b{color:#12396c!important;font-family:inherit!important;font-size:14px!important;font-weight:900!important;line-height:1.3!important;display:block!important}
+
+/* =========================================================
+   3) My Team: 라임/골드 하이라이트 → 홈 My Round 카드의 네이비·스카이·자주 톤
+   ========================================================= */
+#screen-myround #myRoster .rost{border:1px solid #D9C9F0!important;background:#fff!important;box-shadow:0 4px 12px rgba(18,11,61,.07)!important}
+#screen-myround #myRoster .rost.me{
+  border-color:rgba(33,17,90,.32)!important;
+  background:linear-gradient(135deg,#F5F0FF 0%,#EAF9FF 100%)!important;
+  box-shadow:inset 4px 0 0 var(--event-sky),0 6px 16px rgba(18,11,61,.12)!important;
+}
+#screen-myround #myRoster .rost.me .rost-no{background:var(--event-magenta)!important;color:#fff!important}
+#screen-myround #myRoster .rost-name em{color:#fff!important;background:var(--event-magenta)!important;border:1px solid var(--event-magenta)!important}
+#screen-myround #myRoster .rost-call{background:var(--event-sky-soft)!important;color:var(--event-navy-2)!important}
+#screen-myround .mrs-actions button{border:1px solid #D9C9F0!important;color:var(--event-navy-2)!important;background:#fff!important}
+#screen-myround .mrs-actions button.primary{
+  background:linear-gradient(135deg,var(--event-navy) 0%,var(--event-navy-2) 58%,#30206B 100%)!important;
+  border-color:var(--event-navy-2)!important;color:#fff!important;
+}
+
+/* =========================================================
+   4) 찾아오시는 길: 카카오맵
+   ========================================================= */
+.kmap-wrap{position:relative;width:100%;height:300px;background:#eef1f5}
+.kmap{width:100%;height:100%}
+.kmap-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:20px;background:linear-gradient(160deg,#fff 0%,#F5F0FF 55%,#EAF9FF 100%)}
+.kmap-fallback[hidden]{display:none}
+.kmap-fb-pin{font-size:34px;line-height:1}
+.kmap-fallback b{font-size:17px;color:var(--event-navy-2)}
+.kmap-fallback span{font-size:13px;color:#5C6677}
+.kmap-fb-btn{margin-top:8px;display:inline-block;padding:11px 20px;border-radius:999px;background:#FEE500;color:#191919;font-weight:800;font-size:14px;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+</style>
+
+<script id="koda-final-fixes-js-20261021">
+/* ---- 사진콘테스트 버튼: 인사말 윗선 ~ My Round 글자 아랫선 사이로 높이/폭 맞춤 ---- */
+(function(){
+  function align(){
+    var hero=document.querySelector('#screen-home .nh-hero');
+    var hello=document.getElementById('nhHello');
+    var h2=hero&&hero.querySelector('.nh-sec-round h2');
+    if(!hero||!hello||!h2) return;
+    var hr=hero.getBoundingClientRect();
+    if(!hr.height) return;                       // 홈 화면이 숨겨져 있으면 건너뜀
+    var a=hello.getBoundingClientRect(), b=h2.getBoundingClientRect();
+    var size=Math.round(b.bottom-a.top);
+    if(size<56||size>180) return;
+    hero.style.setProperty('--pc-size',size+'px');
+    hero.style.setProperty('--pc-bottom',Math.max(0,Math.round(hr.bottom-b.bottom))+'px');
+  }
+  window.alignPhotoContestBtn=align;
+  var raf=0; function soon(){ cancelAnimationFrame(raf); raf=requestAnimationFrame(align); }
+  window.addEventListener('resize',soon);
+  window.addEventListener('orientationchange',soon);
+  window.addEventListener('load',function(){ soon(); setTimeout(align,300); setTimeout(align,1200); });
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(soon);
+  document.addEventListener('DOMContentLoaded',function(){
+    var hello=document.getElementById('nhHello'), scr=document.getElementById('screen-home');
+    if(window.MutationObserver){
+      if(hello) new MutationObserver(soon).observe(hello,{childList:true,subtree:true,characterData:true});
+      if(scr)   new MutationObserver(soon).observe(scr,{attributes:true,attributeFilter:['class']});
+    }
+    if(window.ResizeObserver){ var hero=document.querySelector('#screen-home .nh-hero'); if(hero) new ResizeObserver(soon).observe(hero); }
+    soon();
+  });
+})();
+
+/* ---- 카카오맵 ----
+   카카오 개발자(developers.kakao.com) > 내 애플리케이션 > 앱 키 > 'JavaScript 키'를 아래에 넣고,
+   같은 화면의 [플랫폼 > Web]에 이 앱이 올라가는 주소(예: https://도메인)를 등록하세요.
+   키가 비어 있으면 지도 대신 '카카오맵에서 보기' 버튼이 표시됩니다. */
+var KAKAO_JS_KEY = "";
+(function(){
+  var LAT=37.1902, LNG=127.1358, NAME="리베라CC";
+  var inited=false, loading=false;
+  function showFallback(){
+    var fb=document.getElementById('kakaoMapFallback'), m=document.getElementById('kakaoMap');
+    if(fb) fb.hidden=false; if(m) m.style.display='none';
+  }
+  function draw(){
+    var el=document.getElementById('kakaoMap'); if(!el||!window.kakao||!kakao.maps) return showFallback();
+    kakao.maps.load(function(){
+      try{
+        var pos=new kakao.maps.LatLng(LAT,LNG);
+        var map=new kakao.maps.Map(el,{center:pos,level:4});
+        var marker=new kakao.maps.Marker({position:pos}); marker.setMap(map);
+        var iw=new kakao.maps.InfoWindow({content:'<div style="padding:6px 10px;font-size:12px;font-weight:700;white-space:nowrap">'+NAME+'</div>'});
+        iw.open(map,marker);
+        map.addControl(new kakao.maps.ZoomControl(),kakao.maps.ControlPosition.RIGHT);
+        // 장소 검색으로 실제 위치 보정 (services 라이브러리가 로드된 경우)
+        if(kakao.maps.services){
+          new kakao.maps.services.Places().keywordSearch(NAME,function(res,status){
+            if(status===kakao.maps.services.Status.OK && res && res[0]){
+              var p=new kakao.maps.LatLng(res[0].y,res[0].x);
+              map.setCenter(p); marker.setPosition(p); iw.open(map,marker);
+            }
+          },{location:pos,radius:20000});
+        }
+        inited=true;
+        window.__kakaoMap=map;
+      }catch(e){ showFallback(); }
+    });
+  }
+  function init(){
+    if(inited||loading) { if(inited&&window.__kakaoMap){ setTimeout(function(){ window.__kakaoMap.relayout(); },50); } return; }
+    if(!KAKAO_JS_KEY){ showFallback(); return; }
+    loading=true;
+    var s=document.createElement('script');
+    s.src='https://dapi.kakao.com/v2/maps/sdk.js?appkey='+encodeURIComponent(KAKAO_JS_KEY)+'&libraries=services&autoload=false';
+    s.onload=function(){ loading=false; draw(); };
+    s.onerror=function(){ loading=false; showFallback(); };
+    document.head.appendChild(s);
+  }
+  // 찾아오시는 길 화면이 열릴 때 로드
+  document.addEventListener('DOMContentLoaded',function(){
+    var scr=document.getElementById('screen-location');
+    if(scr&&window.MutationObserver){
+      new MutationObserver(function(){ if(scr.classList.contains('active')) init(); }).observe(scr,{attributes:true,attributeFilter:['class']});
+    }
+    if(scr&&scr.classList.contains('active')) init();
+  });
+})();
+</script>
