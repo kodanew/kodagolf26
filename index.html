@@ -837,13 +837,6 @@ html.is-standalone #installAppBtn{display:none!important;}
       </div>
       <div id="homeRound"></div>
 
-      <!-- Today's Flow -->
-      <div class="nh-sec"><h2>Today's Flow</h2><button type="button" data-go="program">프로그램 표</button></div>
-      <div class="flow-wrap">
-        <ol class="flow" id="flowHome"></ol>
-        <button type="button" class="flow-toggle" id="flowToggle">전체 일정 보기</button>
-      </div>
-
       <!-- PLAYER TOOLS -->
       <div class="nh-sec"><h2>Player Tools</h2></div>
       <div class="tool-grid">
@@ -853,6 +846,13 @@ html.is-standalone #installAppBtn{display:none!important;}
         <button type="button" class="tool t4" data-go="location"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div class="tool-txt"><div class="tool-name">VENUE</div><div class="tool-desc">오시는 길 · 길찾기</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span></button>
         <button type="button" class="tool t5" data-go="sponsors"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="4" rx="1"/><path d="M5 12v8h14v-8"/><path d="M12 8v12"/><path d="M12 8c-1.5-3.5-5-3.5-5-1.2C7 8 9 8 12 8zM12 8c1.5-3.5 5-3.5 5-1.2C17 8 15 8 12 8z"/></svg></div><div class="tool-txt"><div class="tool-name">SPONSORS</div><div class="tool-desc">협찬 소개</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="4" rx="1"/><path d="M5 12v8h14v-8"/><path d="M12 8v12"/><path d="M12 8c-1.5-3.5-5-3.5-5-1.2C7 8 9 8 12 8zM12 8c1.5-3.5 5-3.5 5-1.2C17 8 15 8 12 8z"/></svg></span></button>
         <button type="button" class="tool t3" data-go="notice"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg></div><div class="tool-txt"><div class="tool-name">CLUB NOTICE</div><div class="tool-desc">참가자 안내 · 문의</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg></span></button>
+      </div>
+
+      <!-- Today's Flow -->
+      <div class="nh-sec"><h2>Today's Flow</h2><button type="button" data-go="program">프로그램 표</button></div>
+      <div class="flow-wrap">
+        <ol class="flow" id="flowHome"></ol>
+        <button type="button" class="flow-toggle" id="flowToggle">전체 일정 보기</button>
       </div>
 
       <!-- 리베라CC 클럽 카드 -->
@@ -903,6 +903,25 @@ html.is-standalone #installAppBtn{display:none!important;}
   </section>
 
   <!-- ================= 전체 참석자 명단 ================= -->
+  <!-- ================= PEOPLE (전체 명단 / 조편성 선택) ================= -->
+  <section id="screen-people" class="screen">
+    <div class="topbar"><div class="people-heading"><div class="topbar-title">People</div><div class="people-subtitle">보고 싶은 화면을 선택하세요</div></div></div>
+    <div class="content pc-wrap">
+      <div class="pc-grid">
+        <button type="button" class="pc-card pc-all" data-people-go="attendees">
+          <span class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.9.3 5 2.6 5 5.8"/></svg></span>
+          <span class="pc-name">전체 명단<br>보기</span>
+          <span class="pc-desc">참석자 160명</span>
+        </button>
+        <button type="button" class="pc-card pc-team" data-people-go="teams">
+          <span class="pc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg></span>
+          <span class="pc-name">조편성으로<br>보기</span>
+          <span class="pc-desc">40개 팀</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
   <section id="screen-attendees" class="screen">
     <div class="topbar"><div class="back-btn" data-back>←</div><div class="people-heading"><div class="topbar-title">People</div><div class="people-subtitle">전체 참석자 명단</div></div><div class="sync-toggle-btn" id="attendeeRefreshBtn" onclick="manualRefreshAttendees()">🔄</div></div>
     <div class="content">
@@ -1174,7 +1193,7 @@ html.is-standalone #installAppBtn{display:none!important;}
   <nav class="bottom-nav hidden" id="bottomNav" aria-label="주요 메뉴">
     <button type="button" class="bn active" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg><span>HOME</span></button>
     <button type="button" class="bn" data-tab="myround"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg><span>MY ROUND</span></button>
-    <button type="button" class="bn" data-tab="attendees"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.4 0 4.2 1.9 4.2 4.5"/></svg><span>PEOPLE</span></button>
+    <button type="button" class="bn" data-tab="people"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.4 0 4.2 1.9 4.2 4.5"/></svg><span>PEOPLE</span></button>
     <button type="button" class="bn" data-tab="sponsors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="4" rx="1"/><path d="M5 12v8h14v-8"/><path d="M12 8v12"/><path d="M12 8c-1.5-3.5-5-3.5-5-1.2C7 8 9 8 12 8zM12 8c1.5-3.5 5-3.5 5-1.2C17 8 15 8 12 8z"/></svg><span>SPONSORS</span></button>
     <button type="button" class="bn" data-tab="location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>VENUE</span></button>
   </nav>
@@ -1671,7 +1690,7 @@ if ('serviceWorker' in navigator) {
 
   // ---- 보조 동작 ----
   function copyLink(btn){
-    var url = location.href.split('#')[0];
+    var url = externalUrl();
     function ok(){ btn.textContent = '복사됐어요'; }
     function fallback(){
       var t = document.createElement('textarea');
@@ -1683,10 +1702,16 @@ if ('serviceWorker' in navigator) {
     if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, fallback);
     else fallback();
   }
+  // 외부 브라우저로 넘어간 뒤 설치 안내가 자동으로 열리도록 ?install=1 을 붙임
+  function externalUrl(){
+    var p = new URLSearchParams(location.search); p.set('install', '1');
+    return location.origin + location.pathname + '?' + p.toString();
+  }
   function openExternal(){
-    var clean = location.href.split('#')[0];
-    if(/KAKAOTALK/i.test(ua)){ location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(clean); return; }
-    location.href = 'intent://' + location.host + location.pathname + location.search + '#Intent;scheme=https;package=com.android.chrome;end';
+    var u = externalUrl();
+    if(/KAKAOTALK/i.test(ua)){ location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(u); return; }
+    if(/Line\//i.test(ua)){ location.href = u + '&openExternalBrowser=1'; return; }
+    location.href = 'intent://' + u.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;end';
   }
 
   // ---- 안드로이드 / PC ----
@@ -1755,6 +1780,8 @@ if ('serviceWorker' in navigator) {
   // ---- 아이폰 / 아이패드 ----
   function openIOS(){
     if(isInApp){
+      // 카카오톡·라인은 버튼을 누르면 바로 Safari로 연결
+      if(/KAKAOTALK|Line\//i.test(ua)){ openExternal(); return; }
       show({
         title: 'Safari로 열어주세요',
         body: '카카오톡 등 앱 안의 화면에서는 홈 화면에 추가할 수 없어요.<br>화면의 <b>공유(⋯)</b> 메뉴에서 <b>“Safari로 열기”</b>를 선택하거나, 링크를 복사해 Safari에 붙여넣어 주세요.',
@@ -1801,6 +1828,15 @@ if ('serviceWorker' in navigator) {
   $('aiClose').addEventListener('click', close);
   sheet.addEventListener('click', function(e){ if(e.target === sheet) close(); });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && sheet.classList.contains('open')) close(); });
+  // Safari/Chrome으로 넘어온 직후에는 설치 안내를 자동으로 보여줌
+  try{
+    var q = new URLSearchParams(location.search);
+    if(q.get('install') === '1'){
+      q.delete('install'); var qs = q.toString();
+      history.replaceState(history.state, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+      if(!isInApp && !isStandalone()) setTimeout(open, 900);
+    }
+  }catch(e){}
   window.KodaInstall = { open: open };
 })();
 // 팀 상세 페이지로 이동
@@ -1853,7 +1889,7 @@ function entryScreen(){
   // 인증 정보가 없으면 URL hash가 #home이어도 반드시 입장 화면부터 표시
   if(!hasValidGolfSession()) return 'cover';
   const saved=(window.__INIT_HASH||'').replace(/^#/,'');
-  const allowed=['home','myround','attendees','location','teams','program','sponsors','notice','teamdetail'];
+  const allowed=['home','myround','people','attendees','location','teams','program','sponsors','notice','teamdetail'];
   return allowed.includes(saved) ? saved : 'home';
 }
 window.history.replaceState({screen:entryScreen()}, '', '#'+entryScreen());
@@ -2148,7 +2184,7 @@ window.addEventListener('popstate', (e) => {
   // ---------- 하단 네비 ----------
   const TAB_OF = { home:'home', program:'home', sponsors:'sponsors', notice:'home',
                    myround:'myround', teams:'myround', teamdetail:'myround',
-                   attendees:'attendees', location:'location' };
+                   attendees:'people', people:'people', location:'location' };
   const nav = $('bottomNav');
   let current = 'cover';
   nav.querySelectorAll('.bn').forEach(b => b.addEventListener('click', ()=>{
@@ -2158,7 +2194,9 @@ window.addEventListener('popstate', (e) => {
   applyScreen = function(name){
     _apply(name); current = name;
     nav.classList.toggle('hidden', name==='cover');
-    nav.querySelectorAll('.bn').forEach(b => b.classList.toggle('active', b.dataset.tab===TAB_OF[name]));
+    var tabOf = (name==='teams' && window.__fromPeople) ? 'people' : TAB_OF[name];
+    if(['people','attendees','teams','teamdetail'].indexOf(name) < 0) window.__fromPeople = false;
+    nav.querySelectorAll('.bn').forEach(b => b.classList.toggle('active', b.dataset.tab===tabOf));
     if(name!=='cover') renderMyRound();
   };
   // 조편성 데이터가 (재)계산될 때마다 MY ROUND 갱신
@@ -2175,7 +2213,7 @@ window.addEventListener('popstate', (e) => {
       applyScreen('cover');
       return;
     }
-    const OK = ['home','myround','attendees','location','teams','program','sponsors','notice'];
+    const OK = ['home','myround','people','attendees','location','teams','program','sponsors','notice'];
     let h = window.__INIT_HASH || '';
     if(!OK.includes(h)) h = 'home';
     history.replaceState({screen:h}, '', '#'+h);
@@ -2735,6 +2773,48 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 .sp-desc{margin-top:5px;font-size:13px;line-height:1.65;color:#5C6677;font-weight:600;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
 .sp-state{padding:28px 16px;text-align:center;color:#8792A2;font-size:13.5px;font-weight:700;background:#fff;border:1px dashed var(--line);border-radius:18px}
 </style>
+<style id="koda-update-20261021">
+/* 홈 프로필 사진: 기존 대비 80% */
+#screen-home .home-profile-photo{width:77px!important;height:77px!important;flex-basis:77px!important}
+#screen-home .home-profile-photo-button{width:77px!important;height:77px!important}
+@media(max-width:360px){
+  #screen-home .home-profile-photo{width:67px!important;height:67px!important;flex-basis:67px!important}
+  #screen-home .home-profile-photo-button{width:67px!important;height:67px!important}
+}
+@media(min-width:421px){
+  #screen-home .home-profile-photo{width:91px!important;height:91px!important;flex-basis:91px!important}
+  #screen-home .home-profile-photo-button{width:91px!important;height:91px!important}
+}
+
+/* Player Tools: My Round 바로 아래로 올리고 타일을 크게 */
+#screen-home .tool-grid{gap:12px!important}
+#screen-home .tool{flex-direction:column!important;align-items:flex-start!important;justify-content:space-between!important;gap:12px!important;min-height:112px!important;padding:14px 14px 13px!important;border-radius:18px!important}
+#screen-home .tool .tool-ico{width:48px!important;height:48px!important}
+#screen-home .tool .tool-ico svg{width:25px!important;height:25px!important}
+#screen-home .tool .tool-txt{flex:none!important;width:100%}
+#screen-home .tool .tool-name{font-size:14px!important;letter-spacing:.2px!important}
+#screen-home .tool .tool-desc{font-size:13px!important;margin-top:3px!important;color:rgba(26,35,51,.75)!important}
+
+/* People 선택 화면 */
+#screen-people .pc-wrap{display:flex;flex-direction:column;padding:16px 16px 24px}
+#screen-people .pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;height:min(58vh,460px);min-height:300px}
+#screen-people .pc-card{border:0;border-radius:22px;padding:18px 12px;font-family:inherit;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;box-shadow:0 10px 24px rgba(18,11,61,.18);transition:transform .12s}
+#screen-people .pc-card:active{transform:scale(.97)}
+#screen-people .pc-card:focus-visible{outline:3px solid var(--event-yellow,#FFC629);outline-offset:2px}
+#screen-people .pc-all{background:var(--event-navy-2,#21115A)}
+#screen-people .pc-team{background:var(--event-magenta,#D91578)}
+#screen-people .pc-ico{width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
+#screen-people .pc-ico svg{width:36px;height:36px}
+#screen-people .pc-name{font-size:21px;font-weight:900;letter-spacing:-.6px;line-height:1.3;word-break:keep-all}
+#screen-people .pc-desc{font-size:13px;font-weight:700;color:rgba(255,255,255,.88)}
+@media(prefers-reduced-motion:reduce){#screen-people .pc-card{transition:none}}
+</style>
+<script>
+/* People 선택 화면: 어느 쪽을 눌러도 기존 명단/조편성 화면으로 이동 */
+document.querySelectorAll('[data-people-go]').forEach(function(b){
+  b.addEventListener('click', function(){ window.__fromPeople = true; navigateTo(b.getAttribute('data-people-go')); });
+});
+</script>
 </body>
 </html>
 
