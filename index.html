@@ -821,7 +821,7 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
         <div class="nh-right">
         <div id="homeProfilePhoto" class="home-profile-photo" aria-label="내 프로필 사진"></div>
         <button type="button" class="photo-contest-btn" id="photoContestBtn" aria-label="사진콘테스트 포토제닉상 신청">
-          <span class="pc-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.2h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg></span>
+          <span class="pc-ico" aria-hidden="true"><i class="pc-side pc-l">✨</i><svg class="pc-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.2h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><i class="pc-side pc-r">➜</i></span>
           <span class="pc-txt"><b>사진콘테스트</b><em>포토제닉상</em></span>
           <span class="pc-arrow" aria-hidden="true">›</span>
         </button>
@@ -1574,10 +1574,9 @@ function renderSponsors(el, list){
   }
   if(cnt){ cnt.hidden=false; cnt.innerHTML='<b>'+list.length+'</b>곳'; }
   el.innerHTML=list.map((it,i)=>
-    '<article class="sp-card sp-c'+(i%3)+'">'+
-      '<div class="sp-no">'+String(i+1).padStart(2,'0')+'</div>'+
+    '<article class="sp-card">'+
       '<div class="sp-body">'+
-        '<div class="sp-name">'+escapeHtml(it.name)+(it.tag?'<span class="sp-tag">'+escapeHtml(it.tag)+'</span>':'')+'</div>'+
+        '<div class="sp-name"><span class="sp-no">'+(i+1)+'.</span>'+escapeHtml(it.name)+(it.tag?'<span class="sp-tag">'+escapeHtml(it.tag)+'</span>':'')+'</div>'+
         (it.desc?'<div class="sp-desc">'+escapeHtml(it.desc)+'</div>':'')+
       '</div></article>').join('');
 }
@@ -3011,4 +3010,43 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 #screen-home .mr2-flow-step.is-current{background:linear-gradient(135deg,#DDF7FF 0%,#EAF9FF 100%)!important;border-color:var(--event-sky)!important;color:var(--event-navy-2)!important;box-shadow:0 0 0 1px rgba(18,188,235,.25),0 3px 10px rgba(18,188,235,.18)!important}
 #screen-home .mr2-flow-step.is-current::after{background:var(--event-magenta)!important;color:#fff!important}
 #screen-home .mr2-flow-step.is-done{background:#F5F0FF!important;border-color:#D9C9F0!important;color:#6A57A8!important}
+</style>
+
+<style id="koda-contest-sponsor-v2">
+/* ===== 사진콘테스트: 빨간 원 제거 + 좌·우 아이콘으로 정사각형 꽉 채움 ===== */
+#screen-home .photo-contest-btn{padding:0!important;justify-content:space-evenly!important;gap:0!important;overflow:hidden}
+#screen-home .photo-contest-btn .pc-ico{
+  width:100%!important;height:auto!important;border-radius:0!important;background:none!important;box-shadow:none!important;border:0!important;padding:0 7px!important;box-sizing:border-box;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;color:var(--event-yellow,#FFD23F)!important}
+#screen-home .photo-contest-btn .pc-ico::before,#screen-home .photo-contest-btn .pc-ico::after{display:none!important}
+#screen-home .photo-contest-btn .pc-cam{width:32px;height:32px;flex:0 0 auto;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+#screen-home .photo-contest-btn .pc-side{font-style:normal;font-size:15px;line-height:1;color:var(--event-sky,#12BCEB);flex:0 0 auto}
+#screen-home .photo-contest-btn .pc-r{color:var(--event-yellow,#FFD23F);font-size:17px;font-weight:900}
+#screen-home .photo-contest-btn .pc-txt{width:100%;gap:5px!important;padding:0 4px;box-sizing:border-box}
+#screen-home .photo-contest-btn .pc-txt em{margin:0}
+
+/* ===== 홈 프로필 사진 1.5배 ===== */
+#screen-home .home-profile-photo{width:96px!important;height:96px!important;flex-basis:96px!important}
+#screen-home .home-profile-photo-button{width:96px!important;height:96px!important}
+@media(max-width:360px){
+  #screen-home .home-profile-photo{width:84px!important;height:84px!important;flex-basis:84px!important}
+  #screen-home .home-profile-photo-button{width:84px!important;height:84px!important}
+}
+@media(min-width:421px){
+  #screen-home .home-profile-photo{width:114px!important;height:114px!important;flex-basis:114px!important}
+  #screen-home .home-profile-photo-button{width:114px!important;height:114px!important}
+}
+
+/* ===== 협찬: 번호·배지 파란색 통일, 번호는 이름 앞 같은 줄(고딕) ===== */
+.sp-card,.sp-card.sp-c1,.sp-card.sp-c2{--c:var(--event-navy-2,#155BB8);--cs:var(--event-sky-soft,#E3F6FF)}
+.sp-card{align-items:center}
+.sp-name{flex-wrap:nowrap!important;align-items:baseline!important;gap:0!important}
+.sp-no{all:unset;font-family:'Pretendard','Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif!important;font-style:normal!important;font-weight:900;font-size:15.5px;color:var(--event-navy-2,#155BB8);margin-right:6px;flex:0 0 auto}
+.sp-tag{margin-left:8px;flex:0 0 auto;white-space:nowrap}
+
+/* 협찬 v3: 설명은 업체명 시작선에 맞춤 + 카드 세로폭 축소 */
+.sp-card{padding:9px 14px!important;border-radius:14px!important}
+.sp-list{gap:8px!important}
+.sp-no{display:inline-block!important;width:26px;margin-right:0!important;text-align:left}
+.sp-desc{margin-top:2px!important;padding-left:26px;line-height:1.5!important;font-size:12.5px!important}
 </style>
