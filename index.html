@@ -822,7 +822,7 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
         <div id="homeProfilePhoto" class="home-profile-photo" aria-label="내 프로필 사진"></div>
         <button type="button" class="photo-contest-btn" id="photoContestBtn" aria-label="사진 콘테스트 신청">
           <span class="pc-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.2h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg></span>
-          <span class="pc-txt"><b>사진 콘테스트</b><em>참가 신청</em></span>
+          <span class="pc-txt"><b>사진 콘테스트</b><em>포토제닉상</em></span>
           <span class="pc-arrow" aria-hidden="true">›</span>
         </button>
         </div>
@@ -2254,7 +2254,7 @@ window.addEventListener('popstate', (e) => {
 
 <script id="photo-contest-link-setup">
 // 신청 링크가 준비되면 아래 빈 문자열에 URL을 입력해 주세요.
-const PHOTO_CONTEST_URL = "https://koda-golfphoto.web.app/gallery";
+const PHOTO_CONTEST_URL = "https://koda-golfphoto.web.app/";
 document.getElementById("photoContestBtn")?.addEventListener("click", function(){
   if (PHOTO_CONTEST_URL.trim()) { window.open(PHOTO_CONTEST_URL, "_blank", "noopener,noreferrer"); }
   else { alert("사진 콘테스트 신청 링크가 준비 중입니다. 링크가 등록되면 이 버튼에서 바로 접속할 수 있습니다."); }
@@ -2564,6 +2564,62 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 #screen-home .home-profile-photo-button{width:106px!important;height:106px!important;box-sizing:border-box!important;border:1.5px solid #34323b!important;box-shadow:0 3px 10px rgba(28,24,42,.14)!important;}
 @media(max-width:420px){#screen-home .home-profile-photo{width:90px!important;height:90px!important;flex-basis:90px!important;}#screen-home .home-profile-photo-button{width:90px!important;height:90px!important;border:1.5px solid #34323b!important;}}
 @media(max-width:360px){#screen-home .home-profile-photo{width:78px!important;height:78px!important;flex-basis:78px!important;}#screen-home .home-profile-photo-button{width:78px!important;height:78px!important;}}
+</style>
+
+
+<style id="koda-home-refined-tone-20261021">
+/* Photo contest: square editorial tile, visually aligned with the My Round heading */
+#screen-home .nh-greeting-row{position:relative!important;align-items:flex-end!important;min-height:112px!important;padding-bottom:0!important}
+#screen-home .nh-right{max-width:none!important;align-items:flex-end!important;justify-content:flex-end!important}
+#screen-home .photo-contest-btn{
+ width:108px!important;height:108px!important;min-width:108px!important;max-width:108px!important;flex:0 0 108px!important;
+ display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:7px!important;
+ padding:10px 7px!important;border:1px solid #d4e0ec!important;border-radius:13px!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(235,242,249,.96))!important;
+ color:#294967!important;box-shadow:0 5px 14px rgba(49,76,105,.09)!important;text-align:center!important;
+}
+#screen-home .photo-contest-btn .pc-ico{display:flex!important;align-items:center;justify-content:center;width:29px;height:29px;border-radius:9px;background:#e4edf6;color:#476987}
+#screen-home .photo-contest-btn .pc-txt{display:flex!important;flex-direction:column!important;align-items:center!important;gap:4px!important;min-width:0!important}
+#screen-home .photo-contest-btn .pc-txt b{font-size:13px!important;line-height:1.25!important;font-weight:900!important;white-space:nowrap!important;color:#294967!important}
+#screen-home .photo-contest-btn .pc-txt em{font-style:normal!important;font-size:11px!important;line-height:1.2!important;font-weight:800!important;color:#71869b!important;background:#edf2f7!important;border-radius:5px!important;padding:4px 7px!important;white-space:nowrap!important}
+#screen-home .photo-contest-btn .pc-arrow{display:none!important}
+@media(max-width:380px){#screen-home .photo-contest-btn{width:96px!important;height:96px!important;min-width:96px!important;max-width:96px!important;flex-basis:96px!important}#screen-home .nh-greeting-row{min-height:100px!important}}
+
+/* Match the home hero's quiet silver-blue palette across all six Player Tools */
+#screen-home .tool{--tint:#edf3f8!important;--ink-c:#42617f!important;background:linear-gradient(145deg,#ffffff 0%,#edf3f8 100%)!important;border:1px solid #dce5ee!important;box-shadow:0 4px 12px rgba(40,65,90,.055)!important;border-radius:14px!important}
+#screen-home .tool-ico{background:#e4edf5!important;color:#557693!important;box-shadow:none!important}
+#screen-home .tool-name{color:#294967!important}
+#screen-home .tool-desc{color:#718398!important}
+
+/* Today's Flow tee-off / 13:00 highlight: replace lime with the same muted blue-gray style */
+#screen-home .flow-item.is-tee{background:linear-gradient(90deg,#e9f0f7 0%,#f6f8fb 100%)!important;border-left:4px solid #8ba5bf!important;border-radius:0 10px 10px 0!important}
+#screen-home .flow-item.is-tee .flow-time{color:#456582!important}
+#screen-home .flow-item.is-tee .flow-dot{background:#d7e4ef!important;border-color:#7895b1!important}
+#screen-home .flow-item.is-tee .flow-title{color:#294967!important}
+#screen-home .flow-item.is-tee .flow-title:first-child::before{background:#6e89a4!important;color:#fff!important}
+
+/* The Club card: harmonize with the light silver-blue home hero instead of saturated blue */
+#screen-home .club{color:#294967!important;background:linear-gradient(145deg,rgba(255,255,255,.98) 0%,rgba(241,246,250,.97) 56%,rgba(225,235,244,.96) 100%)!important;border:1px solid #d7e2ec!important;outline:1px solid rgba(255,255,255,.9)!important;outline-offset:-7px!important;box-shadow:0 10px 26px rgba(40,65,90,.08)!important}
+#screen-home .club-tag{color:#6d849a!important;letter-spacing:.16em!important}
+#screen-home .club-name{color:#294967!important}
+#screen-home .club-ko{color:#55718c!important}
+#screen-home .club-courses{color:#55718c!important}
+#screen-home .club-courses i{background:#9db4c9!important}
+#screen-home .club-addr{color:#718398!important}
+#screen-home .club-stats{border-top:1px solid #d9e3ec!important}
+#screen-home .club-stat b{color:#426582!important}
+#screen-home .club-stat span{color:#7e91a4!important}
+#screen-home .club-btn.primary{background:#dce8f2!important;color:#294967!important;border:1px solid #c7d7e5!important}
+#screen-home .club-btn.ghost{background:rgba(255,255,255,.68)!important;color:#42617f!important;border:1px solid #cbd9e6!important}
+
+/* My Round header: replace the remaining blue accent with the same soft hero tone */
+#screen-home #homeRound .mr2-top{background:linear-gradient(145deg,#ffffff 0%,#f0f5f9 100%)!important;color:#294967!important;border-bottom:1px solid #dce5ee!important}
+#screen-home #homeRound .mr2-top-lab{color:#627d97!important}
+#screen-home #homeRound .mr2-top-lab svg{color:#6f8ba5!important}
+#screen-home #homeRound .mr2-time b{color:#294967!important}
+#screen-home #homeRound .mr2-pill{background:#edf3f8!important;border-color:#d9e4ed!important;color:#627d97!important}
+#screen-home #homeRound .mr2-mates-head i{background:#e8eff5!important;color:#55718c!important}
+#screen-home #homeRound .mr2-mate-name::before{background:#9db2c5!important}
 </style>
 
 </body>
