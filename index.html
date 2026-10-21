@@ -1066,7 +1066,11 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
       <div class="topbar-title">찾아오시는 길</div>
     </div>
     <div class="content">
-      <iframe class="map-frame" loading="lazy" src="https://maps.google.com/maps?q=리베라CC&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
+      <div class="kakao-map-panel" role="region" aria-label="카카오맵 리베라CC">
+        <div class="kakao-map-mark">kakao<span>map</span></div>
+        <div class="kakao-map-desc">리베라CC 위치와 길찾기는 카카오맵에서 확인하세요.</div>
+        <a class="kakao-map-open" href="https://map.kakao.com/link/search/리베라CC" target="_blank" rel="noopener">카카오맵에서 지도 보기 ↗</a>
+      </div>
       
       <div class="map-info">
         <b style="color:var(--blue-deep); font-size:17px; display:block; margin-bottom:8px;">리베라CC (밸리/레이크코스)</b>
@@ -2564,6 +2568,72 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
 #screen-home .home-profile-photo-button{width:106px!important;height:106px!important;box-sizing:border-box!important;border:1.5px solid #34323b!important;box-shadow:0 3px 10px rgba(28,24,42,.14)!important;}
 @media(max-width:420px){#screen-home .home-profile-photo{width:90px!important;height:90px!important;flex-basis:90px!important;}#screen-home .home-profile-photo-button{width:90px!important;height:90px!important;border:1.5px solid #34323b!important;}}
 @media(max-width:360px){#screen-home .home-profile-photo{width:78px!important;height:78px!important;flex-basis:78px!important;}#screen-home .home-profile-photo-button{width:78px!important;height:78px!important;}}
+</style>
+
+
+<style id="koda-request-fixes-20261021">
+/* 사진콘테스트: 인사말과 같은 상단선, My Round 제목선까지 확보해 겹침 방지 */
+#screen-home .nh-greeting-row{
+  position:relative!important;
+  z-index:12!important;
+  min-height:80px!important;
+  padding-top:0!important;
+  padding-bottom:0!important;
+  overflow:visible!important;
+}
+#screen-home .nh-greeting-row .nh-hello{
+  align-self:flex-start!important;
+  margin-top:0!important;
+}
+#screen-home .photo-contest-btn{
+  position:absolute!important;
+  top:0!important;
+  right:16px!important;
+  z-index:15!important;
+  width:78px!important;
+  height:78px!important;
+  min-width:78px!important;
+  max-width:78px!important;
+  aspect-ratio:1/1!important;
+  margin:0!important;
+  transform:none!important;
+}
+#screen-home .nh-hero,
+#screen-home .nh-scroll{overflow:visible!important}
+#screen-home .nh-sec-round{position:relative!important;z-index:1!important;margin-top:0!important}
+@media(max-width:380px){
+  #screen-home .nh-greeting-row{min-height:76px!important}
+  #screen-home .photo-contest-btn{width:72px!important;height:72px!important;min-width:72px!important;max-width:72px!important;right:14px!important}
+}
+/* My Round 탭의 나의 조 카드와 My Team의 라임색 강조를 홈 카드의 자주-네이비 톤에 통일 */
+#screen-myround #myRoundHero .mr-card{
+  border:1.5px solid rgba(33,17,90,.28)!important;
+  background:linear-gradient(160deg,#fff 0%,#F5F0FF 55%,#EAF9FF 100%)!important;
+  box-shadow:0 9px 24px rgba(18,11,61,.12)!important;
+}
+#screen-myround #myRoundHero .mr2-top{
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(18,188,235,.52) 0%,transparent 48%),
+    radial-gradient(ellipse at 0% 100%,rgba(217,21,120,.40) 0%,transparent 48%),
+    linear-gradient(135deg,#120B3D 0%,#21115A 58%,#30206B 100%)!important;
+}
+#screen-myround #myRoundHero .mr2-tile{background:linear-gradient(135deg,#fff 0%,#F4F0FF 100%)!important;border-color:#D9C9F0!important}
+#screen-myround #myRoster .rost.me{
+  border-color:rgba(217,21,120,.32)!important;
+  background:linear-gradient(110deg,#FCE4F1 0%,#F5F0FF 52%,#EAF9FF 100%)!important;
+}
+#screen-myround #myRoster .rost.me .rost-no{background:#D91578!important;color:#fff!important}
+/* Google 지도 대신 카카오맵 링크 패널 */
+.kakao-map-panel{
+  min-height:300px;padding:28px 22px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;gap:14px;
+  background:linear-gradient(145deg,#fff9d9 0%,#fff 55%,#eef7ff 100%);
+  border-bottom:1px solid var(--line);
+}
+.kakao-map-mark{font-size:29px;font-weight:900;letter-spacing:-1.2px;color:#191919}
+.kakao-map-mark span{font-weight:600;color:#6a6a6a;margin-left:3px}
+.kakao-map-desc{font-size:13px;line-height:1.6;color:var(--ink-soft);font-weight:700}
+.kakao-map-open{display:inline-flex;align-items:center;justify-content:center;padding:13px 20px;border-radius:12px;background:#FEE500;color:#191919;text-decoration:none;font-size:14px;font-weight:900;box-shadow:0 4px 12px rgba(0,0,0,.08)}
 </style>
 
 </body>
