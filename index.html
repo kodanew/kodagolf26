@@ -3296,3 +3296,79 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 .sp-no{display:inline-block!important;width:26px;margin-right:0!important;text-align:left}
 .sp-desc{margin-top:2px!important;padding-left:26px;line-height:1.5!important;font-size:12.5px!important}
 </style>
+
+<style id="koda-user-refinements-20261021b">
+/* People: 버튼 묶음을 화면 중앙보다 약 2.5단계 위로 */
+#screen-people .pc-wrap{min-height:calc(100dvh - 145px)!important;justify-content:flex-start!important;padding-top:clamp(28px,7vh,58px)!important;box-sizing:border-box!important}
+#screen-people .pc-grid{margin:0 auto!important}
+
+/* 홈: 인사말과 영문 슬로건 사이 여백을 한 단계 늘리되 전체 상단은 컴팩트하게 */
+#screen-home .nh-greeting-row{margin-top:10px!important;padding-top:8px!important;padding-bottom:10px!important}
+#screen-home .nh-hello{line-height:1.32!important}
+#screen-home .nh-hello span{margin-top:7px!important;line-height:1.2!important;color:#78E4FF!important}
+
+/* 프로필 사진은 표시하지 않고, 콘테스트 버튼을 행사명 라인부터 슬로건 라인까지 정사각형으로 맞춤 */
+#screen-home .home-profile-photo,#screen-home .home-profile-photo-button,#homeProfilePhoto,.home-profile-photo{display:none!important;visibility:hidden!important}
+#screen-home .nh-hero{position:relative!important}
+#screen-home .nh-right{position:absolute!important;right:16px!important;top:var(--contest-top,84px)!important;width:var(--contest-size,88px)!important;height:var(--contest-size,88px)!important;max-width:none!important;z-index:8!important}
+#screen-home .photo-contest-btn{width:100%!important;height:100%!important;min-width:0!important;aspect-ratio:1/1!important}
+#screen-home .nh-greeting-row{padding-right:calc(var(--contest-size,88px) + 28px)!important}
+
+/* 날씨 배너: 인사말의 '즐거운 라운딩 되세요' 문구와 같은 높이, 크기는 살짝 축소 */
+#screen-home .home-weather-link{position:absolute!important;right:16px!important;top:var(--weather-top,185px)!important;margin:0!important;padding:5px 8px!important;gap:4px!important;font-size:11px!important;max-width:calc(100% - 32px)!important;white-space:nowrap!important;z-index:7!important}
+#screen-home .home-weather-link #homeWeatherIcon{font-size:14px!important}
+
+/* Player Tools: 이전의 6개 개별 타일 레이아웃으로 복원 */
+#screen-home .tool-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;margin:0!important;padding:0 16px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
+#screen-home .tool{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:8px!important;min-height:104px!important;height:auto!important;padding:12px 9px!important;border:1px solid #D9DDF0!important;border-radius:15px!important;background:linear-gradient(135deg,#F5F4FC,#E8ECF8)!important;box-shadow:0 4px 12px rgba(20,25,75,.07)!important;text-align:center!important}
+#screen-home .tool-ico{width:42px!important;height:42px!important;min-width:42px!important;flex:0 0 42px!important;border-radius:13px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+#screen-home .tool-ico svg{width:23px!important;height:23px!important}
+#screen-home .tool-txt{display:flex!important;flex-direction:column!important;align-items:center!important;gap:3px!important;min-width:0!important;flex:0 1 auto!important}
+#screen-home .tool-name{font-size:13px!important;line-height:1.2!important;white-space:normal!important;overflow-wrap:anywhere!important}
+#screen-home .tool-desc{font-size:11px!important;line-height:1.25!important;white-space:normal!important;overflow-wrap:anywhere!important}
+#screen-home .tool-wm{display:none!important}
+#screen-home .tool.t1 .tool-ico,#screen-home .tool.t4 .tool-ico{background:linear-gradient(145deg,#087FA5,#12BCEB)!important;color:#fff!important}
+#screen-home .tool.t2 .tool-ico,#screen-home .tool.t5 .tool-ico{background:linear-gradient(145deg,#29205E,#6D28D9)!important;color:#fff!important}
+#screen-home .tool.t3 .tool-ico,#screen-home .tool.t6 .tool-ico{background:linear-gradient(145deg,#123F7A,#1767A8)!important;color:#fff!important}
+@media(max-width:380px){
+ #screen-home .nh-right{right:12px!important}
+ #screen-home .nh-greeting-row{padding-left:12px!important;padding-right:calc(var(--contest-size,76px) + 24px)!important}
+ #screen-home .home-weather-link{right:12px!important;font-size:10px!important;padding:4px 7px!important}
+ #screen-home .tool-grid{gap:8px!important;padding:0 12px!important}
+ #screen-home .tool{min-height:96px!important;padding:10px 6px!important;gap:6px!important}
+ #screen-home .tool-name{font-size:12px!important}
+ #screen-home .tool-desc{font-size:10px!important}
+}
+</style>
+<script id="koda-user-refinements-js-20261021b">
+(function(){
+ function alignHomeDetails(){
+   var hero=document.querySelector('#screen-home .nh-hero');
+   var title=document.querySelector('#screen-home .event-title-line');
+   var slogan=document.querySelector('#screen-home .nh-title');
+   var greet=document.querySelector('#screen-home .nh-hello span');
+   var right=document.querySelector('#screen-home .nh-right');
+   var weather=document.querySelector('#screen-home .home-weather-link');
+   if(!hero||!title||!slogan)return;
+   var base=hero.getBoundingClientRect();
+   var t=title.getBoundingClientRect(), s=slogan.getBoundingClientRect();
+   /* 행사명 라인 상단부터 영문 슬로건 하단까지 버튼을 맞춰 정사각형으로 */
+   var top=Math.max(0,Math.round(t.top-base.top));
+   var size=Math.max(60,Math.round(s.bottom-t.top));
+   size=Math.min(size,Math.max(60,base.width*.25));
+   hero.style.setProperty('--contest-top',top+'px');
+   hero.style.setProperty('--contest-size',size+'px');
+   if(right){right.style.top=top+'px';right.style.width=size+'px';right.style.height=size+'px';}
+   if(greet&&weather){
+     var g=greet.getBoundingClientRect();
+     var wtop=Math.round(g.top-base.top+(g.height-weather.offsetHeight)/2);
+     hero.style.setProperty('--weather-top',Math.max(0,wtop)+'px');
+     weather.style.top=Math.max(0,wtop)+'px';
+   }
+ }
+ var queued=false;function schedule(){if(queued)return;queued=true;requestAnimationFrame(function(){queued=false;alignHomeDetails()})}
+ window.addEventListener('load',function(){schedule();setTimeout(schedule,250);setTimeout(schedule,900)});
+ window.addEventListener('resize',schedule);window.addEventListener('orientationchange',schedule);
+ document.addEventListener('DOMContentLoaded',function(){schedule();if(window.ResizeObserver){var hero=document.querySelector('#screen-home .nh-hero');if(hero)new ResizeObserver(schedule).observe(hero)}});
+})();
+</script>
