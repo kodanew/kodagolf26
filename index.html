@@ -2860,7 +2860,7 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
     var icon=document.getElementById('homeWeatherIcon'), label=document.getElementById('homeWeatherText');
     if(!icon||!label)return;
     var map={0:['☀️','맑음'],1:['🌤️','대체로 맑음'],2:['⛅','구름 조금'],3:['☁️','흐림'],45:['🌫️','안개'],48:['🌫️','안개'],51:['🌦️','이슬비'],53:['🌦️','이슬비'],55:['🌧️','비'],61:['🌧️','비'],63:['🌧️','비'],65:['🌧️','강한 비'],71:['🌨️','눈'],73:['🌨️','눈'],75:['❄️','많은 눈'],80:['🌦️','소나기'],81:['🌧️','소나기'],82:['⛈️','강한 소나기'],95:['⛈️','뇌우']};
-    var w=map[code]||['🌤️','날씨']; icon.textContent=w[0]; label.textContent=(Number.isFinite(temp)?Math.round(temp)+'°C · ':'')+w[1]+' · 네이버 날씨';
+    var w=map[code]||['🌤️','날씨']; icon.textContent=w[0]; label.textContent=(Number.isFinite(temp)?Math.round(temp)+'°C · ':'')+w[1];
   }
   function loadWeather(lat,lon){
     var url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weather_code&timezone=Asia%2FSeoul';
@@ -3372,3 +3372,27 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
  document.addEventListener('DOMContentLoaded',function(){schedule();if(window.ResizeObserver){var hero=document.querySelector('#screen-home .nh-hero');if(hero)new ResizeObserver(schedule).observe(hero)}});
 })();
 </script>
+
+<style id="koda-user-refinements-20261021c">
+/* People: 두 정사각형 버튼을 현재보다 한 단계 아래로 이동 */
+#screen-people .pc-grid{transform:translateY(32px)!important}
+/* 홈 사진 콘테스트: 제목 라인 기준 위치에서 살짝 아래로 */
+#screen-home .nh-right{transform:translateY(12px)!important}
+/* 날씨: 온도와 날씨 상태만 표시하고 글자를 크게 */
+#screen-home .home-weather-link{font-size:14px!important;gap:6px!important;padding:5px 9px!important}
+#screen-home .home-weather-link #homeWeatherIcon{font-size:18px!important}
+#screen-home .weather-link-mark{display:none!important}
+@media(max-width:380px){
+ #screen-home .home-weather-link{font-size:13px!important;padding:4px 7px!important;gap:4px!important}
+ #screen-home .home-weather-link #homeWeatherIcon{font-size:17px!important}
+ #screen-people .pc-grid{transform:translateY(26px)!important}
+}
+/* Player Tools: 아이콘 왼쪽, 제목/설명 오른쪽, 행 높이 축소 */
+#screen-home .tool-grid{grid-template-columns:1fr!important;gap:0!important}
+#screen-home .tool{flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;min-height:0!important;padding:6px 4px!important}
+#screen-home .tool-ico{width:32px!important;height:32px!important;min-width:32px!important;flex:0 0 32px!important;border-radius:10px!important}
+#screen-home .tool-ico svg{width:18px!important;height:18px!important}
+#screen-home .tool-txt{align-items:flex-start!important;gap:1px!important}
+#screen-home .tool-name{font-size:13px!important;line-height:1.15!important}
+#screen-home .tool-desc{font-size:11px!important;line-height:1.2!important}
+</style>
