@@ -3355,7 +3355,6 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
    /* 행사명 라인 상단부터 영문 슬로건 하단까지 버튼을 맞춰 정사각형으로 */
    var top=Math.max(0,Math.round(t.top-base.top));
    var size=Math.max(60,Math.round(s.bottom-t.top));
-   size=Math.min(size,Math.max(60,base.width*.25));
    hero.style.setProperty('--contest-top',top+'px');
    hero.style.setProperty('--contest-size',size+'px');
    if(right){right.style.top=top+'px';right.style.width=size+'px';right.style.height=size+'px';}
@@ -3374,10 +3373,10 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 </script>
 
 <style id="koda-user-refinements-20261021c">
-/* People: 두 정사각형 버튼을 현재보다 한 단계 아래로 이동 */
-#screen-people .pc-grid{transform:translateY(32px)!important}
-/* 홈 사진 콘테스트: 제목 라인 기준 위치에서 살짝 아래로 */
-#screen-home .nh-right{transform:translateY(12px)!important}
+/* People: 두 정사각형 버튼을 한 단계 더 아래로 이동 */
+#screen-people .pc-grid{transform:translateY(48px)!important}
+/* 사진 콘테스트는 행사명부터 영문 슬로건 하단까지 정확히 정사각형으로 맞춤 */
+#screen-home .nh-right{transform:none!important}
 /* 날씨: 온도와 날씨 상태만 표시하고 글자를 크게 */
 #screen-home .home-weather-link{font-size:14px!important;gap:6px!important;padding:5px 9px!important}
 #screen-home .home-weather-link #homeWeatherIcon{font-size:18px!important}
@@ -3385,14 +3384,16 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 @media(max-width:380px){
  #screen-home .home-weather-link{font-size:13px!important;padding:4px 7px!important;gap:4px!important}
  #screen-home .home-weather-link #homeWeatherIcon{font-size:17px!important}
- #screen-people .pc-grid{transform:translateY(26px)!important}
+ #screen-people .pc-grid{transform:translateY(42px)!important}
 }
-/* Player Tools: 아이콘 왼쪽, 제목/설명 오른쪽, 행 높이 축소 */
-#screen-home .tool-grid{grid-template-columns:1fr!important;gap:0!important}
-#screen-home .tool{flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;min-height:0!important;padding:6px 4px!important}
-#screen-home .tool-ico{width:32px!important;height:32px!important;min-width:32px!important;flex:0 0 32px!important;border-radius:10px!important}
+/* Player Tools: 2행 3열의 개별 타일, 아이콘 오른쪽에 제목과 설명 */
+#screen-home .tool-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;margin:0!important;padding:0 16px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
+#screen-home .tool{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:7px!important;min-height:86px!important;height:auto!important;padding:10px 8px!important;border:1px solid #D9DDF0!important;border-radius:14px!important;background:linear-gradient(135deg,#F5F4FC,#E8ECF8)!important;box-shadow:0 4px 12px rgba(20,25,75,.07)!important;text-align:left!important}
+#screen-home .tool-ico{width:30px!important;height:30px!important;min-width:30px!important;flex:0 0 30px!important;border-radius:10px!important;display:flex!important;align-items:center!important;justify-content:center!important}
 #screen-home .tool-ico svg{width:18px!important;height:18px!important}
-#screen-home .tool-txt{align-items:flex-start!important;gap:1px!important}
-#screen-home .tool-name{font-size:13px!important;line-height:1.15!important}
-#screen-home .tool-desc{font-size:11px!important;line-height:1.2!important}
+#screen-home .tool-txt{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:2px!important;min-width:0!important;flex:1 1 auto!important}
+#screen-home .tool-name{font-size:11px!important;line-height:1.15!important;white-space:normal!important;overflow-wrap:anywhere!important}
+#screen-home .tool-desc{font-size:10px!important;line-height:1.2!important;white-space:normal!important;overflow-wrap:anywhere!important}
+#screen-home .tool-wm{display:none!important}
+@media(max-width:380px){#screen-home .tool-grid{gap:7px!important;padding:0 12px!important}#screen-home .tool{gap:5px!important;min-height:80px!important;padding:8px 5px!important}#screen-home .tool-ico{width:26px!important;height:26px!important;min-width:26px!important;flex-basis:26px!important}#screen-home .tool-ico svg{width:16px!important;height:16px!important}#screen-home .tool-name{font-size:10px!important}#screen-home .tool-desc{font-size:9px!important}}
 </style>
