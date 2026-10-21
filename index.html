@@ -3479,3 +3479,49 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
   });
 })();
 </script>
+
+<style id="koda-diagonal-people-greeting-polish-20261021">
+/* People: 정사각형 카드가 좌상단 → 우하단 대각선으로 배치되도록 최종 덮어쓰기 */
+#screen-people .pc-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  grid-template-rows:auto auto!important;
+  grid-auto-flow:row!important;
+  align-items:start!important;
+  justify-items:stretch!important;
+  gap:18px 14px!important;
+  width:100%!important;
+  max-width:520px!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0 auto!important;
+  transform:translateY(96px)!important;
+}
+#screen-people .pc-card{
+  width:100%!important;
+  min-width:0!important;
+  aspect-ratio:1/1!important;
+  height:auto!important;
+  box-sizing:border-box!important;
+  border-radius:22px!important;
+  padding:14px 10px!important;
+  gap:11px!important;
+  box-shadow:0 8px 20px rgba(27,43,63,.14)!important;
+}
+#screen-people .pc-card.pc-all{grid-column:1!important;grid-row:1!important;background:linear-gradient(145deg,#455b78,#354861)!important}
+#screen-people .pc-card.pc-team{grid-column:2!important;grid-row:2!important;background:linear-gradient(145deg,#718f8b,#597975)!important}
+#screen-people .pc-ico{width:clamp(44px,14vw,62px)!important;height:clamp(44px,14vw,62px)!important;background:rgba(255,255,255,.15)!important}
+#screen-people .pc-ico svg{width:clamp(25px,7vw,32px)!important;height:clamp(25px,7vw,32px)!important}
+#screen-people .pc-name{font-size:clamp(16px,4.6vw,20px)!important;line-height:1.28!important}
+#screen-people .pc-desc{font-size:clamp(10px,3vw,12px)!important;color:rgba(255,255,255,.82)!important}
+@media(max-width:380px){
+  #screen-people .pc-grid{gap:14px 10px!important;transform:translateY(84px)!important}
+  #screen-people .pc-card{padding:10px 7px!important;gap:8px!important;border-radius:18px!important}
+}
+/* 이름은 D-day 알약의 골드/오렌지 계열, 인사말 보조문구는 은은한 실버 */
+#screen-home .nh-hello b{color:#F5AD38!important}
+#screen-home .nh-hello span{color:#C4CAD4!important}
+/* 사진 콘테스트 버튼 안의 제목을 한 단계 키움 */
+#screen-home .photo-contest-btn .pc-txt b{font-size:clamp(12px,3.4vw,14px)!important}
+@media(max-width:380px){#screen-home .photo-contest-btn .pc-txt b{font-size:12px!important}}
+</style>
