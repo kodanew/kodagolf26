@@ -1066,15 +1066,7 @@ html.is-standalone #installAppBtn,html.is-standalone #installRow,html.is-install
       <div class="topbar-title">찾아오시는 길</div>
     </div>
     <div class="content">
-      <div id="kakaoMapWrap" class="kmap-wrap">
-        <div id="kakaoMap" class="kmap" aria-label="리베라CC 카카오맵"></div>
-        <div id="kakaoMapFallback" class="kmap-fallback" hidden>
-          <div class="kmap-fb-pin">📍</div>
-          <b>리베라CC</b>
-          <span>경기도 화성시 동탄면 중리길 183</span>
-          <a href="https://map.kakao.com/link/map/리베라CC,37.1902,127.1358" target="_blank" rel="noopener" class="kmap-fb-btn">카카오맵에서 보기</a>
-        </div>
-      </div>
+      <iframe class="map-frame" loading="lazy" src="https://maps.google.com/maps?q=리베라CC&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
       
       <div class="map-info">
         <b style="color:var(--blue-deep); font-size:17px; display:block; margin-bottom:8px;">리베라CC (밸리/레이크코스)</b>
@@ -2878,18 +2870,6 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
   background:linear-gradient(135deg,var(--event-navy) 0%,var(--event-navy-2) 58%,#30206B 100%)!important;
   border-color:var(--event-navy-2)!important;color:#fff!important;
 }
-
-/* =========================================================
-   4) 찾아오시는 길: 카카오맵
-   ========================================================= */
-.kmap-wrap{position:relative;width:100%;height:300px;background:#eef1f5}
-.kmap{width:100%;height:100%}
-.kmap-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:20px;background:linear-gradient(160deg,#fff 0%,#F5F0FF 55%,#EAF9FF 100%)}
-.kmap-fallback[hidden]{display:none}
-.kmap-fb-pin{font-size:34px;line-height:1}
-.kmap-fallback b{font-size:17px;color:var(--event-navy-2)}
-.kmap-fallback span{font-size:13px;color:#5C6677}
-.kmap-fb-btn{margin-top:8px;display:inline-block;padding:11px 20px;border-radius:999px;background:#FEE500;color:#191919;font-weight:800;font-size:14px;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.12)}
 </style>
 
 <script id="koda-final-fixes-js-20261021">
@@ -2924,60 +2904,11 @@ document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' '
     soon();
   });
 })();
-
-/* ---- 카카오맵 ----
-   카카오 개발자(developers.kakao.com) > 내 애플리케이션 > 앱 키 > 'JavaScript 키'를 아래에 넣고,
-   같은 화면의 [플랫폼 > Web]에 이 앱이 올라가는 주소(예: https://도메인)를 등록하세요.
-   키가 비어 있으면 지도 대신 '카카오맵에서 보기' 버튼이 표시됩니다. */
-var KAKAO_JS_KEY = "";
-(function(){
-  var LAT=37.1902, LNG=127.1358, NAME="리베라CC";
-  var inited=false, loading=false;
-  function showFallback(){
-    var fb=document.getElementById('kakaoMapFallback'), m=document.getElementById('kakaoMap');
-    if(fb) fb.hidden=false; if(m) m.style.display='none';
-  }
-  function draw(){
-    var el=document.getElementById('kakaoMap'); if(!el||!window.kakao||!kakao.maps) return showFallback();
-    kakao.maps.load(function(){
-      try{
-        var pos=new kakao.maps.LatLng(LAT,LNG);
-        var map=new kakao.maps.Map(el,{center:pos,level:4});
-        var marker=new kakao.maps.Marker({position:pos}); marker.setMap(map);
-        var iw=new kakao.maps.InfoWindow({content:'<div style="padding:6px 10px;font-size:12px;font-weight:700;white-space:nowrap">'+NAME+'</div>'});
-        iw.open(map,marker);
-        map.addControl(new kakao.maps.ZoomControl(),kakao.maps.ControlPosition.RIGHT);
-        // 장소 검색으로 실제 위치 보정 (services 라이브러리가 로드된 경우)
-        if(kakao.maps.services){
-          new kakao.maps.services.Places().keywordSearch(NAME,function(res,status){
-            if(status===kakao.maps.services.Status.OK && res && res[0]){
-              var p=new kakao.maps.LatLng(res[0].y,res[0].x);
-              map.setCenter(p); marker.setPosition(p); iw.open(map,marker);
-            }
-          },{location:pos,radius:20000});
-        }
-        inited=true;
-        window.__kakaoMap=map;
-      }catch(e){ showFallback(); }
-    });
-  }
-  function init(){
-    if(inited||loading) { if(inited&&window.__kakaoMap){ setTimeout(function(){ window.__kakaoMap.relayout(); },50); } return; }
-    if(!KAKAO_JS_KEY){ showFallback(); return; }
-    loading=true;
-    var s=document.createElement('script');
-    s.src='https://dapi.kakao.com/v2/maps/sdk.js?appkey='+encodeURIComponent(KAKAO_JS_KEY)+'&libraries=services&autoload=false';
-    s.onload=function(){ loading=false; draw(); };
-    s.onerror=function(){ loading=false; showFallback(); };
-    document.head.appendChild(s);
-  }
-  // 찾아오시는 길 화면이 열릴 때 로드
-  document.addEventListener('DOMContentLoaded',function(){
-    var scr=document.getElementById('screen-location');
-    if(scr&&window.MutationObserver){
-      new MutationObserver(function(){ if(scr.classList.contains('active')) init(); }).observe(scr,{attributes:true,attributeFilter:['class']});
-    }
-    if(scr&&scr.classList.contains('active')) init();
-  });
-})();
 </script>
+
+<style id="koda-flow-step-colors">
+/* 대회 당일 일정: 진행 중 = 스카이블루(+자주 배지), 완료 = 연보라 */
+#screen-home .mr2-flow-step.is-current{background:linear-gradient(135deg,#DDF7FF 0%,#EAF9FF 100%)!important;border-color:var(--event-sky)!important;color:var(--event-navy-2)!important;box-shadow:0 0 0 1px rgba(18,188,235,.25),0 3px 10px rgba(18,188,235,.18)!important}
+#screen-home .mr2-flow-step.is-current::after{background:var(--event-magenta)!important;color:#fff!important}
+#screen-home .mr2-flow-step.is-done{background:#F5F0FF!important;border-color:#D9C9F0!important;color:#6A57A8!important}
+</style>
