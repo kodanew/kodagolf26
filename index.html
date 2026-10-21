@@ -3431,9 +3431,9 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
  #screen-home .tool-name{font-size:10px!important}
  #screen-home .tool-desc{font-size:9px!important}
 }
-/* People screen: move the two square cards down another 1.5 steps */
-#screen-people .pc-grid{transform:translateY(72px)!important}
-@media(max-width:380px){#screen-people .pc-grid{transform:translateY(64px)!important}}
+/* People screen: move the two square cards down one additional step */
+#screen-people .pc-grid{transform:translateY(96px)!important}
+@media(max-width:380px){#screen-people .pc-grid{transform:translateY(84px)!important}}
 /* Photo contest position is calculated from the actual D-day pill and slogan geometry */
 #screen-home .nh-hero{position:relative!important}
 #screen-home .nh-right{position:absolute!important;display:block!important;z-index:12!important;right:16px!important;left:auto!important;max-width:none!important;min-width:0!important;transform:none!important}
@@ -3455,6 +3455,8 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
     let top=Math.round(dr.bottom-hr.top+7);
     let bottom=Math.round(sr.bottom-hr.top);
     let size=bottom-top;
+    /* User adjustment: lower the contest square by two additional visual steps. */
+    top += 32;
     if(size<60){top=Math.max(0,Math.round(sr.top-hr.top));size=Math.max(60,Math.round(sr.bottom-sr.top));}
     size=Math.min(size,112);
     right.style.setProperty('top',top+'px','important');
