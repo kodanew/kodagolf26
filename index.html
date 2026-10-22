@@ -1144,14 +1144,7 @@ html.is-standalone #installAppBtn{display:none!important;}
   <section id="screen-notice" class="screen">
     <div class="topbar"><div class="back-btn" data-back>←</div><div class="topbar-title">공지 및 기타사항</div></div>
     <div class="content" style="padding:24px 20px;">
-      <div class="card-detail">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;"><div style="font-size:18px;">💡</div><div style="font-size:19px;font-weight:900;color:var(--blue-deep);">참가자 안내사항</div></div>
-        <div id="noticeGuideContent" style="font-size:14.5px;line-height:1.8;color:var(--ink-soft);font-weight:600;white-space:pre-wrap;word-break:keep-all;">내용을 불러오는 중입니다.</div>
-      </div>
-      <div class="card-detail" style="margin-bottom:30px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;"><div style="font-size:18px;">📞</div><div style="font-size:19px;font-weight:900;color:var(--blue-deep);">대회 관련 문의</div></div>
-        <div style="font-size:14.5px;line-height:1.8;color:var(--ink-soft);font-weight:600;white-space:pre-wrap;word-break:keep-all;" id="noticeContactContent">내용을 불러오는 중입니다.</div>
-      </div>
+      <div id="noticeListContent"><div class="card-detail"><div class="notice-body">내용을 불러오는 중입니다.</div></div></div>
     </div>
   </section>
 
@@ -1607,11 +1600,33 @@ function renderSponsors(el, list){
       '</div></article>').join('');
 }
 
+/* CLUB NOTICE: 시트3 A2~C5 (A=구분, B=제목, C=주요내용) */
+function parseNotices(rows){
+  const out=[];
+  for(let i=1;i<=4;i++){
+    const r=rows[i]||[];
+    const a=String(r[0]||'').trim(), b=String(r[1]||'').trim(), c=String(r[2]||'').trim();
+    if(!b && !c) continue;
+    out.push({tag:a,title:b,body:c});
+  }
+  return out;
+}
+function renderNotices(el, list){
+  if(!list.length){ el.innerHTML='<div class="card-detail"><div class="notice-body">등록된 공지 내용이 없습니다.</div></div>'; return; }
+  const ICONS=['💡','🏆','📢','📌'];
+  el.innerHTML=list.map((it,i)=>
+    '<div class="card-detail notice-card">'+
+      '<div class="notice-head"><div class="notice-ico">'+ICONS[i%ICONS.length]+'</div>'+
+        '<div class="notice-title">'+escapeHtml(it.title||it.tag||'공지')+'</div>'+
+        (it.tag&&it.title?'<span class="notice-tag">'+escapeHtml(it.tag)+'</span>':'')+'</div>'+
+      (it.body?'<div class="notice-body">'+escapeHtml(it.body)+'</div>':'')+
+    '</div>').join('');
+}
+
 async function loadGolfSheet3Content(){
   const sponsorEl=document.getElementById('sponsorContent');
-  const guideEl=document.getElementById('noticeGuideContent');
-  const contactEl=document.getElementById('noticeContactContent');
-  if(!sponsorEl || !guideEl || !contactEl) return;
+  const noticeEl=document.getElementById('noticeListContent');
+  if(!sponsorEl || !noticeEl) return;
 
   try{
     const gid=SHEET3_GID;
@@ -1619,19 +1634,11 @@ async function loadGolfSheet3Content(){
     const res=await fetch(csvUrl+'&_ts='+Date.now(),{cache:'no-store'});
     if(!res.ok) throw new Error('시트3 CSV 응답 오류');
     const rows=parseCSV(await res.text());
-    const b2=String((rows[1]||[])[1]||'').trim();
-    const c2=String((rows[1]||[])[2]||'').trim();
-    const b3=String((rows[2]||[])[1]||'').trim();
-    const c3=String((rows[2]||[])[2]||'').trim();
-    const b5=String((rows[4]||[])[1]||'').trim();
-
     renderSponsors(sponsorEl, parseSponsors(rows));
-    guideEl.textContent=c2 || '등록된 참가자 안내사항이 없습니다.';
-    contactEl.textContent=c3 || '등록된 대회 관련 문의사항이 없습니다.';
+    renderNotices(noticeEl, parseNotices(rows));
   }catch(e){
     sponsorEl.innerHTML='<div class="sp-state">협찬 내용을 불러오지 못했습니다.</div>';
-    guideEl.textContent='참가자 안내사항을 불러오지 못했습니다.';
-    contactEl.textContent='대회 관련 문의사항을 불러오지 못했습니다.';
+    noticeEl.innerHTML='<div class="card-detail"><div class="notice-body">공지 내용을 불러오지 못했습니다.</div></div>';
     console.error('시트3 연동 오류:',e);
   }
 }
@@ -3731,4 +3738,18 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 #screen-teamdetail .golf-face-detail img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
 #screen-teamdetail .golf-face-detail.golf-face-empty{font-size:26px}
 @media(max-width:380px){#screen-teamdetail .golf-face-detail{flex-basis:64px!important;width:64px!important;height:64px!important}}
+</style>
+
+<style id="koda-user-refinements-20261022d">
+/* 조 상세 사진 크기: 64px / 좁은 화면 52px */
+#screen-teamdetail .golf-face-detail{flex:0 0 64px!important;width:64px!important;height:64px!important}
+@media(max-width:380px){#screen-teamdetail .golf-face-detail{flex-basis:52px!important;width:52px!important;height:52px!important}}
+/* CLUB NOTICE 카드 */
+#screen-notice .notice-card{margin-bottom:16px}
+#screen-notice .notice-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+#screen-notice .notice-ico{font-size:18px;line-height:1}
+#screen-notice .notice-title{flex:1;min-width:0;font-size:19px;font-weight:900;color:var(--blue-deep)}
+#screen-notice .notice-tag{flex:0 0 auto;font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--blue-tint,#EAF3FF);color:var(--blue,#155BB8)}
+#screen-notice .notice-body{font-size:14.5px;line-height:1.8;color:var(--ink-soft);font-weight:600;white-space:pre-wrap;word-break:keep-all}
+#screen-notice .content{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}
 </style>
