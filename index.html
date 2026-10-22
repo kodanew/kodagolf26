@@ -1616,7 +1616,7 @@ const SHEET3_GID = '683652578';
    - 선택: C열=협찬 내용, D열=구분 배지(예: 골드, 경품) */
 function parseSponsors(rows){
   const out=[];
-  for(let i=4;i<rows.length;i++){
+  for(let i=8;i<rows.length;i++){
     const r=rows[i]||[];
     const b=String(r[1]||'').trim(), c=String(r[2]||'').trim(), d=String(r[3]||'').trim();
     if(!b) continue;
@@ -3926,4 +3926,25 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
  #screen-home .announcement-label{font-size:11px!important}
  #screen-home .announcement-track{font-size:12px!important}
 }
+</style>
+
+
+<style id="koda-home-final-tune-v6">
+/* 공지 문구를 기존보다 한두 단계 빠르게 흐르게 */
+#screen-home .announcement-track{animation:kodaNoticeMarquee 18s linear infinite!important}
+/* 기온 아래에 작은 골프장 현황 표시, 아이콘은 기온 오른쪽 */
+#screen-home .home-weather-link{align-items:center!important}
+#screen-home .home-weather-link #homeWeatherText{
+  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+  gap:1px!important;line-height:1.12!important;white-space:nowrap!important
+}
+#screen-home .home-weather-link #homeWeatherText::after{
+  content:'리베라 현재'!important;display:block!important;font-size:8.5px!important;
+  line-height:1.1!important;font-weight:700!important;letter-spacing:-.15px!important;opacity:.72!important
+}
+#screen-home .home-weather-link #homeWeatherIcon{order:2!important}
+#screen-home .weather-link-mark{display:none!important}
+/* 인사말 문장 시작 위치를 약 한 칸 오른쪽으로 */
+#screen-home .nh-greeting-row{padding-left:20px!important}
+@media(max-width:380px){#screen-home .nh-greeting-row{padding-left:16px!important}}
 </style>
