@@ -763,6 +763,23 @@ html.is-standalone #installAppBtn{display:none!important;}
 @media(prefers-reduced-motion:reduce){#screen-home .announcement-track{animation:none;white-space:normal;min-width:0}}
 </style>
 
+
+
+<style id="home-heading-cleanup-20261022">
+/* 홈 화면의 영문 섹션 제목은 제거하고, 확보된 공간만큼 콘텐츠를 위로 당깁니다. */
+#screen-home .nh-sec.nh-sec-round,
+#screen-home .nh-sec:has(+ .tool-grid),
+#screen-home .nh-sec:has(+ .club),
+#screen-home .nh-sec:has(+ .flow-wrap) { display:none!important; }
+/* 일정표 타일 내부 제목 */
+#screen-home .flow-card-heading{
+  display:flex;align-items:center;margin:0 0 6px;padding:8px 11px;
+  border-radius:10px;background:linear-gradient(100deg,#EAF2FF 0%,#F7EAF4 100%);
+  border:1px solid #D9DDF0;color:#171A45;font-size:13px;font-weight:900;
+  letter-spacing:-.2px;line-height:1.25;
+}
+#screen-home .flow-wrap{padding-top:10px!important;}
+</style>
 </head>
 <body>
 <div id="golfSplash" aria-hidden="true">
@@ -886,12 +903,12 @@ html.is-standalone #installAppBtn{display:none!important;}
       </div>
 
       <!-- MY ROUND -->
-      <div class="nh-sec nh-sec-round"><h2>My Round</h2></div>
+      
       </div>
       <div id="homeRound"></div>
 
       <!-- PLAYER TOOLS -->
-      <div class="nh-sec"><h2>Player Tools</h2></div>
+      
       <div class="tool-grid">
         <button type="button" class="tool t2" data-go="attendees"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.4 0 4.2 1.9 4.2 4.5"/></svg></div><div class="tool-txt"><div class="tool-name">GOLF &amp; PEOPLE</div><div class="tool-desc">참석자 명단</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.4 0 4.2 1.9 4.2 4.5"/></svg></span></button>
         <button type="button" class="tool t1" data-go="teams"><div class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg></div><div class="tool-txt"><div class="tool-name">TEAM DRAW</div><div class="tool-desc">36개 팀 조편성</div></div><span class="tool-wm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg></span></button>
@@ -902,14 +919,15 @@ html.is-standalone #installAppBtn{display:none!important;}
       </div>
 
       <!-- Today's Flow -->
-      <div class="nh-sec"><h2>Today's Flow</h2><button type="button" data-go="program">프로그램 표</button></div>
+      
       <div class="flow-wrap">
+        <div class="flow-card-heading"><span>행사 프로그램</span></div>
         <ol class="flow" id="flowHome"></ol>
         <button type="button" class="flow-toggle" id="flowToggle">전체 일정 보기</button>
       </div>
 
       <!-- 리베라CC 클럽 카드 -->
-      <div class="nh-sec"><h2>The Club</h2></div>
+      
       <div class="club">
         <div class="club-tag">OFFICIAL VENUE</div>
         <div class="club-name">Riviera<br>Country Club</div>
