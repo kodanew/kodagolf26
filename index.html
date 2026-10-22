@@ -831,8 +831,8 @@ html.is-standalone #installAppBtn{display:none!important;}
         </button>
         </div>
       </div>
-      <a class="home-weather-link" id="homeWeatherLink" href="https://weather.naver.com/" target="_blank" rel="noopener" aria-label="네이버 날씨 열기">
-        <span id="homeWeatherIcon" aria-hidden="true">🌤️</span><span id="homeWeatherText">오늘 날씨 확인</span><span class="weather-link-mark" aria-hidden="true">↗</span>
+      <a class="home-weather-link" id="homeWeatherLink" href="https://search.naver.com/search.naver?query=%ED%99%94%EC%84%B1%EC%8B%9C+%EB%8F%99%ED%83%84%EB%A9%B4+%EB%82%A0%EC%94%A8" target="_blank" rel="noopener" aria-label="네이버 날씨 열기">
+        <span id="homeWeatherIcon" aria-hidden="true">🌤️</span><span id="homeWeatherText">화성시 동탄면 · 날씨 확인</span><span class="weather-link-mark" aria-hidden="true">↗</span>
       </a>
 
       <!-- MY ROUND -->
@@ -1204,7 +1204,7 @@ const FALLBACK_DATA = [{"no":1,"name":"김한모","org":"","title":"","mobile":"
 const SHEET_ID = '1RWExniINhCCEBcSPHguiOjZGvtd7IpGvJlUQ0CL5mrk';
 
 // 참가자 로그인용 시트2 (B열=이름, E열=핸드폰)
-const MEMBER_AUTH_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=1550391915`;
+const MEMBER_AUTH_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent('시트2')}`;
 // 협찬/공지용 시트3은 동일하게 게시된 Google Sheets에서 '시트3' 탭의 gid를 자동으로 찾아 불러옵니다.
 const PUBLISHED_WORKBOOK_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySre2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pubhtml';
 const SHEET_TAB_NAME = '시트1'; // 조편성
@@ -2873,14 +2873,14 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
     var icon=document.getElementById('homeWeatherIcon'), label=document.getElementById('homeWeatherText');
     if(!icon||!label)return;
     var map={0:['☀️','맑음'],1:['🌤️','대체로 맑음'],2:['⛅','구름 조금'],3:['☁️','흐림'],45:['🌫️','안개'],48:['🌫️','안개'],51:['🌦️','이슬비'],53:['🌦️','이슬비'],55:['🌧️','비'],61:['🌧️','비'],63:['🌧️','비'],65:['🌧️','강한 비'],71:['🌨️','눈'],73:['🌨️','눈'],75:['❄️','많은 눈'],80:['🌦️','소나기'],81:['🌧️','소나기'],82:['⛈️','강한 소나기'],95:['⛈️','뇌우']};
-    var w=map[code]||['🌤️','날씨']; icon.textContent=w[0]; label.textContent=(Number.isFinite(temp)?Math.round(temp)+'°C · ':'')+w[1];
+    var w=map[code]||['🌤️','날씨']; icon.textContent=w[0]; label.textContent='화성시 동탄면 · '+(Number.isFinite(temp)?Math.round(temp)+'°C · ':'')+w[1];
   }
   function loadWeather(lat,lon){
     var url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weather_code&timezone=Asia%2FSeoul';
     fetch(url).then(function(r){if(!r.ok)throw new Error('weather');return r.json()}).then(function(d){if(d.current)setWeather(d.current.temperature_2m,d.current.weather_code)}).catch(function(){setWeather(NaN,1)});
   }
-  /* 위치 권한을 요구하지 않고 서울 기준으로 표시합니다. */
-  loadWeather(37.5665,126.9780);
+  /* 골프장(화성시 동탄면) 기준 날씨 — 위치 권한 불필요 */
+  loadWeather(37.1800,127.1300);
   var hello=document.getElementById('nhHello');
   if(hello){var observer=new MutationObserver(function(){var span=hello.querySelector('span');if(span){span.style.display='inline';span.style.marginLeft='4px';}});observer.observe(hello,{childList:true,subtree:true});}
 })();
