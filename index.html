@@ -3113,6 +3113,28 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 
 
 
+
+<style id="koda-notice-round-spacing-fix-20261022">
+/* 중요공지: 새빨간색이 아닌 차분하고 짙은 버건디 레드 */
+#screen-home .announcement-label{
+  background:#7B252D!important;
+  color:#FFFFFF!important;
+  border:1px solid #682028!important;
+  box-shadow:0 2px 5px rgba(76,18,25,.14)!important;
+}
+/* 마이라운드: 액션 버튼 아래에 일정 카드가 붙지 않도록 간격 확보 */
+#screen-myround .mrs-actions{margin-bottom:16px!important;}
+#screen-myround .myround-flow-wrap{margin-top:0!important;}
+/* 마이라운드 행사 프로그램 헤더를 홈 화면과 같은 굵은 글씨로 */
+#screen-myround .myround-flow-wrap .flow-card-heading,
+#screen-myround .myround-flow-wrap .flow-card-heading span{
+  font-weight:900!important;
+  color:#FFC629!important;
+}
+@media(max-width:380px){
+  #screen-myround .mrs-actions{margin-bottom:14px!important;}
+}
+</style>
 </body>
 
 <style id="koda-final-refinements">
