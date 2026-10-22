@@ -3540,16 +3540,16 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
  function alignHomeDetails(){
    var hero=document.querySelector('#screen-home .nh-hero');
    var title=document.querySelector('#screen-home .event-title-line');
-   var slogan=document.querySelector('#screen-home .nh-title');
-   var greet=document.querySelector('#screen-home .nh-hello span');
+   var slogan=document.querySelector('#screen-home .home-slogan');
+   var greet=document.querySelector('#screen-home .nh-hello');
    var right=document.querySelector('#screen-home .nh-right');
    var weather=document.querySelector('#screen-home .home-weather-link');
    if(!hero||!title||!slogan)return;
    var base=hero.getBoundingClientRect();
    var t=title.getBoundingClientRect(), s=slogan.getBoundingClientRect();
-   /* 행사명 라인 상단부터 영문 슬로건 하단까지 버튼을 맞춰 정사각형으로 */
-   var top=Math.max(0,Math.round(t.top-base.top));
-   var size=Math.max(60,Math.round(s.bottom-t.top));
+   /* 사진콘테스트 버튼의 세로 중앙을 영문 슬로건 중앙선에 맞춤 */
+   var size=Math.max(66,Math.min(78,Math.round(s.height*2.15)));
+   var top=Math.max(0,Math.round((s.top+s.bottom)/2-base.top-size/2));
    hero.style.setProperty('--contest-top',top+'px');
    hero.style.setProperty('--contest-size',size+'px');
    if(right){right.style.top=top+'px';right.style.width=size+'px';right.style.height=size+'px';}
@@ -3887,3 +3887,21 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
  setTimeout(placeDday,250);setTimeout(placeDday,1000);
 })();
 </script>
+
+<style id="koda-home-spacing-contest-fix-20261022">
+/* 사진콘테스트 버튼은 슬로건 높이 중앙에 맞추고, 날씨 버튼과 겹치지 않게 */
+#screen-home .nh-hero{position:relative!important}
+#screen-home .nh-right{position:absolute!important;right:16px!important;top:var(--contest-top,145px)!important;width:var(--contest-size,72px)!important;height:var(--contest-size,72px)!important;z-index:8!important}
+#screen-home .photo-contest-btn{width:100%!important;height:100%!important;min-width:0!important;aspect-ratio:1/1!important}
+/* 인사말 아래 과도한 padding-bottom 때문에 공지 배너가 멀어 보이던 간격을 제거 */
+#screen-home .nh-greeting-row{padding-top:8px!important;padding-bottom:0!important;margin-bottom:0!important;min-height:0!important}
+#screen-home .nh-hello{padding-top:0!important;padding-bottom:0!important;line-height:1.25!important}
+#screen-home .home-weather-link{margin-top:0!important;margin-bottom:0!important}
+#screen-home .home-announcement{margin-top:0!important;margin-bottom:2px!important;padding-top:14px!important;padding-bottom:14px!important}
+#screen-home .nh-sec-round{margin-top:0!important}
+@media(max-width:380px){
+ #screen-home .nh-right{right:12px!important}
+ #screen-home .nh-greeting-row{padding-top:6px!important;padding-bottom:0!important}
+ #screen-home .home-announcement{margin-top:0!important;margin-bottom:2px!important}
+}
+</style>
