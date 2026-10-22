@@ -832,7 +832,7 @@ html.is-standalone #installAppBtn{display:none!important;}
         </div>
       </div>
       <a class="home-weather-link" id="homeWeatherLink" href="https://search.naver.com/search.naver?query=%ED%99%94%EC%84%B1%EC%8B%9C+%EB%8F%99%ED%83%84%EB%A9%B4+%EB%82%A0%EC%94%A8" target="_blank" rel="noopener" aria-label="네이버 날씨 열기">
-        <span id="homeWeatherIcon" aria-hidden="true">🌤️</span><span id="homeWeatherText">화성시 동탄면 · 날씨 확인</span><span class="weather-link-mark" aria-hidden="true">↗</span>
+        <span id="homeWeatherIcon" aria-hidden="true">🌤️</span><span id="homeWeatherText">날씨 확인</span><span class="weather-link-mark" aria-hidden="true">↗</span>
       </a>
 
       <!-- MY ROUND -->
@@ -2873,7 +2873,7 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
     var icon=document.getElementById('homeWeatherIcon'), label=document.getElementById('homeWeatherText');
     if(!icon||!label)return;
     var map={0:['☀️','맑음'],1:['🌤️','대체로 맑음'],2:['⛅','구름 조금'],3:['☁️','흐림'],45:['🌫️','안개'],48:['🌫️','안개'],51:['🌦️','이슬비'],53:['🌦️','이슬비'],55:['🌧️','비'],61:['🌧️','비'],63:['🌧️','비'],65:['🌧️','강한 비'],71:['🌨️','눈'],73:['🌨️','눈'],75:['❄️','많은 눈'],80:['🌦️','소나기'],81:['🌧️','소나기'],82:['⛈️','강한 소나기'],95:['⛈️','뇌우']};
-    var w=map[code]||['🌤️','날씨']; icon.textContent=w[0]; label.textContent='화성시 동탄면 · '+(Number.isFinite(temp)?Math.round(temp)+'°C · ':'')+w[1];
+    var w=map[code]||['🌤️','날씨']; icon.textContent=w[0]; label.textContent=(Number.isFinite(temp)?Math.round(temp)+'°C · ':'')+w[1];
   }
   function loadWeather(lat,lon){
     var url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weather_code&timezone=Asia%2FSeoul';
@@ -3752,4 +3752,22 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 #screen-notice .notice-tag{flex:0 0 auto;font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--blue-tint,#EAF3FF);color:var(--blue,#155BB8)}
 #screen-notice .notice-body{font-size:14.5px;line-height:1.8;color:var(--ink-soft);font-weight:600;white-space:pre-wrap;word-break:keep-all}
 #screen-notice .content{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}
+</style>
+
+<style id="koda-user-refinements-20261022e">
+/* 날씨: 지역명 대신 아래에 작은 글씨로 (리베라CC) */
+#screen-home .home-weather-link{border-radius:14px!important;align-items:center!important}
+#screen-home .home-weather-link #homeWeatherText{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:1px!important;line-height:1.15!important}
+#screen-home .home-weather-link #homeWeatherText::after{content:'(리베라CC)';font-size:8.5px;font-weight:700;opacity:.62;letter-spacing:-.1px;line-height:1.1}
+
+/* 플레이어 툴: 아이콘은 우측 하단 실루엣 배경, 글씨는 화면 폭에 맞춰 축소 */
+#screen-home .tool{position:relative!important;overflow:hidden!important;min-width:0!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:0!important;padding:clamp(8px,2.6vw,12px) clamp(8px,2.6vw,12px)!important;min-height:clamp(66px,19vw,88px)!important}
+#screen-home .tool .tool-ico,
+#screen-home .tool.t1 .tool-ico,#screen-home .tool.t2 .tool-ico,#screen-home .tool.t3 .tool-ico,
+#screen-home .tool.t4 .tool-ico,#screen-home .tool.t5 .tool-ico,#screen-home .tool.t6 .tool-ico{position:absolute!important;right:-6px!important;bottom:-8px!important;left:auto!important;top:auto!important;width:clamp(48px,15vw,68px)!important;height:clamp(48px,15vw,68px)!important;min-width:0!important;flex:none!important;margin:0!important;padding:0!important;background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important;opacity:.16!important;pointer-events:none!important;z-index:0!important;transform:rotate(-8deg)}
+#screen-home .tool .tool-ico svg{width:100%!important;height:100%!important;stroke-width:1.6!important}
+#screen-home .tool .tool-txt{position:relative!important;z-index:1!important;flex:1 1 auto!important;min-width:0!important;width:100%!important;align-items:flex-start!important;text-align:left!important;gap:2px!important}
+#screen-home .tool .tool-name{font-size:clamp(9.5px,3.3vw,13px)!important;line-height:1.2!important;letter-spacing:-.2px!important;white-space:normal!important;word-break:keep-all!important;overflow-wrap:anywhere!important}
+#screen-home .tool .tool-desc{font-size:clamp(8.5px,2.9vw,11px)!important;line-height:1.25!important;letter-spacing:-.3px!important;white-space:normal!important;word-break:keep-all!important;overflow-wrap:anywhere!important}
+@media(max-width:380px){#screen-home .tool-grid{gap:7px!important;padding:0 10px!important}}
 </style>
