@@ -1693,7 +1693,7 @@ async function loadGolfSheet3Content(){
     const track=document.getElementById('homeAnnouncementText');
     if(banner && track){
       if(bannerLabel==='배너공지' && bannerText){
-        track.textContent=bannerText+'　　　◆　　　'+bannerText+'　　　◆　　　';
+        track.textContent=bannerText+'　◆　'+bannerText+'　◆　';
         banner.hidden=false;
       }else{ banner.hidden=true; track.textContent=''; }
     }
@@ -3903,5 +3903,27 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
  #screen-home .nh-right{right:12px!important}
  #screen-home .nh-greeting-row{padding-top:6px!important;padding-bottom:0!important}
  #screen-home .home-announcement{margin-top:0!important;margin-bottom:2px!important}
+}
+</style>
+
+
+<style id="koda-home-spacing-banner-weather-tune-v5">
+/* 인사말과 공지 배너 사이에 작은 여백만 유지 */
+#screen-home .nh-greeting-row{padding-bottom:0!important;margin-bottom:0!important}
+#screen-home .home-announcement{margin-top:6px!important;margin-bottom:2px!important;padding-top:10px!important;padding-bottom:10px!important;min-height:0!important}
+/* 중요공지 및 흐르는 공지 글자를 한 단계 확대 */
+#screen-home .announcement-label{font-size:11px!important;padding:4px 7px!important}
+#screen-home .announcement-track{font-size:13px!important;animation:kodaNoticeMarquee 20s linear infinite!important}
+/* 두 개의 동일한 문구가 이어져 흐르고, 절반 이동 후 바로 처음으로 연결 */
+@keyframes kodaNoticeMarquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+/* 날씨 버튼을 조금 아래로 내리고 온도와 이모티콘을 소폭 확대 */
+#screen-home .home-weather-link{top:calc(42px + env(safe-area-inset-top,0px))!important;font-size:15px!important;gap:6px!important}
+#screen-home .home-weather-link #homeWeatherIcon{font-size:19px!important}
+@media(max-width:380px){
+ #screen-home .home-weather-link{top:calc(38px + env(safe-area-inset-top,0px))!important;font-size:14px!important;gap:5px!important}
+ #screen-home .home-weather-link #homeWeatherIcon{font-size:18px!important}
+ #screen-home .home-announcement{margin-top:5px!important;padding-top:9px!important;padding-bottom:9px!important}
+ #screen-home .announcement-label{font-size:11px!important}
+ #screen-home .announcement-track{font-size:12px!important}
 }
 </style>
