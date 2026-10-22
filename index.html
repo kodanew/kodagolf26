@@ -780,6 +780,32 @@ html.is-standalone #installAppBtn{display:none!important;}
 }
 #screen-home .flow-wrap{padding-top:10px!important;}
 </style>
+
+<style id="koda-home-spacing-program-header-v2">
+/* 홈 콘텐츠 간격: 배너와 나의 조 영역을 기준으로 여유를 통일 */
+#screen-home #homeRound{margin:0 0 14px!important;}
+#screen-home .tool-grid{margin-top:0!important;margin-bottom:14px!important;}
+#screen-home .flow-wrap{margin-top:0!important;margin-bottom:14px!important;padding:0 16px 8px!important;overflow:hidden!important;}
+#screen-home .club{margin-top:0!important;}
+/* 행사 프로그램도 나의 조 카드처럼 상단을 꽉 채운 진한 네이비·그린 헤더로 */
+#screen-home .flow-card-heading{
+  display:flex!important;align-items:center!important;
+  margin:0 -16px 8px!important;padding:13px 16px!important;
+  min-height:46px!important;border:0!important;border-radius:0!important;
+  background:radial-gradient(ellipse at 100% 0%,rgba(255,255,255,.18) 0%,transparent 42%),
+    linear-gradient(135deg,#123E57 0%,#155A70 52%,#0C3B56 100%)!important;
+  color:#D9F2A5!important;font-size:14px!important;font-weight:900!important;
+  letter-spacing:-.2px!important;line-height:1.3!important;
+  box-shadow:0 5px 12px rgba(12,59,86,.14)!important;
+}
+#screen-home .flow-card-heading span{display:block!important;width:100%!important;}
+@media(max-width:380px){
+  #screen-home #homeRound{margin-bottom:12px!important;}
+  #screen-home .tool-grid{margin-bottom:12px!important;}
+  #screen-home .flow-wrap{margin-bottom:12px!important;}
+}
+</style>
+
 </head>
 <body>
 <div id="golfSplash" aria-hidden="true">
