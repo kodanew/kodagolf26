@@ -831,7 +831,7 @@ html.is-standalone #installAppBtn{display:none!important;}
         </button>
         </div>
       </div>
-      <a class="home-weather-link" id="homeWeatherLink" href="https://search.naver.com/search.naver?query=%ED%99%94%EC%84%B1%EC%8B%9C+%EB%8F%99%ED%83%84%EB%A9%B4+%EB%82%A0%EC%94%A8" target="_blank" rel="noopener" aria-label="네이버 날씨 열기">
+      <a class="home-weather-link" id="homeWeatherLink" href="https://search.naver.com/search.naver?query=%ED%99%94%EC%84%B1%EC%8B%9C+%EB%8F%99%ED%83%84%EA%B5%AC+%EC%B2%AD%EA%B3%84%EB%8F%99+%EB%82%A0%EC%94%A8" target="_blank" rel="noopener" aria-label="네이버 날씨 열기">
         <span id="homeWeatherIcon" aria-hidden="true">🌤️</span><span id="homeWeatherText">날씨 확인</span><span class="weather-link-mark" aria-hidden="true">↗</span>
       </a>
 
@@ -3770,4 +3770,17 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 #screen-home .tool .tool-name{font-size:clamp(9.5px,3.3vw,13px)!important;line-height:1.2!important;letter-spacing:-.2px!important;white-space:normal!important;word-break:keep-all!important;overflow-wrap:anywhere!important}
 #screen-home .tool .tool-desc{font-size:clamp(8.5px,2.9vw,11px)!important;line-height:1.25!important;letter-spacing:-.3px!important;white-space:normal!important;word-break:keep-all!important;overflow-wrap:anywhere!important}
 @media(max-width:380px){#screen-home .tool-grid{gap:7px!important;padding:0 10px!important}}
+</style>
+
+<style id="koda-user-refinements-20261022f">
+/* 동반 플레이어 인원 배지: 핑크 → 블루 */
+#screen-home #homeRound .mr2-mates-head i,#screen-myround #myRoundHero .mr2-mates-head i{background:#DDF1FF!important;color:#0B6FB8!important}
+/* People(전체 참석자 명단) 상단: 영어 People 제거, 협찬 소개 제목과 같은 글씨 */
+#screen-attendees .people-heading .topbar-title{display:none!important}
+#screen-attendees .people-heading .people-subtitle{font-family:inherit!important;font-style:normal!important;font-size:17px!important;font-weight:800!important;color:var(--ink)!important;letter-spacing:normal!important;line-height:normal!important;text-transform:none!important;white-space:nowrap}
+#screen-attendees .people-heading{justify-content:center!important}
+/* MY ROUND: 상단 '오전 몇시 업데이트' 문구 숨김 */
+#mrsSync{display:none!important}
+/* 인사말 보조문구: 흰색 */
+#screen-home .nh-hello span{color:#fff!important}
 </style>
