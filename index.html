@@ -1173,8 +1173,8 @@ html.is-standalone #installAppBtn{display:none!important;}
         </div>
       </div>
       <div class="legend">
-        <span><i class="dot green"></i>밸리코스</span>
         <span><i class="dot blue"></i>레이크코스</span>
+        <span><i class="dot green"></i>밸리코스</span>
       </div>
       <div class="team-grid" id="teamGrid"><div class="team-grid-loading">조편성 명단을 불러오는 중...</div></div>
     </div>
@@ -1287,7 +1287,7 @@ function rebuildTeams(){
   });
   Object.values(mapData).forEach(t => t.members.sort((a,b)=> a.order - b.order));
   TEAMS = Object.values(mapData).sort((a,b) => {
-    if(a.course !== b.course) return a.course === 'V' ? -1 : 1;
+    if(a.course !== b.course) return a.course === 'L' ? -1 : 1;
     const ha = a.hole, hb = b.hole;
     const ga = parseInt(a.id.split('-')[2]), gb = parseInt(b.id.split('-')[2]);
     if(ha !== hb) return ha - hb;
@@ -2019,7 +2019,7 @@ window.addEventListener('popstate', (e) => {
     const team = me ? TEAMS.find(t => t.id===me.teamId) : null;
     const loading = !PLAYERS.length;
     const cv = team ? (team.course==='V'?'v':'l') : '';
-    const top = `<div class="mr2-top"><div class="mr2-top-lab">나의 조</div>
+    const top = `<div class="mr2-top"><div class="mr2-top-lab">나의 조${clickable?'<button type="button" class="mr2-all-teams-pill" data-go-teams="1" aria-label="전체 조편성 보기">전체 조편성<i aria-hidden="true">›</i></button>':''}</div>
       ${team ? '<div class="mr2-team">'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'번그룹 <small>('+escapeHtml(team.id)+')</small></div>' : '<div class="mr2-team">-</div>'}</div>`;
     const tiles = `<div class="mr2-grid">
       <div class="mr2-tile tile-tee"><span>Tee Off</span><b>${TEE_OFF}</b><small class="mr2-tee-note">(샷건 동시출발)</small></div>
@@ -2028,8 +2028,8 @@ window.addEventListener('popstate', (e) => {
     if(team){
       const mate = team.members.filter(m => m !== me);
       mates = `<div class="mr2-mates"><div class="mr2-mates-head">동반 플레이어 <i>${mate.length}명</i></div><div class="mr-mate-list">${
-        mate.length ? mate.map(m=>{ const i = team.members.indexOf(m); const ph = digits(m.mobile||'');
-          return `<div class="mr2-mate-row"><button type="button" class="mr2-mate-name" data-mate="${escapeHtml(team.id)}|${i}"><span class="mr2-mate-person-name">${escapeHtml(m.name)}</span><small class="mr2-mate-person-org">${escapeHtml([m.org, m.position || m.rank].filter(Boolean).join(" · ") || orgOf(m) || "")}</small>${photoMarkup(m,'golf-face golf-face-inline')}</button><div class="mr2-mate-actions"><a class="mr2-contact phone ${ph?'':'disabled'}" ${ph?'href="tel:'+ph+'"':'aria-disabled="true"'} aria-label="${escapeHtml(m.name)} 전화하기" title="전화하기">☎</a><button type="button" class="mr2-contact kakao ${ph?'':'disabled'}" ${ph?'data-kakao-phone="'+ph+'"':'disabled'} aria-label="${escapeHtml(m.name)} 카카오톡 안내" title="카카오톡">톡</button></div></div>`; }).join('')
+        mate.length ? mate.map((m,n)=>{ const i = team.members.indexOf(m); const ph = digits(m.mobile||'');
+          return `<div class="mr2-mate-row"><button type="button" class="mr2-mate-name" data-mate="${escapeHtml(team.id)}|${i}"><span class="mr2-mate-no">${n+1}.</span><span class="mr2-mate-person-name">${escapeHtml(m.name)}</span><small class="mr2-mate-person-org">${escapeHtml([m.org, m.position || m.rank].filter(Boolean).join(" · ") || orgOf(m) || "")}</small>${photoMarkup(m,'golf-face golf-face-inline')}</button><div class="mr2-mate-actions"><a class="mr2-contact phone ${ph?'':'disabled'}" ${ph?'href="tel:'+ph+'"':'aria-disabled="true"'} aria-label="${escapeHtml(m.name)} 전화하기" title="전화하기">☎</a><button type="button" class="mr2-contact kakao ${ph?'':'disabled'}" ${ph?'data-kakao-phone="'+ph+'"':'disabled'} aria-label="${escapeHtml(m.name)} 카카오톡 안내" title="카카오톡">톡</button></div></div>`; }).join('')
         : '<div class="mr-mate-none">-</div>'}</div></div>`;
     } else if(isAmbiguous()){
       mates = `<div class="mr-empty">같은 이름의 참가자가 ${candidates().length}명 있습니다. 본인 조를 선택해주세요.
@@ -2165,6 +2165,7 @@ window.addEventListener('popstate', (e) => {
   document.addEventListener('click', e=>{
     const kakao = e.target.closest('[data-kakao-phone]');
     if(kakao){ e.preventDefault(); alert('카카오톡 친구 연결은 참가자별 카카오톡 ID 또는 오픈채팅 링크가 등록되어야 사용할 수 있습니다. 현재는 전화번호만 등록되어 있습니다.'); return; }
+    if(e.target.closest('[data-go-teams]')){ e.stopPropagation(); navigateTo('teams'); return; }
     const mt = e.target.closest('[data-mate]');
     if(mt){ if(e.target.closest('a')) return; openMatePopup(mt.dataset.mate); return; }
     if(e.target.closest('.mr-pick')) return;
@@ -3578,7 +3579,7 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
     /* User adjustment: lower the contest square by two additional visual steps. */
     top += 32;
     if(size<60){top=Math.max(0,Math.round(sr.top-hr.top));size=Math.max(60,Math.round(sr.bottom-sr.top));}
-    size=Math.min(size,(window.innerWidth<=380)?64:76);
+    size=Math.min(size,(window.innerWidth<=380)?74:86);
     /* 슬로건 글자의 실제 오른쪽 끝을 재서, 겹치지 않도록 정사각형 크기를 줄임 */
     try{
       const rg=document.createRange(); rg.selectNodeContents(slogan);
@@ -3682,9 +3683,9 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 <style id="koda-user-refinements-20261022">
 /* 사진콘테스트: 정사각형 크기 축소 (좁은 화면에서 슬로건과 겹치지 않도록) */
 #screen-home .photo-contest-btn{padding:3px!important;border-radius:12px!important}
-#screen-home .photo-contest-btn .pc-txt b{font-size:clamp(9px,calc(var(--pc-size,76px)*.14),11px)!important}
-#screen-home .photo-contest-btn .pc-txt em{font-size:clamp(8px,calc(var(--pc-size,76px)*.115),9.5px)!important;padding:2px 5px!important}
-#screen-home .photo-contest-btn .pc-cam{width:calc(var(--pc-size,76px)*.28)!important;height:calc(var(--pc-size,76px)*.28)!important}
+#screen-home .photo-contest-btn .pc-txt b{font-size:clamp(9px,calc(var(--pc-size,86px)*.14),11px)!important}
+#screen-home .photo-contest-btn .pc-txt em{font-size:clamp(8px,calc(var(--pc-size,86px)*.115),9.5px)!important;padding:2px 5px!important}
+#screen-home .photo-contest-btn .pc-cam{width:calc(var(--pc-size,86px)*.28)!important;height:calc(var(--pc-size,86px)*.28)!important}
 /* 협찬: 왼쪽 네이비 바를 곡선 없이 직선으로 */
 .sp-card{border-radius:0 14px 14px 0!important}
 /* 하단바: 둥근 모서리 제거, 화면 하단에 붙은 사각형 */
@@ -3699,4 +3700,17 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 #screen-home .tool.t2 .tool-ico,#screen-home .tool.t5 .tool-ico{color:#6D28D9!important}
 #screen-home .tool.t3 .tool-ico,#screen-home .tool.t6 .tool-ico{color:#1767A8!important}
 #screen-home .tool .tool-ico svg{width:24px!important;height:24px!important}
+</style>
+
+<style id="koda-user-refinements-20261022b">
+/* 홈 '나의 조' 줄 오른쪽 끝: 전체 조편성 알약 버튼 (투명·희미한 배경) */
+#screen-home #homeRound .mr2-top-lab{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important}
+#screen-home #homeRound .mr2-all-teams-pill{position:relative;z-index:2;display:inline-flex;align-items:center;gap:3px;margin-left:auto;padding:4px 10px 4px 11px;border:1px solid rgba(23,59,99,.16)!important;border-radius:999px!important;background:rgba(23,59,99,.05)!important;color:#42617f!important;font-family:inherit;font-size:11.5px!important;font-weight:800!important;letter-spacing:-.2px!important;line-height:1.2;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#screen-home #homeRound .mr2-all-teams-pill i{font-style:normal;font-size:14px;line-height:1;margin-top:-1px;opacity:.8}
+#screen-home #homeRound .mr2-all-teams-pill:active{background:rgba(23,59,99,.12)!important}
+/* 동반 플레이어: 이름 왼쪽 번호, 얼굴 사진은 오른쪽 끝 */
+#screen-home #homeRound .mr2-mate-name{align-items:center!important}
+#screen-home #homeRound .mr2-mate-no{flex:0 0 auto;min-width:16px;font-size:13.5px;font-weight:900;color:#5b7894;font-variant-numeric:tabular-nums}
+#screen-home #homeRound .mr2-mate-name .golf-face-inline{order:9!important;margin:0 0 0 auto!important}
+#screen-home #homeRound .mr2-mate-person-org{flex:1 1 auto!important}
 </style>
