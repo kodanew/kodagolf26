@@ -2241,15 +2241,17 @@ window.addEventListener('popstate', (e) => {
   // ---------- 개인별 상세 팝업 ----------
   function openMatePopup(key){
     const [tid, idx] = key.split('|');
-    const team = TEAMS.find(t => t.id===tid); const m = team && team.members[+idx];
+    const team = TEAMS.find(t => t.id===tid) || (isStaff({teamId:tid}) ? {id:tid,course:'S',hole:null,members:PLAYERS.filter(p => String(p.teamId||'').trim()===String(tid).trim()).sort((a,b)=>(a.order||1)-(b.order||1))} : null);
+    const m = team && team.members[+idx];
     if(!m) return;
     const me = findMe(); const ph = digits(m.mobile);
     const row = (k,v) => '<div class="pm-row"><span>'+k+'</span><b>'+(v?escapeHtml(v):'-')+'</b></div>';
     const org = m.org || (m.title ? '' : orgOf(m));
+    const teamDescription = isStaff(m) ? staffLabel(m) : `${courseName(team.course)} ${escapeHtml(team.hole)}번홀`;
     $('pmBox').innerHTML = `<button type="button" class="pm-close" id="pmClose" aria-label="닫기">✕</button>
       <div class="pm-head">${photoMarkup(m,'pm-av golf-face-popup')}<div class="pm-head-text">
         <div class="pm-name">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</div>
-        <div class="pm-team">${escapeHtml(team.id)} · ${courseName(team.course)} ${escapeHtml(team.hole)}번홀</div></div></div>
+        <div class="pm-team">${escapeHtml(team.id)} · ${teamDescription}</div></div></div>
       ${row('소속·직위', org)}${row('KODA', m.title)}`;
     // 팝업을 별도 브라우저 기록으로 등록해 휴대폰 뒤로가기로 팝업만 닫히게 함
     if(!window.history.state || !window.history.state.popup){
@@ -2272,21 +2274,20 @@ window.addEventListener('popstate', (e) => {
   function renderRoster(){
     const me = findMe();
     const staff = isStaff(me);
-    const team = me ? TEAMS.find(t => t.id===me.teamId) : null;
+    const team = me ? (TEAMS.find(t => t.id===me.teamId) || (staff ? {id:me.teamId,course:'S',hole:null,members:PLAYERS.filter(p => String(p.teamId||'').trim()===String(me.teamId||'').trim()).sort((a,b)=>(a.order||1)-(b.order||1))} : null)) : null;
     const box = $('myRoster'), btn = $('mrsDetailBtn');
-    if(staff){ box.innerHTML = '<div class="rost"><div class="rost-body"><div class="rost-name">'+escapeHtml(me.name)+'</div><div class="rost-org">'+staffLabel(me)+'</div></div></div>'; btn.style.display='none'; return; }
     if(!team){
       box.innerHTML = '<div class="rost"><div class="rost-body"><div class="rost-org">'+(!PLAYERS.length?'불러오는 중...':isAmbiguous()?'위 카드에서 본인 조를 선택해주세요.':'배정된 조가 없습니다.')+'</div></div></div>';
       btn.style.display='none'; return;
     }
-    btn.style.display='';
+    btn.style.display=staff?'none':'';
     box.innerHTML = team.members.map((m,i)=>`
       <div class="rost${m===me?' me':''}" data-mate="${escapeHtml(team.id)}|${i}" role="button" tabindex="0" style="cursor:pointer;">
         <div class="rost-no">${i+1}</div>
         ${photoMarkup(m,'golf-face golf-face-roster')}
         <div class="rost-body">
           <div class="rost-name">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</div>
-          <div class="rost-org">${escapeHtml(orgOf(m)||'-')}</div>
+          <div class="rost-org">${escapeHtml([m.org, m.title || m.rank].filter(Boolean).join(' · ') || orgOf(m) || (staff?staffLabel(m):'-'))}</div>
         </div>
         <div class="rost-call" aria-label="${escapeHtml(m.name)} 상세보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div>
       </div>`).join('');
