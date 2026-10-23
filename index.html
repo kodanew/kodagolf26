@@ -3213,7 +3213,7 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
       // 헤더 없는 CSV는 각 행을 팝업으로 보고 1열=제목, 2열=내용, 3열=이미지, 4열=링크로 처리
       return rows.slice(0,2).map(function(r,i){return {eyebrow:'',title:get(r,0)||('안내 '+(i+1)),intro:get(r,1),image:get(r,3),link:get(r,4),linkText:get(r,5)||'',rows:[]};}).filter(function(d){return d.title||d.intro||d.image;});
     }
-    var idx={title:col(h,['팝업제목','제목','타이틀','팝업명','안내제목','공지제목']),intro:col(h,['내용','본문','상세내용','안내내용','설명','메시지','문구','본문내용']),eyebrow:col(h,['상단문구','소제목','카테고리','분류','구분']),image:3,link:col(h,['링크URL','링크주소','이동URL','URL','링크']),linkText:col(h,['버튼문구','버튼명','링크문구','링크텍스트']),order:col(h,['팝업번호','순서','번호','팝업순서','순번']),active:col(h,['사용여부','노출여부','활성화','게시여부'])};
+    var idx={title:col(h,['팝업제목','제목','타이틀','팝업명','안내제목','공지제목']),intro:col(h,['내용','본문','상세내용','안내내용','설명','메시지','문구','본문내용']),eyebrow:col(h,['상단문구','소제목','카테고리','분류','구분']),image:3,link:4,linkText:col(h,['버튼문구','버튼명','링크문구','링크텍스트']),order:col(h,['팝업번호','순서','번호','팝업순서','순번']),active:col(h,['사용여부','노출여부','활성화','게시여부'])};
     var data=rows.slice(1).map(function(r,i){
       var d={eyebrow:get(r,idx.eyebrow)||'KODA · ARP GOLF',title:get(r,idx.title),intro:get(r,idx.intro),image:get(r,idx.image),link:get(r,idx.link),linkText:get(r,idx.linkText)||'',order:get(r,idx.order)||String(i+1),rows:[]};
       if(idx.active>=0&&/^(n|no|아니오|미사용|숨김|false|0)$/i.test(get(r,idx.active)))return null;
@@ -3235,8 +3235,18 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
     var info=document.getElementById('kpInfo');
     info.innerHTML=(d.rows||[]).map(function(r){return '<div class="kp-row"><span class="kp-label">'+escapeHtml(r[0])+'</span><span class="kp-value">'+escapeHtml(r[1])+'</span></div>';}).join('');
     info.hidden=!(d.rows&&d.rows.length);
-    var img=document.getElementById('kpImage'),imageUrl=safeUrl(d.image);
-    if(imageUrl){img.src=imageUrl;img.hidden=false;}else{img.removeAttribute('src');img.hidden=true;}
+    var img=document.getElementById('kpImage'),imageUrl=safeUrl(d.image),targetUrl=safeUrl(d.link);
+    if(imageUrl){
+      img.src=imageUrl;img.hidden=false;
+      img.style.cursor=targetUrl?'pointer':'default';
+      img.setAttribute('role',targetUrl?'link':'img');
+      img.setAttribute('tabindex',targetUrl?'0':'-1');
+      img.setAttribute('aria-label',targetUrl?'이미지를 눌러 안내 링크 열기':'안내 이미지');
+      img.onclick=targetUrl?function(){window.open(targetUrl,'_blank','noopener,noreferrer');}:null;
+      img.onkeydown=targetUrl?function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();window.open(targetUrl,'_blank','noopener,noreferrer');}}:null;
+    }else{
+      img.removeAttribute('src');img.hidden=true;img.style.cursor='default';img.removeAttribute('role');img.removeAttribute('tabindex');img.removeAttribute('aria-label');img.onclick=null;img.onkeydown=null;
+    }
     var link=document.getElementById('kpLink');link.removeAttribute('href');link.hidden=true;
     document.getElementById('kpCount').textContent='안내 '+(page+1)+' / '+pages.length;
     document.getElementById('kpDots').innerHTML=pages.map(function(_,i){return '<span class="kp-dot '+(i===page?'active':'')+'"></span>';}).join('');
