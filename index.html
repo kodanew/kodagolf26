@@ -4417,3 +4417,63 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 #screen-myround #myRoundHero .mr2-grid .banquet-apply{font-size:8px!important;padding:3px 3px!important;min-height:0!important;line-height:1.1!important}
 @media(max-width:360px){#screen-myround #myRoundHero .mr2-grid{gap:4px!important;padding-left:7px!important;padding-right:7px!important}#screen-myround #myRoundHero .mr2-grid>.mr2-tile{padding:5px 3px!important}#screen-myround #myRoundHero .mr2-grid>.mr2-tile b{font-size:9px!important}}
 </style>
+
+
+<style id="user-request-20261023-bell-weather-tile-balance">
+/* 홈 화면 종 아이콘: 제목/D-day 행 높이에 맞추고 날씨 버튼의 실제 오른쪽 끝과 정렬 */
+#screen-home .nh-top{position:relative!important}
+#screen-home #nhPopupReopen{
+  position:absolute!important;left:auto!important;right:0;top:0;
+  width:22px!important;height:22px!important;min-width:22px!important;flex:0 0 22px!important;
+  margin:0!important;padding:0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;color:#fff!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;z-index:30!important;
+}
+#screen-home #nhPopupReopen svg{width:19px!important;height:19px!important;display:block!important}
+#screen-home #nhPopupReopen:active,#screen-home #nhPopupReopen:hover{background:transparent!important;box-shadow:none!important}
+/* 날씨 버튼의 네모/알약 배경, 테두리 및 그림자 제거 */
+#screen-home .home-weather-link{
+  background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;
+  box-shadow:none!important;outline:0!important;
+}
+#screen-home .home-weather-link::before,#screen-home .home-weather-link::after{background:transparent!important;border:0!important;box-shadow:none!important}
+/* 마이라운드 타일: 타일 크기와 어울리도록 본문 글씨를 키우고 균형 조정 */
+#screen-myround #myRoundHero .mr2-grid{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:6px!important;padding:10px 10px 12px!important;margin:0!important;box-sizing:border-box!important;
+}
+#screen-myround #myRoundHero .mr2-grid>.mr2-tile{
+  min-width:0!important;width:auto!important;margin:0!important;padding:8px 6px!important;
+  gap:4px!important;box-sizing:border-box!important;border-radius:10px!important;
+}
+#screen-myround #myRoundHero .mr2-grid>.mr2-tile span{font-size:clamp(10px,2.9vw,12px)!important;line-height:1.2!important;letter-spacing:-.25px!important}
+#screen-myround #myRoundHero .mr2-grid>.mr2-tile b{font-size:clamp(12px,3.35vw,14px)!important;line-height:1.25!important;letter-spacing:-.35px!important;overflow-wrap:anywhere!important;word-break:keep-all!important}
+#screen-myround #myRoundHero .mr2-grid .mr2-tee-note{font-size:clamp(9px,2.45vw,10px)!important;line-height:1.2!important}
+#screen-myround #myRoundHero .mr2-grid .banquet-apply{font-size:clamp(9px,2.55vw,11px)!important;line-height:1.15!important;padding:4px 4px!important}
+@media(max-width:360px){
+ #screen-myround #myRoundHero .mr2-grid{gap:4px!important;padding-left:8px!important;padding-right:8px!important}
+ #screen-myround #myRoundHero .mr2-grid>.mr2-tile{padding:7px 4px!important}
+ #screen-myround #myRoundHero .mr2-grid>.mr2-tile span{font-size:10px!important}
+ #screen-myround #myRoundHero .mr2-grid>.mr2-tile b{font-size:11px!important}
+}
+</style>
+<script id="user-request-20261023-align-bell-to-weather">
+(function(){
+ function alignBell(){
+   var home=document.getElementById('screen-home');
+   var top=home&&home.querySelector('.nh-top');
+   var bell=document.getElementById('nhPopupReopen');
+   var weather=home&&home.querySelector('.home-weather-link');
+   var title=home&&home.querySelector('.event-brand-lockup h1.nh-title');
+   if(!top||!bell||!weather||!title)return;
+   var tr=top.getBoundingClientRect(), wr=weather.getBoundingClientRect(), hr=title.getBoundingClientRect();
+   /* .nh-top을 기준으로 날씨 링크 오른쪽 끝과 종 아이콘 오른쪽 끝을 일치 */
+   bell.style.right=Math.max(-30,Math.round(tr.right-wr.right))+'px';
+   bell.style.left='auto';
+   bell.style.top=Math.round(hr.top-tr.top+(hr.height-22)/2)+'px';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',alignBell);else alignBell();
+ window.addEventListener('resize',alignBell);
+ setTimeout(alignBell,150);setTimeout(alignBell,600);setTimeout(alignBell,1400);
+})();
+</script>
