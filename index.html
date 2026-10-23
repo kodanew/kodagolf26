@@ -4384,3 +4384,36 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 #screen-myround #myRoundHero .mr2-team .mr2-banquet-table{display:inline!important;color:#FFC45B!important;font:inherit!important;font-size:inherit!important;font-weight:850!important;letter-spacing:inherit!important;white-space:normal!important}
 @media(max-width:360px){#screen-myround #myRoundHero .mr2-grid{gap:4px!important}#screen-myround #myRoundHero .mr2-grid>.mr2-tile{padding:8px 4px!important}#screen-myround #myRoundHero .mr2-grid>.mr2-tile b{font-size:10px!important}}
 </style>
+
+
+<style id="user-request-20261023-final-adjustments">
+/* 종 아이콘은 행사명/D-day 행의 가장 오른쪽에, 날씨 버튼과 같은 우측 정렬선으로 배치 */
+#screen-home .nh-top{position:relative!important}
+#screen-home .event-brand-lockup h1.nh-title{padding-right:34px!important;box-sizing:border-box!important}
+#screen-home .nh-popup-reopen,
+#screen-home .event-brand-lockup h1.nh-title .nh-popup-reopen{
+  position:absolute!important;top:calc(17px + env(safe-area-inset-top,0px))!important;right:16px!important;left:auto!important;
+  width:22px!important;height:22px!important;min-width:22px!important;flex:0 0 22px!important;
+  margin:0!important;padding:0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;color:#fff!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;z-index:20!important;
+}
+#screen-home .nh-popup-reopen svg{width:19px!important;height:19px!important}
+#screen-home .nh-popup-reopen:active{background:transparent!important;transform:scale(.94)!important}
+@media(max-width:380px){#screen-home .nh-popup-reopen,#screen-home .event-brand-lockup h1.nh-title .nh-popup-reopen{right:12px!important}}
+/* 이름과 '님!'은 모두 흰색 */
+#screen-home #nhHello b,
+#screen-home #nhHello strong,
+#screen-home .nh-hello b{color:#fff!important;-webkit-text-fill-color:#fff!important}
+/* 나의 조 테이블 안내는 홈/마이라운드 모두 노란 주황색 */
+#screen-home #homeRound .mr2-team .mr2-banquet-table,
+#screen-myround #myRoundHero .mr2-team .mr2-banquet-table{color:#FFC45B!important;-webkit-text-fill-color:#FFC45B!important;font-weight:850!important}
+/* 마이라운드 타일을 더 작게 하여 카드 테두리 안쪽에 여유 확보 */
+#screen-myround #myRoundHero .mr2-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important;padding:8px 9px 9px!important;margin:0!important;box-sizing:border-box!important}
+#screen-myround #myRoundHero .mr2-grid>.mr2-tile{min-width:0!important;width:auto!important;margin:0!important;padding:6px 4px!important;gap:3px!important;box-sizing:border-box!important;border-radius:9px!important}
+#screen-myround #myRoundHero .mr2-grid>.mr2-tile span{font-size:clamp(8px,2.25vw,9.5px)!important;line-height:1.15!important;letter-spacing:-.3px!important;margin:0 0 2px!important}
+#screen-myround #myRoundHero .mr2-grid>.mr2-tile b{font-size:clamp(9px,2.65vw,11px)!important;line-height:1.2!important;letter-spacing:-.45px!important;overflow-wrap:anywhere!important;word-break:keep-all!important}
+#screen-myround #myRoundHero .mr2-grid .mr2-tee-note{font-size:8px!important;line-height:1.15!important}
+#screen-myround #myRoundHero .mr2-grid .banquet-apply{font-size:8px!important;padding:3px 3px!important;min-height:0!important;line-height:1.1!important}
+@media(max-width:360px){#screen-myround #myRoundHero .mr2-grid{gap:4px!important;padding-left:7px!important;padding-right:7px!important}#screen-myround #myRoundHero .mr2-grid>.mr2-tile{padding:5px 3px!important}#screen-myround #myRoundHero .mr2-grid>.mr2-tile b{font-size:9px!important}}
+</style>
