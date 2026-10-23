@@ -1927,7 +1927,8 @@ if ('serviceWorker' in navigator) {
     }).catch(function(){ manualGuide(); });
   }
   function openAndroid(){
-    if(isInApp){
+    if(isInApp || isSamsung || /EdgA|OPR\/|Firefox\//i.test(ua) || !/Chrome\/\d/i.test(ua)){
+      // Android에서는 Chrome 패키지를 지정해 외부 Chrome으로 이동합니다.
       show({
         title: '기본 브라우저로 열어주세요',
         body: '카카오톡 등 앱 안의 화면에서는 설치할 수 없어요.<br><b>Chrome</b>으로 열어 설치해 주세요.',
@@ -1949,18 +1950,25 @@ if ('serviceWorker' in navigator) {
   }
 
   // ---- 아이폰 / 아이패드 ----
-  function openIOS(){
-    if(isInApp){
-      // 카카오톡·라인은 버튼을 누르면 바로 Safari로 연결
-      if(/KAKAOTALK|Line\//i.test(ua)){ openExternal(); return; }
+  function openSafariBestEffort(){
+    // iOS 웹페이지에서는 Safari 강제 실행이 시스템상 보장되지 않습니다.
+    // 지원되는 환경에서는 Safari URL scheme을 시도하고, 실패 시 안내를 표시합니다.
+    var u = externalUrl().replace(/^https?:\/\//, '');
+    var safariUrl = (location.protocol === 'http:' ? 'x-safari-http://' : 'x-safari-https://') + u;
+    var fallbackShown = false;
+    var timer = setTimeout(function(){
+      if(fallbackShown) return; fallbackShown = true;
       show({
-        title: 'Safari로 열어주세요',
-        body: '카카오톡 등 앱 안의 화면에서는 홈 화면에 추가할 수 없어요.<br>화면의 <b>공유(⋯)</b> 메뉴에서 <b>“Safari로 열기”</b>를 선택하거나, 링크를 복사해 Safari에 붙여넣어 주세요.',
+        title: 'Safari에서 열어주세요',
+        body: '현재 브라우저에서 Safari로 자동 전환되지 않았습니다. 공유 메뉴에서 <b>Safari로 열기</b>를 선택하거나 아래 링크를 복사해 Safari 주소창에 붙여넣어 주세요.',
         primary: { label: '링크 복사', keepOpen: true, action: copyLink },
         secondary: { label: '닫기' }
       });
-      return;
-    }
+    }, 900);
+    try { location.href = safariUrl; } catch(e) { clearTimeout(timer); }
+  }
+  function openIOS(){
+    if(!isIPhoneSafari){ openSafariBestEffort(); return; }
     show({
       title: '홈 화면에 추가하기',
       steps: [
@@ -1968,7 +1976,7 @@ if ('serviceWorker' in navigator) {
         '목록에서 <b>“홈 화면에 추가”</b>를 누르세요<small>보이지 않으면 목록을 위로 올려보세요</small>',
         '오른쪽 위 <b>“추가”</b>를 누르면 홈 화면에 KODA 아이콘이 생겨요'
       ],
-      pointer: isIPhoneSafari,
+      pointer: true,
       primary: { label: '확인' }
     });
   }
@@ -2036,7 +2044,6 @@ function renderTeamDetail(){
         ${photoMarkup(m,'golf-face golf-face-detail')}
       </div>
       <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">KODA</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.title) || '-'}</div></div>
-      <div style="display:flex; padding:8px 0; font-size:14.5px;"><div style="width:70px; flex-shrink:0; color:var(--ink-faint); font-weight:600;">핸드폰</div><div style="font-weight:700; color:var(--ink);">${escapeHtml(m.mobile) || '-'}</div></div>
     </div>
   `).join('') || '<div style="text-align:center; padding:30px; color:var(--ink-faint);">이 조에 남은 인원이 없습니다.</div>';
 }
@@ -2203,7 +2210,7 @@ window.addEventListener('popstate', (e) => {
       const mate = team.members.filter(m => m !== me);
       mates = `<div class="mr2-mates"><div class="mr2-mates-head">동반 플레이어 <i>${mate.length}명</i></div><div class="mr-mate-list">${
         mate.length ? mate.map((m,n)=>{ const i = team.members.indexOf(m); const ph = digits(m.mobile||'');
-          return `<div class="mr2-mate-row"><button type="button" class="mr2-mate-name" data-mate="${escapeHtml(team.id)}|${i}"><span class="mr2-mate-no">${n+1}.</span><span class="mr2-mate-person-name">${escapeHtml(m.name)}</span><small class="mr2-mate-person-org">${escapeHtml([m.org, m.position || m.rank].filter(Boolean).join(" · ") || orgOf(m) || "")}</small>${photoMarkup(m,'golf-face golf-face-inline')}</button><div class="mr2-mate-actions"><a class="mr2-contact phone ${ph?'':'disabled'}" ${ph?'href="tel:'+ph+'"':'aria-disabled="true"'} aria-label="${escapeHtml(m.name)} 전화하기" title="전화하기">☎</a><button type="button" class="mr2-contact kakao ${ph?'':'disabled'}" ${ph?'data-kakao-phone="'+ph+'"':'disabled'} aria-label="${escapeHtml(m.name)} 카카오톡 안내" title="카카오톡">톡</button></div></div>`; }).join('')
+          return `<div class="mr2-mate-row"><button type="button" class="mr2-mate-name" data-mate="${escapeHtml(team.id)}|${i}"><span class="mr2-mate-no">${n+1}.</span><span class="mr2-mate-person-name">${escapeHtml(m.name)}</span><small class="mr2-mate-person-org">${escapeHtml([m.org, m.position || m.rank].filter(Boolean).join(" · ") || orgOf(m) || "")}</small>${photoMarkup(m,'golf-face golf-face-inline')}</button></div>`; }).join('')
         : '<div class="mr-mate-none">-</div>'}</div></div>`;
     } else if(isAmbiguous()){
       mates = `<div class="mr-empty">같은 이름의 참가자가 ${candidates().length}명 있습니다. 본인 조를 선택해주세요.
@@ -2232,8 +2239,7 @@ window.addEventListener('popstate', (e) => {
       <div class="pm-head">${photoMarkup(m,'pm-av golf-face-popup')}<div class="pm-head-text">
         <div class="pm-name">${escapeHtml(m.name)}${m===me?'<em>나</em>':''}</div>
         <div class="pm-team">${escapeHtml(team.id)} · ${courseName(team.course)} ${escapeHtml(team.hole)}번홀</div></div></div>
-      ${row('소속·직위', org)}${row('KODA', m.title)}${row('핸드폰', m.mobile)}
-      ${ph && m!==me ? '<a class="pm-call" href="tel:'+ph+'">전화하기</a>' : ''}`;
+      ${row('소속·직위', org)}${row('KODA', m.title)}`;
     // 팝업을 별도 브라우저 기록으로 등록해 휴대폰 뒤로가기로 팝업만 닫히게 함
     if(!window.history.state || !window.history.state.popup){
       const currentScreen=document.querySelector('.screen.active')?.id?.replace('screen-','') || 'home';
@@ -2337,8 +2343,6 @@ window.addEventListener('popstate', (e) => {
   setInterval(()=>{ const homeCard=document.querySelector('#homeRound .mr-card'); if(homeCard) { const old=homeCard.querySelector('.mr2-flow'); if(old) old.outerHTML=myRoundFlowHTML(); } },60000);
   // 카드 탭 → MY ROUND
   document.addEventListener('click', e=>{
-    const kakao = e.target.closest('[data-kakao-phone]');
-    if(kakao){ e.preventDefault(); alert('카카오톡 친구 연결은 참가자별 카카오톡 ID 또는 오픈채팅 링크가 등록되어야 사용할 수 있습니다. 현재는 전화번호만 등록되어 있습니다.'); return; }
     if(e.target.closest('[data-go-teams]')){ e.stopPropagation(); navigateTo('teams'); return; }
     const mt = e.target.closest('[data-mate]');
     if(mt){ if(e.target.closest('a')) return; openMatePopup(mt.dataset.mate); return; }
@@ -2760,6 +2764,9 @@ document.getElementById("photoContestBtn")?.addEventListener("click", function()
 #screen-attendees .attendee-table tr.ppl-row td:nth-child(2){grid-column:2;grid-row:1;font-size:15.5px;font-weight:900}
 #screen-attendees .attendee-table tr.ppl-row td:nth-child(3){grid-column:2;grid-row:2;font-size:12.5px;color:#5C6677;margin-top:2px}
 #screen-attendees .attendee-table tr.ppl-row td:nth-child(4){grid-column:2;grid-row:3;font-size:11.5px;font-weight:700;color:#155BB8;margin-top:3px}
+/* 개인정보 보호: 참가자 개인 전화번호/전화 버튼을 UI에 노출하지 않음 */
+.pm-box .pm-call { display:none!important; }
+#screen-home .mr2-mate-actions, #screen-myround .mr2-mate-actions { display:none!important; }
 </style><script id="koda-v2-js">
 document.addEventListener('click',function(e){
   var tr=e.target.closest&&e.target.closest('tr.ppl-row'); if(!tr) return;
@@ -2767,7 +2774,7 @@ document.addEventListener('click',function(e){
   var esc=function(t){return String(t||'').replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
   var ph=(a.phone||'').replace(/\D/g,'');
   var row=function(k,v){return '<div class="pm-row"><span>'+k+'</span><b>'+(v?esc(v):'-')+'</b></div>'};
-  var photo=golfPhotoFor({name:a.name,phone:a.phone}); document.getElementById('pmBox').innerHTML='<button type="button" class="pm-close" id="pmClose" aria-label="닫기">✕</button><div class="pm-head">'+(photo?'<button type="button" class="pm-av golf-face-button golf-face-popup" data-photo-zoom="'+esc(photo)+'" data-photo-name="'+esc(a.name)+'"><img src="'+esc(photo)+'" alt="'+esc(a.name)+'" referrerpolicy="no-referrer"></button>':'<div class="pm-av">'+esc((a.name||'?').charAt(0))+'</div>')+'<div><div class="pm-name">'+esc(a.name)+'</div><div class="pm-team">'+esc(a.koda||'')+'</div></div></div>'+row('소속·직위',a.org)+row('KODA',a.note)+row('핸드폰',a.phone)+(ph.length>=9?'<a class="pm-call" href="tel:'+ph+'">전화하기</a>':'');
+  var photo=golfPhotoFor({name:a.name,phone:a.phone}); document.getElementById('pmBox').innerHTML='<button type="button" class="pm-close" id="pmClose" aria-label="닫기">✕</button><div class="pm-head">'+(photo?'<button type="button" class="pm-av golf-face-button golf-face-popup" data-photo-zoom="'+esc(photo)+'" data-photo-name="'+esc(a.name)+'"><img src="'+esc(photo)+'" alt="'+esc(a.name)+'" referrerpolicy="no-referrer"></button>':'<div class="pm-av">'+esc((a.name||'?').charAt(0))+'</div>')+'<div><div class="pm-name">'+esc(a.name)+'</div><div class="pm-team">'+esc(a.koda||'')+'</div></div></div>'+row('소속·직위',a.org)+row('KODA',a.note);
   document.getElementById('pmOverlay').classList.add('open');
 });
 </script>
