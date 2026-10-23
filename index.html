@@ -3183,7 +3183,8 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
     <div class="kp-dots" id="kpDots"><span class="kp-dot active"></span><span class="kp-dot"></span></div>
     <div class="kp-content"><img id="kpImage" class="kp-image" alt="안내 이미지" hidden><p class="kp-intro" id="kpIntro"></p><div class="kp-info" id="kpInfo" hidden></div><div class="kp-empty" id="kpLoading">안내 내용을 불러오고 있습니다.</div></div>
     <a class="kp-link" id="kpLink" href="#" target="_blank" rel="noopener" hidden></a>
-    <div class="kp-actions"><button type="button" class="kp-secondary" id="kpClose">닫기</button><button type="button" class="kp-secondary" id="kpPrevious" style="display:none">이전 안내</button><button type="button" class="kp-primary" id="kpNext">다음 안내</button></div>
+    <div class="kp-actions"><button type="button" class="kp-secondary" id="kpClose">확인하고 입장</button><button type="button" class="kp-secondary" id="kpPrevious" style="display:none">이전 안내</button><button type="button" class="kp-primary" id="kpNext">다음 안내</button></div>
+    <div id="kpNeverAgainWrap" class="kp-never-wrap" hidden><button type="button" id="kpNeverAgain" class="kp-never">다시 보지 않기 ×</button></div>
   </div>
 </div>
 <script id="koda-launch-popups-script">
@@ -3259,19 +3260,23 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
     document.getElementById('kpDots').innerHTML=pages.map(function(_,i){return '<span class="kp-dot '+(i===page?'active':'')+'"></span>';}).join('');
     document.getElementById('kpLoading').hidden=true;
     var actions=document.querySelector('#kodaLaunchPopup .kp-actions');var finalStep=page===pages.length-1;actions.classList.toggle('final-step',finalStep);
-    document.getElementById('kpClose').textContent=finalStep?'확인하고 입장':'닫기';
+    document.getElementById('kpClose').textContent='확인하고 입장';
+    document.getElementById('kpClose').style.display=finalStep?'block':'none';
     document.getElementById('kpPrevious').textContent='이전';
     document.getElementById('kpPrevious').style.display=finalStep&&pages.length>1?'block':'none';
     document.getElementById('kpNext').style.display=finalStep?'none':'block';
     document.getElementById('kpNext').textContent='다음 안내';
+    document.getElementById('kpNeverAgainWrap').hidden=!finalStep;
   }
-  function close(){overlay.classList.remove('open');document.body.style.overflow='';}
+  function close(){overlay.classList.remove('open');document.body.style.overflow='';try{localStorage.setItem('kodaPopupLastShownAt',String(Date.now()));}catch(e){}}
   document.getElementById('kpNext').addEventListener('click',function(){if(page<pages.length-1){page++;render();}});
   document.getElementById('kpPrevious').addEventListener('click',function(){if(page>0){page--;render();}});
   document.getElementById('kpClose').addEventListener('click',function(){if(page<pages.length-1){page++;render();}else close();});
+  document.getElementById('kpNeverAgain').addEventListener('click',function(){try{localStorage.setItem('kodaPopupNeverAgain','1');localStorage.setItem('kodaPopupLastShownAt',String(Date.now()));}catch(e){}close();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('open'))close();});
   function launch(){
     if(opened)return;opened=true;
+    try{localStorage.setItem('kodaPopupLastShownAt',String(Date.now()));}catch(e){}
     overlay.classList.add('open');document.body.style.overflow='hidden';
     fetch(CSV_URL+'&_ts='+Date.now(),{cache:'no-store'}).then(function(res){if(!res.ok)throw new Error('CSV load failed');return res.text();}).then(function(txt){pages=toPages(parseCSV(txt));if(!pages.length)throw new Error('No popup rows');page=0;render();}).catch(function(err){
       console.error('시트4 팝업 CSV 연동 오류:',err);
@@ -3279,13 +3284,23 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
       document.getElementById('kpTitle').textContent='안내 내용을 불러오지 못했습니다';
       document.getElementById('kpIntro').textContent='네트워크 연결을 확인한 뒤 다시 앱을 실행해 주세요.';
       document.getElementById('kpInfo').hidden=true;document.getElementById('kpImage').hidden=true;document.getElementById('kpLink').hidden=true;document.getElementById('kpLoading').hidden=true;
-      document.getElementById('kpCount').textContent='안내';document.getElementById('kpDots').innerHTML='';document.querySelector('#kodaLaunchPopup .kp-actions').classList.add('final-step');document.getElementById('kpNext').style.display='none';document.getElementById('kpPrevious').style.display='none';document.getElementById('kpClose').textContent='확인하고 입장';
+      document.getElementById('kpCount').textContent='안내';document.getElementById('kpDots').innerHTML='';document.querySelector('#kodaLaunchPopup .kp-actions').classList.add('final-step');document.getElementById('kpNext').style.display='none';document.getElementById('kpPrevious').style.display='none';document.getElementById('kpClose').style.display='block';document.getElementById('kpClose').textContent='확인하고 입장';document.getElementById('kpNeverAgainWrap').hidden=false;
       overlay.classList.add('open');document.body.style.overflow='hidden';
     });
   }
-  // 앱을 실행하면 약 0.8초 뒤 팝업을 먼저 띄우고 시트4 내용을 불러옵니다.
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){window.setTimeout(launch,800);},{once:true});
-  else window.setTimeout(launch,800);
+  // 새로고침에서는 팝업을 띄우지 않습니다. 새 앱 진입 때 표시하고, 이후에는 1시간 간격으로 제한합니다.
+  function shouldLaunch(){
+    try{
+      if(localStorage.getItem('kodaPopupNeverAgain')==='1') return false;
+      var nav=performance.getEntriesByType&&performance.getEntriesByType('navigation');
+      if(nav&&nav[0]&&nav[0].type==='reload') return false;
+      var last=Number(localStorage.getItem('kodaPopupLastShownAt')||0);
+      if(last&&Date.now()-last<60*60*1000) return false;
+      return true;
+    }catch(e){return true;}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){if(shouldLaunch())window.setTimeout(launch,800);},{once:true});
+  else if(shouldLaunch())window.setTimeout(launch,800);
 })();
 </script>
 
@@ -3313,6 +3328,12 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
  #screen-myround #myRoundHero .mr2-tile b{font-size:clamp(9px,2.8vw,11px)!important}
  #kodaLaunchPopup .kp-top{padding:13px 17px 14px!important}
 }
+#kodaLaunchPopup .kp-never-wrap{display:flex;justify-content:flex-end;padding:7px 22px 13px!important}
+#kodaLaunchPopup .kp-never-wrap[hidden]{display:none!important}
+#kodaLaunchPopup .kp-never{border:0!important;background:transparent!important;color:#8b91a3!important;font-size:10px!important;line-height:1.2!important;padding:3px 0 3px 8px!important;box-shadow:none!important;cursor:pointer!important}
+#kodaLaunchPopup .kp-never:active{opacity:.65}
+#kodaLaunchPopup .kp-actions:not(.final-step) #kpClose{display:none!important}
+#kodaLaunchPopup .kp-actions:not(.final-step) #kpNext{display:block!important}
 </style>
 </body>
 
