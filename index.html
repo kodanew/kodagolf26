@@ -19,7 +19,7 @@
 <!-- ===== 카카오톡 등 SNS 공유 미리보기(Open Graph) 태그 ===== -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="2026 KODA 협회장배 골프대회">
-<meta property="og:description" content="2026.10.26(월) · 리베라C.C | 참가인원 144인(36개팀) · 총 18홀">
+<meta property="og:description" content="2026.10.26(월) · 리베라C.C | 참가인원 135인(36개팀) · 총 18홀">
 <meta property="og:image" content="https://kodanew.github.io/kodagolf26/og-image.png">
 <meta property="og:url" content="https://kodanew.github.io/kodagolf26/">
 <meta name="twitter:card" content="summary_large_image">
@@ -1018,7 +1018,7 @@ html.is-standalone #installAppBtn{display:none!important;}
         <button type="button" class="home-action-btn" id="installAppBtn">앱 설치</button>
         <button type="button" class="home-action-btn" id="logoutBtn">로그아웃</button>
       </div>
-      <div class="nh-org">주최 한국디벨로퍼협회 · 주관 KODA회원위원회<br>18홀 신페리오 · 참가 144인 / 36개팀</div>
+      <div class="nh-org">주최 한국디벨로퍼협회 · 주관 KODA회원위원회<br>18홀 신페리오 · 참가 135인 / 36개팀</div>
     </div>
   </section>
 
@@ -2200,7 +2200,7 @@ window.addEventListener('popstate', (e) => {
     const loading = !PLAYERS.length;
     const cv = team ? (team.course==='V'?'v':'l') : '';
     const top = `<div class="mr2-top"><div class="mr2-top-lab">나의 조${clickable?'<button type="button" class="mr2-all-teams-pill" data-go-teams="1" aria-label="전체 조편성 보기">전체 조편성<i aria-hidden="true">›</i></button>':''}</div>
-      ${team ? '<div class="mr2-team">'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'번그룹'+(team.banquetTable ? '<span class="mr2-banquet-table"> / 2부 만찬 : '+escapeHtml(team.banquetTable)+'</span>' : '')+'</div>' : '<div class="mr2-team">-</div>'}</div>`;
+      ${team ? '<div class="mr2-team">'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'번그룹'+(team.banquetTable ? '<span class="mr2-banquet-table"> / 2부 만찬 : '+escapeHtml(team.banquetTable)+' 테이블</span>' : '')+'</div>' : '<div class="mr2-team">-</div>'}</div>`;
     const tiles = `<div class="mr2-grid">
       <div class="mr2-tile tile-tee"><span>Tee Off</span><b>${TEE_OFF}~</b><small class="mr2-tee-note">(샷건 동시출발)</small></div>
       <div class="mr2-tile tile-course ${cv}"><span>출발코스</span><b>${team ? (team.course==='V'?'밸리':'레이크')+' '+escapeHtml(team.hole)+'번홀 출발' : '-'}</b></div>
@@ -3317,6 +3317,9 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
   // 새로고침에서는 팝업을 띄우지 않습니다. 새 앱 진입 때 표시하고, 이후에는 1시간 간격으로 제한합니다.
   function shouldLaunch(){
     try{
+      // 최초 링크 접속 또는 로그아웃 상태(입장하기 화면)에서는 자동 팝업을 띄우지 않습니다.
+      var auth=JSON.parse(localStorage.getItem('koda_golf_auth')||'null');
+      if(!auth || !auth.name) return false;
       if(localStorage.getItem('kodaPopupNeverAgain')==='1') return false;
       var nav=performance.getEntriesByType&&performance.getEntriesByType('navigation');
       if(nav&&nav[0]&&nav[0].type==='reload') return false;
@@ -4534,3 +4537,56 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 })();
 </script>
 
+
+
+<style id="user-request-20261023-final-ui-fixes">
+/* 홈 화면 나의 조: 티오프/출발코스/2부만찬 타일 글씨 크기 원래 수준으로 복원 */
+#screen-home #homeRound .mr2-grid .mr2-tile span{
+  font-size:clamp(11px,3vw,13px)!important;line-height:1.25!important;
+  white-space:normal!important;overflow-wrap:normal!important;margin-bottom:4px!important;
+}
+#screen-home #homeRound .mr2-grid .mr2-tile b{
+  font-size:clamp(14px,4vw,16px)!important;line-height:1.3!important;
+  letter-spacing:-.35px!important;white-space:normal!important;overflow-wrap:normal!important;
+}
+#screen-home #homeRound .mr2-grid .mr2-tee-note{
+  display:block!important;font-size:clamp(10px,2.9vw,11.5px)!important;line-height:1.25!important;
+}
+#screen-home #homeRound .mr2-grid .tile-banquet .banquet-apply{
+  font-size:clamp(10px,2.8vw,11px)!important;padding:4px 5px!important;line-height:1.2!important;
+}
+/* 종 아이콘은 사진콘테스트 버튼 바로 위에 항상 보이도록 배치 */
+#screen-home #nhPopupReopen{
+  position:fixed!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+  z-index:10050!important;width:24px!important;height:24px!important;min-width:24px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:0!important;margin:0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;color:#fff!important;transform:none!important;
+  pointer-events:auto!important;
+}
+#screen-home #nhPopupReopen svg{width:21px!important;height:21px!important;display:block!important}
+</style>
+<script id="user-request-20261023-final-bell-placement">
+(function(){
+  function placeBell(){
+    var home=document.getElementById('screen-home');
+    var bell=document.getElementById('nhPopupReopen');
+    var photo=home&&home.querySelector('#photoContestBtn');
+    if(!home||!bell||!photo)return;
+    var r=photo.getBoundingClientRect();
+    if(!r.width||!r.height)return;
+    var size=24;
+    bell.style.setProperty('position','fixed','important');
+    bell.style.setProperty('left',Math.round(r.right-size)+'px','important');
+    bell.style.setProperty('right','auto','important');
+    bell.style.setProperty('top',Math.max(4,Math.round(r.top-size-7))+'px','important');
+    bell.style.setProperty('bottom','auto','important');
+  }
+  function schedule(){requestAnimationFrame(placeBell);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule);else schedule();
+  window.addEventListener('load',schedule);
+  window.addEventListener('resize',schedule);
+  window.addEventListener('scroll',schedule,true);
+  setTimeout(schedule,100);setTimeout(schedule,400);setTimeout(schedule,900);setTimeout(schedule,1700);
+})();
+</script>
