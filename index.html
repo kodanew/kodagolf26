@@ -419,7 +419,7 @@ html.is-standalone #installAppBtn{display:none!important;}
 .mr-mate-av{ width:28px; height:28px; border-radius:50%; background:linear-gradient(145deg,#4BA6FF,#1560C9); color:#fff; font-size:12.5px; font-weight:900; display:flex; align-items:center; justify-content:center; }
 .mr-mate-none{ font-size:13px; font-weight:700; color:var(--ink-faint); padding:2px 4px; }
 .mr-empty{ padding:16px 18px 18px; font-size:13.5px; line-height:1.6; font-weight:600; color:var(--ink-soft); word-break:keep-all; }
-.mr-more{ padding:0 18px 14px; margin-top:-4px; font-size:12px; font-weight:800; color:var(--blue); text-align:right; }
+.mr-more{ display:block;width:100%;padding:0 18px 14px;margin-top:-4px;font-family:inherit;font-size:12px;font-weight:800;color:var(--blue);text-align:right;background:transparent;border:0;cursor:pointer; }
 .mr-pick{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
 .mr-pick button{ text-align:left; font-family:inherit; cursor:pointer; color:var(--ink); background:var(--blue-tint); border:1px solid #BCD3F0; border-radius:12px; padding:11px 14px; display:flex; justify-content:space-between; gap:10px; align-items:center; }
 .mr-pick button b{ font-size:16px; font-weight:900; color:var(--blue-deep); } .mr-pick button span{ font-size:12px; font-weight:700; color:var(--ink-soft); }
@@ -806,6 +806,39 @@ html.is-standalone #installAppBtn{display:none!important;}
 }
 </style>
 
+
+<style id="koda-launch-popups-style">
+#kodaLaunchPopupOverlay{position:fixed;inset:0;z-index:100001;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(14,18,49,.68);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+#kodaLaunchPopupOverlay.open{display:flex}
+#kodaLaunchPopup{position:relative;width:min(100%,410px);max-height:min(86dvh,720px);overflow:auto;background:#fff;border:1px solid rgba(255,255,255,.8);border-radius:26px;box-shadow:0 28px 90px rgba(8,12,45,.34);padding:0 0 18px;color:#17233d;animation:kodaPopupIn .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes kodaPopupIn{from{opacity:0;transform:translateY(14px) scale(.975)}to{opacity:1;transform:translateY(0) scale(1)}}
+#kodaLaunchPopup .kp-top{padding:21px 22px 20px;background:linear-gradient(125deg,#17104b 0%,#49318b 52%,#d91578 100%);color:#fff;position:relative;overflow:hidden}
+#kodaLaunchPopup .kp-top:after{content:'';position:absolute;width:180px;height:180px;right:-62px;top:-105px;border:1px solid rgba(255,255,255,.2);border-radius:50%;box-shadow:0 0 0 20px rgba(255,255,255,.045),0 0 0 42px rgba(255,255,255,.035)}
+#kodaLaunchPopup .kp-topline{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
+#kodaLaunchPopup .kp-eyebrow{font-size:10px;letter-spacing:1.45px;font-weight:900;color:#d8d5ff}
+#kodaLaunchPopup .kp-count{font-size:10px;font-weight:800;padding:5px 9px;border-radius:99px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);white-space:nowrap}
+#kodaLaunchPopup h2{position:relative;z-index:1;font-size:clamp(21px,5.5vw,25px);line-height:1.32;margin:0;font-weight:900;letter-spacing:-.7px;overflow-wrap:anywhere}
+#kodaLaunchPopup .kp-content{padding:20px 22px 0}
+#kodaLaunchPopup .kp-intro{font-size:14px;line-height:1.7;color:#58647c;margin:0 0 15px;white-space:pre-line;overflow-wrap:anywhere}
+#kodaLaunchPopup .kp-image{display:block;width:100%;max-height:230px;object-fit:cover;border-radius:15px;margin:0 0 16px;background:#f1f3f8}
+#kodaLaunchPopup .kp-info{background:linear-gradient(145deg,#f7f7fc,#f0f3fa);border:1px solid #e8eaf4;border-radius:16px;padding:10px 14px;margin:0 0 18px}
+#kodaLaunchPopup .kp-row{display:flex;gap:12px;padding:9px 0;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+#kodaLaunchPopup .kp-row+.kp-row{border-top:1px solid #e1e5ef}
+#kodaLaunchPopup .kp-label{width:88px;flex-shrink:0;color:#7b849a;font-weight:700}
+#kodaLaunchPopup .kp-value{font-weight:750;color:#263451;white-space:pre-line;min-width:0}
+#kodaLaunchPopup .kp-actions{display:flex;gap:9px;padding:0 22px}
+#kodaLaunchPopup button{min-height:48px;border:0;border-radius:14px;font:inherit;font-weight:850;cursor:pointer;transition:transform .15s ease,filter .15s ease}
+#kodaLaunchPopup button:active{transform:scale(.985);filter:brightness(.97)}
+#kodaLaunchPopup .kp-primary{flex:1;background:linear-gradient(105deg,#5a43b1,#a43c91 75%,#d91578);color:#fff;box-shadow:0 7px 18px rgba(111,58,157,.22)}
+#kodaLaunchPopup .kp-secondary{padding:0 17px;background:#f0f2f8;color:#566078}
+#kodaLaunchPopup .kp-dots{display:flex;justify-content:center;gap:5px;padding:14px 0 0}
+#kodaLaunchPopup .kp-dot{height:5px;width:19px;border-radius:10px;background:#dfe3ed}
+#kodaLaunchPopup .kp-dot.active{background:#8760bf;width:30px}
+#kodaLaunchPopup .kp-link{display:block;text-align:center;margin:-5px 22px 14px;color:#6446b1;font-size:12px;font-weight:800;text-decoration:none}
+#kodaLaunchPopup .kp-empty{font-size:13px;color:#6e7890;text-align:center;padding:18px 0}
+@media(max-width:360px){#kodaLaunchPopup{border-radius:22px}#kodaLaunchPopup .kp-top{padding:18px 18px 17px}#kodaLaunchPopup .kp-content{padding:17px 18px 0}#kodaLaunchPopup .kp-actions{padding:0 18px}#kodaLaunchPopup h2{font-size:21px}#kodaLaunchPopup .kp-label{width:78px}}
+</style>
+
 </head>
 <body>
 <div id="golfSplash" aria-hidden="true">
@@ -964,7 +997,7 @@ html.is-standalone #installAppBtn{display:none!important;}
           <div class="club-stat"><b>18</b><span>HOLES</span></div>
           <div class="club-stat"><b>36</b><span>TEAMS</span></div>
           <div class="club-stat"><b>144</b><span>PLAYERS</span></div>
-          <div class="club-stat"><b>13:00</b><span>SHOTGUN</span></div>
+          <div class="club-stat"><b>12:40</b><span>SHOTGUN</span></div>
         </div>
         <div class="club-actions">
           <button type="button" class="club-btn primary" data-go="location">길찾기</button>
@@ -1072,7 +1105,7 @@ html.is-standalone #installAppBtn{display:none!important;}
             <td>1층 백합홀</td>
           </tr>
           <tr>
-            <td>12:00 ~ 12:40</td>
+            <td>12:00 ~ 12:30</td>
             <td>
               <ul class="content-list">
                 <li>시타 이벤트(시타자 8인)</li>
@@ -1082,7 +1115,7 @@ html.is-standalone #installAppBtn{display:none!important;}
             <td>밸리 1번<br>티샷지점</td>
           </tr>
           <tr>
-            <td>12:40 ~ 13:00</td>
+            <td>12:30 ~ 12:40</td>
             <td>
               <ul class="content-list">
                 <li>카트 장소 집합<br>(샷건 동시출발 준비)</li>
@@ -1091,7 +1124,7 @@ html.is-standalone #installAppBtn{display:none!important;}
             <td>클럽하우스<br>주차장</td>
           </tr>
           <tr>
-            <td>13:00 ~ 18:00</td>
+            <td>12:40 ~ 18:00</td>
             <td>
               <ul class="content-list">
                 <li>라운딩 (신페리오방식)</li>
@@ -1271,7 +1304,7 @@ html.is-standalone #installAppBtn{display:none!important;}
     <div class="topbar">
       <div class="back-btn" data-back>←</div>
       <div class="topbar-title" id="detailTeamTitle" style="margin-right:6px;">V-1-1</div>
-      <div style="font-size:13.5px; color:var(--ink-soft); font-weight:600; white-space:nowrap; margin-top:2px;" id="detailTeamStart">(밸리코스 1번홀 시작, 13:00~)</div>
+      <div style="font-size:13.5px; color:var(--ink-soft); font-weight:600; white-space:nowrap; margin-top:2px;" id="detailTeamStart">(밸리코스 1번홀 시작, 12:40~)</div>
     </div>
     <div class="content" style="padding:24px 20px;">
       <div id="detailPlayers"></div>
@@ -1381,7 +1414,7 @@ function rebuildTeams(){
   });
 }
 
-function teamLabel(t) { return `(${t.course==='V'?'밸리코스':'레이크코스'} ${t.hole}번홀 시작, 13:00~)`; }
+function teamLabel(t) { return `(${t.course==='V'?'밸리코스':'레이크코스'} ${t.hole}번홀 시작, 12:40~)`; }
 
 function renderTeams(list){
   const grid = document.getElementById('teamGrid');
@@ -2057,7 +2090,7 @@ window.addEventListener('popstate', (e) => {
 // =====================================================================
 (function(){
   const EVENT_YMD = [2026, 10, 26];
-  const TEE_OFF = '13:00';
+  const TEE_OFF = '12:40';
   const $ = id => document.getElementById(id);
 
   function getAuth(){ try{ return JSON.parse(localStorage.getItem('koda_golf_auth')||'null'); }catch(e){ return null; } }
@@ -2113,7 +2146,7 @@ window.addEventListener('popstate', (e) => {
   const MYROUND_STAGES = [
     {name:'이동중', start:'10:00', end:'11:00'},
     {name:'식사중', start:'11:00', end:'12:00'},
-    {name:'라운딩', start:'13:00', end:'17:30'},
+    {name:'라운딩', start:'12:40', end:'17:30'},
     {name:'공식만찬', start:'18:00', end:'21:00'}
   ];
   function myRoundFlowHTML(){
@@ -2140,7 +2173,7 @@ window.addEventListener('popstate', (e) => {
     const tiles = `<div class="mr2-grid">
       <div class="mr2-tile tile-tee"><span>Tee Off</span><b>${TEE_OFF}</b><small class="mr2-tee-note">(샷건 동시출발)</small></div>
       <div class="mr2-tile tile-course ${cv}"><span>출발코스</span><b>${team ? (team.course==='V'?'밸리':'레이크')+' '+escapeHtml(team.hole)+'번홀 출발' : '-'}</b></div>
-      ${clickable ? '<div class="mr2-tile tile-banquet"><span>공식만찬 18:30~</span><b>에메랄드홀2F</b><a class="banquet-apply" href="https://docs.google.com/forms/d/e/1FAIpQLSdyfo9YnZZESO_ZPvvgGZ-h4t_MOulGWnlwqQW9yZH0ON5C4g/viewform?usp=header" target="_blank" rel="noopener noreferrer">참석신청 <i aria-hidden="true">→</i></a></div>' : ''}</div>`;
+      <div class="mr2-tile tile-banquet"><span>공식만찬 18:30~</span><b>에메랄드홀 2F</b><a class="banquet-apply" href="https://docs.google.com/forms/d/e/1FAIpQLSdyfo9YnZZESO_ZPvvgGZ-h4t_MOulGWnlwqQW9yZH0ON5C4g/viewform?usp=header" target="_blank" rel="noopener noreferrer">참석신청 <i aria-hidden="true">→</i></a></div></div>`;
     let mates;
     if(team){
       const mate = team.members.filter(m => m !== me);
@@ -2156,10 +2189,10 @@ window.addEventListener('popstate', (e) => {
       mates = `<div class="mr-empty">${loading ? '조편성 정보를 불러오는 중입니다.' :
         '아직 배정된 조가 없습니다. 조편성이 확정되면 이곳에 나의 조와 동반자가 표시됩니다.'}</div>`;
     }
-    return `<div class="mr-card${clickable?' clickable':''}" ${clickable?'data-go-tab="myround"':''}>
+    return `<div class="mr-card">
       ${top}${tiles}${clickable?mates:'' }
       ${clickable?myRoundFlowHTML():''}
-      ${clickable?'<div class="mr-more">내 라운드 자세히 보기 ›</div>':''}
+      ${clickable?'<button type="button" class="mr-more" data-go-tab="myround">내 라운드 자세히 보기 ›</button>':''}
     </div>`;
   }
 
@@ -3135,6 +3168,107 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
   #screen-myround .mrs-actions{margin-bottom:14px!important;}
 }
 </style>
+
+<!-- 앱 실행 시 Google Sheets 시트4의 팝업 2개를 순서대로 표시 -->
+<div id="kodaLaunchPopupOverlay" role="dialog" aria-modal="true" aria-label="KODA 골프대회 안내">
+  <div id="kodaLaunchPopup">
+    <div class="kp-top"><div class="kp-topline"><div class="kp-eyebrow" id="kpEyebrow">KODA · ARP GOLF</div><div class="kp-count" id="kpCount">안내 1 / 2</div></div><h2 id="kpTitle">안내 내용을 불러오는 중입니다</h2></div>
+    <div class="kp-dots" id="kpDots"><span class="kp-dot active"></span><span class="kp-dot"></span></div>
+    <div class="kp-content"><img id="kpImage" class="kp-image" alt="안내 이미지" hidden><p class="kp-intro" id="kpIntro"></p><div class="kp-info" id="kpInfo" hidden></div><div class="kp-empty" id="kpLoading">안내 내용을 불러오고 있습니다.</div></div>
+    <a class="kp-link" id="kpLink" href="#" target="_blank" rel="noopener" hidden></a>
+    <div class="kp-actions"><button type="button" class="kp-secondary" id="kpClose">닫기</button><button type="button" class="kp-primary" id="kpNext">다음 안내</button></div>
+  </div>
+</div>
+<script id="koda-launch-popups-script">
+(function(){
+  var overlay=document.getElementById('kodaLaunchPopupOverlay');
+  if(!overlay) return;
+  var CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySre2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pub?gid=2103244711&single=true&output=csv';
+  var page=0,pages=[],opened=false,loadFailed=false;
+  function parseCSV(text){
+    var rows=[],row=[],cell='',quoted=false;
+    text=String(text||'').replace(/^\uFEFF/,'');
+    for(var i=0;i<text.length;i++){
+      var ch=text[i];
+      if(ch==='"'&&quoted&&text[i+1]==='"'){cell+='"';i++;}
+      else if(ch==='"'){quoted=!quoted;}
+      else if(ch===','&&!quoted){row.push(cell);cell='';}
+      else if((ch==='\n'||ch==='\r')&&!quoted){if(ch==='\r'&&text[i+1]==='\n')i++;row.push(cell);rows.push(row);row=[];cell='';}
+      else cell+=ch;
+    }
+    if(cell.length||row.length){row.push(cell);rows.push(row);}
+    return rows.map(function(r){return r.map(function(v){return String(v||'').trim();});}).filter(function(r){return r.some(Boolean);});
+  }
+  function norm(v){return String(v||'').toLowerCase().replace(/[\s_\-·・()\[\]{}:]/g,'');}
+  function col(headers,patterns){
+    for(var i=0;i<headers.length;i++){var h=norm(headers[i]);if(patterns.some(function(p){return h===norm(p)||h.indexOf(norm(p))>=0;}))return i;}
+    return -1;
+  }
+  function get(r,idx){return idx>=0?String(r[idx]||'').trim():'';}
+  function toPages(rows){
+    if(!rows.length)return [];
+    var h=rows[0],first=norm(h.join(' '));
+    var hasHeader=h.some(function(x){return /제목|타이틀|내용|본문|팝업|이미지|링크|버튼|설명|안내문/.test(x);});
+    if(!hasHeader){
+      // 헤더 없는 CSV는 각 행을 팝업으로 보고 1열=제목, 2열=내용, 3열=이미지, 4열=링크로 처리
+      return rows.slice(0,2).map(function(r,i){return {eyebrow:'KODA · ARP GOLF',title:get(r,0)||('안내 '+(i+1)),intro:get(r,1),image:get(r,2),link:get(r,3),linkText:get(r,4)||'자세히 보기',rows:[]};}).filter(function(d){return d.title||d.intro||d.image;});
+    }
+    var idx={title:col(h,['팝업제목','제목','타이틀','팝업명','안내제목','공지제목']),intro:col(h,['내용','본문','상세내용','안내내용','설명','메시지','문구','본문내용']),eyebrow:col(h,['상단문구','소제목','카테고리','분류','구분']),image:col(h,['이미지URL','이미지주소','이미지','사진URL','배너URL']),link:col(h,['링크URL','링크주소','이동URL','URL','링크']),linkText:col(h,['버튼문구','버튼명','링크문구','링크텍스트']),order:col(h,['팝업번호','순서','번호','팝업순서','순번']),active:col(h,['사용여부','노출여부','활성화','게시여부'])};
+    var data=rows.slice(1).map(function(r,i){
+      var d={eyebrow:get(r,idx.eyebrow)||'KODA · ARP GOLF',title:get(r,idx.title),intro:get(r,idx.intro),image:get(r,idx.image),link:get(r,idx.link),linkText:get(r,idx.linkText)||'자세히 보기',order:get(r,idx.order)||String(i+1),rows:[]};
+      if(idx.active>=0&&/^(n|no|아니오|미사용|숨김|false|0)$/i.test(get(r,idx.active)))return null;
+      // 제목/본문 외의 추가 항목-내용 열이 있으면 안내 카드 안에 함께 표시
+      h.forEach(function(head,j){var nh=norm(head),val=get(r,j);if(!val||j===idx.title||j===idx.intro||j===idx.eyebrow||j===idx.image||j===idx.link||j===idx.linkText||j===idx.order||j===idx.active)return;
+        if(/항목|일정|시간|장소|일자|문의|대상|기간|신청|참고|연락처|구분/.test(nh)&&! /제목|내용|본문|설명|이미지|링크|버튼|노출|사용여부/.test(nh))d.rows.push([head,val]);
+      });
+      return d;
+    }).filter(function(d){return d&&(d.title||d.intro||d.image||d.rows.length);});
+    data.sort(function(a,b){return (parseFloat(a.order)||999)-(parseFloat(b.order)||999);});
+    return data.slice(0,2);
+  }
+  function safeUrl(url){try{var u=new URL(url,location.href);return /^https?:$/.test(u.protocol)?u.href:'';}catch(e){return '';}}
+  function render(){
+    var d=pages[page]||{};
+    document.getElementById('kpEyebrow').textContent=d.eyebrow||'KODA · ARP GOLF';
+    document.getElementById('kpTitle').textContent=d.title||'안내';
+    document.getElementById('kpIntro').textContent=d.intro||'';
+    document.getElementById('kpIntro').hidden=!d.intro;
+    var info=document.getElementById('kpInfo');
+    info.innerHTML=(d.rows||[]).map(function(r){return '<div class="kp-row"><span class="kp-label">'+escapeHtml(r[0])+'</span><span class="kp-value">'+escapeHtml(r[1])+'</span></div>';}).join('');
+    info.hidden=!(d.rows&&d.rows.length);
+    var img=document.getElementById('kpImage'),imageUrl=safeUrl(d.image);
+    if(imageUrl){img.src=imageUrl;img.hidden=false;}else{img.removeAttribute('src');img.hidden=true;}
+    var link=document.getElementById('kpLink'),linkUrl=safeUrl(d.link);
+    if(linkUrl){link.href=linkUrl;link.textContent=d.linkText||'자세히 보기';link.hidden=false;}else{link.removeAttribute('href');link.hidden=true;}
+    document.getElementById('kpCount').textContent='안내 '+(page+1)+' / '+pages.length;
+    document.getElementById('kpDots').innerHTML=pages.map(function(_,i){return '<span class="kp-dot '+(i===page?'active':'')+'"></span>';}).join('');
+    document.getElementById('kpLoading').hidden=true;
+    document.getElementById('kpClose').textContent=page===pages.length-1?'확인하고 입장':'닫기';
+    document.getElementById('kpNext').style.display=page===pages.length-1?'none':'block';
+    document.getElementById('kpNext').textContent='다음 안내';
+  }
+  function close(){overlay.classList.remove('open');document.body.style.overflow='';}
+  document.getElementById('kpNext').addEventListener('click',function(){if(page<pages.length-1){page++;render();}});
+  document.getElementById('kpClose').addEventListener('click',function(){if(page<pages.length-1){page++;render();}else close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('open'))close();});
+  function launch(){
+    if(opened)return;opened=true;
+    fetch(CSV_URL+'&_ts='+Date.now(),{cache:'no-store'}).then(function(res){if(!res.ok)throw new Error('CSV load failed');return res.text();}).then(function(txt){pages=toPages(parseCSV(txt));if(!pages.length)throw new Error('No popup rows');page=0;render();overlay.classList.add('open');document.body.style.overflow='hidden';}).catch(function(err){
+      console.error('시트4 팝업 CSV 연동 오류:',err);
+      // 시트 연결이 실패하면 임의의 안내를 노출하지 않고 사용자가 오류를 알 수 있도록 합니다.
+      document.getElementById('kpTitle').textContent='안내 내용을 불러오지 못했습니다';
+      document.getElementById('kpIntro').textContent='네트워크 연결을 확인한 뒤 다시 앱을 실행해 주세요.';
+      document.getElementById('kpInfo').hidden=true;document.getElementById('kpImage').hidden=true;document.getElementById('kpLink').hidden=true;document.getElementById('kpLoading').hidden=true;
+      document.getElementById('kpCount').textContent='KODA 안내';document.getElementById('kpDots').innerHTML='';document.getElementById('kpNext').style.display='none';document.getElementById('kpClose').textContent='확인하고 입장';
+      overlay.classList.add('open');document.body.style.overflow='hidden';
+    });
+  }
+  // 스플래시가 사라진 뒤 앱을 열 때마다 Google Sheets의 팝업 내용을 불러옵니다.
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){window.setTimeout(launch,2600);},{once:true});
+  else window.setTimeout(launch,2600);
+})();
+</script>
+
 </body>
 
 <style id="koda-final-refinements">
