@@ -1605,8 +1605,12 @@ function parseGolfAuthCSV(csv){
   for(let i=1;i<rows.length;i++){
     const r=rows[i]||[];
     const name=String(r[1]||'').trim();   // B열
+    const org=String(r[2]||'').trim();    // C열: 소속/직위
+    const title=String(r[3]||'').trim();  // D열: 추가 소속/직위 정보(있는 경우)
     const phone=normalizePhoneGolf(r[4]||''); // E열
-    if(name && phone) list.push({name,phone,photo:String(r[6]||'').trim()});
+    const photo=String(r[6]||'').trim();  // G열: 사진 URL
+    // 전화번호가 비어 있어도 사진 URL이 있으면 사진 연결 데이터로 보존합니다.
+    if(name && (phone || photo)) list.push({name,phone,org,title,photo});
   }
   return list;
 }
@@ -1638,11 +1642,24 @@ function golfPhotoFor(person){
   if(!person) return '';
   const name=String(person.name||'').trim();
   const phone=normalizePhoneGolf(person.mobile||person.phone||'');
-  let match=phone ? AUTH_MEMBERS.find(x=>x.name===name && x.phone===phone && x.photo) : null;
-  if(!match) {
-    const matches=AUTH_MEMBERS.filter(x=>x.name===name && x.photo);
-    if(matches.length===1) match=matches[0];
+  const personOrg=String(person.org||person.organization||'').replace(/[\s·ㆍ]/g,'').trim();
+  const personTitle=String(person.title||person.position||person.rank||'').replace(/[\s·ㆍ]/g,'').trim();
+  const named=AUTH_MEMBERS.filter(x=>x.name===name && x.photo);
+  // 1) 이름과 전화번호가 모두 일치하는 사람을 최우선으로 연결합니다.
+  let match=phone ? named.find(x=>x.phone===phone) : null;
+  // 2) 동명이인은 소속/직위가 일치하는 경우에만 연결해 사진 혼선을 막습니다.
+  if(!match && named.length>1 && (personOrg||personTitle)){
+    const sameOrg=named.filter(x=>{
+      const org=String(x.org||'').replace(/[\s·ㆍ]/g,'').trim();
+      const title=String(x.title||'').replace(/[\s·ㆍ]/g,'').trim();
+      return (personOrg && org && (org===personOrg || org.includes(personOrg) || personOrg.includes(org))) ||
+             (personTitle && title && (title===personTitle || title.includes(personTitle) || personTitle.includes(title))) ||
+             (personOrg && title && personOrg.includes(title)) || (personTitle && org && personTitle.includes(org));
+    });
+    if(sameOrg.length===1) match=sameOrg[0];
   }
+  // 3) 이름이 유일할 때만 이름만으로 연결합니다.
+  if(!match && named.length===1) match=named[0];
   let url=match && match.photo ? String(match.photo).trim() : '';
   if(!/^https?:\/\//i.test(url)) return '';
   // 구글 드라이브 공유 링크를 이미지 표시용 URL로 변환합니다.
