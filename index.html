@@ -935,6 +935,7 @@ html.is-standalone #installAppBtn{display:none!important;}
       <div class="nh-hero">
       <div class="nh-top">
         <div class="nh-dday" id="nhDday">D-day</div>
+        <button type="button" class="nh-popup-reopen" id="nhPopupReopen" aria-label="안내 팝업 다시 보기" title="안내 팝업 다시 보기"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></button>
         <div class="nh-toprow"><div class="nh-dday-stack">
           <div class="nh-dday-actions">
             <button type="button" class="nh-dday-action" id="logoutTopBtn">로그아웃</button>
@@ -2192,9 +2193,9 @@ window.addEventListener('popstate', (e) => {
     const top = `<div class="mr2-top"><div class="mr2-top-lab">나의 조${clickable?'<button type="button" class="mr2-all-teams-pill" data-go-teams="1" aria-label="전체 조편성 보기">전체 조편성<i aria-hidden="true">›</i></button>':''}</div>
       ${team ? '<div class="mr2-team">'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'번그룹 <small>('+escapeHtml(team.id)+')</small></div>' : '<div class="mr2-team">-</div>'}</div>`;
     const tiles = `<div class="mr2-grid">
-      <div class="mr2-tile tile-tee"><span>Tee Off</span><b>${TEE_OFF}</b><small class="mr2-tee-note">(샷건 동시출발)</small></div>
+      <div class="mr2-tile tile-tee"><span>Tee Off</span><b>${TEE_OFF}~</b><small class="mr2-tee-note">(샷건 동시출발)</small></div>
       <div class="mr2-tile tile-course ${cv}"><span>출발코스</span><b>${team ? (team.course==='V'?'밸리':'레이크')+' '+escapeHtml(team.hole)+'번홀 출발' : '-'}</b></div>
-      <div class="mr2-tile tile-banquet"><span>공식만찬 18:30~</span><b>에메랄드홀 2F</b><a class="banquet-apply" href="https://docs.google.com/forms/d/e/1FAIpQLSdyfo9YnZZESO_ZPvvgGZ-h4t_MOulGWnlwqQW9yZH0ON5C4g/viewform?usp=header" target="_blank" rel="noopener noreferrer">참석신청 <i aria-hidden="true">→</i></a></div></div>`;
+      <div class="mr2-tile tile-banquet"><span>2부만찬</span><b>에메랄드홀 2F</b><a class="banquet-apply" href="https://docs.google.com/forms/d/e/1FAIpQLSdyfo9YnZZESO_ZPvvgGZ-h4t_MOulGWnlwqQW9yZH0ON5C4g/viewform?usp=header" target="_blank" rel="noopener noreferrer">참석신청 <i aria-hidden="true">→</i></a></div></div>`;
     let mates;
     if(team){
       const mate = team.members.filter(m => m !== me);
@@ -3302,6 +3303,8 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
       overlay.classList.add('open');document.body.style.overflow='hidden';
     });
   }
+  // 홈 화면 종 아이콘에서 자동 표시 제한과 무관하게 안내 팝업을 다시 열 수 있습니다.
+  window.kodaReopenLaunchPopup=function(){opened=false;page=0;launch();};
   // 새로고침에서는 팝업을 띄우지 않습니다. 새 앱 진입 때 표시하고, 이후에는 1시간 간격으로 제한합니다.
   function shouldLaunch(){
     try{
@@ -3366,6 +3369,64 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 #kodaLaunchPopup .kp-never{font-size:13px!important;line-height:1.25!important;padding:2px 0 1px 8px!important}
 </style>
 
+
+<style id="user-request-20261023-bell-and-round-tiles">
+/* 종 아이콘: D-day 알약과 같은 높이, 홈 상단 오른쪽 끝 */
+#screen-home .nh-popup-reopen{
+  position:absolute!important;
+  top:calc(16px + env(safe-area-inset-top,0px))!important;
+  right:20px!important;
+  z-index:12!important;
+  width:30px!important;height:30px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:5px!important;border:1px solid rgba(255,255,255,.72)!important;
+  border-radius:50%!important;background:rgba(255,255,255,.94)!important;
+  color:#12396C!important;box-shadow:0 2px 8px rgba(10,40,80,.12)!important;
+  cursor:pointer!important;
+}
+#screen-home .nh-popup-reopen svg{width:17px!important;height:17px!important;display:block!important}
+#screen-home .nh-popup-reopen:active{transform:scale(.94)!important;background:#eaf4ff!important}
+/* 홈과 My Round 나의 조 타일 3개를 가로 한 줄로 */
+#screen-home #homeRound .mr2-grid,
+#screen-myround #myRoundHero .mr2-grid{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:6px!important;padding:12px 10px 4px!important;
+}
+#screen-home #homeRound .mr2-grid>.mr2-tile,
+#screen-myround #myRoundHero .mr2-grid>.mr2-tile{
+  display:block!important;min-width:0!important;width:100%!important;
+  padding:9px 6px!important;overflow:hidden!important;border-radius:10px!important;
+}
+#screen-home #homeRound .mr2-grid .mr2-tile span,
+#screen-myround #myRoundHero .mr2-grid .mr2-tile span{
+  font-size:clamp(8px,2.55vw,10.5px)!important;line-height:1.25!important;
+  white-space:normal!important;overflow-wrap:anywhere!important;margin-bottom:4px!important;
+}
+#screen-home #homeRound .mr2-grid .mr2-tile b,
+#screen-myround #myRoundHero .mr2-grid .mr2-tile b{
+  font-size:clamp(10px,3vw,13px)!important;line-height:1.3!important;
+  letter-spacing:-.35px!important;white-space:normal!important;overflow-wrap:anywhere!important;
+}
+#screen-home #homeRound .mr2-grid .mr2-tee-note,
+#screen-myround #myRoundHero .mr2-grid .mr2-tee-note{
+  display:block!important;font-size:clamp(8px,2.25vw,10px)!important;line-height:1.2!important;
+  white-space:normal!important;
+}
+#screen-home #homeRound .mr2-grid .tile-banquet .banquet-apply,
+#screen-myround #myRoundHero .mr2-grid .tile-banquet .banquet-apply{
+  max-width:100%!important;font-size:clamp(8px,2.3vw,10px)!important;
+  padding:4px 4px!important;white-space:normal!important;line-height:1.15!important;
+}
+@media(max-width:360px){
+  #screen-home .nh-popup-reopen{right:14px!important}
+  #screen-home #homeRound .mr2-grid,
+  #screen-myround #myRoundHero .mr2-grid{gap:5px!important;padding-left:8px!important;padding-right:8px!important}
+  #screen-home #homeRound .mr2-grid>.mr2-tile,
+  #screen-myround #myRoundHero .mr2-grid>.mr2-tile{padding:8px 5px!important}
+}
+</style>
+
+<script id="user-request-20261023-popup-reopen-handler">document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("nhPopupReopen");if(b)b.addEventListener("click",function(){if(typeof window.kodaReopenLaunchPopup==="function")window.kodaReopenLaunchPopup();});});</script>
 </body>
 
 <style id="koda-final-refinements">
