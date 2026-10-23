@@ -1696,12 +1696,12 @@ const SHEET5_GID = '257918158';
 const PUBLISHED_SHEET_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySre2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pub';
 function sheetCsvUrl(gid){ return `${PUBLISHED_SHEET_BASE}?gid=${gid}&single=true&output=csv`; }
 
-/* 시트5 협찬 규칙: 기존 협찬 시트 구조를 유지(B열의 9행부터 아래로 업체별 항목).
+/* 시트5 협찬 규칙: B2행부터 아래로 업체별 항목을 읽습니다.
    한 셀: "업체명 | 협찬 내용" 또는 여러 줄 셀(첫 줄 업체명, 나머지 설명).
    C열=보조 설명, D열=구분 배지(선택). */
 function parseSponsors(rows){
   const out=[];
-  for(let i=8;i<rows.length;i++){
+  for(let i=1;i<rows.length;i++){
     const r=rows[i]||[];
     const b=String(r[1]||'').trim(), c=String(r[2]||'').trim(), d=String(r[3]||'').trim();
     if(!b) continue;
@@ -2193,7 +2193,7 @@ window.addEventListener('popstate', (e) => {
     const loading = !PLAYERS.length;
     const cv = team ? (team.course==='V'?'v':'l') : '';
     const top = `<div class="mr2-top"><div class="mr2-top-lab">나의 조${clickable?'<button type="button" class="mr2-all-teams-pill" data-go-teams="1" aria-label="전체 조편성 보기">전체 조편성<i aria-hidden="true">›</i></button>':''}</div>
-      ${team ? '<div class="mr2-team">'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'번그룹 <small>('+escapeHtml(team.id.toLowerCase())+')</small>'+(team.banquetTable ? '<span class="mr2-banquet-table"> / 2부 만찬 : '+escapeHtml(team.banquetTable)+'</span>' : '')+'</div>' : '<div class="mr2-team">-</div>'}</div>`;
+      ${team ? '<div class="mr2-team">'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'번그룹'+(team.banquetTable ? '<span class="mr2-banquet-table"> / 2부 만찬 : '+escapeHtml(team.banquetTable)+'</span>' : '')+'</div>' : '<div class="mr2-team">-</div>'}</div>`;
     const tiles = `<div class="mr2-grid">
       <div class="mr2-tile tile-tee"><span>Tee Off</span><b>${TEE_OFF}~</b><small class="mr2-tee-note">(샷건 동시출발)</small></div>
       <div class="mr2-tile tile-course ${cv}"><span>출발코스</span><b>${team ? (team.course==='V'?'밸리':'레이크')+' '+escapeHtml(team.hole)+'번홀 출발' : '-'}</b></div>
@@ -3429,6 +3429,21 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 </style>
 
 <script id="user-request-20261023-popup-reopen-handler">document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("nhPopupReopen");if(b)b.addEventListener("click",function(){if(typeof window.kodaReopenLaunchPopup==="function")window.kodaReopenLaunchPopup();});});</script>
+
+<style id="user-request-20261023-sponsor-bell-header-spacing">
+/* 협찬 데이터는 시트5 B2/C2/D2부터 읽음 */
+/* 종은 원형 버튼 없이 아이콘만, 행사명과 D-day 알약이 있는 제목 줄의 오른쪽에 배치 */
+#screen-home .nh-popup-reopen{position:static!important;top:auto!important;right:auto!important;width:20px!important;height:22px!important;flex:0 0 20px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#fff!important;box-shadow:none!important;margin-left:7px!important;vertical-align:middle!important;z-index:12!important}
+#screen-home .nh-popup-reopen svg{width:18px!important;height:18px!important;display:block!important}
+#screen-home .nh-popup-reopen:active{transform:scale(.94)!important;background:transparent!important}
+#screen-home .event-brand-lockup h1.nh-title .nh-popup-reopen{order:99!important}
+#screen-home .nh-hello b{color:#fff!important}
+/* My Round 페이지에서 타일 3개와 나의 조 카드 외곽선 사이에 여백 확보 */
+#screen-myround #myRoundHero .mr2-grid{padding:12px 12px 12px!important;gap:7px!important;box-sizing:border-box!important}
+#screen-myround #myRoundHero .mr2-grid>.mr2-tile{margin:0!important}
+/* 영문 조 코드 (l-1-1)/(v-1-1) 미표시 */
+#screen-home #homeRound .mr2-team small,#screen-myround #myRoundHero .mr2-team small{display:none!important}
+</style>
 </body>
 
 <style id="koda-final-refinements">
@@ -4243,6 +4258,8 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
    if(!title||!pill||pill.dataset.moved==='1')return;
    pill.classList.add('nh-dday-inline');
    title.appendChild(pill);
+   var bell=document.getElementById('nhPopupReopen');
+   if(bell){bell.classList.add('nh-popup-reopen-inline');title.appendChild(bell);}
    pill.dataset.moved='1';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',placeDday);else placeDday();
