@@ -2126,7 +2126,7 @@ window.addEventListener('popstate', (e) => {
 
   function getAuth(){ try{ return JSON.parse(localStorage.getItem('koda_golf_auth')||'null'); }catch(e){ return null; } }
   function digits(v){ return String(v||'').replace(/[^0-9]/g,''); }
-  function courseName(c){ return c==='V' ? '밸리코스' : '레이크코스'; }
+  function courseName(c){ return c==='V' ? '밸리' : '레이크'; }
   function kstNow(){ return new Date(Date.now() + 9*3600*1000); }
 
   // 시트1의 핸드폰 칸이 비어 있어도 동작: 전화 일치 → 이름 1건 → 저장된 선택(동명이인) 순
@@ -2200,7 +2200,7 @@ window.addEventListener('popstate', (e) => {
     const loading = !PLAYERS.length;
     const cv = team ? (team.course==='V'?'v':'l') : '';
     const top = `<div class="mr2-top"><div class="mr2-top-lab">나의 조${clickable?'<button type="button" class="mr2-all-teams-pill" data-go-teams="1" aria-label="전체 조편성 보기">전체 조편성<i aria-hidden="true">›</i></button>':''}</div>
-      ${team ? '<div class="mr2-team">'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'번그룹'+(team.banquetTable ? '<span class="mr2-banquet-table"> / 2부 만찬 : '+escapeHtml(team.banquetTable)+' 테이블</span>' : '')+'</div>' : '<div class="mr2-team">-</div>'}</div>`;
+      ${team ? '<div class="mr2-team">'+courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'그룹'+(team.banquetTable ? '<span class="mr2-banquet-table"> / 2부 세션 : '+escapeHtml(team.banquetTable)+' 테이블</span>' : '')+'</div>' : '<div class="mr2-team">-</div>'}</div>`;
     const tiles = `<div class="mr2-grid">
       <div class="mr2-tile tile-tee"><span>Tee Off</span><b>${TEE_OFF}~</b><small class="mr2-tee-note">(샷건 동시출발)</small></div>
       <div class="mr2-tile tile-course ${cv}"><span>출발코스</span><b>${team ? (team.course==='V'?'밸리':'레이크')+' '+escapeHtml(team.hole)+'번홀 출발' : '-'}</b></div>
@@ -4467,26 +4467,7 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
  #screen-myround #myRoundHero .mr2-grid>.mr2-tile b{font-size:11px!important}
 }
 </style>
-<script id="user-request-20261023-align-bell-to-weather">
-(function(){
- function alignBell(){
-   var home=document.getElementById('screen-home');
-   var top=home&&home.querySelector('.nh-top');
-   var bell=document.getElementById('nhPopupReopen');
-   var weather=home&&home.querySelector('.home-weather-link');
-   var title=home&&home.querySelector('.event-brand-lockup h1.nh-title');
-   if(!top||!bell||!weather||!title)return;
-   var tr=top.getBoundingClientRect(), wr=weather.getBoundingClientRect(), hr=title.getBoundingClientRect();
-   /* .nh-top을 기준으로 날씨 링크 오른쪽 끝과 종 아이콘 오른쪽 끝을 일치 */
-   bell.style.right=Math.max(-30,Math.round(tr.right-wr.right))+'px';
-   bell.style.left='auto';
-   bell.style.top=Math.round(hr.top-tr.top+(hr.height-22)/2)+'px';
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',alignBell);else alignBell();
- window.addEventListener('resize',alignBell);
- setTimeout(alignBell,150);setTimeout(alignBell,600);setTimeout(alignBell,1400);
-})();
-</script>
+<script id="user-request-20261023-align-bell-to-weather">/* Disabled: consolidated into the final weather-below bell placement handler. */</script>
 
 <style id="fix-bell-position-and-venue-count-20261023">
 /* 종 아이콘 위치는 스크립트가 날씨 버튼의 실제 우측 끝을 기준으로 계산 */
@@ -4502,40 +4483,7 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 }
 #screen-home #nhPopupReopen svg{width:19px!important;height:19px!important;display:block!important}
 </style>
-<script id="fix-bell-position-to-weather-right-edge-20261023">
-(function(){
-  function alignBell(){
-    var home=document.getElementById('screen-home');
-    var bell=document.getElementById('nhPopupReopen');
-    var weather=home&&home.querySelector('.home-weather-link');
-    var title=home&&home.querySelector('.event-brand-lockup h1.nh-title');
-    if(!home||!bell||!weather||!title)return;
-    var wr=weather.getBoundingClientRect(), hr=title.getBoundingClientRect();
-    if(!wr.width||!hr.height)return;
-    var size=22;
-    /* 화면 좌표로 직접 지정해 기존 .nh-top/h1의 position 및 right 규칙 영향을 차단 */
-    bell.style.setProperty('position','fixed','important');
-    bell.style.setProperty('left',Math.round(wr.right-size)+'px','important');
-    bell.style.setProperty('right','auto','important');
-    bell.style.setProperty('top',Math.round(hr.top+(hr.height-size)/2)+'px','important');
-    bell.style.setProperty('bottom','auto','important');
-  }
-  function schedule(){requestAnimationFrame(alignBell);}
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule);else schedule();
-  window.addEventListener('load',schedule);
-  window.addEventListener('resize',schedule);
-  window.addEventListener('scroll',schedule,true);
-  setTimeout(schedule,100);setTimeout(schedule,350);setTimeout(schedule,800);setTimeout(schedule,1600);
-  if(window.ResizeObserver){
-    var ro=new ResizeObserver(schedule);
-    document.addEventListener('DOMContentLoaded',function(){
-      var w=document.querySelector('#screen-home .home-weather-link');
-      var t=document.querySelector('#screen-home .event-brand-lockup h1.nh-title');
-      if(w)ro.observe(w);if(t)ro.observe(t);
-    });
-  }
-})();
-</script>
+<script id="fix-bell-position-to-weather-right-edge-20261023">/* Disabled: consolidated into the final weather-below bell placement handler. */</script>
 
 
 
@@ -4566,27 +4514,48 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 }
 #screen-home #nhPopupReopen svg{width:21px!important;height:21px!important;display:block!important}
 </style>
-<script id="user-request-20261023-final-bell-placement">
+<script id="user-request-20261023-final-bell-placement">/* Disabled: consolidated into the final weather-below bell placement handler. */</script>
+
+<style id="user-request-20261023-tile-inset-banner-bell-fix">
+/* 나의 조 타일 안의 글씨가 왼쪽 가장자리에 붙지 않도록 내부 여백 조정 */
+#screen-home #homeRound .mr2-grid>.mr2-tile,
+#screen-myround #myRoundHero .mr2-grid>.mr2-tile{
+  padding-left:12px!important;
+  padding-right:7px!important;
+  box-sizing:border-box!important;
+}
+/* 배너를 살짝 더 빠르게 */
+#screen-home .announcement-track{animation:kodaNoticeMarquee 16s linear infinite!important}
+</style>
+<script id="user-request-20261023-bell-below-weather-single-handler">
 (function(){
   function placeBell(){
     var home=document.getElementById('screen-home');
     var bell=document.getElementById('nhPopupReopen');
-    var photo=home&&home.querySelector('#photoContestBtn');
-    if(!home||!bell||!photo)return;
-    var r=photo.getBoundingClientRect();
+    var weather=home&&home.querySelector('.home-weather-link');
+    if(!home||!bell||!weather)return;
+    var r=weather.getBoundingClientRect();
     if(!r.width||!r.height)return;
     var size=24;
+    /* 날씨 버튼 바로 아래, 버튼 오른쪽 끝에 맞춰 배치 */
     bell.style.setProperty('position','fixed','important');
     bell.style.setProperty('left',Math.round(r.right-size)+'px','important');
     bell.style.setProperty('right','auto','important');
-    bell.style.setProperty('top',Math.max(4,Math.round(r.top-size-7))+'px','important');
+    bell.style.setProperty('top',Math.round(r.bottom+5)+'px','important');
     bell.style.setProperty('bottom','auto','important');
+    bell.style.setProperty('z-index','10050','important');
+    bell.style.setProperty('visibility','visible','important');
+    bell.style.setProperty('opacity','1','important');
   }
   function schedule(){requestAnimationFrame(placeBell);}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule);else schedule();
   window.addEventListener('load',schedule);
   window.addEventListener('resize',schedule);
   window.addEventListener('scroll',schedule,true);
-  setTimeout(schedule,100);setTimeout(schedule,400);setTimeout(schedule,900);setTimeout(schedule,1700);
+  setTimeout(schedule,100);setTimeout(schedule,400);setTimeout(schedule,900);setTimeout(schedule,1800);setTimeout(schedule,2600);
+  if(window.ResizeObserver){
+    var weather= document.querySelector('#screen-home .home-weather-link');
+    if(weather){var ro=new ResizeObserver(schedule);ro.observe(weather);}
+  }
 })();
 </script>
