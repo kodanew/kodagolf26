@@ -1687,16 +1687,15 @@ window.attemptGolfLogin=async function(){
   }
 };
 
-// ===== 시트3 B2/B3/B5 연동 =====
-let sheet3Gid = null;
-function escapeRegex(v){ return String(v).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
-
+// ===== 구글시트 연동: 시트3(배너/공지) + 시트5(협찬) =====
 const SHEET3_GID = '683652578';
+const SHEET5_GID = '257918158';
+const PUBLISHED_SHEET_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySre2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pub';
+function sheetCsvUrl(gid){ return `${PUBLISHED_SHEET_BASE}?gid=${gid}&single=true&output=csv`; }
 
-/* 협찬 시트 규칙: B5부터 아래로 한 줄(셀)에 한 협찬사.
-   - 한 셀: "업체명 | 협찬 내용"  또는 "업체명: 협찬 내용"  (구분자 없으면 업체명만)
-   - 여러 줄 셀: 첫 줄=업체명, 나머지=협찬 내용 (빈 줄로 구분하면 한 셀에 여러 협찬사 가능)
-   - 선택: C열=협찬 내용, D열=구분 배지(예: 골드, 경품) */
+/* 시트5 협찬 규칙: 기존 협찬 시트 구조를 유지(B열의 9행부터 아래로 업체별 항목).
+   한 셀: "업체명 | 협찬 내용" 또는 여러 줄 셀(첫 줄 업체명, 나머지 설명).
+   C열=보조 설명, D열=구분 배지(선택). */
 function parseSponsors(rows){
   const out=[];
   for(let i=8;i<rows.length;i++){
@@ -1726,64 +1725,74 @@ function renderSponsors(el, list){
   }
   if(cnt){ cnt.hidden=false; cnt.innerHTML='<b>'+list.length+'</b>곳'; }
   el.innerHTML=list.map((it,i)=>
-    '<article class="sp-card">'+
-      '<div class="sp-body">'+
-        '<div class="sp-name"><span class="sp-no">'+(i+1)+'.</span>'+escapeHtml(it.name)+(it.tag?'<span class="sp-tag">'+escapeHtml(it.tag)+'</span>':'')+'</div>'+
-        (it.desc?'<div class="sp-desc">'+escapeHtml(it.desc)+'</div>':'')+
-      '</div></article>').join('');
+    '<article class="sp-card"><div class="sp-body">'+
+      '<div class="sp-name"><span class="sp-no">'+(i+1)+'.</span>'+escapeHtml(it.name)+(it.tag?'<span class="sp-tag">'+escapeHtml(it.tag)+'</span>':'')+'</div>'+
+      (it.desc?'<div class="sp-desc">'+escapeHtml(it.desc)+'</div>':'')+
+    '</div></article>').join('');
 }
 
-/* CLUB NOTICE: 시트3 A2~C5 (A=구분, B=제목, C=주요내용) */
-function parseNotices(rows){
-  const out=[];
-  for(let i=1;i<=4;i++){
-    const r=rows[i]||[];
-    const a=String(r[0]||'').trim(), b=String(r[1]||'').trim(), c=String(r[2]||'').trim();
-    if(!b && !c) continue;
-    out.push({tag:a,title:b,body:c});
+// 시트3 A2/B2는 홈의 흐르는 배너 전용. 공지 목록은 A3부터 아래 행을 각각 표시.
+function driveImageUrl(value){
+  let raw=String(value||'').trim();
+  if(!raw) return '';
+  // =IMAGE("url") 형태로 입력한 경우 URL 부분을 추출
+  const formula=raw.match(/^\s*=\s*IMAGE\s*\(\s*["']([^"']+)["']/i);
+  if(formula) raw=formula[1];
+  const urlMatch=raw.match(/https?:\/\/[^\s"')]+/i);
+  if(urlMatch) raw=urlMatch[0];
+  else return '';
+  raw=raw.replace(/&amp;/g,'&');
+  const idMatch=raw.match(/drive\.google\.com\/(?:file\/d\/|open\?[^#]*?id=|uc\?[^#]*?id=|thumbnail\?[^#]*?id=)([A-Za-z0-9_-]+)/i)||raw.match(/[?&]id=([A-Za-z0-9_-]+)/i);
+  if(idMatch) return 'https://drive.google.com/thumbnail?id='+idMatch[1]+'&sz=w1600';
+  return raw;
+}
+function renderNoticesFromSheet3(el, rows){
+  const items=[];
+  for(let i=2;i<rows.length;i++){
+    const value=String((rows[i]||[])[0]||'').trim();
+    if(!value) continue;
+    const image=driveImageUrl(value);
+    items.push({value,image});
   }
-  return out;
+  if(!items.length){el.innerHTML='<div class="card-detail"><div class="notice-body">등록된 공지 내용이 없습니다.</div></div>';return;}
+  el.innerHTML=items.map((it,i)=>{
+    if(it.image){
+      return `<article class="card-detail notice-card notice-image-card"><img class="sheet3-notice-image" loading="lazy" src="${escapeHtml(it.image)}" alt="공지 이미지 ${i+1}" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src=this.src.replace('thumbnail?id=','uc?export=view&id=')}else{this.hidden=true}" /></article>`;
+    }
+    return '<article class="card-detail notice-card"><div class="notice-head"><div class="notice-ico">📢</div><div class="notice-title">공지 '+(i+1)+'</div></div><div class="notice-body">'+escapeHtml(it.value).replace(/\n/g,'<br>')+'</div></article>';
+  }).join('');
 }
-function renderNotices(el, list){
-  if(!list.length){ el.innerHTML='<div class="card-detail"><div class="notice-body">등록된 공지 내용이 없습니다.</div></div>'; return; }
-  const ICONS=['💡','🏆','📢','📌'];
-  el.innerHTML=list.map((it,i)=>
-    '<div class="card-detail notice-card">'+
-      '<div class="notice-head"><div class="notice-ico">'+ICONS[i%ICONS.length]+'</div>'+
-        '<div class="notice-title">'+escapeHtml(it.title||it.tag||'공지')+'</div>'+
-        (it.tag&&it.title?'<span class="notice-tag">'+escapeHtml(it.tag)+'</span>':'')+'</div>'+
-      (it.body?'<div class="notice-body">'+escapeHtml(it.body)+'</div>':'')+
-    '</div>').join('');
+async function fetchPublishedSheet(gid){
+  const res=await fetch(sheetCsvUrl(gid)+'&_ts='+Date.now(),{cache:'no-store'});
+  if(!res.ok) throw new Error('Google Sheets CSV 응답 오류: '+gid);
+  return parseCSV(await res.text());
 }
-
 async function loadGolfSheet3Content(){
   const sponsorEl=document.getElementById('sponsorContent');
   const noticeEl=document.getElementById('noticeListContent');
   if(!sponsorEl || !noticeEl) return;
-
-  try{
-    const gid=SHEET3_GID;
-    const csvUrl=`https://docs.google.com/spreadsheets/d/e/2PACX-1vSsQ6MEUklH5tySre2h-bJz_JOWVDPw9RVZh04fp3g_yxBb1SRMC-fYd8Yjvgxy4HOTmLvtpEnnPm2s/pub?gid=${gid}&single=true&output=csv`;
-    const res=await fetch(csvUrl+'&_ts='+Date.now(),{cache:'no-store'});
-    if(!res.ok) throw new Error('시트3 CSV 응답 오류');
-    const rows=parseCSV(await res.text());
-    renderSponsors(sponsorEl, parseSponsors(rows));
-    renderNotices(noticeEl, parseNotices(rows));
-    // A6가 '배너공지'일 때 B6의 문구를 홈 상단 흐르는 배너로 표시
-    const bannerLabel=String((rows[5]||[])[0]||'').trim();
-    const bannerText=String((rows[5]||[])[1]||'').trim();
+  const results=await Promise.allSettled([fetchPublishedSheet(SHEET5_GID),fetchPublishedSheet(SHEET3_GID)]);
+  // 협찬 소개는 이제 시트5에서 읽습니다.
+  if(results[0].status==='fulfilled') renderSponsors(sponsorEl,parseSponsors(results[0].value));
+  else { sponsorEl.innerHTML='<div class="sp-state">협찬 내용을 불러오지 못했습니다.</div>'; console.error('시트5 협찬 연동 오류:',results[0].reason); }
+  // 시트3 A2/B2는 홈 배너만 제어하며 공지사항 카드에는 포함하지 않습니다.
+  if(results[1].status==='fulfilled'){
+    const rows=results[1].value;
+    const bannerLabel=String((rows[1]||[])[0]||'').trim();
+    const bannerText=String((rows[1]||[])[1]||'').trim();
     const banner=document.getElementById('homeAnnouncement');
     const track=document.getElementById('homeAnnouncementText');
-    if(banner && track){
-      if(bannerLabel==='배너공지' && bannerText){
-        track.textContent=bannerText+'　◆　'+bannerText+'　◆　';
+    if(banner&&track){
+      if((bannerLabel||bannerText) && bannerText){
+        track.textContent=(bannerLabel && bannerLabel!=='배너공지' ? bannerLabel+'　' : '')+bannerText+'　◆　'+bannerText+'　◆　';
         banner.hidden=false;
-      }else{ banner.hidden=true; track.textContent=''; }
+      }else{banner.hidden=true;track.textContent='';}
     }
-  }catch(e){
-    sponsorEl.innerHTML='<div class="sp-state">협찬 내용을 불러오지 못했습니다.</div>';
+    renderNoticesFromSheet3(noticeEl,rows);
+  }else{
     noticeEl.innerHTML='<div class="card-detail"><div class="notice-body">공지 내용을 불러오지 못했습니다.</div></div>';
-    console.error('시트3 연동 오류:',e);
+    const banner=document.getElementById('homeAnnouncement'); if(banner) banner.hidden=true;
+    console.error('시트3 배너/공지 연동 오류:',results[1].reason);
   }
 }
 
@@ -4246,4 +4255,16 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 #screen-myround .myround-flow-wrap{margin:0 16px 18px!important;padding:0 16px 8px!important;overflow:hidden!important;border-radius:20px!important}
 #screen-myround .myround-flow-wrap .flow-card-heading{margin:0 -16px 8px!important;padding:13px 16px!important;min-height:46px!important;border-radius:0!important;display:flex!important;align-items:center!important;font-size:14px!important;line-height:1.3!important;box-shadow:0 5px 12px rgba(18,11,61,.16)!important}
 #screen-myround .myround-flow-wrap .flow-card-heading span{display:block!important;width:100%!important}
+</style>
+
+
+<style id="sheet3-notice-image-display">
+#screen-notice .notice-image-card{padding:10px!important;overflow:hidden}
+#screen-notice .sheet3-notice-image{display:block;width:100%;height:auto;max-height:none;object-fit:contain;border-radius:10px}
+#screen-notice .sheet3-notice-image[hidden]{display:none!important}
+</style>
+
+<style id="popup-never-again-spacing-tune">
+#kodaLaunchPopup .kp-never-wrap{padding:3px 22px 2px!important;margin-top:0!important}
+#kodaLaunchPopup .kp-never{font-size:11px!important;line-height:1.15!important;padding:2px 0 1px 8px!important}
 </style>
