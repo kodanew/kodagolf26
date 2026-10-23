@@ -1028,7 +1028,7 @@ html.is-standalone #installAppBtn{display:none!important;}
       <div class="mrs-hero"><h1>My Round</h1><div class="mrs-meta">협회장배 골프대회 &nbsp;10.26 / 리베라CC</div><div class="mrs-sync" id="mrsSync"></div></div>
       <div id="myRoundHero"></div>
 
-      <div class="roster-group-heading"><span class="roster-group-mark">PLAYERS</span><span>함께 라운딩하는 플레이어</span></div>
+      <div class="roster-group-heading"><span class="roster-group-mark">PLAYERS</span><span>Play Together</span></div>
       <div class="roster" id="myRoster"></div>
       <div class="mrs-actions">
         <button type="button" class="primary" id="mrsDetailBtn">내 조 상세</button>
@@ -1389,16 +1389,23 @@ function rowsToPlayers(rows){
     const r = rows[i];
     if(!r) continue;
     const name = (r[3]||'').trim();
-    const teamId = (r[5]||'').trim();
-    if(!name || !teamId) continue; 
+    const regularTeamId = (r[5]||'').trim();
+    const staffGroupId = (r[6]||'').trim(); // 시트1 G열: 스태프 그룹 (예: S-1-1)
+    const staffMemberCode = (r[7]||'').trim(); // 시트1 H열: 그룹 내 개별 순번 (예: S-1-1-1)
+    const isStaffGroupRow = /^S-\d+-\d+$/.test(staffGroupId);
+    const teamId = isStaffGroupRow ? staffGroupId : regularTeamId;
+    if(!name || !teamId) continue;
+    const staffOrderMatch = isStaffGroupRow ? staffMemberCode.match(/^S-\d+-\d+-(\d+)$/) : null;
     players.push({
-      no: parseInt(r[0]) || (i),
+      no: parseInt(r[0]) || i,
       org: (r[1]||'').trim(),
       title: (r[2]||'').trim(),
       name: name,
       mobile: (r[4]||'').trim(),
       teamId: teamId,
-      order: parseInt(r[6]) || 1,
+      order: staffOrderMatch ? parseInt(staffOrderMatch[1],10) : (parseInt(r[6]) || 1),
+      staffGroupId: isStaffGroupRow ? staffGroupId : '',
+      staffMemberCode: isStaffGroupRow ? staffMemberCode : '',
       banquetTable: String(r[8]||'').trim()
     });
   }
@@ -2200,11 +2207,11 @@ window.addEventListener('popstate', (e) => {
     const me = findMe();
     const staff = isStaff(me);
     const regularTeam = me ? TEAMS.find(t => t.id===me.teamId) : null;
-    const team = regularTeam || (staff ? {id:me.teamId,course:'S',hole:null,members:[me],banquetTable:me.banquetTable||''} : null);
+    const team = regularTeam || (staff ? {id:me.teamId,course:'S',hole:null,members:PLAYERS.filter(p => String(p.teamId||'').trim()===String(me.teamId||'').trim()).sort((a,b)=>(a.order||1)-(b.order||1)),banquetTable:me.banquetTable||''} : null);
     const loading = !PLAYERS.length;
     const cv = team && !staff ? (team.course==='V'?'v':'l') : '';
     const top = `<div class="mr2-top"><div class="mr2-top-lab">나의 조${clickable?'<button type="button" class="mr2-all-teams-pill" data-go-teams="1" aria-label="전체 조편성 보기">전체 조편성<i aria-hidden="true">›</i></button>':''}</div>
-      ${team ? '<div class="mr2-team">'+(staff ? staffLabel(me) : courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'그룹')+(team.banquetTable ? '<span class="mr2-banquet-table"> / 세션 : '+escapeHtml(team.banquetTable)+' 테이블</span>' : '')+'</div>' : '<div class="mr2-team">-</div>'}</div>`;
+      ${team ? '<div class="mr2-team">'+(staff ? staffLabel(me) : courseName(team.course)+' '+escapeHtml(team.hole)+'번홀 '+escapeHtml(team.id.split('-')[2]||'')+'그룹')+(team.banquetTable ? '<span class="mr2-banquet-table"> / 2부 세션 : '+escapeHtml(team.banquetTable)+' 테이블</span>' : '')+'</div>' : '<div class="mr2-team">-</div>'}</div>`;
     const tiles = `<div class="mr2-grid">
       <div class="mr2-tile tile-tee"><span>Tee Off</span><b>${staff ? '-' : TEE_OFF+'~'}</b>${staff ? '' : '<small class="mr2-tee-note">(샷건 동시출발)</small>'}</div>
       <div class="mr2-tile tile-course ${cv}"><span>출발코스</span><b>${staff ? '-' : team ? (team.course==='V'?'밸리':'레이크')+' '+escapeHtml(team.hole)+'번홀 출발' : '-'}</b></div>
@@ -2212,7 +2219,7 @@ window.addEventListener('popstate', (e) => {
     let mates;
     if(team){
       const mate = team.members.filter(m => m !== me);
-      mates = `<div class="mr2-mates"><div class="mr2-mates-head">함께 라운딩하는 플레이어 <i>${staff ? '' : mate.length+'명'}</i></div><div class="mr-mate-list">${
+      mates = `<div class="mr2-mates"><div class="mr2-mates-head">Play Together <i>${mate.length+'명'}</i></div><div class="mr-mate-list">${
         mate.length ? mate.map((m,n)=>{ const i = team.members.indexOf(m); const ph = digits(m.mobile||'');
           return `<div class="mr2-mate-row"><button type="button" class="mr2-mate-name" data-mate="${escapeHtml(team.id)}|${i}"><span class="mr2-mate-no">${n+1}.</span><span class="mr2-mate-person-name">${escapeHtml(m.name)}</span><small class="mr2-mate-person-org">${escapeHtml([m.org, m.position || m.rank].filter(Boolean).join(" · ") || orgOf(m) || "")}</small>${photoMarkup(m,'golf-face golf-face-inline')}</button></div>`; }).join('')
         : '<div class="mr-mate-none">-</div>'}</div></div>`;
@@ -2498,7 +2505,7 @@ window.addEventListener('popstate', (e) => {
 #screen-home #homeRound .mr2-mate-name{display:flex!important;align-items:baseline!important;gap:8px!important;flex:1!important;min-width:0!important;text-align:left!important;}
 #screen-home #homeRound .mr2-mate-person-name{font-size:13.5px!important;font-weight:800!important;white-space:nowrap!important;flex-shrink:0!important;}
 #screen-home #homeRound .mr2-mate-person-org{font-size:11.5px!important;font-weight:600!important;color:#59616b!important;line-height:1.35!important;white-space:normal!important;min-width:0!important;}
-/* My Round 탭에서는 My Team과 중복되는 함께 라운딩하는 플레이어 목록을 숨김 */
+/* My Round 탭에서는 My Team과 중복되는 Play Together 목록을 숨김 */
 #screen-myround #myRoundHero .mr2-mates{display:none!important;}
 </style>
 
@@ -4175,7 +4182,7 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 #screen-home #homeRound .mr2-all-teams-pill{position:relative;z-index:2;display:inline-flex;align-items:center;gap:3px;margin-left:auto;padding:4px 10px 4px 11px;border:1px solid rgba(240,150,0,.55)!important;border-radius:999px!important;background:rgba(255,190,50,.20)!important;color:#E07B00!important;font-family:inherit;font-size:11.5px!important;font-weight:900!important;letter-spacing:-.2px!important;line-height:1.2;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent}
 #screen-home #homeRound .mr2-all-teams-pill i{font-style:normal;font-size:14px;line-height:1;margin-top:-1px;opacity:1}
 #screen-home #homeRound .mr2-all-teams-pill:active{background:rgba(255,190,50,.38)!important}
-/* 함께 라운딩하는 플레이어: 이름 왼쪽 번호, 얼굴 사진은 오른쪽 끝 */
+/* Play Together: 이름 왼쪽 번호, 얼굴 사진은 오른쪽 끝 */
 #screen-home #homeRound .mr2-mate-name{align-items:center!important}
 #screen-home #homeRound .mr2-mate-no{flex:0 0 auto;min-width:16px;font-size:13.5px;font-weight:900;color:#5b7894;font-variant-numeric:tabular-nums}
 #screen-home #homeRound .mr2-mate-name .golf-face-inline{order:9!important;margin:0 0 0 auto!important}
@@ -4228,7 +4235,7 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 </style>
 
 <style id="koda-user-refinements-20261022f">
-/* 함께 라운딩하는 플레이어 인원 배지: 핑크 → 블루 */
+/* Play Together 인원 배지: 핑크 → 블루 */
 #screen-home #homeRound .mr2-mates-head i,#screen-myround #myRoundHero .mr2-mates-head i{background:#DDF1FF!important;color:#0B6FB8!important}
 /* People(전체 참석자 명단) 상단: 영어 People 제거, 협찬 소개 제목과 같은 글씨 */
 #screen-attendees .people-heading .topbar-title{display:none!important}
@@ -4365,7 +4372,7 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
 @media(max-width:380px){#screen-home .tool-grid{margin-bottom:12px!important}#screen-home .flow-wrap{margin-bottom:12px!important}}
 /* My Round 상단: 필기체 대신 세련된 산세리프 */
 #screen-myround .mrs-hero h1{font-family:Inter,"Pretendard","Noto Sans KR",sans-serif!important;font-style:normal!important;font-weight:850!important;letter-spacing:-1.1px!important;font-size:36px!important}
-/* 함께 라운딩하는 플레이어 4명을 하나의 그룹으로 보이게 하는 캡션 */
+/* Play Together 4명을 하나의 그룹으로 보이게 하는 캡션 */
 #screen-myround .roster-group-heading{display:flex;align-items:center;gap:9px;margin:18px 16px 9px;padding:10px 13px;border-radius:12px;background:linear-gradient(100deg,#E9F2FF,#F1E8FA);border:1px solid #D9DDF0;color:#1B2455;font-size:13px;font-weight:850;letter-spacing:-.2px}
 #screen-myround .roster-group-mark{flex:0 0 auto;border-radius:7px;padding:5px 7px;background:linear-gradient(120deg,#171044,#45216F);color:#FFC629;font-size:9px;font-weight:900;letter-spacing:.7px}
 #screen-myround .roster{margin-top:0!important}
