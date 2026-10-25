@@ -1643,6 +1643,7 @@ window.attemptGolfLogin=async function(){
       localStorage.setItem('koda_golf_auth',JSON.stringify({name,phone:normalizePhoneGolf(phone)}));
       navigateTo('home');
       loadGolfSheet3Content();
+      if(window.kodaLaunchAfterLogin) window.kodaLaunchAfterLogin(); // 로그인 직후 시트4 안내 팝업 표시
     }else{
       err.textContent='등록된 참가자 정보와 일치하지 않습니다. 다시 확인해주세요.';
       err.style.display='block';
@@ -3072,6 +3073,11 @@ document.querySelectorAll('[data-people-go]').forEach(function(b){
   }
   // 홈 화면 종 아이콘에서 자동 표시 제한과 무관하게 안내 팝업을 다시 열 수 있습니다.
   window.kodaReopenLaunchPopup=function(){opened=false;page=0;launch();};
+  // 로그인 직후에는 새로고침/1시간 제한과 상관없이 팝업을 띄웁니다. ('다시 보지 않기'를 누른 경우만 제외)
+  window.kodaLaunchAfterLogin=function(){
+    try{ if(localStorage.getItem('kodaPopupNeverAgain')==='1') return; }catch(e){}
+    opened=false;page=0;window.setTimeout(launch,500);
+  };
   // 새로고침에서는 팝업을 띄우지 않습니다. 새 앱 진입 때 표시하고, 이후에는 1시간 간격으로 제한합니다.
   function shouldLaunch(){
     try{
