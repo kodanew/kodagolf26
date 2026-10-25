@@ -1904,10 +1904,10 @@ if ('serviceWorker' in navigator) {
     if(/Line\//i.test(ua)){ location.href = externalUrl() + '&openExternalBrowser=1'; return; }
     var timer = setTimeout(function(){
       show({
-        title: 'Safari에서 열어주세요',
-        body: '자동으로 Safari가 열리지 않았어요. 공유 메뉴의 <b>Safari로 열기</b>를 누르거나, 링크를 복사해 Safari 주소창에 붙여넣어 주세요.',
-        primary: { label: '링크 복사', keepOpen: true, action: copyLink },
-        secondary: { label: '닫기' }
+        title: 'Safari로 전환해 주세요',
+        body: '현재 앱에서 Safari 자동 실행이 차단되었습니다. Safari 앱을 직접 열고 주소창에 KODA 페이지 주소를 입력해 주세요.',
+        primary: { label: '주소 복사', keepOpen: true, action: copyLink },
+        secondary: { label: '확인' }
       });
     }, 1200);
     document.addEventListener('visibilitychange', function once(){
@@ -1972,27 +1972,23 @@ if ('serviceWorker' in navigator) {
   }
 
   // ---- 아이폰 / 아이패드 ----
-  function openShare(){
-    if(navigator.share){
-      navigator.share({ title: document.title, url: cleanUrl() }).catch(function(){});
-    }
-  }
+  // iOS는 웹페이지에서 공유 시트를 강제로 열거나 홈 화면 추가를 자동 실행하는 것을 허용하지 않습니다.
+  // 따라서 Safari로 전환을 시도하고, Safari 안에서는 공유창을 띄우지 않고 홈 화면 추가 순서만 안내합니다.
   function showIOSGuide(){
     show({
-      title: '홈 화면에 추가하기',
+      title: 'Safari에서 홈 화면에 추가하기',
+      body: 'Safari에서 열린 페이지를 아래 순서대로 추가해 주세요. 공유창은 자동으로 열지 않습니다.',
       steps: [
-        '아래 <b>공유 버튼(□↑)</b>을 누르세요<small>안 보이면 <b>⋯</b>를 누른 뒤 <b>“공유”</b>를 선택하세요</small>',
-        '목록에서 <b>“홈 화면에 추가”</b>를 누르세요<small>보이지 않으면 목록을 위로 올려보세요</small>',
+        'Safari 화면 아래쪽의 <b>공유 아이콘(□↑)</b>을 직접 누르세요',
+        목록에서 <b>“홈 화면에 추가”</b>를 선택하세요<small>항목이 보이지 않으면 메뉴를 아래로 내려보세요</small>,
         '오른쪽 위 <b>“추가”</b>를 누르면 홈 화면에 KODA 아이콘이 생겨요'
       ],
-      pointer: true,
-      primary: navigator.share ? { label: '공유창 열기', keepOpen: true, action: openShare } : { label: '확인' },
-      secondary: navigator.share ? { label: '닫기' } : null
+      primary: { label: '확인' }
     });
   }
   function openIOS(){
-    if(isIOSSafari){ showIOSGuide(); return; }   // 사파리: 바로 홈 화면 추가 안내 + 공유창
-    goSafari();                                  // 그 외: 사파리로 바로 이동
+    if(isIOSSafari){ showIOSGuide(); return; }
+    goSafari(); // 인앱 브라우저 등에서는 Safari 열기를 시도하고 공유 UI는 표시하지 않음
   }
 
   function open(){
