@@ -1820,15 +1820,16 @@ if ('serviceWorker' in navigator) {
 
 // ===== 앱 설치 (PWA) =====
 // 입장 화면의 "앱으로 설치하기" 버튼과 홈 화면의 "앱 설치" 버튼이 같은 로직을 씁니다.
-// - 안드로이드(갤럭시): 앱 검사 안내 → 브라우저 설치 팝업
-// - 아이폰: 홈 화면에 추가 안내 (iOS는 웹에서 직접 설치할 수 없음)
+// [안드로이드] 크롬이면 버튼을 누르는 즉시 설치 팝업 / 크롬이 아니면 크롬으로 바로 이동 → 설치 버튼 1회 → 설치 팝업
+// [아이폰]     사파리면 홈 화면에 추가 안내 + 공유창 바로 열기 / 사파리가 아니면 사파리로 바로 이동
 (function(){
   var ua = navigator.userAgent || '';
   var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   var isAndroid = /Android/i.test(ua);
   var isInApp = /KAKAOTALK|NAVER\(inapp|Line\/|FBAN|FBAV|Instagram|DaumApps|; wv\)/i.test(ua);
   var isSamsung = /SamsungBrowser/i.test(ua);
-  var isIPhoneSafari = isIOS && /iPhone/.test(ua) && /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS|DuckDuckGo|GSA/.test(ua);
+  var isChromeAndroid = isAndroid && /Chrome\/\d/i.test(ua) && !isInApp && !isSamsung && !/EdgA|OPR\/|Firefox\/|Whale\/|DuckDuckGo|YaBrowser|UCBrowser/i.test(ua);
+  var isIOSSafari = isIOS && /Safari/i.test(ua) && !isInApp && !/CriOS|FxiOS|EdgiOS|OPiOS|DuckDuckGo|GSA\/|Whale\/|NAVER|DaumApps/i.test(ua);
   var deferred = null;
 
   function $(id){ return document.getElementById(id); }
@@ -1866,7 +1867,13 @@ if ('serviceWorker' in navigator) {
     setTimeout(function(){ $('aiPrimary').focus(); }, 60);
   }
 
-  // ---- 보조 동작 ----
+  // ---- 주소 / 이동 ----
+  // 외부 브라우저로 넘어간 뒤 설치 안내가 자동으로 열리도록 ?install=1 을 붙임
+  function externalUrl(){
+    var p = new URLSearchParams(location.search); p.set('install', '1');
+    return location.origin + location.pathname + '?' + p.toString();
+  }
+  function cleanUrl(){ return location.origin + location.pathname; }
   function copyLink(btn){
     var url = externalUrl();
     function ok(){ btn.textContent = '복사됐어요'; }
@@ -1880,19 +1887,36 @@ if ('serviceWorker' in navigator) {
     if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, fallback);
     else fallback();
   }
-  // 외부 브라우저로 넘어간 뒤 설치 안내가 자동으로 열리도록 ?install=1 을 붙임
-  function externalUrl(){
-    var p = new URLSearchParams(location.search); p.set('install', '1');
-    return location.origin + location.pathname + '?' + p.toString();
-  }
-  function openExternal(){
+  // 안드로이드: 크롬 패키지를 지정해 바로 열기 (크롬이 없으면 현재 주소 그대로 열림)
+  function chromeIntentUrl(){
     var u = externalUrl();
-    if(/KAKAOTALK/i.test(ua)){ location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(u); return; }
-    if(/Line\//i.test(ua)){ location.href = u + '&openExternalBrowser=1'; return; }
-    location.href = 'intent://' + u.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;end';
+    return 'intent://' + u.replace(/^https?:\/\//, '') +
+      '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(u) + ';end';
+  }
+  function goChrome(){ location.href = chromeIntentUrl(); }
+  // 아이폰: 카카오톡/라인은 외부 브라우저(사파리) 열기, 그 외 앱은 사파리 주소 방식을 시도
+  function safariSchemeUrl(){
+    var u = externalUrl().replace(/^https?:\/\//, '');
+    return (location.protocol === 'http:' ? 'x-safari-http://' : 'x-safari-https://') + u;
+  }
+  function goSafari(){
+    if(/KAKAOTALK/i.test(ua)){ location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(externalUrl()); return; }
+    if(/Line\//i.test(ua)){ location.href = externalUrl() + '&openExternalBrowser=1'; return; }
+    var timer = setTimeout(function(){
+      show({
+        title: 'Safari에서 열어주세요',
+        body: '자동으로 Safari가 열리지 않았어요. 공유 메뉴의 <b>Safari로 열기</b>를 누르거나, 링크를 복사해 Safari 주소창에 붙여넣어 주세요.',
+        primary: { label: '링크 복사', keepOpen: true, action: copyLink },
+        secondary: { label: '닫기' }
+      });
+    }, 1200);
+    document.addEventListener('visibilitychange', function once(){
+      if(document.hidden){ clearTimeout(timer); document.removeEventListener('visibilitychange', once); }
+    });
+    try{ location.href = safariSchemeUrl(); }catch(e){}
   }
 
-  // ---- 안드로이드 / PC ----
+  // ---- 안드로이드 ----
   var PROTECT_TIP = '설치 중 <b>“앱 검사”</b> 또는 <b>“이 앱은 검사되지 않았어요”</b> 화면이 나올 수 있어요.<br><b>“세부정보 더 보기”</b> → <b>“무시하고 설치 계속하기”</b>를 눌러야 설치가 끝나요.';
 
   function manualGuide(){
@@ -1905,6 +1929,7 @@ if ('serviceWorker' in navigator) {
     }else if(isAndroid){
       show({
         title: '앱 설치 방법',
+        body: '설치 팝업이 바로 뜨지 않았어요. 이미 설치되어 있다면 홈 화면의 <b>KODA 아이콘</b>으로 열어주세요.',
         steps: ['브라우저 오른쪽 위 <b>메뉴(⋮)</b>를 누르세요', '<b>“앱 설치”</b> 또는 <b>“홈 화면에 추가”</b>를 선택하세요', '앱 검사 화면이 나오면 <b>“세부정보 더 보기”</b> → <b>“무시하고 설치 계속하기”</b>를 누르세요'],
         primary: { label: '확인' }
       });
@@ -1916,6 +1941,7 @@ if ('serviceWorker' in navigator) {
       });
     }
   }
+  // 설치 팝업 호출: 반드시 사용자의 터치 직후에 실행되어야 함
   function startPrompt(){
     if(!deferred){ manualGuide(); return; }
     var evt = deferred; deferred = null;
@@ -1933,49 +1959,25 @@ if ('serviceWorker' in navigator) {
       }
     }).catch(function(){ manualGuide(); });
   }
+  // 설치 가능 신호(beforeinstallprompt)가 아직 안 왔으면 최대 3초까지 기다렸다가 팝업 호출
+  function promptWhenReady(){
+    if(deferred){ startPrompt(); return; }
+    var n = 0, t = setInterval(function(){
+      if(deferred || ++n >= 15){ clearInterval(t); startPrompt(); }
+    }, 200);
+  }
   function openAndroid(){
-    if(isInApp || isSamsung || /EdgA|OPR\/|Firefox\//i.test(ua) || !/Chrome\/\d/i.test(ua)){
-      // Android에서는 Chrome 패키지를 지정해 외부 Chrome으로 이동합니다.
-      show({
-        title: '기본 브라우저로 열어주세요',
-        body: '카카오톡 등 앱 안의 화면에서는 설치할 수 없어요.<br><b>Chrome</b>으로 열어 설치해 주세요.',
-        primary: { label: 'Chrome으로 열기', action: openExternal },
-        secondary: { label: '링크 복사', keepOpen: true, action: copyLink }
-      });
-      return;
-    }
-    if(deferred){
-      show({
-        title: '앱으로 설치하기',
-        body: PROTECT_TIP,
-        primary: { label: '설치 시작', action: startPrompt },
-        secondary: { label: '닫기' }
-      });
-      return;
-    }
-    manualGuide();
+    if(isChromeAndroid){ promptWhenReady(); return; }   // 크롬: 시트 없이 바로 설치 팝업
+    goChrome();                                          // 그 외: 크롬으로 바로 이동
   }
 
   // ---- 아이폰 / 아이패드 ----
-  function openSafariBestEffort(){
-    // iOS 웹페이지에서는 Safari 강제 실행이 시스템상 보장되지 않습니다.
-    // 지원되는 환경에서는 Safari URL scheme을 시도하고, 실패 시 안내를 표시합니다.
-    var u = externalUrl().replace(/^https?:\/\//, '');
-    var safariUrl = (location.protocol === 'http:' ? 'x-safari-http://' : 'x-safari-https://') + u;
-    var fallbackShown = false;
-    var timer = setTimeout(function(){
-      if(fallbackShown) return; fallbackShown = true;
-      show({
-        title: 'Safari에서 열어주세요',
-        body: '현재 브라우저에서 Safari로 자동 전환되지 않았습니다. 공유 메뉴에서 <b>Safari로 열기</b>를 선택하거나 아래 링크를 복사해 Safari 주소창에 붙여넣어 주세요.',
-        primary: { label: '링크 복사', keepOpen: true, action: copyLink },
-        secondary: { label: '닫기' }
-      });
-    }, 900);
-    try { location.href = safariUrl; } catch(e) { clearTimeout(timer); }
+  function openShare(){
+    if(navigator.share){
+      navigator.share({ title: document.title, url: cleanUrl() }).catch(function(){});
+    }
   }
-  function openIOS(){
-    if(!isIPhoneSafari){ openSafariBestEffort(); return; }
+  function showIOSGuide(){
     show({
       title: '홈 화면에 추가하기',
       steps: [
@@ -1984,8 +1986,13 @@ if ('serviceWorker' in navigator) {
         '오른쪽 위 <b>“추가”</b>를 누르면 홈 화면에 KODA 아이콘이 생겨요'
       ],
       pointer: true,
-      primary: { label: '확인' }
+      primary: navigator.share ? { label: '공유창 열기', keepOpen: true, action: openShare } : { label: '확인' },
+      secondary: navigator.share ? { label: '닫기' } : null
     });
+  }
+  function openIOS(){
+    if(isIOSSafari){ showIOSGuide(); return; }   // 사파리: 바로 홈 화면 추가 안내 + 공유창
+    goSafari();                                  // 그 외: 사파리로 바로 이동
   }
 
   function open(){
@@ -1997,6 +2004,28 @@ if ('serviceWorker' in navigator) {
     else if(isAndroid) openAndroid();
     else if(deferred) startPrompt();
     else manualGuide();
+  }
+
+  // ---- 크롬/사파리로 넘어온 직후 (?install=1) ----
+  // 브라우저는 터치 없이 설치 팝업을 띄울 수 없어서, 큰 버튼 1번만 누르면 바로 설치 팝업이 뜨도록 합니다.
+  function onArrive(){
+    if(isStandalone()) return;
+    if(isIOS){
+      if(isIOSSafari) showIOSGuide();
+      return;
+    }
+    if(isAndroid){
+      if(isChromeAndroid){
+        show({
+          title: '앱으로 설치하기',
+          body: '아래 <b>설치하기</b> 버튼을 누르면 설치 팝업이 바로 나와요.<br>' + PROTECT_TIP,
+          primary: { label: '설치하기', action: promptWhenReady },
+          secondary: { label: '닫기' }
+        });
+      }
+      return;
+    }
+    open();
   }
 
   // ---- 이벤트 ----
@@ -2014,16 +2043,15 @@ if ('serviceWorker' in navigator) {
   $('aiClose').addEventListener('click', close);
   sheet.addEventListener('click', function(e){ if(e.target === sheet) close(); });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && sheet.classList.contains('open')) close(); });
-  // Safari/Chrome으로 넘어온 직후에는 설치 안내를 자동으로 보여줌
   try{
     var q = new URLSearchParams(location.search);
     if(q.get('install') === '1'){
       q.delete('install'); var qs = q.toString();
       history.replaceState(history.state, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
-      if(!isInApp && !isStandalone()) setTimeout(open, 900);
+      if(!isInApp) setTimeout(onArrive, 700);
     }
   }catch(e){}
-  window.KodaInstall = { open: open };
+  window.KodaInstall = { open: open, _chromeIntentUrl: chromeIntentUrl, _safariSchemeUrl: safariSchemeUrl };
 })();
 // 팀 상세 페이지로 이동
 window.showTeamDetail = function(id) {
