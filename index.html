@@ -1976,13 +1976,8 @@ if ('serviceWorker' in navigator) {
   // 따라서 Safari로 전환을 시도하고, Safari 안에서는 공유창을 띄우지 않고 홈 화면 추가 순서만 안내합니다.
   function showIOSGuide(){
     show({
-      title: 'Safari에서 홈 화면에 추가하기',
-      body: 'Safari에서 열린 페이지를 아래 순서대로 추가해 주세요. 공유창은 자동으로 열지 않습니다.',
-      steps: [
-        'Safari 화면 아래쪽의 <b>공유 아이콘(□↑)</b>을 직접 누르세요',
-        목록에서 <b>“홈 화면에 추가”</b>를 선택하세요<small>항목이 보이지 않으면 메뉴를 아래로 내려보세요</small>,
-        '오른쪽 위 <b>“추가”</b>를 누르면 홈 화면에 KODA 아이콘이 생겨요'
-      ],
+      title: '홈 화면 바로가기 추가',
+      body: 'Safari 아래쪽의 <b>공유하기 아이콘(□↑)</b>을 누른 뒤, <b>‘홈 화면에 추가’</b>를 선택해 주세요.',
       primary: { label: '확인' }
     });
   }
