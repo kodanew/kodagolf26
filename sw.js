@@ -1,8 +1,13 @@
-const CACHE_NAME = 'koda-golf-20261006-install-v4';
+const CACHE_NAME = 'koda-golf-20261025-install-v5';
 const APP_SHELL = ['./','./index.html','./manifest.json','./koda-logo-re.png','./koda-arp-splash-2026.jpg','./koda-icon-192-reference.png','./koda-icon-512-reference.png','./koda-apple-touch-reference.png'];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
+  // 파일 하나가 없어도 서비스워커 설치가 통째로 실패하지 않도록 하나씩 담는다
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => Promise.all(APP_SHELL.map(url => cache.add(url).catch(() => {}))))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', event => {
@@ -13,7 +18,7 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
 
-  // 구글시트 등 외부 요청은 서비스워커가 건드리지 않음 (캐시 누적 / 오프라인 시 엉뚱한 응답 방지)
+  // 구글시트 등 외부 요청은 서비스워커가 건드리지 않음
   if (new URL(req.url).origin !== self.location.origin) return;
 
   event.respondWith(
@@ -24,7 +29,7 @@ self.addEventListener('fetch', event => {
       }
       return response;
     }).catch(() =>
-      caches.match(req).then(cached => cached || (req.mode === 'navigate' ? caches.match('./index.html') : Response.error()))
+      caches.match(req, { ignoreSearch: true }).then(cached => cached || (req.mode === 'navigate' ? caches.match('./index.html') : Response.error()))
     )
   );
 });
